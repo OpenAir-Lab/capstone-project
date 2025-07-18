@@ -15,3 +15,9 @@ GPIO0 and GPIO2 control the boot mode after the reset is released
 * PSRAM and flash both are powered by VDD_SDIO. If the chip has an in-package flash, the voltage of VDD_SDIO is determined by the operating voltage of the in-package flash. If the chip also connects to an external PSRAM, the operating voltage of external PSRAM must match that of the in-package flash. This also applies if the chip has an in-package PSRAM but also connects to an external flash.
 * When VDD_SDIO 1.8 V is used as the power supply for external flash/PSRAM, a 2 kΩ grounding resistor should be added to VDD_SDIO.
 * When the three digital power supplies are used to drive peripherals, e.g., 3.3 V flash, they should comply with the peripherals’ specifications.
+
+### GPIO
+#### 34 GPIO pins 
+Most of the digital GPIOs can be configured as internal pull-up or pull-down, or set to high impedance. When configured as an input, the input value can be read through the register. The input can also be set to edge-trigger or level-trigger to generate CPU interrupts
+
+For low-power operations, the GPIOs can be set to hold their states.
