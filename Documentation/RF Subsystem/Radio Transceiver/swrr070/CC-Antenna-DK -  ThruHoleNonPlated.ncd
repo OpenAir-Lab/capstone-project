@@ -1,0 +1,22 @@
+; Version : LOCAL
+; Job     : C:\MentorGraphics\data\Antenna_kort\antennkit\Antennakit\Antenna_test2\PCB\Antenna_test2.pcb
+; User    : CNA0783545:a0783545
+; Date    : Tue Jun 01 17:50:39 2010
+; Format  : 3.3 / Absolute / MM / Leading
+; Contents: Thru / Drill / Non-Plated
+M48
+METRIC,TZ
+FMAT,2
+ICI,OFF
+T05C2.6000
+%
+M71
+G90
+G93X0Y0
+T05
+X242250Y79250
+X267250
+Y174250
+X242250
+T00
+M30
