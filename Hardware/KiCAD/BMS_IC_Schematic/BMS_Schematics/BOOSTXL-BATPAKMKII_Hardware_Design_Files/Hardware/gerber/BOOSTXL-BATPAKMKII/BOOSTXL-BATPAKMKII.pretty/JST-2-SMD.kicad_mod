@@ -1,0 +1,210 @@
+(footprint "JST-2-SMD"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "2mm SMD side-entry connector. tDocu layer indicates the actual physical plastic housing. +/- indicate SparkFun standard batteries and wiring.")
+	(property "Reference" "REF**"
+		(at -1.27 -1.27 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "280d6838-cda6-4c41-bcdb-4033c998bb39")
+		(effects
+			(font
+				(size 0.373888 0.373888)
+				(thickness 0.032512)
+			)
+			(justify left bottom)
+		)
+	)
+	(property "Value" "JST-2-SMD"
+		(at -1.27 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "69666d60-195e-4073-9ed4-fc1c5952f8a2")
+		(effects
+			(font
+				(size 0.373888 0.373888)
+				(thickness 0.032512)
+			)
+			(justify left bottom)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "60e51c7d-1efa-4037-acd5-6043e6dfa643")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "adcb1bac-72ad-4afe-920c-8c3cd9d95008")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_line
+		(start -4 1)
+		(end -4 4.5)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "d1ed3747-080c-41b1-ba52-83258e768e4a")
+	)
+	(fp_line
+		(start -4 4.5)
+		(end -3.2 4.5)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "f476ac67-3eff-4866-8b3e-71b504c69fea")
+	)
+	(fp_line
+		(start -3.2 2)
+		(end -2 2)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "f5a95f1b-8b25-4d48-9897-cbe51d7a72f2")
+	)
+	(fp_line
+		(start -3.2 4.5)
+		(end -3.2 2)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "4e9c627c-0207-4f29-95b7-c8262d341045")
+	)
+	(fp_line
+		(start 2 -3)
+		(end -2 -3)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "859d4f98-2044-4e32-aa9b-0133ce7ea089")
+	)
+	(fp_line
+		(start 2 2)
+		(end 3.2 2)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "e5729a2f-0a99-4a5c-a6ef-d353abe33eb2")
+	)
+	(fp_line
+		(start 3.2 2)
+		(end 3.2 4.5)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "c2dd2beb-75e9-4566-b99e-4b600b15a38b")
+	)
+	(fp_line
+		(start 3.2 4.5)
+		(end 4 4.5)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "3737930c-b7a2-42a0-859f-4ac680825ac2")
+	)
+	(fp_line
+		(start 4 4.5)
+		(end 4 1)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "61ee336e-28e5-4644-94c2-8d84277a3ca1")
+	)
+	(fp_text user "+"
+		(at 2.159 4.445 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "2e89dc36-89a8-4dd1-a55f-a358900d5df2")
+		(effects
+			(font
+				(size 1.1684 1.1684)
+				(thickness 0.1016)
+			)
+			(justify left bottom)
+		)
+	)
+	(fp_text user "-"
+		(at -2.921 4.445 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "88c21ee3-e4ef-40f9-83d7-a3b89ccecc51")
+		(effects
+			(font
+				(size 1.1684 1.1684)
+				(thickness 0.1016)
+			)
+			(justify left bottom)
+		)
+	)
+	(pad "1" smd rect
+		(at -1 3.7)
+		(size 1 4.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "783e6c20-9620-4847-8b70-832fac16e7c4")
+	)
+	(pad "2" smd rect
+		(at 1 3.7)
+		(size 1 4.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "2ccf0f1a-ab4e-4381-a74b-454d3ef5f5b9")
+	)
+	(pad "NC1" smd rect
+		(at -3.4 -1.5 90)
+		(size 3.4 1.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "21c60c0a-af5c-4687-a2d6-5377f9a2c3cc")
+	)
+	(pad "NC2" smd rect
+		(at 3.4 -1.5 90)
+		(size 3.4 1.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "bb9b7732-5acb-48f9-8a93-eb6fe6c59d7a")
+	)
+	(embedded_fonts no)
+)
