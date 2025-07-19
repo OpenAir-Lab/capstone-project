@@ -1,0 +1,85 @@
+(---------------------------------------------------------------------)
+(                                                                     )
+(    NC DRILL Log                                                     )
+(                                                                     )
+(    Drawing          : CC120xEM_420_470.brd                          )
+(    Software Version : 16.5S017                                      )
+(    Date/Time        : Mon Oct 22 10:42:52 2012                      )
+(                                                                     )
+(---------------------------------------------------------------------)
+
+
+
+ Processing NC Parameters file ...
+
+ NC PARAMETERS
+ -------------
+
+ FORMAT   		2.3
+ MACHINE-OFFSET		x:0.000000	y:0.000000
+ FEEDRATE		1
+ COORDINATES		ABSOLUTE
+ OUTPUT-UNITS		ENGLISH
+ TOOL-ORDER		INCREASING
+ REPEAT-CODES		YES
+ SUPPRESS-LEAD-ZEROES	NO
+ SUPPRESS-TRAIL-ZEROES	NO
+ SUPPRESS-EQUAL		NO
+ TOOL-SELECT		YES
+ HEADER			none
+ LEADER			12
+ CODE			ASCII
+ SEPARATE		YES
+ OPTIMIZE_DRILLING	NO
+ ENHANCED_EXCELLON	NO
+ SCALE			1.000000
+
+ WARNING: Switching units system when generating drill output file data.
+ WARNING: Can't find tool file (nc_tools.txt)
+          ... will auto-generate tool file (nc_tools_auto.txt)
+
+
+     Auto-generating tool file nc_tools_auto.txt
+     -------------------------------------------
+
+           Size  Plating  Tool        + Tolerance  - Tolerance
+
+         0.3000  P        T01            0.000000     0.000000
+         0.4000  P        T02            0.000000     0.000000
+         0.5000  P        T03            0.000000     0.000000
+         1.1000  P        T04            0.000000     0.000000
+         1.5001  N        T05            0.000000     0.000000
+
+
+ Drill files being output to directory 'C:/DesignSync_WORKDIR/CC1200EM/Cadence_420_470' ...
+
+
+
+     'CC120xEM_420_470-1-4.drl' created for holes connecting TOP and BOTTOM ; Plating = PLATED
+     -----------------------------------------------------------------------------------------
+
+     Tool  Num     Size      +/- Tolerance     Plating   Quantity
+
+     T01    1.  11.8110    0.0000/  0.0000      PLATED        253
+     T02    2.  15.7480    0.0000/  0.0000      PLATED         25
+     T03    3.  19.6850    0.0000/  0.0000      PLATED          9
+     T04    4.  43.3071    0.0000/  0.0000      PLATED          8
+
+     ---- Total holes:                                        295
+
+     ---- Total head travel:              5.98 feet (1.82 meters)
+
+
+
+
+     'CC120xEM_420_470-1-4-np.drl' created for holes connecting TOP and BOTTOM ; Plating = NON_PLATED
+     ------------------------------------------------------------------------------------------------
+
+     Tool  Num     Size      +/- Tolerance     Plating   Quantity
+
+     T05    1.  59.0591    0.0000/  0.0000  NON_PLATED          4
+
+     ---- Total holes:                                          4
+
+     ---- Total head travel:              0.21 feet (0.06 meters)
+
