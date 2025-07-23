@@ -44,7 +44,7 @@ Here is a summary of questions Dr. Tacca would like us to be able to answer & ad
 - Look into the IEEE framework and how our project fits into this  
 - How are we going to make it exciting (i.e. documentation is boring)  
 - Consider a video-style documentation  
-- Consider a YouTube Channel (would Zach or anyone else be interested in the production/filming/editing aspect of this?)
+- Consider a YouTube Channel (would Zach or anyone else be interested in the production/filming/editing aspect of this?) (Zach - yes)
 
 We also have permission to start ordering parts as we see fit.
 
