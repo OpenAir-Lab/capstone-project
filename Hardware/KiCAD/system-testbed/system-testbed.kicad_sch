@@ -2281,6 +2281,48 @@
 		)
 	)
 	(sheet
+		(at 171.45 93.98)
+		(size 31.75 22.86)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 255 229 191 1.0000)
+		)
+		(uuid "9fe85a84-eb88-4cb0-ad9c-c856ce023e7b")
+		(property "Sheetname" "Power Subsystem"
+			(at 171.45 93.2684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power-subsystem.kicad_sch"
+			(at 171.45 117.4246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f"
+					(page "7")
+				)
+			)
+		)
+	)
+	(sheet
 		(at 200.66 44.45)
 		(size 24.13 15.24)
 		(exclude_from_sim no)
