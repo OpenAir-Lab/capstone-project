@@ -456,11 +456,19 @@
     ],
     [
       "abb4c8e3-8397-4a93-bb75-39afc849feef",
-      "RF Power Amplifier"
+      "UHF 6W PA"
     ],
     [
       "9fe85a84-eb88-4cb0-ad9c-c856ce023e7b",
       "Power Subsystem"
+    ],
+    [
+      "e6561a71-2778-4f3f-a43f-c8e0afdfb21c",
+      "VHF 6W PA"
+    ],
+    [
+      "b5ac98a9-d5c0-4e37-a940-dd53feca722e",
+      "RF Switch"
     ]
   ],
   "text_variables": {}

@@ -3238,37 +3238,28 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "RF_Switch:SKY13380-350LF"
+		(symbol "RF_Filter:LFCN-160"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "U"
-				(at -6.35 8.89 0)
+			(property "Reference" "FL"
+				(at 0 10.795 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
 				)
 			)
-			(property "Value" "SKY13380-350LF"
-				(at 10.16 8.89 0)
+			(property "Value" "LFCN-160"
+				(at 0 8.89 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
 				)
 			)
-			(property "Footprint" "Package_DFN_QFN:QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm"
-				(at 0 -11.43 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://www.skyworksinc.com/-/media/SkyWorks/Documents/Products/601-700/201486C.pdf"
-				(at -1.27 -13.97 0)
+			(property "Footprint" "Filter:Filter_Mini-Circuits_FV1206"
+				(at 0 12.7 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3276,7 +3267,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "SP4T 20MHz-3GHz high power switch, 50 Ohm, QFN-16"
+			(property "Datasheet" "https://www.minicircuits.com/pdfs/LFCN-160+.pdf"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3285,7 +3276,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_keywords" "rf switch sp4t"
+			(property "Description" "160MHz 50 Ohm Passive Low Pass Filter, FV1206"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3294,7 +3285,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "*QFN*1EP*3x3mm*"
+			(property "ki_keywords" "Mini-Circuits low pass filter"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3303,7 +3294,16 @@
 					(hide yes)
 				)
 			)
-			(symbol "SKY13380-350LF_0_1"
+			(property "ki_fp_filters" "Filter*Mini?Circuits*FV1206*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LFCN-160_0_1"
 				(rectangle
 					(start -7.62 7.62)
 					(end 7.62 -7.62)
@@ -3315,84 +3315,72 @@
 						(type background)
 					)
 				)
-			)
-			(symbol "SKY13380-350LF_1_1"
-				(pin passive line
-					(at -10.16 2.54 0)
-					(length 2.54)
-					(name "ANT"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
+				(arc
+					(start -3.81 2.54)
+					(mid -1.905 3.5595)
+					(end 0 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
 					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
+					(fill
+						(type none)
 					)
 				)
-				(pin input line
+				(arc
+					(start -3.81 -1.27)
+					(mid -1.905 -0.2505)
+					(end 0 -1.27)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 1.27) (xy 1.27 3.81)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 3.81 2.54)
+					(mid 1.905 1.5205)
+					(end 0 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 3.81 -1.27)
+					(mid 1.905 -2.2895)
+					(end 0 -1.27)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LFCN-160_1_1"
+				(pin passive line
 					(at -10.16 0 0)
 					(length 2.54)
-					(name "CTRL1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -10.16 -2.54 0)
-					(length 2.54)
-					(name "CTRL2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 10.16 270)
-					(length 2.54)
-					(name "VDD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 -10.16 90)
-					(length 2.54)
-					(name "GND"
+					(name "IN"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3410,7 +3398,6 @@
 				(pin passive line
 					(at 0 -10.16 90)
 					(length 2.54)
-					(hide yes)
 					(name "GND"
 						(effects
 							(font
@@ -3418,7 +3405,7 @@
 							)
 						)
 					)
-					(number "10"
+					(number "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3437,7 +3424,203 @@
 							)
 						)
 					)
-					(number "12"
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 10.16 0 180)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "RF_Filter:LFCN-490"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "FL"
+				(at 0 10.795 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LFCN-490"
+				(at 0 8.89 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Filter:Filter_Mini-Circuits_FV1206"
+				(at 0 12.7 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.minicircuits.com/pdfs/LFCN-490+.pdf"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "490MHz 50 Ohm Passive Low Pass Filter, FV1206"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "Mini-Circuits low pass filter"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Filter*Mini?Circuits*FV1206*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LFCN-490_0_1"
+				(rectangle
+					(start -7.62 7.62)
+					(end 7.62 -7.62)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(arc
+					(start -3.81 2.54)
+					(mid -1.905 3.5595)
+					(end 0 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -3.81 -1.27)
+					(mid -1.905 -0.2505)
+					(end 0 -1.27)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 1.27) (xy 1.27 3.81)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 3.81 2.54)
+					(mid 1.905 1.5205)
+					(end 0 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 3.81 -1.27)
+					(mid 1.905 -2.2895)
+					(end 0 -1.27)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LFCN-490_1_1"
+				(pin passive line
+					(at -10.16 0 0)
+					(length 2.54)
+					(name "IN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -10.16 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3456,7 +3639,7 @@
 							)
 						)
 					)
-					(number "14"
+					(number "4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3465,146 +3648,16 @@
 					)
 				)
 				(pin passive line
-					(at 0 -10.16 90)
+					(at 10.16 0 180)
 					(length 2.54)
-					(hide yes)
-					(name "GND"
+					(name "OUT"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -10.16 90)
-					(length 2.54)
-					(hide yes)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -10.16 90)
-					(length 2.54)
-					(hide yes)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at 7.62 0 180)
-					(length 2.54)
-					(hide yes)
-					(name "NC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "16"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 5.08 180)
-					(length 2.54)
-					(name "RF1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 2.54 180)
-					(length 2.54)
-					(name "RF2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "15"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 -2.54 180)
-					(length 2.54)
-					(name "RF3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 -5.08 180)
-					(length 2.54)
-					(name "RF4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
+					(number "3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3968,19 +4021,6 @@
 		)
 	)
 	(rectangle
-		(start 176.53 121.92)
-		(end 283.21 163.83)
-		(stroke
-			(width 0)
-			(type dash)
-			(color 255 0 255 1)
-		)
-		(fill
-			(type none)
-		)
-		(uuid 10299474-1630-49ee-8e7e-73482e9e7e76)
-	)
-	(rectangle
 		(start 13.97 121.92)
 		(end 175.26 195.58)
 		(stroke
@@ -4018,9 +4058,9 @@
 		)
 		(uuid 74e54822-5af6-4c5a-a975-aca7114381ea)
 	)
-	(text "TRX_GPIO3 can be used to control an external LNA, PA, or RX/TX switch."
+	(text "TRX_GPIO3 can be used to control an external LNA, PA, or RX/TX switch. HIGH in Sleep, Active LOW"
 		(exclude_from_sim no)
-		(at 182.118 46.99 0)
+		(at 193.04 20.32 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4038,16 +4078,6 @@
 			(justify left)
 		)
 		(uuid "10afd865-3769-4b79-a785-2564f450f03c")
-	)
-	(text "Antenna"
-		(exclude_from_sim no)
-		(at 181.356 123.952 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "26cc9e76-af53-42b9-8c1f-7c064e616ea4")
 	)
 	(text "RC Filter:\nf = 1/(2π*RC)\n  = 1/(2π*56e-12*18)\n  = 157 MHz"
 		(exclude_from_sim no)
@@ -4071,13 +4101,14 @@
 		)
 		(uuid "42b2c82e-d8f0-4ab3-b2b5-492a98394da3")
 	)
-	(text "RF Frontend"
+	(text "RF Frontend for UHF\nReference 420-470 MHz Tune"
 		(exclude_from_sim no)
-		(at 20.828 123.952 0)
+		(at 16.002 123.952 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
+			(justify left top)
 		)
 		(uuid "5c868ed5-43e1-4f49-b432-292f10c7ce49")
 	)
@@ -4311,7 +4342,7 @@
 		(uuid "f4a1e7b1-386a-460c-a2bb-7777ac3f72d9")
 	)
 	(junction
-		(at 161.29 57.15)
+		(at 158.75 31.75)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f720a709-f1d3-4b72-abdd-6f3f1132911d")
@@ -4394,6 +4425,16 @@
 	)
 	(wire
 		(pts
+			(xy 267.97 44.45) (xy 267.97 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0e4169d3-67fd-486e-bd61-625719894b00")
+	)
+	(wire
+		(pts
 			(xy 83.82 41.91) (xy 83.82 44.45)
 		)
 		(stroke
@@ -4464,7 +4505,7 @@
 	)
 	(wire
 		(pts
-			(xy 151.13 62.23) (xy 163.83 62.23)
+			(xy 148.59 36.83) (xy 161.29 36.83)
 		)
 		(stroke
 			(width 0)
@@ -4551,6 +4592,16 @@
 			(type default)
 		)
 		(uuid "20e88880-e9ea-483f-a34f-b62d0acb8d70")
+	)
+	(wire
+		(pts
+			(xy 162.56 166.37) (xy 160.02 166.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "232f0b6a-9162-4ab9-ae9b-e4e40b8ae6ea")
 	)
 	(wire
 		(pts
@@ -4774,16 +4825,6 @@
 	)
 	(wire
 		(pts
-			(xy 182.88 137.16) (xy 218.44 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "48b9ceb9-3ecf-4f2b-b869-3460263a9617")
-	)
-	(wire
-		(pts
 			(xy 96.52 138.43) (xy 96.52 140.97)
 		)
 		(stroke
@@ -4854,16 +4895,6 @@
 	)
 	(wire
 		(pts
-			(xy 218.44 148.59) (xy 210.82 148.59)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "55e8317c-2b87-4df4-b149-d6ecf8361cff")
-	)
-	(wire
-		(pts
 			(xy 26.67 175.26) (xy 26.67 179.07)
 		)
 		(stroke
@@ -4904,6 +4935,16 @@
 	)
 	(wire
 		(pts
+			(xy 203.2 36.83) (xy 210.82 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b37eedb-de70-4c1e-8eed-b1bcd8f2dacd")
+	)
+	(wire
+		(pts
 			(xy 57.15 97.79) (xy 66.04 97.79)
 		)
 		(stroke
@@ -4914,13 +4955,23 @@
 	)
 	(wire
 		(pts
-			(xy 161.29 57.15) (xy 161.29 58.42)
+			(xy 158.75 31.75) (xy 158.75 33.02)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "5e2bc2d1-4688-4ea4-9f8f-c9e130e5ddb6")
+	)
+	(wire
+		(pts
+			(xy 260.35 39.37) (xy 262.89 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5e3eb207-02d8-4676-a783-f8e89f07bbf7")
 	)
 	(wire
 		(pts
@@ -4994,7 +5045,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 53.34) (xy 163.83 53.34)
+			(xy 156.21 27.94) (xy 161.29 27.94)
 		)
 		(stroke
 			(width 0)
@@ -5024,6 +5075,16 @@
 	)
 	(wire
 		(pts
+			(xy 232.41 27.94) (xy 240.03 27.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "67fac0b4-872d-48e3-8a01-3ca3db865aea")
+	)
+	(wire
+		(pts
 			(xy 34.29 52.07) (xy 45.72 52.07)
 		)
 		(stroke
@@ -5034,7 +5095,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 57.15) (xy 161.29 57.15)
+			(xy 156.21 31.75) (xy 158.75 31.75)
 		)
 		(stroke
 			(width 0)
@@ -5134,7 +5195,7 @@
 	)
 	(wire
 		(pts
-			(xy 161.29 55.88) (xy 161.29 57.15)
+			(xy 158.75 30.48) (xy 158.75 31.75)
 		)
 		(stroke
 			(width 0)
@@ -5244,16 +5305,6 @@
 	)
 	(wire
 		(pts
-			(xy 160.02 166.37) (xy 170.18 166.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "88741d7b-aa61-45e2-aaec-00d452243336")
-	)
-	(wire
-		(pts
 			(xy 114.3 166.37) (xy 121.92 166.37)
 		)
 		(stroke
@@ -5324,6 +5375,16 @@
 	)
 	(wire
 		(pts
+			(xy 267.97 30.48) (xy 260.35 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8d3d2558-6595-4a6c-8331-6a8aa249e2c4")
+	)
+	(wire
+		(pts
 			(xy 157.48 157.48) (xy 160.02 157.48)
 		)
 		(stroke
@@ -5334,6 +5395,16 @@
 	)
 	(wire
 		(pts
+			(xy 203.2 71.12) (xy 210.82 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "90682a7c-4e15-4999-95af-4089915b351c")
+	)
+	(wire
+		(pts
 			(xy 96.52 140.97) (xy 91.44 140.97)
 		)
 		(stroke
@@ -5341,16 +5412,6 @@
 			(type default)
 		)
 		(uuid "90d98f3c-111f-4082-b392-fff7e976374a")
-	)
-	(wire
-		(pts
-			(xy 205.74 153.67) (xy 205.74 156.21)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "90df5d54-9ccd-43fb-9316-2c78a42b8743")
 	)
 	(wire
 		(pts
@@ -5384,23 +5445,13 @@
 	)
 	(wire
 		(pts
-			(xy 161.29 55.88) (xy 163.83 55.88)
+			(xy 158.75 30.48) (xy 161.29 30.48)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "97bb68a4-f846-478c-874a-032085f7f8c9")
-	)
-	(wire
-		(pts
-			(xy 218.44 146.05) (xy 218.44 148.59)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9957fb13-390f-4997-a061-40274c7e740e")
 	)
 	(wire
 		(pts
@@ -5464,6 +5515,26 @@
 	)
 	(wire
 		(pts
+			(xy 162.56 176.53) (xy 162.56 179.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aaaa503d-6466-4eea-be69-534e888f4718")
+	)
+	(wire
+		(pts
+			(xy 232.41 30.48) (xy 240.03 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "acbdb03d-da12-44d8-bf43-e3ed1dff558b")
+	)
+	(wire
+		(pts
 			(xy 39.37 97.79) (xy 39.37 101.6)
 		)
 		(stroke
@@ -5501,6 +5572,16 @@
 			(type default)
 		)
 		(uuid "b1064130-9404-4dfb-b9df-6542d7b0a1c2")
+	)
+	(wire
+		(pts
+			(xy 180.34 71.12) (xy 182.88 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b1c49365-9aaa-474f-a45a-f5b17740a5f8")
 	)
 	(wire
 		(pts
@@ -5554,6 +5635,16 @@
 	)
 	(wire
 		(pts
+			(xy 180.34 36.83) (xy 182.88 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b5c85a8a-d8f6-4591-8573-03a6b2005238")
+	)
+	(wire
+		(pts
 			(xy 114.3 156.21) (xy 114.3 158.75)
 		)
 		(stroke
@@ -5591,6 +5682,16 @@
 			(type default)
 		)
 		(uuid "baafbe84-5787-4ea3-9edc-e2c83a07b52f")
+	)
+	(wire
+		(pts
+			(xy 193.04 81.28) (xy 193.04 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bb1ba393-7039-461c-9d29-2b861bca1147")
 	)
 	(wire
 		(pts
@@ -5804,6 +5905,16 @@
 	)
 	(wire
 		(pts
+			(xy 193.04 46.99) (xy 193.04 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d9d23cc4-1725-4d1a-97cf-2218b8c0670a")
+	)
+	(wire
+		(pts
 			(xy 120.65 99.06) (xy 123.19 99.06)
 		)
 		(stroke
@@ -5924,16 +6035,6 @@
 	)
 	(wire
 		(pts
-			(xy 218.44 137.16) (xy 218.44 138.43)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e783c293-7426-4e0e-989f-d345bc4d3a2b")
-	)
-	(wire
-		(pts
 			(xy 48.26 97.79) (xy 48.26 101.6)
 		)
 		(stroke
@@ -6014,6 +6115,16 @@
 	)
 	(wire
 		(pts
+			(xy 162.56 179.07) (xy 170.18 179.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ed2f5a6f-0a86-4ab4-97be-df6dc8a26ff2")
+	)
+	(wire
+		(pts
 			(xy 149.86 166.37) (xy 152.4 166.37)
 		)
 		(stroke
@@ -6024,6 +6135,16 @@
 	)
 	(wire
 		(pts
+			(xy 267.97 27.94) (xy 260.35 27.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "efb33ff4-2a5d-4c31-9cc2-b0544b66560e")
+	)
+	(wire
+		(pts
 			(xy 68.58 187.96) (xy 31.75 187.96)
 		)
 		(stroke
@@ -6031,6 +6152,16 @@
 			(type default)
 		)
 		(uuid "efbcf8f7-bfca-46ee-99ef-34d9a2af4c50")
+	)
+	(wire
+		(pts
+			(xy 162.56 168.91) (xy 162.56 166.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f0b28080-d77a-4591-a9ed-f6b5878d3d75")
 	)
 	(wire
 		(pts
@@ -6064,13 +6195,23 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 58.42) (xy 161.29 58.42)
+			(xy 161.29 33.02) (xy 158.75 33.02)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "f64526c4-712c-4443-b5f2-af6ec436ee63")
+	)
+	(wire
+		(pts
+			(xy 114.3 25.4) (xy 125.73 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f935d528-de51-4310-9ebb-0dd6e6345f77")
 	)
 	(wire
 		(pts
@@ -6102,6 +6243,26 @@
 		)
 		(uuid "ff62df85-12b0-433a-a232-293eda60c9fa")
 	)
+	(label "RX_{VHF}"
+		(at 267.97 30.48 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "18589b2f-a8d9-4d04-8035-2d8417c4fb66")
+	)
+	(label "TX_{VHF}"
+		(at 232.41 30.48 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "213b4f3b-54eb-4625-9533-52c3b8d624fa")
+	)
 	(label "PA"
 		(at 91.44 166.37 0)
 		(effects
@@ -6132,8 +6293,8 @@
 		)
 		(uuid "61ca8be8-ed11-47ad-abe4-f12d82f10ed3")
 	)
-	(label "RF_{TRX}"
-		(at 151.13 62.23 0)
+	(label "TRX_{RF}"
+		(at 148.59 36.83 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6141,6 +6302,16 @@
 			(justify left bottom)
 		)
 		(uuid "6f82b700-584f-49bd-95bb-e8789c6ea880")
+	)
+	(label "TX_{UHF}"
+		(at 232.41 27.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "7194fcf5-ec69-4d45-8c07-5d524a43df2b")
 	)
 	(label "TRX_X2"
 		(at 34.29 54.61 0)
@@ -6162,15 +6333,25 @@
 		)
 		(uuid "7e9a6d62-a879-4c01-a427-35b28e854fc8")
 	)
-	(label "RF_Signal"
-		(at 182.88 137.16 0)
+	(label "TX_{UHF}"
+		(at 210.82 36.83 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
-		(uuid "96bddf17-a3e6-411c-96ea-c8283e023a8f")
+		(uuid "8f7ab9a5-e685-4738-8103-bdb6e900dc1b")
+	)
+	(label "RX_{UHF}"
+		(at 267.97 27.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "936a4243-8217-424d-b4c9-ce24669178c3")
 	)
 	(label "LNA_P"
 		(at 91.44 64.77 180)
@@ -6181,6 +6362,16 @@
 			(justify right bottom)
 		)
 		(uuid "979ec680-ebd5-41c2-a047-02f74597924d")
+	)
+	(label "RFSW_{TRX}"
+		(at 125.73 25.4 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "bb6ca737-7bc0-4791-ab3d-cd9ce0b3ede8")
 	)
 	(label "TRX_SW"
 		(at 91.44 177.8 0)
@@ -6202,6 +6393,16 @@
 		)
 		(uuid "d6485fd0-f787-4943-9e2a-f31f91771e54")
 	)
+	(label "TX_{VHF}"
+		(at 210.82 71.12 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "dc3f3670-5f54-4158-b99c-8ed1da40b9e6")
+	)
 	(label "TRX_X2"
 		(at 123.19 85.09 270)
 		(effects
@@ -6212,8 +6413,8 @@
 		)
 		(uuid "dcf21e9c-324b-4450-b9f4-3b7c9e8e78ba")
 	)
-	(label "RF_{TRX}"
-		(at 170.18 166.37 180)
+	(label "TRX_{RF}"
+		(at 170.18 179.07 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6287,7 +6488,7 @@
 	)
 	(hierarchical_label "PA_{SHUTDOWN}"
 		(shape input)
-		(at 158.75 53.34 180)
+		(at 156.21 27.94 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6329,6 +6530,17 @@
 		)
 		(uuid "969e7940-4557-42f4-ad9f-c57e61511550")
 	)
+	(hierarchical_label "TRX_GPIO3"
+		(shape bidirectional)
+		(at 114.3 25.4 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9812cdeb-8741-4713-8165-2b1bf6cd7785")
+	)
 	(hierarchical_label "TRX_SCLK"
 		(shape input)
 		(at 43.18 31.75 180)
@@ -6342,7 +6554,7 @@
 	)
 	(hierarchical_label "TRX_GPIO3"
 		(shape bidirectional)
-		(at 158.75 57.15 180)
+		(at 156.21 31.75 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6361,118 +6573,6 @@
 			(justify right)
 		)
 		(uuid "d875a491-2286-4bdc-8e3a-4d81a82a241c")
-	)
-	(symbol
-		(lib_id "RF_Switch:SKY13380-350LF")
-		(at 218.44 95.25 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "01bbb811-3db9-42f5-b1db-c20d15ee0117")
-		(property "Reference" "U4"
-			(at 220.5833 82.55 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "SKY13380-350LF"
-			(at 220.5833 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_DFN_QFN:QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm"
-			(at 218.44 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.skyworksinc.com/-/media/SkyWorks/Documents/Products/601-700/201486C.pdf"
-			(at 217.17 109.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "SP4T 20MHz-3GHz high power switch, 50 Ohm, QFN-16"
-			(at 218.44 95.25 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "8"
-			(uuid "edecd142-1623-47c5-8e33-12e16309e72d")
-		)
-		(pin "13"
-			(uuid "1f1a5b57-12f5-40c0-abb0-39a663ad1d51")
-		)
-		(pin "5"
-			(uuid "af485350-153c-46e0-8597-2aeb3eb7f2a0")
-		)
-		(pin "14"
-			(uuid "aec01bdf-da4e-4a69-a303-15227cdca639")
-		)
-		(pin "15"
-			(uuid "067fc75c-232e-4452-a5e5-ed5f2bd428b1")
-		)
-		(pin "9"
-			(uuid "488c8e41-8a86-4e52-bf8c-21fae4fc42d3")
-		)
-		(pin "16"
-			(uuid "5f33f992-508b-48c3-8831-86ebad88a80b")
-		)
-		(pin "7"
-			(uuid "90b552e7-0d14-48e6-ba2e-2e78fdbdb756")
-		)
-		(pin "4"
-			(uuid "138df764-a49f-41d3-9f54-a52502bda082")
-		)
-		(pin "3"
-			(uuid "8b56125d-4d01-47df-a796-2e67ffd542f6")
-		)
-		(pin "2"
-			(uuid "0acbc4e6-2998-4285-a66a-95954580f74e")
-		)
-		(pin "1"
-			(uuid "01328081-6067-4e5b-b1cc-3e987cd0705e")
-		)
-		(pin "10"
-			(uuid "4bea55f2-9626-4e81-a9a8-b460c09a7b0d")
-		)
-		(pin "12"
-			(uuid "d252f501-569d-4612-81fa-e88c61a31970")
-		)
-		(pin "11"
-			(uuid "2905b236-d735-4114-9df6-daea98be6aad")
-		)
-		(pin "6"
-			(uuid "f7c9c178-e5f0-4935-ad1b-591b150dc436")
-		)
-		(instances
-			(project ""
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
-					(reference "U4")
-					(unit 1)
-				)
-			)
-		)
 	)
 	(symbol
 		(lib_id "Device:C_Small")
@@ -6674,6 +6774,80 @@
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
 					(reference "L192")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "RF_Filter:LFCN-160")
+		(at 193.04 71.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0ad95212-64c6-4731-8760-6f2103d7c961")
+		(property "Reference" "FL2"
+			(at 193.04 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LFCN-160"
+			(at 193.04 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Filter:Filter_Mini-Circuits_FV1206"
+			(at 193.04 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.minicircuits.com/pdfs/LFCN-160+.pdf"
+			(at 193.04 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "160MHz 50 Ohm Passive Low Pass Filter, FV1206"
+			(at 193.04 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "9a85be41-ca5b-4e47-a700-3c7590351c73")
+		)
+		(pin "3"
+			(uuid "d8e1b023-73d9-4c52-a5f5-5ed934ea0eac")
+		)
+		(pin "4"
+			(uuid "28a7381e-cb8f-42ec-beef-4d0896f1f2b7")
+		)
+		(pin "1"
+			(uuid "61e95c7e-ae36-406a-8e94-ca6a03c7c011")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
+					(reference "FL2")
 					(unit 1)
 				)
 			)
@@ -6947,6 +7121,80 @@
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
 					(reference "#PWR044")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "RF_Filter:LFCN-490")
+		(at 193.04 36.83 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "281e0531-153b-434f-9493-ed77a6f5d131")
+		(property "Reference" "FL1"
+			(at 193.04 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LFCN-490"
+			(at 193.04 26.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Filter:Filter_Mini-Circuits_FV1206"
+			(at 193.04 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.minicircuits.com/pdfs/LFCN-490+.pdf"
+			(at 193.04 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "490MHz 50 Ohm Passive Low Pass Filter, FV1206"
+			(at 193.04 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "34174273-403b-423a-ad54-4558fbbb345c")
+		)
+		(pin "3"
+			(uuid "8f719b6d-aed0-4bcc-863b-f0a7790d74be")
+		)
+		(pin "4"
+			(uuid "335b8b6a-8820-45a5-89e4-c7711b591d7a")
+		)
+		(pin "1"
+			(uuid "094103c0-c70f-4ff6-bdeb-85aa278f461d")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
+					(reference "FL1")
 					(unit 1)
 				)
 			)
@@ -7413,6 +7661,72 @@
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
 					(reference "#PWR038")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 193.04 83.82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "446d2b46-f569-4cf7-b2fc-2f62500aadc2")
+		(property "Reference" "#PWR04"
+			(at 193.04 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 193.04 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 193.04 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 193.04 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 193.04 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "454fda0c-1bbe-4f6e-a989-f9e9bbabcd60")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
+					(reference "#PWR04")
 					(unit 1)
 				)
 			)
@@ -7962,6 +8276,72 @@
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
 					(reference "R12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 193.04 49.53 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "63fd2656-6721-4629-90d7-9b2abd269fa8")
+		(property "Reference" "#PWR022"
+			(at 193.04 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 193.04 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 193.04 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 193.04 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 193.04 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cc79648e-2bc5-4dc7-812a-3e093f32158c")
+		)
+		(instances
+			(project ""
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)
@@ -9335,7 +9715,8 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 205.74 156.21 0)
+		(at 267.97 46.99 0)
+		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9344,7 +9725,7 @@
 		(fields_autoplaced yes)
 		(uuid "a29f9547-3e62-4dcb-8b0d-e7eb7a80ce83")
 		(property "Reference" "#PWR057"
-			(at 205.74 162.56 0)
+			(at 267.97 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9353,7 +9734,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 205.74 161.29 0)
+			(at 267.97 52.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9361,7 +9742,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 205.74 156.21 0)
+			(at 267.97 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9370,7 +9751,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 205.74 156.21 0)
+			(at 267.97 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9379,7 +9760,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 205.74 156.21 0)
+			(at 267.97 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9892,7 +10273,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "VDD"
+		(property "Value" "+3.3V"
 			(at 63.5 133.3499 0)
 			(effects
 				(font
@@ -10146,8 +10527,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_Coaxial")
-		(at 205.74 148.59 0)
-		(mirror y)
+		(at 267.97 39.37 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10155,15 +10535,15 @@
 		(dnp no)
 		(uuid "d1b7c9d1-acb7-4f23-86ce-dfe5aa0afd67")
 		(property "Reference" "P3"
-			(at 206.0574 142.24 0)
+			(at 267.97 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "Conn_Coaxial_UHF"
-			(at 207.3274 144.78 0)
+		(property "Value" "SMA"
+			(at 267.97 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10171,7 +10551,7 @@
 			)
 		)
 		(property "Footprint" "Connector_Coaxial:SMA_Amphenol_901-143_Horizontal"
-			(at 205.74 148.59 0)
+			(at 267.97 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10180,7 +10560,7 @@
 			)
 		)
 		(property "Datasheet" " ~"
-			(at 205.74 148.59 0)
+			(at 267.97 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10189,7 +10569,7 @@
 			)
 		)
 		(property "Description" "coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)"
-			(at 205.74 148.59 0)
+			(at 267.97 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10352,7 +10732,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 218.44 142.24 180)
+		(at 162.56 172.72 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10361,7 +10741,7 @@
 		(fields_autoplaced yes)
 		(uuid "d759a4e4-6569-4f0e-8e60-a7aaa30e72c9")
 		(property "Reference" "R181"
-			(at 220.98 140.9699 0)
+			(at 165.1 171.4499 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10370,7 +10750,7 @@
 			)
 		)
 		(property "Value" "18"
-			(at 220.98 143.5099 0)
+			(at 165.1 173.9899 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10379,7 +10759,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 217.424 141.986 90)
+			(at 161.544 172.466 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10388,7 +10768,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 218.44 142.24 0)
+			(at 162.56 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10397,7 +10777,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 218.44 142.24 0)
+			(at 162.56 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11461,13 +11841,12 @@
 		)
 	)
 	(sheet
-		(at 163.83 50.8)
-		(size 34.29 13.97)
+		(at 161.29 25.4)
+		(size 19.05 13.97)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
 			(type solid)
@@ -11476,8 +11855,8 @@
 			(color 255 229 191 1.0000)
 		)
 		(uuid "abb4c8e3-8397-4a93-bb75-39afc849feef")
-		(property "Sheetname" "RF Power Amplifier"
-			(at 163.83 50.0884 0)
+		(property "Sheetname" "UHF 6W PA"
+			(at 161.29 24.6884 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11485,8 +11864,8 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "rf-power-amplifier.kicad_sch"
-			(at 163.83 65.3546 0)
+		(property "Sheetfile" "rf-power-amplifier-uhf.kicad_sch"
+			(at 151.384 40.132 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11495,7 +11874,7 @@
 			)
 		)
 		(pin "RF_{IN}" input
-			(at 163.83 62.23 180)
+			(at 161.29 36.83 180)
 			(uuid "4379aebe-2256-4fcc-bab0-e78e5b08f4c6")
 			(effects
 				(font
@@ -11505,7 +11884,7 @@
 			)
 		)
 		(pin "V_{ENABLE1}" input
-			(at 163.83 55.88 180)
+			(at 161.29 30.48 180)
 			(uuid "8197c14a-c09a-4a44-b007-eb5ffeadaef7")
 			(effects
 				(font
@@ -11515,7 +11894,7 @@
 			)
 		)
 		(pin "RF_{OUT}" output
-			(at 198.12 62.23 0)
+			(at 180.34 36.83 0)
 			(uuid "7ee8ed83-1366-4dc7-8d4b-5843f4bfc507")
 			(effects
 				(font
@@ -11525,7 +11904,7 @@
 			)
 		)
 		(pin "V_{ENABLE2}" input
-			(at 163.83 58.42 180)
+			(at 161.29 33.02 180)
 			(uuid "d16d560f-99ef-4390-9675-7fb430863f4b")
 			(effects
 				(font
@@ -11535,7 +11914,7 @@
 			)
 		)
 		(pin "V_{SHUTDOWN}" input
-			(at 163.83 53.34 180)
+			(at 161.29 27.94 180)
 			(uuid "1ec7edfe-ec6e-4aef-bf52-e38312913f10")
 			(effects
 				(font
@@ -11548,6 +11927,159 @@
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
 					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 240.03 25.4)
+		(size 20.32 16.51)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 255 229 191 1.0000)
+		)
+		(uuid "b5ac98a9-d5c0-4e37-a940-dd53feca722e")
+		(property "Sheetname" "RF Switch"
+			(at 240.03 24.6884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "rf-switch.kicad_sch"
+			(at 240.03 42.4946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "RFSW_{TRX}" input
+			(at 240.03 34.29 180)
+			(uuid "745bcec9-90f1-4325-9421-5980bbafabfb")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_{UHF}" output
+			(at 260.35 27.94 0)
+			(uuid "5a44bb1a-0031-4c73-8511-e4f86257cf4c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "RX_{VHF}" output
+			(at 260.35 30.48 0)
+			(uuid "0abbfdcc-5597-4b01-9ba9-fae051698bb6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "TX_{UHF}" input
+			(at 240.03 27.94 180)
+			(uuid "c3a7233d-4dac-4311-8bbd-1ec21406f946")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RFSW_{POLE}" bidirectional
+			(at 260.35 39.37 0)
+			(uuid "6543ec4d-1448-4944-9295-eec1be58aadf")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "RFSW_{BAND}" input
+			(at 240.03 36.83 180)
+			(uuid "f63aa9e6-b1b5-47ba-af3b-e7bef8439a10")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "TX_{VHF}" input
+			(at 240.03 30.48 180)
+			(uuid "844dbf22-1572-4362-b2da-f3a37dd632ae")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
+					(page "10")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 161.29 60.96)
+		(size 19.05 12.7)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 255 229 191 1.0000)
+		)
+		(uuid "e6561a71-2778-4f3f-a43f-c8e0afdfb21c")
+		(property "Sheetname" "VHF 6W PA"
+			(at 161.29 60.2484 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "rf-power-amplifier-vhf.kicad_sch"
+			(at 151.384 74.422 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9"
+					(page "9")
 				)
 			)
 		)
