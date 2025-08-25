@@ -272,6 +272,12 @@
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6
+      },
+      {
+        "name": "RF",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 0,
+        "schematic_color": "rgb(72, 0, 72)"
       }
     ],
     "meta": {
@@ -279,29 +285,77 @@
     },
     "net_colors": null,
     "netclass_assignments": {
-      "/Power Subsystem/System Load": [
-        "SYS"
+      "/RF Subsystem/RF Frontend/LNA_N_{UHF}": [
+        "RF"
       ],
-      "GND": [
-        "PGND"
+      "/RF Subsystem/RF Frontend/LNA_N_{VHF}": [
+        "RF"
       ],
-      "Net-(U5-REGN)": [
-        "REGN"
+      "/RF Subsystem/RF Frontend/LNA_P_{UHF}": [
+        "RF"
       ],
-      "unconnected-(C15-Pad1)": [
-        "PGND"
+      "/RF Subsystem/RF Frontend/LNA_P_{VHF}": [
+        "RF"
       ],
-      "unconnected-(C20-Pad2)": [
-        "BTST"
+      "/RF Subsystem/RF Frontend/PA_{UHF}": [
+        "RF"
       ],
-      "unconnected-(R30-Pad1)": [
-        "REGN"
+      "/RF Subsystem/RF Frontend/PA_{VHF}": [
+        "RF"
       ],
-      "unconnected-(U5-BTST-Pad1)": [
-        "BTST"
+      "/RF Subsystem/RF Frontend/RX_{UHF}": [
+        "RF"
       ],
-      "unconnected-(U5-SYS-Pad9)": [
-        "SYS"
+      "/RF Subsystem/RF Frontend/RX_{VHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/TX_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/TX_{VHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/UHF 6W PA/RF_{IN}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/UHF 6W PA/RF_{OUT}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/VHF 6W PA/RF_{IN}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/VHF 6W PA/RF_{OUT}": [
+        "RF"
+      ],
+      "Net-(C1-Pad2)": [
+        "RF"
+      ],
+      "Net-(C10-Pad1)": [
+        "RF"
+      ],
+      "Net-(C10-Pad2)": [
+        "RF"
+      ],
+      "Net-(C11-Pad2)": [
+        "RF"
+      ],
+      "Net-(C14-Pad2)": [
+        "RF"
+      ],
+      "Net-(C17-Pad2)": [
+        "RF"
+      ],
+      "Net-(C174-Pad1)": [
+        "RF"
+      ],
+      "Net-(C176-Pad1)": [
+        "RF"
+      ],
+      "Net-(C181-Pad2)": [
+        "RF"
+      ],
+      "Net-(C191-Pad2)": [
+        "RF"
       ]
     },
     "netclass_patterns": []
@@ -384,12 +438,90 @@
           "label": "Datasheet",
           "name": "Datasheet",
           "show": true
+        },
+        {
+          "group_by": false,
+          "label": "Arrow Price/Stock",
+          "name": "Arrow Price/Stock",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Height",
+          "name": "Height",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "LCSC",
+          "name": "LCSC",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "MP",
+          "name": "MP",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Manufacturer_Name",
+          "name": "Manufacturer_Name",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Manufacturer_Part_Number",
+          "name": "Manufacturer_Part_Number",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Mouser Part Number",
+          "name": "Mouser Part Number",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Mouser Price/Stock",
+          "name": "Mouser Price/Stock",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Sim.Device",
+          "name": "Sim.Device",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Sim.Pins",
+          "name": "Sim.Pins",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Arrow Part Number",
+          "name": "Arrow Part Number",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Description",
+          "name": "Description",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "#",
+          "name": "${ITEM_NUMBER}",
+          "show": false
         }
       ],
       "filter_string": "",
       "group_symbols": true,
       "include_excluded_from_bom": true,
-      "name": "Default Editing",
+      "name": "",
       "sort_asc": true,
       "sort_field": "Reference"
     },
@@ -421,6 +553,14 @@
       "version": 1
     },
     "net_format_name": "",
+    "ngspice": {
+      "fix_include_paths": true,
+      "meta": {
+        "version": 0
+      },
+      "model_mode": 4,
+      "workbook_filename": ""
+    },
     "page_layout_descr_file": "",
     "plot_directory": "",
     "space_save_all_events": true,
@@ -439,10 +579,6 @@
       "Root"
     ],
     [
-      "f019b4c2-2b53-49f7-bfd8-61827bda2aed",
-      "Keypad"
-    ],
-    [
       "8dcdcb54-0a4a-4913-bd90-1e0f545b8046",
       "Human-Machine Interface"
     ],
@@ -451,24 +587,28 @@
       "Audio Subsystem"
     ],
     [
+      "f019b4c2-2b53-49f7-bfd8-61827bda2aed",
+      "Keypad"
+    ],
+    [
       "663959ae-8fbf-4d79-b07e-771da73defb9",
       "RF Subsystem"
     ],
     [
-      "abb4c8e3-8397-4a93-bb75-39afc849feef",
+      "3a0c59ed-a639-4c21-bd1b-b48b5d30f73c",
+      "RF Frontend"
+    ],
+    [
+      "dae276e1-5582-4059-9e99-48b7cafef9a9",
       "UHF 6W PA"
+    ],
+    [
+      "71b693ea-6b1f-4422-a767-d0e638f34b25",
+      "VHF 6W PA"
     ],
     [
       "9fe85a84-eb88-4cb0-ad9c-c856ce023e7b",
       "Power Subsystem"
-    ],
-    [
-      "e6561a71-2778-4f3f-a43f-c8e0afdfb21c",
-      "VHF 6W PA"
-    ],
-    [
-      "b5ac98a9-d5c0-4e37-a940-dd53feca722e",
-      "RF Switch"
     ]
   ],
   "text_variables": {}

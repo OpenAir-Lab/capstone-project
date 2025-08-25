@@ -2180,6 +2180,26 @@
 				(justify left)
 			)
 		)
+		(pin "RFSW_{TRX}" input
+			(at 125.73 111.76 180)
+			(uuid "a143bd05-d59b-4e1a-aa96-a064d2c1431f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RFSW_{BAND}" input
+			(at 125.73 109.22 180)
+			(uuid "9ff74d4c-cac4-4b79-9100-f80af5598386")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f"
@@ -2189,8 +2209,8 @@
 		)
 	)
 	(sheet
-		(at 124.46 41.91)
-		(size 41.91 17.78)
+		(at 124.46 34.29)
+		(size 41.91 25.4)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -2205,7 +2225,7 @@
 		)
 		(uuid "8dcdcb54-0a4a-4913-bd90-1e0f545b8046")
 		(property "Sheetname" "Human-Machine Interface"
-			(at 124.46 41.1984 0)
+			(at 124.46 33.5784 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2275,14 +2295,14 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f"
-					(page "3")
+					(page "2")
 				)
 			)
 		)
 	)
 	(sheet
-		(at 171.45 93.98)
-		(size 31.75 22.86)
+		(at 119.38 130.81)
+		(size 17.78 21.59)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -2297,7 +2317,7 @@
 		)
 		(uuid "9fe85a84-eb88-4cb0-ad9c-c856ce023e7b")
 		(property "Sheetname" "Power Subsystem"
-			(at 171.45 93.2684 0)
+			(at 119.38 130.0984 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2306,7 +2326,7 @@
 			)
 		)
 		(property "Sheetfile" "power-subsystem.kicad_sch"
-			(at 171.45 117.4246 0)
+			(at 119.38 152.9846 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2317,7 +2337,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f"
-					(page "7")
+					(page "9")
 				)
 			)
 		)
@@ -2439,7 +2459,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f"
-					(page "4")
+					(page "3")
 				)
 			)
 		)
@@ -2570,7 +2590,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f"
-					(page "2")
+					(page "4")
 				)
 			)
 		)
