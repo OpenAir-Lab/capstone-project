@@ -615,7 +615,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "20 MHz to 4.0 GHz GaAs SPDT Switch, SC-70"
+		(property "Description" "100 MHz to 2.5 GHz GaAs SPDT Switch"
 			(at 0 0 0)
 			(effects
 				(font
