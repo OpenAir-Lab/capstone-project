@@ -23,7 +23,7 @@
 - Explored more of what Arduino Plug and Make is and how we can use it as a framework for design
   - Discussed packaging our final "kit" in the packaging provided or similar to (if applicable)
 - Discussed 3d printing a case for protoboard if needed in the future
-- EYESPI and QWIIC connectors will need to be ordered and the team will need to familiarize themelves with it
+- EYESPI and quick connectors will need to be ordered and the team will need to familiarize themelves with it
 - Schematics are all in one 'master' document in the 'system-testbed' branch of the GitHub
 - Issues in GitHub have been split into Summer and Fall Projects
   - We will need to complete and mark completed or merge all remaining summer tasks 
