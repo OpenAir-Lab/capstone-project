@@ -883,6 +883,16 @@
 	)
 	(wire
 		(pts
+			(xy 114.3 25.4) (xy 124.46 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1eef4109-13f3-44b6-abb5-695b7105cac5")
+	)
+	(wire
+		(pts
 			(xy 255.27 107.95) (xy 266.7 107.95)
 		)
 		(stroke
@@ -960,6 +970,16 @@
 			(type default)
 		)
 		(uuid "3f6e733e-4cb2-4fe1-97f2-25086ac25c03")
+	)
+	(wire
+		(pts
+			(xy 172.72 40.64) (xy 166.37 40.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3fb1e109-81d3-40a0-b50f-c22278c93b7b")
 	)
 	(wire
 		(pts
@@ -1043,6 +1063,16 @@
 	)
 	(wire
 		(pts
+			(xy 114.3 35.56) (xy 124.46 35.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "778c5683-6708-4a11-8e48-d2e0204e6882")
+	)
+	(wire
+		(pts
 			(xy 245.11 153.67) (xy 245.11 156.21)
 		)
 		(stroke
@@ -1070,6 +1100,16 @@
 			(type default)
 		)
 		(uuid "8defccbc-b0b9-4c73-935a-36ff053e7c20")
+	)
+	(wire
+		(pts
+			(xy 114.3 40.64) (xy 124.46 40.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "932897e7-e9b4-49c0-ba87-30fd84054059")
 	)
 	(wire
 		(pts
@@ -1113,6 +1153,16 @@
 	)
 	(wire
 		(pts
+			(xy 114.3 31.75) (xy 124.46 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9dc3ff82-b33c-4206-b5a2-a882288bf425")
+	)
+	(wire
+		(pts
 			(xy 266.7 113.03) (xy 255.27 113.03)
 		)
 		(stroke
@@ -1150,6 +1200,16 @@
 			(type default)
 		)
 		(uuid "a9926cf6-a357-4fd5-b3b8-a548fde4c9a2")
+	)
+	(wire
+		(pts
+			(xy 114.3 22.86) (xy 124.46 22.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aa4578f3-a7fe-4aff-a10b-1b95eec588b6")
 	)
 	(wire
 		(pts
@@ -1200,6 +1260,16 @@
 			(type default)
 		)
 		(uuid "c438164c-10fc-4644-a818-2df6f4c49c14")
+	)
+	(wire
+		(pts
+			(xy 114.3 17.78) (xy 124.46 17.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c8251a44-cc52-4159-83b4-24ff19b841ea")
 	)
 	(wire
 		(pts
@@ -1281,6 +1351,16 @@
 		)
 		(uuid "030f6508-c0da-46e3-b98b-ba2193f5af1a")
 	)
+	(label "TFTCS"
+		(at 114.3 17.78 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "0be3b59f-a613-4601-83a4-c190cc34b77c")
+	)
 	(label "VOL"
 		(at 176.53 54.61 180)
 		(effects
@@ -1291,6 +1371,16 @@
 		)
 		(uuid "140c8a06-2ec8-4830-911d-79a33a4ccfc7")
 	)
+	(label "MOSI"
+		(at 114.3 40.64 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "16e25607-5c78-4776-9e2f-0da34a3e81f9")
+	)
 	(label "AMP_BCLK"
 		(at 187.96 55.88 0)
 		(effects
@@ -1300,6 +1390,36 @@
 			(justify left bottom)
 		)
 		(uuid "1b843750-30f5-492a-95a7-f88c4f3f8b79")
+	)
+	(label "TFTDC"
+		(at 114.3 22.86 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1e0e4a3e-c119-46ed-9987-7b696d1c1967")
+	)
+	(label "MISO"
+		(at 172.72 40.64 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "2596fe34-2171-4d79-8747-ee3c4de3fb5c")
+	)
+	(label "CARDCS"
+		(at 114.3 35.56 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "287707bf-1e85-4b69-bcb7-28809466e0d7")
 	)
 	(label "~{AMP_SD}"
 		(at 266.7 118.11 180)
@@ -1331,6 +1451,16 @@
 		)
 		(uuid "3dd45c02-dabc-436d-abcf-2df2ba49883c")
 	)
+	(label "SCK"
+		(at 114.3 25.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "5142ab79-1576-4da0-b41a-82c2e8bdecf9")
+	)
 	(label "I2C0_SCL"
 		(at 223.52 107.95 0)
 		(effects
@@ -1350,6 +1480,16 @@
 			(justify left bottom)
 		)
 		(uuid "55100aa8-6e1f-47be-b4b9-81b29be03cf6")
+	)
+	(label "TFTRST"
+		(at 114.3 31.75 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "62d70c1f-5bd9-4f36-a874-d2bf70ae7553")
 	)
 	(label "PWR_SW"
 		(at 176.53 57.15 180)
@@ -2209,8 +2349,8 @@
 		)
 	)
 	(sheet
-		(at 124.46 34.29)
-		(size 41.91 25.4)
+		(at 124.46 15.24)
+		(size 41.91 44.45)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -2225,7 +2365,7 @@
 		)
 		(uuid "8dcdcb54-0a4a-4913-bd90-1e0f545b8046")
 		(property "Sheetname" "Human-Machine Interface"
-			(at 124.46 33.5784 0)
+			(at 124.46 14.5284 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2290,6 +2430,76 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+		(pin "MOSI" input
+			(at 124.46 40.64 180)
+			(uuid "6ec74d7f-35b6-4c59-aef0-e93f431260e4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 124.46 25.4 180)
+			(uuid "01518f61-ab4e-48ed-a084-b064be0d74fe")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "TFTDC" input
+			(at 124.46 22.86 180)
+			(uuid "53d31a98-df72-4ee9-9e52-f5f55682d972")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "MISO" output
+			(at 166.37 40.64 0)
+			(uuid "6d674381-1bee-44b0-8ade-4f7c1db90f06")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "TFTCS" input
+			(at 124.46 17.78 180)
+			(uuid "6c7dfe0f-4a63-4f59-a760-b8461d33d9b1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "TFTRST" input
+			(at 124.46 31.75 180)
+			(uuid "71affc85-4331-413e-b963-ca3acbccb448")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CARDCS" input
+			(at 124.46 35.56 180)
+			(uuid "2c567951-d975-41aa-b19f-4712f65ee470")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 		(instances
