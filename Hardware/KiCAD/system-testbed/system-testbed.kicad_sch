@@ -2511,8 +2511,8 @@
 		)
 	)
 	(sheet
-		(at 119.38 130.81)
-		(size 17.78 21.59)
+		(at 53.34 147.32)
+		(size 33.02 20.32)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -2527,7 +2527,7 @@
 		)
 		(uuid "9fe85a84-eb88-4cb0-ad9c-c856ce023e7b")
 		(property "Sheetname" "Power Subsystem"
-			(at 119.38 130.0984 0)
+			(at 53.34 146.6084 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2536,12 +2536,62 @@
 			)
 		)
 		(property "Sheetfile" "power-subsystem.kicad_sch"
-			(at 119.38 152.9846 0)
+			(at 53.34 168.2246 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left top)
+			)
+		)
+		(pin "*INT" output
+			(at 86.36 152.4 0)
+			(uuid "afd7d1eb-6840-4c69-8673-2daf3a089fd0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "SDA" input
+			(at 53.34 152.4 180)
+			(uuid "6af350ca-77ac-44ab-814c-8b325b549c98")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "STAT" output
+			(at 86.36 156.21 0)
+			(uuid "63295570-2df5-4fa0-9b20-f8bd466b7e2c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "SCL" bidirectional
+			(at 86.36 160.02 0)
+			(uuid "c619aab3-d287-4f5f-a7e7-7852b40502ba")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "*PG" output
+			(at 86.36 163.83 0)
+			(uuid "0079f379-d745-4709-85f3-eef15a94875c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 			)
 		)
 		(instances
