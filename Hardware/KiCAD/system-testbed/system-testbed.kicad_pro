@@ -449,7 +449,9 @@
   },
   "libraries": {
     "pinned_footprint_libs": [],
-    "pinned_symbol_libs": []
+    "pinned_symbol_libs": [
+      "capstone-project"
+    ]
   },
   "meta": {
     "filename": "system-testbed.kicad_pro",
@@ -590,6 +592,9 @@
         "RF"
       ],
       "Net-(C39-Pad2)": [
+        "RF"
+      ],
+      "Net-(C56-Pad1)": [
         "RF"
       ],
       "Net-(C64-Pad2)": [
