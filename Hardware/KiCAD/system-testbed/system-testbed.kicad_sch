@@ -773,6 +773,18 @@
 		(uuid 268f998e-6697-4afe-94e0-8e7c215e71cd)
 	)
 	(rectangle
+		(start 15.24 177.165)
+		(end 35.56 196.215)
+		(stroke
+			(width 0.254)
+			(type solid)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 2d3a0dca-1a41-43c4-ab4f-ad8874606b25)
+	)
+	(rectangle
 		(start 125.73 -92.71)
 		(end 125.73 -92.71)
 		(stroke
@@ -794,6 +806,18 @@
 			(justify left top)
 		)
 		(uuid "17ca53d7-05ce-494f-a505-0a3c8589e8d5")
+	)
+	(text "THE CUBE"
+		(exclude_from_sim no)
+		(at 25.654 187.706 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+				(thickness 0.508)
+				(bold yes)
+			)
+		)
+		(uuid "6c04ea29-1f66-421a-a821-bb4aba0d45bf")
 	)
 	(text "GPIO Expansion over I2C @ 0x20\nPORT0 Mode Enables,\nPORT1 PTT/MENU/EXIT/SK0\nT9/DTMF keys, NAV keys\n"
 		(exclude_from_sim no)
@@ -2511,7 +2535,7 @@
 		)
 	)
 	(sheet
-		(at 53.34 147.32)
+		(at 125.73 139.7)
 		(size 33.02 20.32)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2527,7 +2551,7 @@
 		)
 		(uuid "9fe85a84-eb88-4cb0-ad9c-c856ce023e7b")
 		(property "Sheetname" "Power Subsystem"
-			(at 53.34 146.6084 0)
+			(at 125.73 138.9884 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2536,7 +2560,7 @@
 			)
 		)
 		(property "Sheetfile" "power-subsystem.kicad_sch"
-			(at 53.34 168.2246 0)
+			(at 125.73 160.6046 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2545,7 +2569,7 @@
 			)
 		)
 		(pin "*INT" output
-			(at 86.36 152.4 0)
+			(at 158.75 144.78 0)
 			(uuid "afd7d1eb-6840-4c69-8673-2daf3a089fd0")
 			(effects
 				(font
@@ -2555,7 +2579,7 @@
 			)
 		)
 		(pin "SDA" input
-			(at 53.34 152.4 180)
+			(at 125.73 144.78 180)
 			(uuid "6af350ca-77ac-44ab-814c-8b325b549c98")
 			(effects
 				(font
@@ -2565,7 +2589,7 @@
 			)
 		)
 		(pin "STAT" output
-			(at 86.36 156.21 0)
+			(at 158.75 148.59 0)
 			(uuid "63295570-2df5-4fa0-9b20-f8bd466b7e2c")
 			(effects
 				(font
@@ -2575,7 +2599,7 @@
 			)
 		)
 		(pin "SCL" bidirectional
-			(at 86.36 160.02 0)
+			(at 158.75 152.4 0)
 			(uuid "c619aab3-d287-4f5f-a7e7-7852b40502ba")
 			(effects
 				(font
@@ -2585,7 +2609,7 @@
 			)
 		)
 		(pin "*PG" output
-			(at 86.36 163.83 0)
+			(at 158.75 156.21 0)
 			(uuid "0079f379-d745-4709-85f3-eef15a94875c")
 			(effects
 				(font
