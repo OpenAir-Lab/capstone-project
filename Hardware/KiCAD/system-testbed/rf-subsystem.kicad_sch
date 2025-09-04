@@ -4799,7 +4799,7 @@
 		)
 		(uuid "42b2c82e-d8f0-4ab3-b2b5-492a98394da3")
 	)
-	(text "TODO: Can TRX_GPIO2 and TRX_GPIO3\nbe on pins 17 and 18 of EYESPI FPC?\nHow many pins can be interoperable\nbetween SD cards and the TI CC1200?"
+	(text "TODO: Can TRX_GPIO0 and TRX_GPIO2\nbe on pins 17 and 18 of EYESPI FPC?\nHow many pins can be interoperable\nbetween SD cards and the TI CC1200?"
 		(exclude_from_sim no)
 		(at 229.362 133.858 0)
 		(effects
@@ -6240,7 +6240,7 @@
 	)
 	(wire
 		(pts
-			(xy 199.39 102.87) (xy 199.39 104.14)
+			(xy 191.77 101.6) (xy 191.77 104.14)
 		)
 		(stroke
 			(width 0)
@@ -6370,7 +6370,7 @@
 	)
 	(wire
 		(pts
-			(xy 199.39 104.14) (xy 201.93 104.14)
+			(xy 191.77 104.14) (xy 201.93 104.14)
 		)
 		(stroke
 			(width 0)
@@ -7180,7 +7180,7 @@
 		)
 		(uuid "5443f3f3-9f81-4a53-878b-7b50c5e7767f")
 	)
-	(hierarchical_label "TRX_GPIO3"
+	(hierarchical_label "TRX_GPIO2"
 		(shape input)
 		(at 209.55 147.32 180)
 		(effects
@@ -7312,7 +7312,7 @@
 		)
 		(uuid "d875a491-2286-4bdc-8e3a-4d81a82a241c")
 	)
-	(hierarchical_label "TRX_GPIO2"
+	(hierarchical_label "TRX_GPIO0"
 		(shape input)
 		(at 209.55 144.78 180)
 		(effects
@@ -9859,7 +9859,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 199.39 102.87 0)
+		(at 191.77 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9868,7 +9868,7 @@
 		(fields_autoplaced yes)
 		(uuid "8c84efe1-7496-4e6d-acb5-ebbed72fd3e2")
 		(property "Reference" "#PWR051"
-			(at 199.39 106.68 0)
+			(at 191.77 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9877,7 +9877,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 199.39 97.79 0)
+			(at 191.77 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9885,7 +9885,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 199.39 102.87 0)
+			(at 191.77 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9894,7 +9894,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 199.39 102.87 0)
+			(at 191.77 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9903,7 +9903,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 199.39 102.87 0)
+			(at 191.77 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
