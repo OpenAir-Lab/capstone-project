@@ -863,10 +863,6 @@
       "Audio Subsystem"
     ],
     [
-      "f019b4c2-2b53-49f7-bfd8-61827bda2aed",
-      "Keypad"
-    ],
-    [
       "663959ae-8fbf-4d79-b07e-771da73defb9",
       "RF Subsystem"
     ],
@@ -885,6 +881,10 @@
     [
       "9fe85a84-eb88-4cb0-ad9c-c856ce023e7b",
       "Power Subsystem"
+    ],
+    [
+      "7aad1b45-8286-4cab-8d27-66dd29006c0b",
+      "Keypad"
     ]
   ],
   "text_variables": {}
