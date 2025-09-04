@@ -1,0 +1,8 @@
+DRC Rules Export File for PCB: C:\Users\silvi\Downloads\SRC-NODE10 - BUTTON-001_V0.3\PCB.PcbDoc
+RuleKind=MinimumAnnularRing|RuleName=MinimumAnnularRing|Scope=Board|Minimum=5.91
+RuleKind=ShortCircuit|RuleName=ShortCircuit|Scope=Board|Allowed=0
+RuleKind=SolderMaskExpansion|RuleName=SolderMaskExpansion|Scope=Board|Minimum=1.97
+RuleKind=SolderMaskExpansion|RuleName=VIAtented|Scope=Board|Minimum=4.00
+RuleKind=Width|RuleName=StandardTraces|Scope=Board|Minimum=5.91
+RuleKind=Clearance|RuleName=Generic clearance 0.15mm|Scope=Board|Minimum=5.91
+RuleKind=Clearance|RuleName=COPPER_0.3mm|Scope=Board|Minimum=5.00
