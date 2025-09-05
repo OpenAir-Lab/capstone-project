@@ -53,18 +53,6 @@
 		)
 		(uuid "17ca53d7-05ce-494f-a505-0a3c8589e8d5")
 	)
-	(text "THE CUBE"
-		(exclude_from_sim no)
-		(at 25.654 187.706 0)
-		(effects
-			(font
-				(size 2.54 2.54)
-				(thickness 0.508)
-				(bold yes)
-			)
-		)
-		(uuid "6c04ea29-1f66-421a-a821-bb4aba0d45bf")
-	)
 	(wire
 		(pts
 			(xy 237.49 49.53) (xy 224.79 49.53)

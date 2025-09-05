@@ -226,7 +226,20 @@
     "equivalence_files": []
   },
   "erc": {
-    "erc_exclusions": [],
+    "erc_exclusions": [
+      [
+        "pin_to_pin|2489200|520700|73e65ac1-7614-457a-92f5-3333f57b6c7f|7c955993-4d78-47b5-9f14-5d5c6279493a|/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b|/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b|/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b",
+        ""
+      ],
+      [
+        "pin_to_pin|990600|596900|e99a2f9a-bdcf-4646-b158-d7de0b2460f7|7c955993-4d78-47b5-9f14-5d5c6279493a|/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b|/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b|/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b",
+        ""
+      ],
+      [
+        "pin_to_pin|990600|647700|211efc06-5671-4650-845e-2bc2d0a40695|e99a2f9a-bdcf-4646-b158-d7de0b2460f7|/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b|/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b|/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b",
+        ""
+      ]
+    ],
     "meta": {
       "version": 0
     },
@@ -449,13 +462,11 @@
   },
   "libraries": {
     "pinned_footprint_libs": [],
-    "pinned_symbol_libs": [
-      "capstone-project"
-    ]
+    "pinned_symbol_libs": []
   },
   "meta": {
     "filename": "system-testbed.kicad_pro",
-    "version": 1
+    "version": 3
   },
   "net_settings": {
     "classes": [
@@ -470,6 +481,7 @@
         "microvia_drill": 0.1,
         "name": "Default",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.2,
         "via_diameter": 0.6,
@@ -487,6 +499,7 @@
         "microvia_drill": 0.1,
         "name": "RF",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 0,
         "schematic_color": "rgb(72, 0, 72)",
         "track_width": 0.2,
         "via_diameter": 0.6,
@@ -495,10 +508,143 @@
       }
     ],
     "meta": {
-      "version": 3
+      "version": 4
     },
     "net_colors": null,
-    "netclass_assignments": null,
+    "netclass_assignments": {
+      "/RF Subsystem/LNA_N": [
+        "RF"
+      ],
+      "/RF Subsystem/LNA_P": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/LNA_N_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/LNA_N_{VHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/LNA_P_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/LNA_P_{VHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/PA_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/PA_{VHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/RX_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/RX_{VHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/TX_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/TX_{VHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/UHF 6W PA/RF_{IN}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/UHF 6W PA/RF_{OUT}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/VHF 6W PA/RF_{IN}": [
+        "RF"
+      ],
+      "/RF Subsystem/RF Frontend/VHF 6W PA/RF_{OUT}": [
+        "RF"
+      ],
+      "/RF Subsystem/TRX_PA": [
+        "RF"
+      ],
+      "Net-(C1-Pad2)": [
+        "RF"
+      ],
+      "Net-(C10-Pad1)": [
+        "RF"
+      ],
+      "Net-(C10-Pad2)": [
+        "RF"
+      ],
+      "Net-(C11-Pad2)": [
+        "RF"
+      ],
+      "Net-(C14-Pad2)": [
+        "RF"
+      ],
+      "Net-(C17-Pad2)": [
+        "RF"
+      ],
+      "Net-(C174-Pad1)": [
+        "RF"
+      ],
+      "Net-(C176-Pad1)": [
+        "RF"
+      ],
+      "Net-(C181-Pad2)": [
+        "RF"
+      ],
+      "Net-(C191-Pad2)": [
+        "RF"
+      ],
+      "Net-(C25-Pad2)": [
+        "RF"
+      ],
+      "Net-(C26-Pad2)": [
+        "RF"
+      ],
+      "Net-(C38-Pad1)": [
+        "RF"
+      ],
+      "Net-(C39-Pad2)": [
+        "RF"
+      ],
+      "Net-(C56-Pad1)": [
+        "RF"
+      ],
+      "Net-(C64-Pad2)": [
+        "RF"
+      ],
+      "Net-(C65-Pad2)": [
+        "RF"
+      ],
+      "Net-(C68-Pad1)": [
+        "RF"
+      ],
+      "Net-(C69-Pad2)": [
+        "RF"
+      ],
+      "Net-(P3-In)": [
+        "RF"
+      ],
+      "Net-(U10-J1)": [
+        "RF"
+      ],
+      "Net-(U10-J2)": [
+        "RF"
+      ],
+      "Net-(U10-J3)": [
+        "RF"
+      ],
+      "Net-(U11-J2)": [
+        "RF"
+      ],
+      "Net-(U11-J3)": [
+        "RF"
+      ],
+      "Net-(U12-J2)": [
+        "RF"
+      ],
+      "Net-(U12-J3)": [
+        "RF"
+      ]
+    },
     "netclass_patterns": []
   },
   "pcbnew": {
