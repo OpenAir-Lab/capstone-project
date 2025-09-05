@@ -1,4 +1,6 @@
 (fp_lib_table
   (version 7)
   (lib (name "capstone-project")(type "KiCad")(uri "${KIPRJMOD}/capstone-project.pretty")(options "")(descr ""))
+  (lib (name "Library")(type "KiCad")(uri "C:/Users/zackp/OneDrive/Desktop/BQ25620RYKR/KiCADv6/footprints.pretty/Library.pretty")(options "")(descr ""))
+  (lib (name "Capstone-preoject")(type "KiCad")(uri "${KIPRJMOD}/Capstone-preoject.pretty")(options "")(descr ""))
 )
