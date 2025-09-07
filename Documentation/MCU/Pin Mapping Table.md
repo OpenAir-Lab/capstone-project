@@ -15,7 +15,7 @@
 | I2C —> BQ25620 + I/O Expander + STUSB4500| SDA | GPIO21 | shared bus - use 4.7-10 kΩ pull-up resistor | 
 | | SCL | GPIO22 | |
 | | Expander INT| GPIO39 | wakes HMI task on change |
-| | STUSB4500 ALERT | GPIO38 | open‑drain, pull‑up to 3V3, PD event interrupt | 
+| | ~STUSB4500 ALERT~ |~GPIO38~ DNE | open‑drain, pull‑up to 3V3, PD event interrupt | 
 | I2S —> Audio (full-duplex) | BCLK | GPIO27 | connect to Mic SCK + Amp BCLK, one clock for both devices |
 | | LRCLK/WS | GPIO25 | connect to Mic WS + Amp LRCLK, shared LRCLK/WS  |
 | | DOUT (ESP32—>Amp) | GPIO33 | connected to MAX98357A DIN, no MCLK needed | 
