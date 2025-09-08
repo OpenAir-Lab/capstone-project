@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 0)
+  (lib (name "Modulino-altium-import")(type "KiCad")(uri "${KIPRJMOD}/Modulino-altium-import.kicad_sym")(options "")(descr ""))
+)

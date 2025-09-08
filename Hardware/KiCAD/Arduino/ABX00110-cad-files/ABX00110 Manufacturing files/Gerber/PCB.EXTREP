@@ -1,0 +1,22 @@
+------------------------------------------------------------------------------------------
+Gerber File Extension Report For: PCB.GBR   27/06/2024  16:28:16
+------------------------------------------------------------------------------------------
+
+
+------------------------------------------------------------------------------------------
+Layer Extension     Layer Description                      
+------------------------------------------------------------------------------------------
+.gbr                Top Paste                               
+.gbr                Top Solder                              
+.gbr                TOP                                     
+.gbr                BOTTOM                                  
+.gbr                Bottom Solder                           
+.gbr                Bottom Paste                            
+.gbr                Top Designator                          
+.gbr                Board                                   
+.gbr                Bottom Assembly                         
+.gbr                Top Assembly                            
+.gbr                Bottom Designator                       
+.gbr                Drill Drawing                           
+.gbr                Drill Guide                             
+------------------------------------------------------------------------------------------
