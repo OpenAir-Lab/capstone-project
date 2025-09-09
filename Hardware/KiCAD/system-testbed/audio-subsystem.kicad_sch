@@ -2459,6 +2459,12 @@
 		(uuid "5399c1f0-e768-4705-b98e-bb142e75e747")
 	)
 	(junction
+		(at 219.71 74.93)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5cd915f9-c977-4dea-b455-3a3f18369237")
+	)
+	(junction
 		(at 55.88 38.1)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2493,12 +2499,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b528e411-65ab-452a-acc7-815e3ddd0111")
-	)
-	(junction
-		(at 219.71 74.93)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "cf1e1e8f-0bf2-4dc3-8228-11b8613804ad")
 	)
 	(junction
 		(at 219.71 85.09)
@@ -2537,6 +2537,16 @@
 			(type default)
 		)
 		(uuid "06782a41-ad6c-48a7-a49f-686391732482")
+	)
+	(wire
+		(pts
+			(xy 233.68 74.93) (xy 237.49 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0758eaae-08d4-4b04-9112-d8368e52867b")
 	)
 	(wire
 		(pts
@@ -2840,16 +2850,6 @@
 	)
 	(wire
 		(pts
-			(xy 219.71 74.93) (xy 237.49 74.93)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7c56cef8-6940-45c1-8ea6-0399d6509c4f")
-	)
-	(wire
-		(pts
 			(xy 25.4 48.26) (xy 25.4 50.8)
 		)
 		(stroke
@@ -2910,7 +2910,7 @@
 	)
 	(wire
 		(pts
-			(xy 214.63 140.97) (xy 227.33 140.97)
+			(xy 214.63 140.97) (xy 246.38 140.97)
 		)
 		(stroke
 			(width 0)
@@ -3027,6 +3027,16 @@
 			(type default)
 		)
 		(uuid "b8f285a1-6296-4328-9830-902d95b99e19")
+	)
+	(wire
+		(pts
+			(xy 219.71 74.93) (xy 226.06 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c0bc1bb4-d5d6-4660-8864-ab73aafddc06")
 	)
 	(wire
 		(pts
@@ -3239,7 +3249,7 @@
 		(uuid "d3ff8591-4bf2-4064-b181-55d28b85c098")
 	)
 	(label "GAIN_SLOT"
-		(at 227.33 140.97 180)
+		(at 246.38 140.97 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3914,7 +3924,7 @@
 				)
 			)
 		)
-		(property "Value" "680k"
+		(property "Value" "634k"
 			(at 228.6 81.28 90)
 			(effects
 				(font
@@ -4598,7 +4608,7 @@
 				)
 			)
 		)
-		(property "Value" "CH_MIX"
+		(property "Value" "CH_MONO_MIX"
 			(at 241.3 81.28 0)
 			(effects
 				(font
@@ -5258,6 +5268,74 @@
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/d4290985-9747-4b26-ad72-a8210ee01731"
 					(reference "#PWR03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 229.87 74.93 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ec6f5fbc-2ddc-466e-bca9-a5216503a43f")
+		(property "Reference" "R4"
+			(at 229.87 68.58 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "2k"
+			(at 229.87 71.12 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 229.616 75.946 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 229.87 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 229.87 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7f9c2d12-2f32-4431-9a11-09e5f233676d")
+		)
+		(pin "2"
+			(uuid "d2e58aa6-ba7d-4a49-920d-4fb0d55f7f52")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/d4290985-9747-4b26-ad72-a8210ee01731"
+					(reference "R4")
 					(unit 1)
 				)
 			)
