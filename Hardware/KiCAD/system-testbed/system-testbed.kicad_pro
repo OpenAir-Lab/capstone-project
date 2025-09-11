@@ -448,7 +448,9 @@
     }
   },
   "libraries": {
-    "pinned_footprint_libs": [],
+    "pinned_footprint_libs": [
+      "capstone-project"
+    ],
     "pinned_symbol_libs": []
   },
   "meta": {
@@ -502,7 +504,25 @@
       "/RF Subsystem/LNA_N": [
         "RF"
       ],
+      "/RF Subsystem/LNA_N_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/LNA_N_{VHF}": [
+        "RF"
+      ],
       "/RF Subsystem/LNA_P": [
+        "RF"
+      ],
+      "/RF Subsystem/LNA_P_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/LNA_P_{VHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/PA_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/PA_{VHF}": [
         "RF"
       ],
       "/RF Subsystem/RF Frontend/LNA_N_{UHF}": [
@@ -607,7 +627,31 @@
       "Net-(C69-Pad2)": [
         "RF"
       ],
+      "Net-(C71-Pad1)": [
+        "RF"
+      ],
+      "Net-(P1-In)": [
+        "RF"
+      ],
       "Net-(P3-In)": [
+        "RF"
+      ],
+      "Net-(SW3-RF1_COM)": [
+        "RF"
+      ],
+      "Net-(SW3-RF2)": [
+        "RF"
+      ],
+      "Net-(SW3-RF3)": [
+        "RF"
+      ],
+      "Net-(SW5-RF1_COM)": [
+        "RF"
+      ],
+      "Net-(SW5-RF2)": [
+        "RF"
+      ],
+      "Net-(SW5-RF3)": [
         "RF"
       ],
       "Net-(U10-J1)": [
