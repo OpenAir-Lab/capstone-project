@@ -897,7 +897,7 @@
 			(color 255 229 191 1.0000)
 		)
 		(uuid "d4290985-9747-4b26-ad72-a8210ee01731")
-		(property "Sheetname" "Audio Subsystem"
+		(property "Sheetname" "Audio Subsystem (TQFN)"
 			(at 204.47 45.0084 0)
 			(effects
 				(font

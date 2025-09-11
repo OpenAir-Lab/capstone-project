@@ -607,6 +607,9 @@
       "Net-(C69-Pad2)": [
         "RF"
       ],
+      "Net-(P1-In)": [
+        "RF"
+      ],
       "Net-(P3-In)": [
         "RF"
       ],
@@ -629,6 +632,27 @@
         "RF"
       ],
       "Net-(U12-J3)": [
+        "RF"
+      ],
+      "Net-(U6-J1)": [
+        "RF"
+      ],
+      "Net-(U6-J2)": [
+        "RF"
+      ],
+      "Net-(U6-J3)": [
+        "RF"
+      ],
+      "Net-(U7-J1)": [
+        "RF"
+      ],
+      "Net-(U7-J2)": [
+        "RF"
+      ],
+      "Net-(U7-J3)": [
+        "RF"
+      ],
+      "Net-(U8-J1)": [
         "RF"
       ]
     },
@@ -858,7 +882,7 @@
     ],
     [
       "d4290985-9747-4b26-ad72-a8210ee01731",
-      "Audio Subsystem"
+      "Audio Subsystem (TQFN)"
     ],
     [
       "663959ae-8fbf-4d79-b07e-771da73defb9",
