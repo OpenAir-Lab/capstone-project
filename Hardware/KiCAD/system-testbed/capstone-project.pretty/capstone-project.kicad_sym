@@ -5227,8 +5227,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at -15.24 3.81 0)
-				(length 5.08)
+				(at -12.7 3.81 0)
+				(length 2.54)
 				(name "GND"
 					(effects
 						(font
@@ -5245,8 +5245,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at -15.24 0 0)
-				(length 5.08)
+				(at -12.7 0 0)
+				(length 2.54)
 				(name "RF1_COM"
 					(effects
 						(font
@@ -5263,26 +5263,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at -2.54 15.24 270)
-				(length 5.08)
-				(name "EN"
-					(effects
-						(font
-							(size 1.016 1.016)
-						)
-					)
-				)
-				(number "8"
-					(effects
-						(font
-							(size 1.016 1.016)
-						)
-					)
-				)
-			)
-			(pin bidirectional line
-				(at 0 -15.24 90)
-				(length 5.08)
+				(at 0 -12.7 90)
+				(length 2.54)
 				(name "CTRL"
 					(effects
 						(font
@@ -5299,44 +5281,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 2.54 15.24 270)
-				(length 5.08)
-				(name "VDD"
-					(effects
-						(font
-							(size 1.016 1.016)
-						)
-					)
-				)
-				(number "9"
-					(effects
-						(font
-							(size 1.016 1.016)
-						)
-					)
-				)
-			)
-			(pin bidirectional line
-				(at 15.24 3.81 180)
-				(length 5.08)
-				(name "RF2"
-					(effects
-						(font
-							(size 1.016 1.016)
-						)
-					)
-				)
-				(number "11"
-					(effects
-						(font
-							(size 1.016 1.016)
-						)
-					)
-				)
-			)
-			(pin bidirectional line
-				(at 15.24 -3.81 180)
-				(length 5.08)
+				(at 12.7 -3.81 180)
+				(length 2.54)
 				(name "RF3"
 					(effects
 						(font
@@ -5355,8 +5301,8 @@
 		)
 		(symbol "SKY13330-397LF_1_0"
 			(pin bidirectional line
-				(at -15.24 -3.81 0)
-				(length 5.08)
+				(at -12.7 -3.81 0)
+				(length 2.54)
 				(name "GND"
 					(effects
 						(font
@@ -5373,8 +5319,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at -6.35 -15.24 90)
-				(length 5.08)
+				(at -6.35 -12.7 90)
+				(length 2.54)
 				(name "GND"
 					(effects
 						(font
@@ -5391,8 +5337,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at -3.81 -15.24 90)
-				(length 5.08)
+				(at -3.81 -12.7 90)
+				(length 2.54)
 				(name "GND"
 					(effects
 						(font
@@ -5409,8 +5355,44 @@
 				)
 			)
 			(pin bidirectional line
-				(at 3.81 -15.24 90)
-				(length 5.08)
+				(at -2.54 12.7 270)
+				(length 2.54)
+				(name "EN"
+					(effects
+						(font
+							(size 1.016 1.016)
+						)
+					)
+				)
+				(number "8"
+					(effects
+						(font
+							(size 1.016 1.016)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 2.54 12.7 270)
+				(length 2.54)
+				(name "VDD"
+					(effects
+						(font
+							(size 1.016 1.016)
+						)
+					)
+				)
+				(number "9"
+					(effects
+						(font
+							(size 1.016 1.016)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 3.81 -12.7 90)
+				(length 2.54)
 				(name "GND"
 					(effects
 						(font
@@ -5427,8 +5409,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 6.35 -15.24 90)
-				(length 5.08)
+				(at 6.35 -12.7 90)
+				(length 2.54)
 				(name "GND"
 					(effects
 						(font
@@ -5445,8 +5427,26 @@
 				)
 			)
 			(pin bidirectional line
-				(at 15.24 0 180)
-				(length 5.08)
+				(at 12.7 3.81 180)
+				(length 2.54)
+				(name "RF2"
+					(effects
+						(font
+							(size 1.016 1.016)
+						)
+					)
+				)
+				(number "11"
+					(effects
+						(font
+							(size 1.016 1.016)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 12.7 0 180)
+				(length 2.54)
 				(name "GND"
 					(effects
 						(font
