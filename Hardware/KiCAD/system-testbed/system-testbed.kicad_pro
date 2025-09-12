@@ -448,7 +448,9 @@
     }
   },
   "libraries": {
-    "pinned_footprint_libs": [],
+    "pinned_footprint_libs": [
+      "capstone-project"
+    ],
     "pinned_symbol_libs": []
   },
   "meta": {
@@ -502,7 +504,25 @@
       "/RF Subsystem/LNA_N": [
         "RF"
       ],
+      "/RF Subsystem/LNA_N_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/LNA_N_{VHF}": [
+        "RF"
+      ],
       "/RF Subsystem/LNA_P": [
+        "RF"
+      ],
+      "/RF Subsystem/LNA_P_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/LNA_P_{VHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/PA_{UHF}": [
+        "RF"
+      ],
+      "/RF Subsystem/PA_{VHF}": [
         "RF"
       ],
       "/RF Subsystem/RF Frontend/LNA_N_{UHF}": [
@@ -562,6 +582,9 @@
       "Net-(C11-Pad2)": [
         "RF"
       ],
+      "Net-(C12-Pad2)": [
+        "RF"
+      ],
       "Net-(C14-Pad2)": [
         "RF"
       ],
@@ -583,16 +606,58 @@
       "Net-(C25-Pad2)": [
         "RF"
       ],
+      "Net-(C26-Pad1)": [
+        "RF"
+      ],
       "Net-(C26-Pad2)": [
+        "RF"
+      ],
+      "Net-(C27-Pad1)": [
+        "RF"
+      ],
+      "Net-(C31-Pad1)": [
+        "RF"
+      ],
+      "Net-(C32-Pad1)": [
+        "RF"
+      ],
+      "Net-(C37-Pad2)": [
         "RF"
       ],
       "Net-(C38-Pad1)": [
         "RF"
       ],
+      "Net-(C38-Pad2)": [
+        "RF"
+      ],
       "Net-(C39-Pad2)": [
         "RF"
       ],
+      "Net-(C44-Pad2)": [
+        "RF"
+      ],
+      "Net-(C45-Pad2)": [
+        "RF"
+      ],
+      "Net-(C48-Pad1)": [
+        "RF"
+      ],
+      "Net-(C50-Pad1)": [
+        "RF"
+      ],
       "Net-(C56-Pad1)": [
+        "RF"
+      ],
+      "Net-(C57-Pad2)": [
+        "RF"
+      ],
+      "Net-(C58-Pad2)": [
+        "RF"
+      ],
+      "Net-(C61-Pad1)": [
+        "RF"
+      ],
+      "Net-(C62-Pad2)": [
         "RF"
       ],
       "Net-(C64-Pad2)": [
@@ -607,10 +672,37 @@
       "Net-(C69-Pad2)": [
         "RF"
       ],
+      "Net-(C7-Pad2)": [
+        "RF"
+      ],
+      "Net-(C71-Pad1)": [
+        "RF"
+      ],
+      "Net-(C8-Pad2)": [
+        "RF"
+      ],
       "Net-(P1-In)": [
         "RF"
       ],
       "Net-(P3-In)": [
+        "RF"
+      ],
+      "Net-(SW3-RF1_COM)": [
+        "RF"
+      ],
+      "Net-(SW3-RF2)": [
+        "RF"
+      ],
+      "Net-(SW3-RF3)": [
+        "RF"
+      ],
+      "Net-(SW5-RF1_COM)": [
+        "RF"
+      ],
+      "Net-(SW5-RF2)": [
+        "RF"
+      ],
+      "Net-(SW5-RF3)": [
         "RF"
       ],
       "Net-(U10-J1)": [
@@ -632,27 +724,6 @@
         "RF"
       ],
       "Net-(U12-J3)": [
-        "RF"
-      ],
-      "Net-(U6-J1)": [
-        "RF"
-      ],
-      "Net-(U6-J2)": [
-        "RF"
-      ],
-      "Net-(U6-J3)": [
-        "RF"
-      ],
-      "Net-(U7-J1)": [
-        "RF"
-      ],
-      "Net-(U7-J2)": [
-        "RF"
-      ],
-      "Net-(U7-J3)": [
-        "RF"
-      ],
-      "Net-(U8-J1)": [
         "RF"
       ]
     },
@@ -885,12 +956,12 @@
       "Audio Subsystem"
     ],
     [
-      "663959ae-8fbf-4d79-b07e-771da73defb9",
-      "RF Subsystem"
+      "7980ef48-bac3-4735-b991-4ec5b2579405",
+      "RF Frontend"
     ],
     [
-      "3a0c59ed-a639-4c21-bd1b-b48b5d30f73c",
-      "RF Frontend"
+      "663959ae-8fbf-4d79-b07e-771da73defb9",
+      "RF Subsystem"
     ],
     [
       "dae276e1-5582-4059-9e99-48b7cafef9a9",
