@@ -65,13 +65,13 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 53.34) (xy 228.6 53.34)
+			(xy 81.28 54.61) (xy 95.25 54.61)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "15ae52ad-e814-4233-9e7c-66645ff781df")
+		(uuid "03ef4cda-ca3a-4719-a570-2f7579c31180")
 	)
 	(wire
 		(pts
@@ -95,16 +95,6 @@
 	)
 	(wire
 		(pts
-			(xy 228.6 58.42) (xy 242.57 58.42)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "32dbc574-3511-424a-884c-c535e6927411")
-	)
-	(wire
-		(pts
 			(xy 172.72 41.91) (xy 166.37 41.91)
 		)
 		(stroke
@@ -125,16 +115,6 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 55.88) (xy 228.6 55.88)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4365dbfc-faeb-447b-adba-4693615750a8")
-	)
-	(wire
-		(pts
 			(xy 166.37 49.53) (xy 176.53 49.53)
 		)
 		(stroke
@@ -152,6 +132,16 @@
 			(type default)
 		)
 		(uuid "5b1da6cc-f251-436f-bae1-73ad479d54cd")
+	)
+	(wire
+		(pts
+			(xy 81.28 60.96) (xy 99.06 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5c3b172f-a01f-4b95-8e74-3541b380acbe")
 	)
 	(wire
 		(pts
@@ -205,6 +195,16 @@
 	)
 	(wire
 		(pts
+			(xy 93.98 41.91) (xy 81.28 41.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a06a6493-32d1-405e-92ba-e7f8e8628f0e")
+	)
+	(wire
+		(pts
 			(xy 114.3 24.13) (xy 124.46 24.13)
 		)
 		(stroke
@@ -212,6 +212,16 @@
 			(type default)
 		)
 		(uuid "aa4578f3-a7fe-4aff-a10b-1b95eec588b6")
+	)
+	(wire
+		(pts
+			(xy 81.28 67.31) (xy 96.52 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af37e86f-6875-4839-91c8-16702e93ec6f")
 	)
 	(wire
 		(pts
@@ -293,7 +303,7 @@
 		)
 		(uuid "16e25607-5c78-4776-9e2f-0da34a3e81f9")
 	)
-	(label "AMP_BCLK"
+	(label "BCLK"
 		(at 191.77 57.15 0)
 		(effects
 			(font
@@ -302,6 +312,16 @@
 			(justify left bottom)
 		)
 		(uuid "1b843750-30f5-492a-95a7-f88c4f3f8b79")
+	)
+	(label "LRCLK"
+		(at 99.06 60.96 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "1bf15f5d-65ef-404a-9196-262c844f6b3f")
 	)
 	(label "TFTDC"
 		(at 114.3 24.13 0)
@@ -333,15 +353,15 @@
 		)
 		(uuid "287707bf-1e85-4b69-bcb7-28809466e0d7")
 	)
-	(label "MIC_LRCLK"
-		(at 242.57 58.42 180)
+	(label "AMP_DIN"
+		(at 93.98 41.91 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "3dd45c02-dabc-436d-abcf-2df2ba49883c")
+		(uuid "5050e48e-f43a-4b30-9e27-70106d00062b")
 	)
 	(label "SCK"
 		(at 114.3 26.67 0)
@@ -362,6 +382,16 @@
 			(justify left bottom)
 		)
 		(uuid "62d70c1f-5bd9-4f36-a874-d2bf70ae7553")
+	)
+	(label "MIC_DOUT"
+		(at 95.25 54.61 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "6319292a-8f3b-4ae6-8305-8005670d080c")
 	)
 	(label "PWR_SW"
 		(at 176.53 58.42 180)
@@ -403,17 +433,7 @@
 		)
 		(uuid "a8986a74-3583-48ee-b288-2866cf6b7a2f")
 	)
-	(label "MIC_BCLK"
-		(at 241.3 55.88 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "abe2abcf-9ab5-41a4-bb8e-a2e9b943eb44")
-	)
-	(label "MIC_DIN"
+	(label "MIC_DOUT"
 		(at 241.3 50.8 180)
 		(effects
 			(font
@@ -423,17 +443,17 @@
 		)
 		(uuid "cf835322-fec3-4a8e-a9bc-05dab3d7e174")
 	)
-	(label "MIC_WS"
-		(at 241.3 53.34 180)
+	(label "BCLK"
+		(at 96.52 67.31 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "e609d16c-a4de-4ec1-8ed1-07877dfd44a4")
+		(uuid "d19615fa-8724-451b-b142-c3c18418a513")
 	)
-	(label "AMP_LRCLK"
+	(label "LRCLK"
 		(at 191.77 54.61 0)
 		(effects
 			(font
@@ -801,6 +821,46 @@
 				(justify left top)
 			)
 		)
+		(pin "36_I2S_DIN" output
+			(at 81.28 41.91 0)
+			(uuid "d71012f1-301d-415e-9567-a31f26de86e9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "33_I2S_DOUT" input
+			(at 81.28 54.61 0)
+			(uuid "60829aac-2591-4987-ab96-12d2a13d58a4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "25_I2S_LRCLK{slash}WS" output
+			(at 81.28 60.96 0)
+			(uuid "02742722-1a68-4abf-b5a5-502ecc20f01f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "27_I2S_BCLK" output
+			(at 81.28 67.31 0)
+			(uuid "15db2a6c-9c2c-468a-9e9a-9bc9262e1eb6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f"
@@ -810,7 +870,7 @@
 		)
 	)
 	(sheet
-		(at 204.47 91.44)
+		(at 115.57 137.16)
 		(size 27.94 20.32)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -826,7 +886,7 @@
 		)
 		(uuid "9fe85a84-eb88-4cb0-ad9c-c856ce023e7b")
 		(property "Sheetname" "Power Subsystem"
-			(at 204.47 90.7284 0)
+			(at 115.57 136.4484 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -835,7 +895,7 @@
 			)
 		)
 		(property "Sheetfile" "power-subsystem.kicad_sch"
-			(at 204.47 112.3446 0)
+			(at 115.57 158.0646 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -844,7 +904,7 @@
 			)
 		)
 		(pin "Vsys" output
-			(at 232.41 104.14 0)
+			(at 143.51 149.86 0)
 			(uuid "41164b6a-c386-4eac-ac23-1fe27e0f59e5")
 			(effects
 				(font
@@ -854,7 +914,7 @@
 			)
 		)
 		(pin "SDA" input
-			(at 204.47 100.33 180)
+			(at 115.57 146.05 180)
 			(uuid "033accfd-4e3d-4871-aa20-5c6c37baa70b")
 			(effects
 				(font
@@ -864,7 +924,7 @@
 			)
 		)
 		(pin "SCL" bidirectional
-			(at 204.47 104.14 180)
+			(at 115.57 149.86 180)
 			(uuid "793f151e-7dd7-4394-9093-4884a5e64581")
 			(effects
 				(font
@@ -925,16 +985,6 @@
 				(justify left)
 			)
 		)
-		(pin "AMP_LRCLK" input
-			(at 204.47 54.61 180)
-			(uuid "17f49df1-05d7-4cf8-bea1-a259f2154264")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
 		(pin "~{AMP_SD}" input
 			(at 204.47 49.53 180)
 			(uuid "98c5f639-96c9-4aef-878d-1b19de1257e6")
@@ -945,9 +995,19 @@
 				(justify left)
 			)
 		)
-		(pin "AMP_BCLK" input
-			(at 204.47 57.15 180)
-			(uuid "5d73ef39-97ef-449d-bccf-8dc43fa1cef7")
+		(pin "MIC_DATA" output
+			(at 228.6 50.8 0)
+			(uuid "e9c985c8-8826-4e0e-9537-317ec5da6f58")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "LRCLK" input
+			(at 204.47 54.61 180)
+			(uuid "892d0485-35d7-4880-8c39-a6bdc378a356")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -955,44 +1015,14 @@
 				(justify left)
 			)
 		)
-		(pin "DATA" output
-			(at 228.6 50.8 0)
-			(uuid "255f18b4-429e-484e-8b5b-e55f8a0cbadd")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(pin "SEL" input
-			(at 228.6 58.42 0)
-			(uuid "c1b0db49-5256-479c-a8bb-fa7c8992557a")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(pin "WS" input
-			(at 228.6 53.34 0)
-			(uuid "b768ff54-1c1d-4a12-a4a8-38b106c23ee7")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
 		(pin "BCLK" input
-			(at 228.6 55.88 0)
-			(uuid "32c00198-5f30-4d2e-aa49-7c64a702edaf")
+			(at 204.47 57.15 180)
+			(uuid "92000d8f-9e2e-4974-824b-a99cc337820c")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(instances

@@ -3332,6 +3332,17 @@
 		)
 		(uuid dddef6d1-1627-4a76-b968-a324c4cdc05f)
 	)
+	(text "LR-In case of two micro modulino"
+		(exclude_from_sim no)
+		(at 53.086 151.638 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "03a03fa7-8abc-4055-a02b-dbe1463f03c0")
+	)
 	(text "CHANNEL MODE SELECT: MIX (MONO)\nSD < 0.16V        = Turn off amplifier   (GND)\nSD 0.16V to 0.77V = Output mix channel  (R_{large} pullup)\nSD < 0.16V        = Output right channel (R_{small} pullup)\nSD > 1.4V         = Output left channel   (JP1 driver)\n"
 		(exclude_from_sim no)
 		(at 180.34 95.25 0)
@@ -3343,7 +3354,7 @@
 		)
 		(uuid "03fbc801-faf2-48eb-8b92-a380e66b75eb")
 	)
-	(text "Jumper\n"
+	(text "BreadboardConnector\n"
 		(exclude_from_sim no)
 		(at 38.608 105.41 0)
 		(effects
@@ -3601,12 +3612,6 @@
 		(uuid "4f3b2062-b1f7-48df-9072-5041b2097e44")
 	)
 	(junction
-		(at 25.4 33.02)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "5399c1f0-e768-4705-b98e-bb142e75e747")
-	)
-	(junction
 		(at 217.17 41.91)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3792,6 +3797,16 @@
 	)
 	(wire
 		(pts
+			(xy 87.63 127) (xy 78.74 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "15886128-e0ad-4d35-9195-d529911ea65f")
+	)
+	(wire
+		(pts
 			(xy 232.41 95.25) (xy 237.49 95.25)
 		)
 		(stroke
@@ -3829,6 +3844,16 @@
 			(type default)
 		)
 		(uuid "1a314725-d023-4cf0-b5b1-720a5bd4ee96")
+	)
+	(wire
+		(pts
+			(xy 25.4 33.02) (xy 33.02 33.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1c41012d-ffbf-4575-a93e-9a9df48940b3")
 	)
 	(wire
 		(pts
@@ -3899,16 +3924,6 @@
 			(type default)
 		)
 		(uuid "366f4db6-6d87-48c1-a641-ed64eb290b72")
-	)
-	(wire
-		(pts
-			(xy 25.4 33.02) (xy 33.02 33.02)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "382ab6b4-d5ab-4c60-a8af-6bc0efbcd37f")
 	)
 	(wire
 		(pts
@@ -4002,6 +4017,16 @@
 	)
 	(wire
 		(pts
+			(xy 78.74 139.7) (xy 90.17 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "56bf657e-38fd-4075-a201-59032093ee3f")
+	)
+	(wire
+		(pts
 			(xy 193.04 36.83) (xy 193.04 44.45)
 		)
 		(stroke
@@ -4022,13 +4047,13 @@
 	)
 	(wire
 		(pts
-			(xy 22.86 33.02) (xy 25.4 33.02)
+			(xy 87.63 121.92) (xy 78.74 121.92)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5e4172aa-e3b6-4263-9f48-69aafedca495")
+		(uuid "5ccb1a4e-863d-476d-97a1-6c4684d0d880")
 	)
 	(wire
 		(pts
@@ -4079,6 +4104,16 @@
 			(type default)
 		)
 		(uuid "69da326a-f264-4c0d-a657-45597e7e9142")
+	)
+	(wire
+		(pts
+			(xy 78.74 134.62) (xy 88.9 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6a77b40e-aa39-4eed-a547-4427a44e944c")
 	)
 	(wire
 		(pts
@@ -4232,6 +4267,16 @@
 	)
 	(wire
 		(pts
+			(xy 78.74 129.54) (xy 88.9 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8e58f6d2-6ea6-4713-b282-e30813d26137")
+	)
+	(wire
+		(pts
 			(xy 214.63 140.97) (xy 246.38 140.97)
 		)
 		(stroke
@@ -4362,6 +4407,26 @@
 	)
 	(wire
 		(pts
+			(xy 78.74 132.08) (xy 88.9 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af8c8f61-6e73-4c31-8644-761e33ab652c")
+	)
+	(wire
+		(pts
+			(xy 91.44 124.46) (xy 78.74 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b023c297-d3a6-4b87-bfe5-434baa9545e0")
+	)
+	(wire
+		(pts
 			(xy 92.71 25.4) (xy 92.71 31.75)
 		)
 		(stroke
@@ -4429,6 +4494,16 @@
 			(type default)
 		)
 		(uuid "c18021ed-b6a1-408c-98be-bd544d73798e")
+	)
+	(wire
+		(pts
+			(xy 78.74 137.16) (xy 88.9 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c6c36b93-7d53-4372-8330-400a8a887181")
 	)
 	(wire
 		(pts
@@ -4620,6 +4695,16 @@
 		)
 		(uuid "540d09a4-739f-4a03-b8f9-343331ad4ee0")
 	)
+	(label "LR"
+		(at 90.17 139.7 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "ac169aea-45b8-4ce1-8230-66d6417cc62e")
+	)
 	(label "~{SD_MODE}"
 		(at 177.8 44.45 0)
 		(effects
@@ -4629,6 +4714,16 @@
 			(justify left bottom)
 		)
 		(uuid "d3ff8591-4bf2-4064-b181-55d28b85c098")
+	)
+	(label "LR"
+		(at 25.4 33.02 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "d4b6be99-0551-4895-b00a-203fd585250a")
 	)
 	(label "GAIN_SLOT"
 		(at 246.38 140.97 180)
@@ -4686,14 +4781,25 @@
 	)
 	(hierarchical_label "AMP_DIN"
 		(shape input)
-		(at 100.33 133.35 180)
+		(at 88.9 134.62 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
 		(uuid "b41a057f-4571-4e20-821c-12a7738fc1fa")
+	)
+	(hierarchical_label "MIC_DOUT"
+		(shape output)
+		(at 88.9 137.16 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b44a141d-34e1-4f32-8e04-97938e4fe793")
 	)
 	(hierarchical_label "~{AMP_SD}"
 		(shape input)
@@ -4717,9 +4823,20 @@
 		)
 		(uuid "cff4365b-fd91-4ab5-8ccb-827de1a2b718")
 	)
+	(hierarchical_label "~{AMP_SD}"
+		(shape input)
+		(at 87.63 121.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ddf3de73-e974-46b4-86df-72f7215fc380")
+	)
 	(hierarchical_label "BCLK"
 		(shape input)
-		(at 99.06 124.46 0)
+		(at 88.9 132.08 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4727,17 +4844,6 @@
 			(justify left)
 		)
 		(uuid "e1f87bcf-5ac9-4366-b718-8d296a9f0cf3")
-	)
-	(hierarchical_label "SEL"
-		(shape input)
-		(at 22.86 33.02 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "e3d55979-ff0a-4390-a613-379b26848407")
 	)
 	(hierarchical_label "LRCLK"
 		(shape input)
@@ -4752,7 +4858,7 @@
 	)
 	(hierarchical_label "LRCLK"
 		(shape input)
-		(at 99.06 121.92 0)
+		(at 88.9 129.54 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5175,6 +5281,71 @@
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/d4290985-9747-4b26-ad72-a8210ee01731"
 					(reference "LS1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 91.44 124.46 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "399bb217-102a-46b3-87e7-d89acf28b72a")
+		(property "Reference" "#PWR029"
+			(at 97.79 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 94.996 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 91.44 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 91.44 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c242b00c-6107-48b8-beba-ba2b55fda42a")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/d4290985-9747-4b26-ad72-a8210ee01731"
+					(reference "#PWR029")
 					(unit 1)
 				)
 			)
@@ -6834,6 +7005,72 @@
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/d4290985-9747-4b26-ad72-a8210ee01731"
 					(reference "R33")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3.3V")
+		(at 87.63 127 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "bd7abe1f-45a2-48b2-a520-d2f162fa3ea3")
+		(property "Reference" "#PWR030"
+			(at 83.82 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 89.916 127 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 87.63 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 87.63 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "55a4a631-37d2-43a3-9215-3da116ca482b")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/d4290985-9747-4b26-ad72-a8210ee01731"
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)
