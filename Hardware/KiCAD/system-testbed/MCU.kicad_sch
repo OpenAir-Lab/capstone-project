@@ -12,20 +12,22 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "U5"
-				(at 0 30.48 0)
+			(property "Reference" "U"
+				(at -15.24 26.67 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Value" "ESP32-WROVER-E"
-				(at 0 27.94 0)
+				(at -7.62 -16.51 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Footprint" ""
@@ -213,7 +215,7 @@
 						)
 					)
 				)
-				(pin bidirectional line
+				(pin input line
 					(at -20.32 2.54 0)
 					(length 5.08)
 					(name "33_I2S_DOUT"
@@ -231,7 +233,7 @@
 						)
 					)
 				)
-				(pin bidirectional line
+				(pin output line
 					(at -20.32 0 0)
 					(length 5.08)
 					(name "25_I2S_LRCLK/WS"
@@ -267,7 +269,7 @@
 						)
 					)
 				)
-				(pin bidirectional line
+				(pin output line
 					(at -20.32 -5.08 0)
 					(length 5.08)
 					(name "27_I2S_BCLK"
@@ -756,6 +758,90 @@
 			)
 			(embedded_fonts no)
 		)
+	)
+	(wire
+		(pts
+			(xy 119.38 82.55) (xy 127 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3dcb8cf3-39d6-446d-b484-e7bb3dc16996")
+	)
+	(wire
+		(pts
+			(xy 119.38 80.01) (xy 127 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ce436755-0c56-40ba-9230-75582cf3fe8b")
+	)
+	(wire
+		(pts
+			(xy 119.38 87.63) (xy 127 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dd160572-edd5-43b3-a424-987cd81405f7")
+	)
+	(wire
+		(pts
+			(xy 120.65 67.31) (xy 127 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "de48c116-f90c-4598-854d-8a1719229a8f")
+	)
+	(hierarchical_label "36_I2S_DIN"
+		(shape output)
+		(at 120.65 67.31 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1071dd2a-2fe1-4ba3-af47-00b8bf173c57")
+	)
+	(hierarchical_label "33_I2S_DOUT"
+		(shape input)
+		(at 119.38 80.01 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "5002894f-97b8-4a5c-99e2-9e360d8edbb8")
+	)
+	(hierarchical_label "27_I2S_BCLK"
+		(shape output)
+		(at 119.38 87.63 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "7d52c3f6-7151-4db6-90cb-ca26870928c8")
+	)
+	(hierarchical_label "25_I2S_LRCLK{slash}WS"
+		(shape output)
+		(at 119.38 82.55 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "fd6964df-d910-4859-80ac-ba99025facd4")
 	)
 	(symbol
 		(lib_id "capstone-project:ESP32-WROVER-E")
