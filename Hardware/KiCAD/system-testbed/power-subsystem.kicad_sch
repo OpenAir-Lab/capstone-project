@@ -6059,7 +6059,7 @@
 		(uuid "f66eb5cc-4b91-4b0a-a4ab-58466c717c89")
 	)
 	(hierarchical_label "SCL"
-		(shape bidirectional)
+		(shape input)
 		(at 207.01 116.84 0)
 		(effects
 			(font
@@ -7652,7 +7652,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6759c55e-4a83-4105-8d90-c9cbf2c924f9")
-		(property "Reference" "GND"
+		(property "Reference" "GND1"
 			(at 331.47 136.3979 0)
 			(effects
 				(font
@@ -7703,7 +7703,7 @@
 		(instances
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b"
-					(reference "GND")
+					(reference "GND1")
 					(unit 1)
 				)
 			)
@@ -8122,7 +8122,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7c9a4eb8-f31d-4cc8-8528-dd2acc1abd6d")
-		(property "Reference" "J1"
+		(property "Reference" "J"
 			(at 404.114 37.846 0)
 			(effects
 				(font
@@ -8213,7 +8213,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b"
-					(reference "J1")
+					(reference "J")
 					(unit 1)
 				)
 			)
@@ -8431,7 +8431,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8faaef94-c03c-42a9-9b6b-364e70eaa262")
-		(property "Reference" "#PWR013"
+		(property "Reference" "#PWR0135"
 			(at 101.6 77.47 0)
 			(effects
 				(font
@@ -8481,7 +8481,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b"
-					(reference "#PWR013")
+					(reference "#PWR0135")
 					(unit 1)
 				)
 			)
