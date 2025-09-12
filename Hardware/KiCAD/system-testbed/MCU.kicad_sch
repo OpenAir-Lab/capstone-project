@@ -12,22 +12,20 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "U"
-				(at -15.24 26.67 0)
+			(property "Reference" "U5"
+				(at 0 30.48 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Value" "ESP32-WROVER-E"
-				(at -7.62 -16.51 0)
+				(at 0 27.94 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Footprint" ""
@@ -128,7 +126,7 @@
 				(pin output line
 					(at -20.32 15.24 0)
 					(length 5.08)
-					(name "36_I2S_DIN"
+					(name "GPIO36"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -218,7 +216,7 @@
 				(pin input line
 					(at -20.32 2.54 0)
 					(length 5.08)
-					(name "33_I2S_DOUT"
+					(name "GPIO33"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -236,7 +234,7 @@
 				(pin output line
 					(at -20.32 0 0)
 					(length 5.08)
-					(name "25_I2S_LRCLK/WS"
+					(name "GPIO25"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -272,7 +270,7 @@
 				(pin output line
 					(at -20.32 -5.08 0)
 					(length 5.08)
-					(name "27_I2S_BCLK"
+					(name "GPIO27"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -761,7 +759,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 82.55) (xy 127 82.55)
+			(xy 48.26 50.8) (xy 55.88 50.8)
 		)
 		(stroke
 			(width 0)
@@ -771,7 +769,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 80.01) (xy 127 80.01)
+			(xy 48.26 48.26) (xy 55.88 48.26)
 		)
 		(stroke
 			(width 0)
@@ -781,7 +779,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 87.63) (xy 127 87.63)
+			(xy 48.26 55.88) (xy 55.88 55.88)
 		)
 		(stroke
 			(width 0)
@@ -791,7 +789,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 67.31) (xy 127 67.31)
+			(xy 49.53 35.56) (xy 55.88 35.56)
 		)
 		(stroke
 			(width 0)
@@ -801,7 +799,7 @@
 	)
 	(hierarchical_label "36_I2S_DIN"
 		(shape output)
-		(at 120.65 67.31 180)
+		(at 49.53 35.56 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -812,7 +810,7 @@
 	)
 	(hierarchical_label "33_I2S_DOUT"
 		(shape input)
-		(at 119.38 80.01 180)
+		(at 48.26 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -823,7 +821,7 @@
 	)
 	(hierarchical_label "27_I2S_BCLK"
 		(shape output)
-		(at 119.38 87.63 180)
+		(at 48.26 55.88 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -834,7 +832,7 @@
 	)
 	(hierarchical_label "25_I2S_LRCLK{slash}WS"
 		(shape output)
-		(at 119.38 82.55 180)
+		(at 48.26 50.8 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -845,7 +843,7 @@
 	)
 	(symbol
 		(lib_id "capstone-project:ESP32-WROVER-E")
-		(at 147.32 82.55 0)
+		(at 76.2 50.8 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -854,7 +852,7 @@
 		(fields_autoplaced yes)
 		(uuid "b036d7d5-677a-4aef-971d-c384f97a0360")
 		(property "Reference" "U5"
-			(at 147.32 52.07 0)
+			(at 76.2 20.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -862,7 +860,7 @@
 			)
 		)
 		(property "Value" "ESP32-WROVER-E"
-			(at 147.32 54.61 0)
+			(at 76.2 22.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -870,7 +868,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 147.32 73.66 0)
+			(at 76.2 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -879,7 +877,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 147.32 73.66 0)
+			(at 76.2 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -888,7 +886,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 147.32 82.55 0)
+			(at 76.2 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
