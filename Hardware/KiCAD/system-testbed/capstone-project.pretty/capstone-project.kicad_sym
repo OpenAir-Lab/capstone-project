@@ -990,8 +990,8 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(property "Reference" "U9(Note-checkpinsinsymboleditor)1"
-			(at 20.32 -29.972 0)
+		(property "Reference" "U7"
+			(at 34.29 -4.318 0)
 			(effects
 				(font
 					(size 1.524 1.524)
@@ -999,7 +999,7 @@
 			)
 		)
 		(property "Value" "BQ25622RYKR"
-			(at 20.574 -26.924 0)
+			(at 34.544 -7.366 0)
 			(effects
 				(font
 					(size 1.524 1.524)
@@ -1064,7 +1064,7 @@
 		(symbol "BQ25620RYKR_0_1"
 			(polyline
 				(pts
-					(xy 7.62 5.08) (xy 7.62 -25.4)
+					(xy 21.59 -43.18) (xy 21.59 -12.7)
 				)
 				(stroke
 					(width 0.127)
@@ -1076,19 +1076,7 @@
 			)
 			(polyline
 				(pts
-					(xy 33.02 5.08) (xy 7.62 5.08)
-				)
-				(stroke
-					(width 0.127)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-			(polyline
-				(pts
-					(xy 33.02 -25.4) (xy 33.02 5.08)
+					(xy 46.99 -12.7) (xy 46.99 -43.18)
 				)
 				(stroke
 					(width 0.127)
@@ -1099,61 +1087,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 0 0)
-				(length 7.62)
-				(name "BTST"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "1"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin power_in line
-				(at 0 -2.54 0)
-				(length 7.62)
-				(name "REGN"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "2"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at 0 -12.7 0)
-				(length 7.62)
-				(name "TS"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "6"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin power_in line
-				(at 0 -17.78 0)
+				(at 13.97 -12.7 0)
 				(length 7.62)
 				(name "BAT"
 					(effects
@@ -1170,89 +1104,17 @@
 					)
 				)
 			)
-			(pin power_in line
-				(at 0 -20.32 0)
+			(pin input line
+				(at 13.97 -16.51 0)
 				(length 7.62)
-				(name "SYS"
+				(name "TS"
 					(effects
 						(font
 							(size 1.27 1.27)
 						)
 					)
 				)
-				(number "9"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin power_in line
-				(at 40.64 0 180)
-				(length 7.62)
-				(name "VBUS"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "18"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin power_in line
-				(at 40.64 -2.54 180)
-				(length 7.62)
-				(name "PMID"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "17"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin power_in line
-				(at 40.64 -5.08 180)
-				(length 7.62)
-				(name "SW"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "16"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin power_out line
-				(at 40.64 -7.62 180)
-				(length 7.62)
-				(name "GND"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "15"
+				(number "6"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1261,7 +1123,7 @@
 				)
 			)
 			(pin input line
-				(at 40.64 -10.16 180)
+				(at 13.97 -35.56 0)
 				(length 7.62)
 				(name "*CE"
 					(effects
@@ -1278,44 +1140,8 @@
 					)
 				)
 			)
-			(pin input line
-				(at 40.64 -12.7 180)
-				(length 7.62)
-				(name "SCL"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "13"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin bidirectional line
-				(at 40.64 -15.24 180)
-				(length 7.62)
-				(name "SDA"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "12"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
 			(pin output line
-				(at 40.64 -17.78 180)
+				(at 13.97 -43.18 0)
 				(length 7.62)
 				(name "*INT"
 					(effects
@@ -1333,7 +1159,7 @@
 				)
 			)
 			(pin output line
-				(at 40.64 -20.32 180)
+				(at 13.97 -45.72 0)
 				(length 7.62)
 				(name "STAT"
 					(effects
@@ -1350,11 +1176,155 @@
 					)
 				)
 			)
+			(pin power_out line
+				(at 34.29 -57.15 90)
+				(length 7.62)
+				(name "GND"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "15"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 54.61 -12.7 180)
+				(length 7.62)
+				(name "SYS"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "9"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 54.61 -17.78 180)
+				(length 7.62)
+				(name "SW"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "16"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 54.61 -27.94 180)
+				(length 7.62)
+				(name "BTST"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 54.61 -33.02 180)
+				(length 7.62)
+				(name "VBUS"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "18"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 54.61 -38.1 180)
+				(length 7.62)
+				(name "PMID"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "17"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at 54.61 -43.18 180)
+				(length 7.62)
+				(name "SCL"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "13"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 54.61 -45.72 180)
+				(length 7.62)
+				(name "SDA"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "12"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
 		)
 		(symbol "BQ25620RYKR_1_1"
 			(rectangle
-				(start 7.62 5.08)
-				(end 33.02 -25.4)
+				(start 21.59 -8.89)
+				(end 46.99 -49.53)
 				(stroke
 					(width 0)
 					(type solid)
@@ -1364,44 +1334,8 @@
 					(color 255 255 194 1)
 				)
 			)
-			(pin output line
-				(at 0 -5.08 0)
-				(length 7.62)
-				(name "PG"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "3"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at 0 -7.62 0)
-				(length 7.62)
-				(name "ILIM"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "4"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
 			(pin bidirectional line
-				(at 0 -10.16 0)
+				(at 13.97 -20.32 0)
 				(length 7.62)
 				(name "TS_BIAS"
 					(effects
@@ -1419,9 +1353,45 @@
 				)
 			)
 			(pin input line
-				(at 0 -15.24 0)
+				(at 13.97 -24.13 0)
 				(length 7.62)
-				(name "QON"
+				(name "ILIM"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_out line
+				(at 13.97 -27.94 0)
+				(length 7.62)
+				(name "REGN"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at 13.97 -38.1 0)
+				(length 7.62)
+				(name "*QON"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1429,6 +1399,24 @@
 					)
 				)
 				(number "7"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at 13.97 -40.64 0)
+				(length 7.62)
+				(name "*PG"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1638,26 +1626,8 @@
 					)
 				)
 			)
-			(pin power_out line
-				(at 40.64 -5.08 180)
-				(length 7.62)
-				(name "VSS"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "C1"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
 			(pin output line
-				(at 40.64 -7.62 180)
+				(at 40.64 -5.08 180)
 				(length 7.62)
 				(name "VDD"
 					(effects
@@ -1675,7 +1645,25 @@
 				)
 			)
 			(pin power_out line
-				(at 40.64 -10.16 180)
+				(at 40.64 -11.43 180)
+				(length 7.62)
+				(name "VSS"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "C1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_out line
+				(at 40.64 -13.97 180)
 				(length 7.62)
 				(name "VSS"
 					(effects
@@ -1696,7 +1684,7 @@
 		(symbol "BQ27427YZFR_1_1"
 			(rectangle
 				(start 7.62 5.08)
-				(end 33.02 -15.24)
+				(end 33.02 -17.78)
 				(stroke
 					(width 0)
 					(type solid)
