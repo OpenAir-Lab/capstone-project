@@ -51,7 +51,13 @@
           "min_clearance": 0.5
         }
       },
-      "diff_pair_dimensions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
       "drc_exclusions": [],
       "meta": {
         "version": 2
@@ -180,7 +186,9 @@
           "td_width_to_size_filter_ratio": 0.9
         }
       ],
-      "track_widths": [],
+      "track_widths": [
+        0.0
+      ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
           "corner_radius_percentage": 80,
@@ -207,7 +215,12 @@
           "spacing": 0.6
         }
       },
-      "via_dimensions": [],
+      "via_dimensions": [
+        {
+          "diameter": 0.0,
+          "drill": 0.0
+        }
+      ],
       "zones_allow_external_fillets": false
     },
     "ipc2581": {
@@ -470,25 +483,7 @@
         "microvia_drill": 0.1,
         "name": "Default",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": -1,
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.2,
-        "via_diameter": 0.6,
-        "via_drill": 0.3,
-        "wire_width": 6
-      },
-      {
-        "bus_width": 12,
-        "clearance": 0.2,
-        "diff_pair_gap": 0.25,
-        "diff_pair_via_gap": 0.25,
-        "diff_pair_width": 0.2,
-        "line_style": 0,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "name": "All Nets",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": -1,
+        "priority": 2147483647,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.2,
         "via_diameter": 0.6,
@@ -582,9 +577,6 @@
       "Net-(C11-Pad2)": [
         "RF"
       ],
-      "Net-(C12-Pad2)": [
-        "RF"
-      ],
       "Net-(C14-Pad2)": [
         "RF"
       ],
@@ -597,67 +589,46 @@
       "Net-(C176-Pad1)": [
         "RF"
       ],
+      "Net-(C18-Pad1)": [
+        "RF"
+      ],
       "Net-(C181-Pad2)": [
+        "RF"
+      ],
+      "Net-(C19-Pad1)": [
         "RF"
       ],
       "Net-(C191-Pad2)": [
         "RF"
       ],
-      "Net-(C25-Pad2)": [
+      "Net-(C20-Pad1)": [
         "RF"
       ],
-      "Net-(C26-Pad1)": [
+      "Net-(C21-Pad1)": [
+        "RF"
+      ],
+      "Net-(C22-Pad2)": [
+        "RF"
+      ],
+      "Net-(C23-Pad2)": [
+        "RF"
+      ],
+      "Net-(C25-Pad2)": [
         "RF"
       ],
       "Net-(C26-Pad2)": [
         "RF"
       ],
-      "Net-(C27-Pad1)": [
-        "RF"
-      ],
-      "Net-(C31-Pad1)": [
-        "RF"
-      ],
-      "Net-(C32-Pad1)": [
-        "RF"
-      ],
-      "Net-(C37-Pad2)": [
-        "RF"
-      ],
       "Net-(C38-Pad1)": [
-        "RF"
-      ],
-      "Net-(C38-Pad2)": [
         "RF"
       ],
       "Net-(C39-Pad2)": [
         "RF"
       ],
-      "Net-(C44-Pad2)": [
-        "RF"
-      ],
-      "Net-(C45-Pad2)": [
-        "RF"
-      ],
-      "Net-(C48-Pad1)": [
-        "RF"
-      ],
-      "Net-(C50-Pad1)": [
-        "RF"
-      ],
       "Net-(C56-Pad1)": [
         "RF"
       ],
-      "Net-(C57-Pad2)": [
-        "RF"
-      ],
-      "Net-(C58-Pad2)": [
-        "RF"
-      ],
-      "Net-(C61-Pad1)": [
-        "RF"
-      ],
-      "Net-(C62-Pad2)": [
+      "Net-(C6-Pad2)": [
         "RF"
       ],
       "Net-(C64-Pad2)": [
@@ -669,6 +640,9 @@
       "Net-(C68-Pad1)": [
         "RF"
       ],
+      "Net-(C68-Pad2)": [
+        "RF"
+      ],
       "Net-(C69-Pad2)": [
         "RF"
       ],
@@ -678,10 +652,28 @@
       "Net-(C71-Pad1)": [
         "RF"
       ],
-      "Net-(C8-Pad2)": [
+      "Net-(C72-Pad1)": [
+        "RF"
+      ],
+      "Net-(C74-Pad1)": [
+        "RF"
+      ],
+      "Net-(C81-Pad2)": [
+        "RF"
+      ],
+      "Net-(C82-Pad2)": [
+        "RF"
+      ],
+      "Net-(C85-Pad1)": [
+        "RF"
+      ],
+      "Net-(C86-Pad2)": [
         "RF"
       ],
       "Net-(P1-In)": [
+        "RF"
+      ],
+      "Net-(P2-In)": [
         "RF"
       ],
       "Net-(P3-In)": [
@@ -694,6 +686,15 @@
         "RF"
       ],
       "Net-(SW3-RF3)": [
+        "RF"
+      ],
+      "Net-(SW4-RF1_COM)": [
+        "RF"
+      ],
+      "Net-(SW4-RF2)": [
+        "RF"
+      ],
+      "Net-(SW4-RF3)": [
         "RF"
       ],
       "Net-(SW5-RF1_COM)": [
@@ -884,6 +885,48 @@
           "group_by": false,
           "label": "#",
           "name": "${ITEM_NUMBER}",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Price",
+          "name": "Price",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Availability",
+          "name": "Availability",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Check_prices",
+          "name": "Check_prices",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "SnapEDA_Link",
+          "name": "SnapEDA_Link",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "MF",
+          "name": "MF",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Description_1",
+          "name": "Description_1",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Package",
+          "name": "Package",
           "show": false
         }
       ],

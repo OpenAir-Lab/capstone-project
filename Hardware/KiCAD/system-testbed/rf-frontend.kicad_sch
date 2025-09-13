@@ -4443,7 +4443,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "04efac4b-bbf4-47d9-8283-23889451d109")
-		(property "Reference" "R3"
+		(property "Reference" "R11"
 			(at 132.08 126.9999 0)
 			(effects
 				(font
@@ -4461,7 +4461,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 133.604 128.524 90)
 			(effects
 				(font
@@ -4470,7 +4470,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 134.62 128.27 0)
 			(effects
 				(font
@@ -4479,7 +4479,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" ""
 			(at 134.62 128.27 0)
 			(effects
 				(font
@@ -4497,7 +4497,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "R3")
+					(reference "R11")
 					(unit 1)
 				)
 			)
@@ -4513,7 +4513,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "078133d1-9262-4ca5-84dc-b0645d99f285")
-		(property "Reference" "#PWR065"
+		(property "Reference" "#PWR071"
 			(at 254 161.29 0)
 			(effects
 				(font
@@ -4563,7 +4563,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR065")
+					(reference "#PWR071")
 					(unit 1)
 				)
 			)
@@ -4578,7 +4578,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "07c39675-221b-4a3c-8b23-69b49ec34d79")
-		(property "Reference" "C26"
+		(property "Reference" "C18"
 			(at 134.6136 62.23 90)
 			(effects
 				(font
@@ -4594,7 +4594,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 134.62 68.58 0)
 			(effects
 				(font
@@ -4603,7 +4603,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 134.62 68.58 0)
 			(effects
 				(font
@@ -4612,7 +4612,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 134.62 68.58 0)
 			(effects
 				(font
@@ -4630,7 +4630,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C26")
+					(reference "C18")
 					(unit 1)
 				)
 			)
@@ -4646,7 +4646,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0a928eca-9ab5-4844-9d20-136d373d3d58")
-		(property "Reference" "L14"
+		(property "Reference" "L13"
 			(at 154.94 63.5 90)
 			(effects
 				(font
@@ -4662,7 +4662,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 154.94 68.58 0)
 			(effects
 				(font
@@ -4671,7 +4671,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 154.94 68.58 0)
 			(effects
 				(font
@@ -4698,7 +4698,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L14")
+					(reference "L13")
 					(unit 1)
 				)
 			)
@@ -4713,7 +4713,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0acb15ff-b121-444a-94be-29e11996220e")
-		(property "Reference" "L8"
+		(property "Reference" "L7"
 			(at 82.55 64.7699 0)
 			(effects
 				(font
@@ -4731,7 +4731,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 83.82 66.04 0)
 			(effects
 				(font
@@ -4740,7 +4740,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 83.82 66.04 0)
 			(effects
 				(font
@@ -4767,7 +4767,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L8")
+					(reference "L7")
 					(unit 1)
 				)
 			)
@@ -4780,10 +4780,10 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0decf46a-a16b-4d48-ae7f-11ff8aac1eee")
-		(property "Reference" "C41"
+		(property "Reference" "C26"
 			(at 180.3463 71.12 90)
 			(effects
 				(font
@@ -4799,7 +4799,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 180.34 77.47 0)
 			(effects
 				(font
@@ -4808,7 +4808,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 180.34 77.47 0)
 			(effects
 				(font
@@ -4817,7 +4817,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 180.34 77.47 0)
 			(effects
 				(font
@@ -4835,7 +4835,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C41")
+					(reference "C26")
 					(unit 1)
 				)
 			)
@@ -4853,7 +4853,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0f50d502-5f5d-4500-89ec-1f4c072803bd")
-		(property "Reference" "#PWR055"
+		(property "Reference" "#PWR067"
 			(at 109.22 137.16 0)
 			(effects
 				(font
@@ -4903,7 +4903,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR055")
+					(reference "#PWR067")
 					(unit 1)
 				)
 			)
@@ -4919,7 +4919,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "12152b21-dbdd-4a6a-98c6-b1e0cead9b2b")
-		(property "Reference" "L13"
+		(property "Reference" "L12"
 			(at 144.78 139.7 90)
 			(effects
 				(font
@@ -4935,7 +4935,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 144.78 144.78 0)
 			(effects
 				(font
@@ -4944,7 +4944,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 144.78 144.78 0)
 			(effects
 				(font
@@ -4971,7 +4971,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L13")
+					(reference "L12")
 					(unit 1)
 				)
 			)
@@ -4986,7 +4986,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "12e37db7-9934-4981-8a99-91a54d64c4f6")
-		(property "Reference" "C10"
+		(property "Reference" "C9"
 			(at 50.8 140.9762 0)
 			(effects
 				(font
@@ -5004,7 +5004,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 53.34 142.24 0)
 			(effects
 				(font
@@ -5013,7 +5013,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 53.34 142.24 0)
 			(effects
 				(font
@@ -5022,7 +5022,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 53.34 142.24 0)
 			(effects
 				(font
@@ -5040,7 +5040,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C10")
+					(reference "C9")
 					(unit 1)
 				)
 			)
@@ -5057,7 +5057,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "240dfaa7-7db5-41d0-8909-0fbbc5cdf09b")
-		(property "Reference" "C37"
+		(property "Reference" "C22"
 			(at 162.56 62.2362 0)
 			(effects
 				(font
@@ -5075,7 +5075,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 160.02 63.5 0)
 			(effects
 				(font
@@ -5084,7 +5084,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 160.02 63.5 0)
 			(effects
 				(font
@@ -5093,7 +5093,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 160.02 63.5 0)
 			(effects
 				(font
@@ -5111,7 +5111,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C37")
+					(reference "C22")
 					(unit 1)
 				)
 			)
@@ -5127,7 +5127,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "31378046-0c16-4b89-a8d4-6fc97686c8ec")
-		(property "Reference" "L15"
+		(property "Reference" "L14"
 			(at 154.94 139.7 90)
 			(effects
 				(font
@@ -5143,7 +5143,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 154.94 144.78 0)
 			(effects
 				(font
@@ -5152,7 +5152,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 154.94 144.78 0)
 			(effects
 				(font
@@ -5179,7 +5179,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L15")
+					(reference "L14")
 					(unit 1)
 				)
 			)
@@ -5197,7 +5197,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "31734d37-141a-43a3-b96a-9e8c1a290864")
-		(property "Reference" "#PWR046"
+		(property "Reference" "#PWR060"
 			(at 83.82 77.47 0)
 			(effects
 				(font
@@ -5247,7 +5247,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR046")
+					(reference "#PWR060")
 					(unit 1)
 				)
 			)
@@ -5262,7 +5262,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3893fdb2-6783-457c-9e39-446038c19f82")
-		(property "Reference" "L9"
+		(property "Reference" "L8"
 			(at 82.55 140.9699 0)
 			(effects
 				(font
@@ -5280,7 +5280,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 83.82 142.24 0)
 			(effects
 				(font
@@ -5289,7 +5289,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 83.82 142.24 0)
 			(effects
 				(font
@@ -5316,7 +5316,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L9")
+					(reference "L8")
 					(unit 1)
 				)
 			)
@@ -5331,7 +5331,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "392625e9-4319-47cf-bd7e-debe2363fdad")
-		(property "Reference" "C27"
+		(property "Reference" "C19"
 			(at 134.6136 138.43 90)
 			(effects
 				(font
@@ -5347,7 +5347,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 134.62 144.78 0)
 			(effects
 				(font
@@ -5356,7 +5356,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 134.62 144.78 0)
 			(effects
 				(font
@@ -5365,7 +5365,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 134.62 144.78 0)
 			(effects
 				(font
@@ -5383,7 +5383,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C27")
+					(reference "C19")
 					(unit 1)
 				)
 			)
@@ -5399,7 +5399,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "393b0ead-b56f-4b63-a8d4-86f512683018")
-		(property "Reference" "L5"
+		(property "Reference" "L4"
 			(at 62.23 140.9699 0)
 			(effects
 				(font
@@ -5417,7 +5417,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 63.5 142.24 0)
 			(effects
 				(font
@@ -5426,7 +5426,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 63.5 142.24 0)
 			(effects
 				(font
@@ -5453,7 +5453,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L5")
+					(reference "L4")
 					(unit 1)
 				)
 			)
@@ -5468,7 +5468,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "462d37dd-740d-47f4-8179-b5e2d29a5c17")
-		(property "Reference" "L10"
+		(property "Reference" "L9"
 			(at 128.27 62.2299 0)
 			(effects
 				(font
@@ -5486,7 +5486,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 129.54 63.5 0)
 			(effects
 				(font
@@ -5495,7 +5495,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 129.54 63.5 0)
 			(effects
 				(font
@@ -5522,7 +5522,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L10")
+					(reference "L9")
 					(unit 1)
 				)
 			)
@@ -5540,7 +5540,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "48ddcc08-9a59-4c7d-8a78-0e74d5d5d886")
-		(property "Reference" "#PWR049"
+		(property "Reference" "#PWR063"
 			(at 99.06 60.96 0)
 			(effects
 				(font
@@ -5590,7 +5590,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR049")
+					(reference "#PWR063")
 					(unit 1)
 				)
 			)
@@ -5608,7 +5608,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4cb91af2-c01a-4343-8662-c314b7cd5aa8")
-		(property "Reference" "#PWR044"
+		(property "Reference" "#PWR058"
 			(at 53.34 77.47 0)
 			(effects
 				(font
@@ -5658,7 +5658,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR044")
+					(reference "#PWR058")
 					(unit 1)
 				)
 			)
@@ -5676,7 +5676,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "55c73e3f-63ad-42f1-a911-2c57cfd59df3")
-		(property "Reference" "#PWR051"
+		(property "Reference" "#PWR065"
 			(at 99.06 137.16 0)
 			(effects
 				(font
@@ -5726,7 +5726,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR051")
+					(reference "#PWR065")
 					(unit 1)
 				)
 			)
@@ -5742,7 +5742,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "55c7a374-9f91-4c90-acf3-324075f98954")
-		(property "Reference" "C23"
+		(property "Reference" "C16"
 			(at 121.92 50.8062 0)
 			(effects
 				(font
@@ -5760,7 +5760,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 124.46 52.07 0)
 			(effects
 				(font
@@ -5769,7 +5769,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 124.46 52.07 0)
 			(effects
 				(font
@@ -5778,7 +5778,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 124.46 52.07 0)
 			(effects
 				(font
@@ -5796,7 +5796,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C23")
+					(reference "C16")
 					(unit 1)
 				)
 			)
@@ -5813,7 +5813,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5d6ed10e-f95e-4a6c-b0cb-02f1d80446e5")
-		(property "Reference" "L7"
+		(property "Reference" "L6"
 			(at 68.58 132.08 90)
 			(effects
 				(font
@@ -5829,7 +5829,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 68.58 137.16 0)
 			(effects
 				(font
@@ -5838,7 +5838,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 68.58 137.16 0)
 			(effects
 				(font
@@ -5865,7 +5865,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L7")
+					(reference "L6")
 					(unit 1)
 				)
 			)
@@ -5880,7 +5880,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6139324e-f695-4817-9227-1c381fd8ec8a")
-		(property "Reference" "C9"
+		(property "Reference" "C8"
 			(at 50.8 64.7762 0)
 			(effects
 				(font
@@ -5898,7 +5898,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 53.34 66.04 0)
 			(effects
 				(font
@@ -5907,7 +5907,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 53.34 66.04 0)
 			(effects
 				(font
@@ -5916,7 +5916,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 53.34 66.04 0)
 			(effects
 				(font
@@ -5934,7 +5934,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C9")
+					(reference "C8")
 					(unit 1)
 				)
 			)
@@ -5950,7 +5950,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "65771373-2d84-478a-8380-40a65618c8b2")
-		(property "Reference" "C25"
+		(property "Reference" "C17"
 			(at 121.92 127.0062 0)
 			(effects
 				(font
@@ -5968,7 +5968,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 124.46 128.27 0)
 			(effects
 				(font
@@ -5977,7 +5977,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 124.46 128.27 0)
 			(effects
 				(font
@@ -5986,7 +5986,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 124.46 128.27 0)
 			(effects
 				(font
@@ -6004,7 +6004,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C25")
+					(reference "C17")
 					(unit 1)
 				)
 			)
@@ -6037,7 +6037,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 46.99 157.48 0)
 			(effects
 				(font
@@ -6046,7 +6046,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 46.99 157.48 0)
 			(effects
 				(font
@@ -6089,7 +6089,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "692536dd-df15-4f9c-adc8-7f857b5a8fc7")
-		(property "Reference" "#PWR059"
+		(property "Reference" "#PWR070"
 			(at 254 85.09 0)
 			(effects
 				(font
@@ -6139,7 +6139,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR059")
+					(reference "#PWR070")
 					(unit 1)
 				)
 			)
@@ -6157,7 +6157,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6b60b051-e3ac-461c-b8bd-4b15d4f29fe5")
-		(property "Reference" "#PWR052"
+		(property "Reference" "#PWR066"
 			(at 109.22 60.96 0)
 			(effects
 				(font
@@ -6207,7 +6207,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR052")
+					(reference "#PWR066")
 					(unit 1)
 				)
 			)
@@ -6297,7 +6297,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7d9c2811-78bf-4667-bf81-9e6963140d81")
-		(property "Reference" "C32"
+		(property "Reference" "C21"
 			(at 144.7736 147.32 90)
 			(effects
 				(font
@@ -6313,7 +6313,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 144.78 153.67 0)
 			(effects
 				(font
@@ -6322,7 +6322,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 144.78 153.67 0)
 			(effects
 				(font
@@ -6331,7 +6331,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 144.78 153.67 0)
 			(effects
 				(font
@@ -6349,7 +6349,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C32")
+					(reference "C21")
 					(unit 1)
 				)
 			)
@@ -6365,7 +6365,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "817ca79f-89b0-466b-b1f9-aa767fee9d50")
-		(property "Reference" "R2"
+		(property "Reference" "R10"
 			(at 132.08 50.7999 0)
 			(effects
 				(font
@@ -6383,7 +6383,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 133.604 52.324 90)
 			(effects
 				(font
@@ -6392,7 +6392,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 134.62 52.07 0)
 			(effects
 				(font
@@ -6401,7 +6401,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" ""
 			(at 134.62 52.07 0)
 			(effects
 				(font
@@ -6419,7 +6419,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "R2")
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -6436,7 +6436,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "82ab1b1e-b8f2-4dc8-881b-0cf715186cd6")
-		(property "Reference" "C17"
+		(property "Reference" "C15"
 			(at 106.68 124.4662 0)
 			(effects
 				(font
@@ -6454,7 +6454,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 109.22 125.73 0)
 			(effects
 				(font
@@ -6463,7 +6463,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 109.22 125.73 0)
 			(effects
 				(font
@@ -6472,7 +6472,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 109.22 125.73 0)
 			(effects
 				(font
@@ -6490,7 +6490,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C17")
+					(reference "C15")
 					(unit 1)
 				)
 			)
@@ -6507,7 +6507,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8838b2ad-ff83-4b1d-bae7-6c15a68ab92d")
-		(property "Reference" "C15"
+		(property "Reference" "C14"
 			(at 106.68 48.2662 0)
 			(effects
 				(font
@@ -6525,7 +6525,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 109.22 49.53 0)
 			(effects
 				(font
@@ -6534,7 +6534,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 109.22 49.53 0)
 			(effects
 				(font
@@ -6543,7 +6543,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 109.22 49.53 0)
 			(effects
 				(font
@@ -6561,7 +6561,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C15")
+					(reference "C14")
 					(unit 1)
 				)
 			)
@@ -6651,7 +6651,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8ea81a7d-3712-49bd-8281-7d2375cac966")
-		(property "Reference" "C31"
+		(property "Reference" "C20"
 			(at 144.7736 71.12 90)
 			(effects
 				(font
@@ -6667,7 +6667,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 144.78 77.47 0)
 			(effects
 				(font
@@ -6676,7 +6676,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 144.78 77.47 0)
 			(effects
 				(font
@@ -6685,7 +6685,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 144.78 77.47 0)
 			(effects
 				(font
@@ -6703,7 +6703,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C31")
+					(reference "C20")
 					(unit 1)
 				)
 			)
@@ -6719,7 +6719,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "92fe9364-74c8-4776-ae29-e6f5d2bd44f1")
-		(property "Reference" "L12"
+		(property "Reference" "L11"
 			(at 144.78 63.5 90)
 			(effects
 				(font
@@ -6735,7 +6735,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 144.78 68.58 0)
 			(effects
 				(font
@@ -6744,7 +6744,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 144.78 68.58 0)
 			(effects
 				(font
@@ -6771,7 +6771,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L12")
+					(reference "L11")
 					(unit 1)
 				)
 			)
@@ -6804,7 +6804,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 63.5 66.04 0)
 			(effects
 				(font
@@ -6813,7 +6813,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 63.5 66.04 0)
 			(effects
 				(font
@@ -6856,7 +6856,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "97504124-021d-4420-9448-c957768980e7")
-		(property "Reference" "C8"
+		(property "Reference" "C7"
 			(at 34.2963 151.13 90)
 			(effects
 				(font
@@ -6872,7 +6872,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 34.29 157.48 0)
 			(effects
 				(font
@@ -6881,7 +6881,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 34.29 157.48 0)
 			(effects
 				(font
@@ -6890,7 +6890,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 34.29 157.48 0)
 			(effects
 				(font
@@ -6908,7 +6908,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C8")
+					(reference "C7")
 					(unit 1)
 				)
 			)
@@ -6925,7 +6925,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "977c4ae7-86df-4ae3-81b3-1e7d6e81ab3c")
-		(property "Reference" "C14"
+		(property "Reference" "C13"
 			(at 96.52 124.4662 0)
 			(effects
 				(font
@@ -6943,7 +6943,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 99.06 125.73 0)
 			(effects
 				(font
@@ -6952,7 +6952,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 99.06 125.73 0)
 			(effects
 				(font
@@ -6961,7 +6961,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 99.06 125.73 0)
 			(effects
 				(font
@@ -6979,7 +6979,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C14")
+					(reference "C13")
 					(unit 1)
 				)
 			)
@@ -6996,7 +6996,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9f4bc438-3274-4d27-8635-614d4d70f01b")
-		(property "Reference" "#PWR048"
+		(property "Reference" "#PWR062"
 			(at 99.06 43.18 0)
 			(effects
 				(font
@@ -7046,7 +7046,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR048")
+					(reference "#PWR062")
 					(unit 1)
 				)
 			)
@@ -7063,7 +7063,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a1a99bc4-fa74-400c-9163-21b8817e447d")
-		(property "Reference" "C13"
+		(property "Reference" "C12"
 			(at 96.52 48.2662 0)
 			(effects
 				(font
@@ -7081,7 +7081,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 99.06 49.53 0)
 			(effects
 				(font
@@ -7090,7 +7090,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 99.06 49.53 0)
 			(effects
 				(font
@@ -7099,7 +7099,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 99.06 49.53 0)
 			(effects
 				(font
@@ -7117,7 +7117,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C13")
+					(reference "C12")
 					(unit 1)
 				)
 			)
@@ -7133,7 +7133,7 @@
 		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "ab531e36-3ffa-4b19-92f3-1ba678f78308")
-		(property "Reference" "C42"
+		(property "Reference" "C27"
 			(at 180.3463 147.32 90)
 			(effects
 				(font
@@ -7185,7 +7185,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C42")
+					(reference "C27")
 					(unit 1)
 				)
 			)
@@ -7201,7 +7201,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "afe3a512-0e22-4d1a-8363-7730bfa83999")
-		(property "Reference" "C12"
+		(property "Reference" "C11"
 			(at 71.12 140.9762 0)
 			(effects
 				(font
@@ -7219,7 +7219,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 73.66 142.24 0)
 			(effects
 				(font
@@ -7228,7 +7228,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 73.66 142.24 0)
 			(effects
 				(font
@@ -7237,7 +7237,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 73.66 142.24 0)
 			(effects
 				(font
@@ -7255,7 +7255,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C12")
+					(reference "C11")
 					(unit 1)
 				)
 			)
@@ -7272,7 +7272,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b33034a6-1ddf-40d0-b862-63c956af8f7a")
-		(property "Reference" "#PWR050"
+		(property "Reference" "#PWR064"
 			(at 99.06 119.38 0)
 			(effects
 				(font
@@ -7322,7 +7322,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR050")
+					(reference "#PWR064")
 					(unit 1)
 				)
 			)
@@ -7338,7 +7338,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b73a8ed2-b790-4c19-a030-05371a5083e5")
-		(property "Reference" "L17"
+		(property "Reference" "L16"
 			(at 180.34 139.7 90)
 			(effects
 				(font
@@ -7354,7 +7354,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 180.34 144.78 0)
 			(effects
 				(font
@@ -7363,7 +7363,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 180.34 144.78 0)
 			(effects
 				(font
@@ -7390,7 +7390,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L17")
+					(reference "L16")
 					(unit 1)
 				)
 			)
@@ -7423,7 +7423,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 46.99 81.28 0)
 			(effects
 				(font
@@ -7432,7 +7432,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 46.99 81.28 0)
 			(effects
 				(font
@@ -7474,7 +7474,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c739081a-e3db-4854-972c-011bffafb048")
-		(property "Reference" "L11"
+		(property "Reference" "L10"
 			(at 128.27 138.4299 0)
 			(effects
 				(font
@@ -7492,7 +7492,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 129.54 139.7 0)
 			(effects
 				(font
@@ -7528,7 +7528,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L11")
+					(reference "L10")
 					(unit 1)
 				)
 			)
@@ -7544,7 +7544,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cea891e7-7501-4243-b5d4-b78a90afa334")
-		(property "Reference" "L16"
+		(property "Reference" "L15"
 			(at 180.34 63.5 90)
 			(effects
 				(font
@@ -7560,7 +7560,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 180.34 68.58 0)
 			(effects
 				(font
@@ -7569,7 +7569,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 180.34 68.58 0)
 			(effects
 				(font
@@ -7596,7 +7596,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L16")
+					(reference "L15")
 					(unit 1)
 				)
 			)
@@ -7612,7 +7612,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cf73f396-28bf-48d2-91c2-2ef4093e7039")
-		(property "Reference" "C40"
+		(property "Reference" "C25"
 			(at 167.64 148.5962 0)
 			(effects
 				(font
@@ -7630,7 +7630,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 165.1 149.86 0)
 			(effects
 				(font
@@ -7639,7 +7639,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 165.1 149.86 0)
 			(effects
 				(font
@@ -7648,7 +7648,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 165.1 149.86 0)
 			(effects
 				(font
@@ -7666,7 +7666,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C40")
+					(reference "C25")
 					(unit 1)
 				)
 			)
@@ -7683,7 +7683,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d684b037-13a9-4398-b8f3-7aedc32d83e8")
-		(property "Reference" "L6"
+		(property "Reference" "L5"
 			(at 68.58 55.88 90)
 			(effects
 				(font
@@ -7699,7 +7699,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 68.58 60.96 0)
 			(effects
 				(font
@@ -7708,7 +7708,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 68.58 60.96 0)
 			(effects
 				(font
@@ -7735,7 +7735,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "L6")
+					(reference "L5")
 					(unit 1)
 				)
 			)
@@ -7751,7 +7751,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d6928a86-d825-4f65-baad-d5b622bbbafa")
-		(property "Reference" "C39"
+		(property "Reference" "C24"
 			(at 167.64 72.3962 0)
 			(effects
 				(font
@@ -7769,7 +7769,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 165.1 73.66 0)
 			(effects
 				(font
@@ -7778,7 +7778,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 165.1 73.66 0)
 			(effects
 				(font
@@ -7787,7 +7787,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 165.1 73.66 0)
 			(effects
 				(font
@@ -7805,7 +7805,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C39")
+					(reference "C24")
 					(unit 1)
 				)
 			)
@@ -7822,7 +7822,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d97a1c52-a7e8-4c0a-8dbe-7494f32d9522")
-		(property "Reference" "#PWR056"
+		(property "Reference" "#PWR068"
 			(at 165.1 85.09 0)
 			(effects
 				(font
@@ -7872,7 +7872,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR056")
+					(reference "#PWR068")
 					(unit 1)
 				)
 			)
@@ -7890,7 +7890,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e0bd3d84-ffea-4366-8330-7be1a0fcfc4c")
-		(property "Reference" "#PWR045"
+		(property "Reference" "#PWR059"
 			(at 53.34 153.67 0)
 			(effects
 				(font
@@ -7940,7 +7940,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR045")
+					(reference "#PWR059")
 					(unit 1)
 				)
 			)
@@ -7957,7 +7957,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e8adfa69-1fff-4d25-9732-0f16b1137317")
-		(property "Reference" "C38"
+		(property "Reference" "C23"
 			(at 162.56 138.4362 0)
 			(effects
 				(font
@@ -7975,7 +7975,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 160.02 139.7 0)
 			(effects
 				(font
@@ -7984,7 +7984,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 160.02 139.7 0)
 			(effects
 				(font
@@ -7993,7 +7993,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 160.02 139.7 0)
 			(effects
 				(font
@@ -8011,7 +8011,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C38")
+					(reference "C23")
 					(unit 1)
 				)
 			)
@@ -8027,7 +8027,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ef26b485-efa6-48cf-a46a-5af2334134c9")
-		(property "Reference" "C7"
+		(property "Reference" "C6"
 			(at 34.2964 74.93 90)
 			(effects
 				(font
@@ -8043,7 +8043,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 34.29 81.28 0)
 			(effects
 				(font
@@ -8052,7 +8052,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 34.29 81.28 0)
 			(effects
 				(font
@@ -8061,7 +8061,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 34.29 81.28 0)
 			(effects
 				(font
@@ -8079,7 +8079,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C7")
+					(reference "C6")
 					(unit 1)
 				)
 			)
@@ -8095,7 +8095,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f003842c-bc9b-4be3-bf90-814bc5d2c793")
-		(property "Reference" "C11"
+		(property "Reference" "C10"
 			(at 71.12 64.7762 0)
 			(effects
 				(font
@@ -8113,7 +8113,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 73.66 66.04 0)
 			(effects
 				(font
@@ -8122,7 +8122,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 73.66 66.04 0)
 			(effects
 				(font
@@ -8131,7 +8131,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 73.66 66.04 0)
 			(effects
 				(font
@@ -8149,7 +8149,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "C11")
+					(reference "C10")
 					(unit 1)
 				)
 			)
@@ -8167,7 +8167,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f72d319b-0ba5-44be-91c7-69197d4fc686")
-		(property "Reference" "#PWR047"
+		(property "Reference" "#PWR061"
 			(at 83.82 153.67 0)
 			(effects
 				(font
@@ -8217,7 +8217,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR047")
+					(reference "#PWR061")
 					(unit 1)
 				)
 			)
@@ -8234,7 +8234,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fa9c31a7-69f6-4e3f-8558-39517c098f03")
-		(property "Reference" "#PWR057"
+		(property "Reference" "#PWR069"
 			(at 165.1 161.29 0)
 			(effects
 				(font
@@ -8284,7 +8284,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405"
-					(reference "#PWR057")
+					(reference "#PWR069")
 					(unit 1)
 				)
 			)
