@@ -1614,6 +1614,16 @@
 	)
 	(wire
 		(pts
+			(xy 132.08 106.68) (xy 139.7 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "834177b7-a845-46e8-a869-8eaea71fda14")
+	)
+	(wire
+		(pts
 			(xy 71.12 96.52) (xy 81.28 96.52)
 		)
 		(stroke
@@ -1824,16 +1834,6 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 106.68) (xy 139.7 106.68)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f2152dd5-6414-4d05-a29b-9deedfe35dcb")
-	)
-	(wire
-		(pts
 			(xy 46.99 118.11) (xy 48.26 118.11)
 		)
 		(stroke
@@ -1876,7 +1876,7 @@
 		(uuid "1071dd2a-2fe1-4ba3-af47-00b8bf173c57")
 	)
 	(hierarchical_label "VSPI_CS"
-		(shape bidirectional)
+		(shape output)
 		(at 83.82 119.38 180)
 		(effects
 			(font
@@ -1898,7 +1898,7 @@
 		(uuid "5002894f-97b8-4a5c-99e2-9e360d8edbb8")
 	)
 	(hierarchical_label "HSPI_CS"
-		(shape bidirectional)
+		(shape output)
 		(at 139.7 132.08 0)
 		(effects
 			(font
@@ -1920,7 +1920,7 @@
 		(uuid "5bf2e99f-77bf-448e-8b4f-f621d3693fb0")
 	)
 	(hierarchical_label "VSPI_SCLK"
-		(shape bidirectional)
+		(shape output)
 		(at 139.7 121.92 0)
 		(effects
 			(font
@@ -1931,7 +1931,7 @@
 		(uuid "5cf7ae9c-41f7-4339-9dbd-7c3ddec40b4d")
 	)
 	(hierarchical_label "VSPI_MISO"
-		(shape bidirectional)
+		(shape output)
 		(at 139.7 119.38 0)
 		(effects
 			(font
@@ -1953,7 +1953,7 @@
 		(uuid "7d52c3f6-7151-4db6-90cb-ca26870928c8")
 	)
 	(hierarchical_label "HSPI_SCLK"
-		(shape bidirectional)
+		(shape output)
 		(at 83.82 132.08 180)
 		(effects
 			(font
@@ -1996,8 +1996,19 @@
 		)
 		(uuid "ccee4eb5-9f44-4d5a-af16-b598d45e1e61")
 	)
+	(hierarchical_label "I2C_SCL"
+		(shape output)
+		(at 139.7 106.68 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "efc11a4b-46bf-40d9-bcbd-664bb2d3203e")
+	)
 	(hierarchical_label "VSPI_MOSI"
-		(shape bidirectional)
+		(shape input)
 		(at 139.7 104.14 0)
 		(effects
 			(font
@@ -2006,17 +2017,6 @@
 			(justify left)
 		)
 		(uuid "efd17ae9-9794-4cad-9a4c-79287286077b")
-	)
-	(hierarchical_label "I2C_SCL"
-		(shape bidirectional)
-		(at 139.7 106.68 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "f75f2c36-9c3a-468a-af44-11a6887ecfaf")
 	)
 	(hierarchical_label "I2S_LRCLK{slash}WS"
 		(shape output)
@@ -2191,7 +2191,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 82.2452 104.14 0)
 			(effects
 				(font
