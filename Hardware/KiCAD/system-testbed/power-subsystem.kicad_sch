@@ -15714,7 +15714,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ESDA25P35-1U1M:TVS_ESDA25P35-1U1M"
+		(property "Footprint" "capstone-project:TVS_ESDA25P35-1U1M"
 			(at 308.61 146.05 0)
 			(effects
 				(font
