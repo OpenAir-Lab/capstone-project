@@ -1253,4 +1253,15 @@
 		(uuid "a4cef3d9-97d0-4610-a441-792b0ddb9edd")
 	)
 	(embedded_fonts no)
+	(model "${KIPRJMOD}/capstone-project.pretty/3dmodels/ESP32-WROVER-E.step"
+		(offset
+			(xyz -9 -12.5 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -0 -0 -0)
+		)
+	)
 )
