@@ -5004,7 +5004,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 205.74 77.47 0)
 			(effects
 				(font
@@ -5013,7 +5013,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 205.74 77.47 0)
 			(effects
 				(font
@@ -5022,7 +5022,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 205.74 77.47 0)
 			(effects
 				(font
@@ -5056,7 +5056,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "05259c6b-5603-4757-98ff-6cafe9d9ef83")
-		(property "Reference" "#PWR0143"
+		(property "Reference" "#PWR0147"
 			(at 137.16 36.83 0)
 			(effects
 				(font
@@ -5065,12 +5065,13 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+5V"
-			(at 137.16 27.94 0)
+		(property "Value" "+3.3V"
+			(at 139.7 31.7499 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -5106,7 +5107,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0143")
+					(reference "#PWR0147")
 					(unit 1)
 				)
 			)
@@ -5210,7 +5211,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 87.884 32.766 90)
 			(effects
 				(font
@@ -5219,7 +5220,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 88.9 33.02 0)
 			(effects
 				(font
@@ -5228,7 +5229,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" ""
 			(at 88.9 33.02 0)
 			(effects
 				(font
@@ -5280,7 +5281,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 144.78 83.82 0)
 			(effects
 				(font
@@ -5289,7 +5290,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 144.78 83.82 0)
 			(effects
 				(font
@@ -5298,7 +5299,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 144.78 83.82 0)
 			(effects
 				(font
@@ -5332,7 +5333,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0f78e4a1-bc77-4f70-ab81-9af521751d26")
-		(property "Reference" "C86"
+		(property "Reference" "L86"
 			(at 158.75 72.39 90)
 			(effects
 				(font
@@ -5348,7 +5349,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 158.75 77.47 0)
 			(effects
 				(font
@@ -5357,7 +5358,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 158.75 77.47 0)
 			(effects
 				(font
@@ -5366,7 +5367,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Inductor"
+		(property "Description" ""
 			(at 158.75 77.47 0)
 			(effects
 				(font
@@ -5384,7 +5385,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "C86")
+					(reference "L86")
 					(unit 1)
 				)
 			)
@@ -5486,7 +5487,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 138.684 63.754 90)
 			(effects
 				(font
@@ -5495,7 +5496,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 138.43 64.77 0)
 			(effects
 				(font
@@ -5504,7 +5505,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" ""
 			(at 138.43 64.77 0)
 			(effects
 				(font
@@ -5538,7 +5539,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "15c062b0-8489-442c-ba63-49dcf05c0697")
-		(property "Reference" "#PWR0139"
+		(property "Reference" "#PWR0143"
 			(at 93.98 97.79 0)
 			(effects
 				(font
@@ -5588,7 +5589,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0139")
+					(reference "#PWR0143")
 					(unit 1)
 				)
 			)
@@ -5622,7 +5623,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 104.14 45.72 0)
 			(effects
 				(font
@@ -5631,7 +5632,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 104.14 45.72 0)
 			(effects
 				(font
@@ -5640,7 +5641,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 104.14 45.72 0)
 			(effects
 				(font
@@ -5692,7 +5693,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 171.45 43.18 0)
 			(effects
 				(font
@@ -5701,7 +5702,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 171.45 43.18 0)
 			(effects
 				(font
@@ -5710,7 +5711,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 171.45 43.18 0)
 			(effects
 				(font
@@ -5744,7 +5745,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "24db70a0-a088-4f48-8886-28eb0a0713a6")
-		(property "Reference" "#PWR0141"
+		(property "Reference" "#PWR0145"
 			(at 114.3 97.79 0)
 			(effects
 				(font
@@ -5794,7 +5795,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0141")
+					(reference "#PWR0145")
 					(unit 1)
 				)
 			)
@@ -5828,7 +5829,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 176.53 83.82 0)
 			(effects
 				(font
@@ -5837,7 +5838,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 176.53 83.82 0)
 			(effects
 				(font
@@ -5846,7 +5847,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 176.53 83.82 0)
 			(effects
 				(font
@@ -5880,7 +5881,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "335aac7f-6990-4e7d-b75a-9aed9fec00f9")
-		(property "Reference" "#PWR0144"
+		(property "Reference" "#PWR0148"
 			(at 144.78 97.79 0)
 			(effects
 				(font
@@ -5930,7 +5931,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0144")
+					(reference "#PWR0148")
 					(unit 1)
 				)
 			)
@@ -6052,7 +6053,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 73.66 45.72 0)
 			(effects
 				(font
@@ -6061,7 +6062,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 73.66 45.72 0)
 			(effects
 				(font
@@ -6070,7 +6071,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 73.66 45.72 0)
 			(effects
 				(font
@@ -6122,7 +6123,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 165.1 83.82 0)
 			(effects
 				(font
@@ -6131,7 +6132,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 165.1 83.82 0)
 			(effects
 				(font
@@ -6140,7 +6141,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 165.1 83.82 0)
 			(effects
 				(font
@@ -6174,7 +6175,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "59adb3ff-44ec-4711-a677-68e591f2d25c")
-		(property "Reference" "#PWR0136"
+		(property "Reference" "#PWR0140"
 			(at 71.12 97.79 0)
 			(effects
 				(font
@@ -6224,7 +6225,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0136")
+					(reference "#PWR0140")
 					(unit 1)
 				)
 			)
@@ -6258,7 +6259,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 161.29 43.18 0)
 			(effects
 				(font
@@ -6267,7 +6268,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 161.29 43.18 0)
 			(effects
 				(font
@@ -6276,7 +6277,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 161.29 43.18 0)
 			(effects
 				(font
@@ -6310,7 +6311,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "740f2a8c-b460-403e-85bc-add356063a8d")
-		(property "Reference" "#PWR0140"
+		(property "Reference" "#PWR0144"
 			(at 104.14 58.42 0)
 			(effects
 				(font
@@ -6360,7 +6361,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0140")
+					(reference "#PWR0144")
 					(unit 1)
 				)
 			)
@@ -6394,7 +6395,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 199.39 83.82 0)
 			(effects
 				(font
@@ -6403,7 +6404,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 199.39 83.82 0)
 			(effects
 				(font
@@ -6412,7 +6413,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 199.39 83.82 0)
 			(effects
 				(font
@@ -6446,7 +6447,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7c1d916c-d8b9-48c4-88a3-ba882d294c53")
-		(property "Reference" "#PWR0149"
+		(property "Reference" "#PWR0153"
 			(at 199.39 97.79 0)
 			(effects
 				(font
@@ -6496,7 +6497,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0149")
+					(reference "#PWR0153")
 					(unit 1)
 				)
 			)
@@ -6530,7 +6531,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 187.96 83.82 0)
 			(effects
 				(font
@@ -6539,7 +6540,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 187.96 83.82 0)
 			(effects
 				(font
@@ -6548,7 +6549,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 187.96 83.82 0)
 			(effects
 				(font
@@ -6600,7 +6601,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 88.9 45.72 0)
 			(effects
 				(font
@@ -6609,7 +6610,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 88.9 45.72 0)
 			(effects
 				(font
@@ -6618,7 +6619,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 88.9 45.72 0)
 			(effects
 				(font
@@ -6668,7 +6669,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 87.63 77.47 0)
 			(effects
 				(font
@@ -6686,7 +6687,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 87.63 77.47 0)
 			(effects
 				(font
@@ -6720,7 +6721,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9db78ad1-f967-4bc5-9a48-bae18675b7b7")
-		(property "Reference" "#PWR0146"
+		(property "Reference" "#PWR0150"
 			(at 166.37 58.42 0)
 			(effects
 				(font
@@ -6770,7 +6771,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0146")
+					(reference "#PWR0150")
 					(unit 1)
 				)
 			)
@@ -6919,7 +6920,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 72.644 32.766 90)
 			(effects
 				(font
@@ -6928,7 +6929,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 73.66 33.02 0)
 			(effects
 				(font
@@ -6937,7 +6938,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" ""
 			(at 73.66 33.02 0)
 			(effects
 				(font
@@ -6971,7 +6972,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b9f2ce5a-1219-4ce1-863d-59267db97c7e")
-		(property "Reference" "#PWR0138"
+		(property "Reference" "#PWR0142"
 			(at 88.9 58.42 0)
 			(effects
 				(font
@@ -7021,7 +7022,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0138")
+					(reference "#PWR0142")
 					(unit 1)
 				)
 			)
@@ -7107,7 +7108,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d463f2b1-c2b8-498d-88ed-26c4ba51c7ff")
-		(property "Reference" "#PWR0137"
+		(property "Reference" "#PWR0141"
 			(at 73.66 58.42 0)
 			(effects
 				(font
@@ -7157,7 +7158,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0137")
+					(reference "#PWR0141")
 					(unit 1)
 				)
 			)
@@ -7189,7 +7190,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 77.47 77.47 0)
 			(effects
 				(font
@@ -7207,7 +7208,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "capacitor, US symbol"
+		(property "Description" ""
 			(at 77.47 77.47 0)
 			(effects
 				(font
@@ -7241,7 +7242,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e70a0505-f050-4e05-bb57-9de52d4acf4b")
-		(property "Reference" "#PWR0145"
+		(property "Reference" "#PWR0149"
 			(at 165.1 97.79 0)
 			(effects
 				(font
@@ -7291,7 +7292,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0145")
+					(reference "#PWR0149")
 					(unit 1)
 				)
 			)
@@ -7307,7 +7308,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ea2f2564-5f9b-4f17-8171-c67c0b4aedcb")
-		(property "Reference" "#PWR0148"
+		(property "Reference" "#PWR0152"
 			(at 187.96 97.79 0)
 			(effects
 				(font
@@ -7357,7 +7358,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0148")
+					(reference "#PWR0152")
 					(unit 1)
 				)
 			)
@@ -7373,7 +7374,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f269e2c1-2858-408e-8f2d-5034da951138")
-		(property "Reference" "#PWR0142"
+		(property "Reference" "#PWR0146"
 			(at 134.62 97.79 0)
 			(effects
 				(font
@@ -7423,7 +7424,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0142")
+					(reference "#PWR0146")
 					(unit 1)
 				)
 			)
@@ -7439,7 +7440,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f4754d51-aced-4bde-abd5-eed22d01222b")
-		(property "Reference" "#PWR0147"
+		(property "Reference" "#PWR0151"
 			(at 176.53 97.79 0)
 			(effects
 				(font
@@ -7489,7 +7490,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/663959ae-8fbf-4d79-b07e-771da73defb9/7980ef48-bac3-4735-b991-4ec5b2579405/71b693ea-6b1f-4422-a767-d0e638f34b25"
-					(reference "#PWR0147")
+					(reference "#PWR0151")
 					(unit 1)
 				)
 			)

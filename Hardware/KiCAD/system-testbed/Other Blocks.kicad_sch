@@ -5006,7 +5006,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0214f333-30f5-483a-b674-4a3c07cbf3af")
-		(property "Reference" "C?"
+		(property "Reference" "C101"
 			(at 50.8 61.468 0)
 			(effects
 				(font
@@ -5015,7 +5015,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1u"
+		(property "Value" "1uF"
 			(at 51.308 65.532 0)
 			(effects
 				(font
@@ -5024,7 +5024,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 49.8348 67.31 0)
 			(effects
 				(font
@@ -5033,7 +5033,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 50.8 63.5 0)
 			(effects
 				(font
@@ -5042,7 +5042,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" ""
 			(at 50.8 63.5 0)
 			(effects
 				(font
@@ -5060,7 +5060,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C101")
 					(unit 1)
 				)
 			)
@@ -5207,7 +5207,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "09aaaeb6-0b86-4f43-889e-f528a6c9a895")
-		(property "Reference" "R?"
+		(property "Reference" "R39"
 			(at 137.16 115.5699 0)
 			(effects
 				(font
@@ -5225,7 +5225,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 136.398 116.84 90)
 			(effects
 				(font
@@ -5261,7 +5261,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R39")
 					(unit 1)
 				)
 			)
@@ -5409,7 +5409,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "13477bdd-0edc-4703-9ba9-98b72c40c8e7")
-		(property "Reference" "C?"
+		(property "Reference" "C131"
 			(at 384.81 37.338 0)
 			(effects
 				(font
@@ -5463,7 +5463,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C131")
 					(unit 1)
 				)
 			)
@@ -5478,7 +5478,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1485a5e5-6ee0-4d75-adb6-03c12752c23c")
-		(property "Reference" "R?"
+		(property "Reference" "R42"
 			(at 158.496 49.784 90)
 			(effects
 				(font
@@ -5530,7 +5530,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R42")
 					(unit 1)
 				)
 			)
@@ -5546,7 +5546,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "14f2419e-4bd7-4c32-97b4-2a0d6c5bcaf1")
-		(property "Reference" "C?"
+		(property "Reference" "C109"
 			(at 130.048 42.418 0)
 			(effects
 				(font
@@ -5600,7 +5600,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C109")
 					(unit 1)
 				)
 			)
@@ -5682,7 +5682,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1731e5e3-3751-4f05-adc0-a86ab7ac37ae")
-		(property "Reference" "C?"
+		(property "Reference" "C110"
 			(at 138.43 124.4599 0)
 			(effects
 				(font
@@ -5736,7 +5736,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C110")
 					(unit 1)
 				)
 			)
@@ -5884,7 +5884,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "277a6507-66c4-4c61-a6d2-e44b0e97e20b")
-		(property "Reference" "C?"
+		(property "Reference" "C122"
 			(at 298.45 33.528 0)
 			(effects
 				(font
@@ -5938,7 +5938,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C122")
 					(unit 1)
 				)
 			)
@@ -6085,7 +6085,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "2cf2141b-36f5-4732-929e-8b5b012295ca")
-		(property "Reference" "C?"
+		(property "Reference" "C103"
 			(at 60.198 62.992 0)
 			(effects
 				(font
@@ -6094,7 +6094,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "2.2u"
+		(property "Value" "C"
 			(at 60.452 66.802 0)
 			(effects
 				(font
@@ -6103,7 +6103,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 58.7248 68.58 0)
 			(effects
 				(font
@@ -6112,7 +6112,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 59.69 64.77 0)
 			(effects
 				(font
@@ -6121,7 +6121,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" ""
 			(at 59.69 64.77 0)
 			(effects
 				(font
@@ -6139,7 +6139,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C103")
 					(unit 1)
 				)
 			)
@@ -6221,7 +6221,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "2ebf00c6-0bcc-450a-8a68-4a5e93edec3b")
-		(property "Reference" "C?"
+		(property "Reference" "C126"
 			(at 326.39 34.798 0)
 			(effects
 				(font
@@ -6275,7 +6275,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C126")
 					(unit 1)
 				)
 			)
@@ -6357,7 +6357,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "2fec460f-d8ca-498c-a46b-8df0a47adcc0")
-		(property "Reference" "C?"
+		(property "Reference" "C118"
 			(at 252.73 43.688 0)
 			(effects
 				(font
@@ -6411,7 +6411,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C118")
 					(unit 1)
 				)
 			)
@@ -6426,7 +6426,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3231e004-43e9-4039-bc6b-8dfc1e09a588")
-		(property "Reference" "C?"
+		(property "Reference" "C115"
 			(at 150.368 59.182 90)
 			(effects
 				(font
@@ -6478,7 +6478,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C115")
 					(unit 1)
 				)
 			)
@@ -6493,7 +6493,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "34317e52-a081-4112-9d00-fc004f2fb91e")
-		(property "Reference" "R?"
+		(property "Reference" "R40"
 			(at 139.954 64.008 90)
 			(effects
 				(font
@@ -6501,7 +6501,7 @@
 				)
 			)
 		)
-		(property "Value" "100k"
+		(property "Value" "R"
 			(at 139.7 68.072 90)
 			(effects
 				(font
@@ -6509,7 +6509,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 139.7 64.262 90)
 			(effects
 				(font
@@ -6545,7 +6545,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R40")
 					(unit 1)
 				)
 			)
@@ -6627,7 +6627,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3bc3cbd1-24a6-45fb-876d-ce0b74b5e246")
-		(property "Reference" "U?"
+		(property "Reference" "U13"
 			(at 361.95 22.86 0)
 			(effects
 				(font
@@ -6752,7 +6752,7 @@
 		(instances
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "U?")
+					(reference "U13")
 					(unit 1)
 				)
 			)
@@ -6767,7 +6767,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3eaa20e2-3303-45fa-afa2-b4a6208403f5")
-		(property "Reference" "R?"
+		(property "Reference" "R41"
 			(at 149.098 47.752 90)
 			(effects
 				(font
@@ -6821,7 +6821,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R41")
 					(unit 1)
 				)
 			)
@@ -6836,7 +6836,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3f43446e-a7d3-4095-9c34-2a76ebfc6d1b")
-		(property "Reference" "R?"
+		(property "Reference" "R44"
 			(at 279.908 41.402 90)
 			(effects
 				(font
@@ -6890,7 +6890,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R44")
 					(unit 1)
 				)
 			)
@@ -6906,7 +6906,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4239311b-54f4-43c7-8591-85039014c72f")
-		(property "Reference" "C?"
+		(property "Reference" "C120"
 			(at 285.75 122.428 0)
 			(effects
 				(font
@@ -6960,7 +6960,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C120")
 					(unit 1)
 				)
 			)
@@ -6976,7 +6976,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "440c5e0e-6e18-4e09-87ee-7c26a799649d")
-		(property "Reference" "C?"
+		(property "Reference" "C127"
 			(at 331.47 50.038 0)
 			(effects
 				(font
@@ -7030,7 +7030,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C127")
 					(unit 1)
 				)
 			)
@@ -7046,7 +7046,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "525ed666-ee59-4ef2-a515-cc007210b137")
-		(property "Reference" "U?"
+		(property "Reference" "U9"
 			(at 99.695 81.28 0)
 			(effects
 				(font
@@ -7054,7 +7054,7 @@
 				)
 			)
 		)
-		(property "Value" "TPS61088RHLR"
+		(property "Value" "ESP32-WROVER-E"
 			(at 99.695 83.82 0)
 			(effects
 				(font
@@ -7072,7 +7072,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "http://www.ti.com/lit/gpn/tps61088"
+		(property "Datasheet" "kicad-embed://esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf"
 			(at 80.01 264.77 0)
 			(effects
 				(font
@@ -7082,62 +7082,12 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "10-A Fully-Integrated Synchronous Boost Converter"
+		(property "Description" "WROVER-E & WROVER-IE Footprint"
 			(at 48.26 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 80.01 464.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "595-TPS61088RHLR"
-			(at 80.01 564.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Texas-Instruments/TPS61088RHLR?qs=MiqG6Kq1qKNjgpnslrNKug%3D%3D"
-			(at 80.01 664.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" "Texas Instruments"
-			(at 80.01 764.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" "TPS61088RHLR"
-			(at 80.01 864.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
 				(hide yes)
 			)
 		)
@@ -7201,7 +7151,7 @@
 		(instances
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "U?")
+					(reference "U9")
 					(unit 1)
 				)
 			)
@@ -7217,7 +7167,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "5376d936-034b-42dc-8a38-322a56198ca0")
-		(property "Reference" "C?"
+		(property "Reference" "C119"
 			(at 284.48 86.868 0)
 			(effects
 				(font
@@ -7271,7 +7221,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C119")
 					(unit 1)
 				)
 			)
@@ -7286,7 +7236,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "5440921d-76e7-4144-b720-53d8d692a6b4")
-		(property "Reference" "C?"
+		(property "Reference" "C108"
 			(at 121.666 70.104 90)
 			(effects
 				(font
@@ -7338,7 +7288,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C108")
 					(unit 1)
 				)
 			)
@@ -7420,7 +7370,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "60b0b27e-73c8-4750-b594-fc9bb835fc83")
-		(property "Reference" "TP?"
+		(property "Reference" "TP24"
 			(at 180.34 108.4579 0)
 			(effects
 				(font
@@ -7471,7 +7421,7 @@
 		(instances
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "TP?")
+					(reference "TP24")
 					(unit 1)
 				)
 			)
@@ -7487,7 +7437,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6102e901-a190-4679-a85c-da9098e42c10")
-		(property "Reference" "C?"
+		(property "Reference" "C124"
 			(at 303.53 128.778 0)
 			(effects
 				(font
@@ -7541,7 +7491,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C124")
 					(unit 1)
 				)
 			)
@@ -7622,7 +7572,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6178a7d9-67f6-4ef5-9d1e-50ce4100ae9d")
-		(property "Reference" "R?"
+		(property "Reference" "R38"
 			(at 132.08 58.674 90)
 			(effects
 				(font
@@ -7630,7 +7580,7 @@
 				)
 			)
 		)
-		(property "Value" "100k"
+		(property "Value" "R"
 			(at 132.08 63.246 90)
 			(effects
 				(font
@@ -7638,7 +7588,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 132.08 59.182 90)
 			(effects
 				(font
@@ -7674,7 +7624,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R38")
 					(unit 1)
 				)
 			)
@@ -7690,7 +7640,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "65397a63-3352-4609-84aa-df7318b0c532")
-		(property "Reference" "C?"
+		(property "Reference" "C104"
 			(at 68.58 65.278 0)
 			(effects
 				(font
@@ -7699,7 +7649,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "0.1u"
+		(property "Value" "C"
 			(at 69.088 69.342 0)
 			(effects
 				(font
@@ -7708,7 +7658,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 67.6148 71.12 0)
 			(effects
 				(font
@@ -7717,7 +7667,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 68.58 67.31 0)
 			(effects
 				(font
@@ -7726,7 +7676,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" ""
 			(at 68.58 67.31 0)
 			(effects
 				(font
@@ -7744,7 +7694,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C104")
 					(unit 1)
 				)
 			)
@@ -7826,7 +7776,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "67576c85-f2a4-40fb-b6fd-ad4cf20e7f32")
-		(property "Reference" "C?"
+		(property "Reference" "C106"
 			(at 91.44 22.86 90)
 			(effects
 				(font
@@ -7878,7 +7828,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C106")
 					(unit 1)
 				)
 			)
@@ -8026,7 +7976,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6e733017-aee3-4e22-a71c-5d6d76b959f6")
-		(property "Reference" "C?"
+		(property "Reference" "C107"
 			(at 121.92 42.418 0)
 			(effects
 				(font
@@ -8080,7 +8030,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C107")
 					(unit 1)
 				)
 			)
@@ -8227,7 +8177,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "735d24c7-7d54-4957-a3c3-e610fce65dbd")
-		(property "Reference" "C?"
+		(property "Reference" "C130"
 			(at 344.17 53.848 0)
 			(effects
 				(font
@@ -8281,7 +8231,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C130")
 					(unit 1)
 				)
 			)
@@ -8297,7 +8247,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7393f5d4-ac87-4165-9775-0de979c1d567")
-		(property "Reference" "C?"
+		(property "Reference" "C111"
 			(at 136.398 42.418 0)
 			(effects
 				(font
@@ -8351,7 +8301,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C111")
 					(unit 1)
 				)
 			)
@@ -8433,7 +8383,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7bbf743c-a194-4d2f-80d6-3c014c53a5a6")
-		(property "Reference" "U?"
+		(property "Reference" "U10"
 			(at 267.97 22.86 0)
 			(effects
 				(font
@@ -8512,7 +8462,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "U?")
+					(reference "U10")
 					(unit 1)
 				)
 			)
@@ -8660,7 +8610,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7ed7a2ea-acac-4fe7-9422-bba68396b72d")
-		(property "Reference" "C?"
+		(property "Reference" "C99"
 			(at 42.164 47.498 0)
 			(effects
 				(font
@@ -8669,7 +8619,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "10u"
+		(property "Value" "0.1uF"
 			(at 42.418 51.562 0)
 			(effects
 				(font
@@ -8678,7 +8628,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 40.9448 53.34 0)
 			(effects
 				(font
@@ -8687,7 +8637,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 41.91 49.53 0)
 			(effects
 				(font
@@ -8696,7 +8646,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" ""
 			(at 41.91 49.53 0)
 			(effects
 				(font
@@ -8714,7 +8664,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C99")
 					(unit 1)
 				)
 			)
@@ -8730,7 +8680,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7f0288c6-e78c-4583-afd4-d0921f050f9f")
-		(property "Reference" "C?"
+		(property "Reference" "C121"
 			(at 288.798 44.45 0)
 			(effects
 				(font
@@ -8784,7 +8734,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C121")
 					(unit 1)
 				)
 			)
@@ -8866,7 +8816,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "82307fc0-147d-4ddc-80e1-5a2cd27a8d40")
-		(property "Reference" "R?"
+		(property "Reference" "R33"
 			(at 124.46 116.8399 0)
 			(effects
 				(font
@@ -8884,7 +8834,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 123.698 118.11 90)
 			(effects
 				(font
@@ -8920,7 +8870,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R33")
 					(unit 1)
 				)
 			)
@@ -8936,7 +8886,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "82bb1311-4865-4660-9642-c9e057d4475c")
-		(property "Reference" "C?"
+		(property "Reference" "C102"
 			(at 62.23 121.9199 0)
 			(effects
 				(font
@@ -8945,7 +8895,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10u"
+		(property "Value" "20uF"
 			(at 62.23 124.4599 0)
 			(effects
 				(font
@@ -8954,7 +8904,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 59.3852 127 0)
 			(effects
 				(font
@@ -8963,7 +8913,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 58.42 123.19 0)
 			(effects
 				(font
@@ -8972,7 +8922,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" ""
 			(at 58.42 123.19 0)
 			(effects
 				(font
@@ -8990,7 +8940,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C102")
 					(unit 1)
 				)
 			)
@@ -9006,7 +8956,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "863f92d6-7b8c-40cc-8ca1-a133fb83222e")
-		(property "Reference" "C?"
+		(property "Reference" "C123"
 			(at 302.26 93.218 0)
 			(effects
 				(font
@@ -9060,7 +9010,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C123")
 					(unit 1)
 				)
 			)
@@ -9076,7 +9026,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "88faa181-c648-43b3-8a93-f4674192d057")
-		(property "Reference" "C?"
+		(property "Reference" "C114"
 			(at 148.59 118.1099 0)
 			(effects
 				(font
@@ -9130,7 +9080,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C114")
 					(unit 1)
 				)
 			)
@@ -9212,7 +9162,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "988a4ea3-047b-482f-91e2-8378b26c6ac6")
-		(property "Reference" "TP?"
+		(property "Reference" "TP28"
 			(at 394.97 28.4479 0)
 			(effects
 				(font
@@ -9263,7 +9213,7 @@
 		(instances
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "TP?")
+					(reference "TP28")
 					(unit 1)
 				)
 			)
@@ -9279,7 +9229,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "99853fa3-50bb-45ce-bb4f-df5e8405e3c2")
-		(property "Reference" "L?"
+		(property "Reference" "L40"
 			(at 99.06 90.17 90)
 			(effects
 				(font
@@ -9331,7 +9281,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "L?")
+					(reference "L40")
 					(unit 1)
 				)
 			)
@@ -9347,7 +9297,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9a1a4be2-e7cf-4040-b459-3ddbc10300d4")
-		(property "Reference" "U?"
+		(property "Reference" "U12"
 			(at 320.675 111.76 0)
 			(effects
 				(font
@@ -9457,7 +9407,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "U?")
+					(reference "U12")
 					(unit 1)
 				)
 			)
@@ -9473,7 +9423,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9f932315-e491-4226-aeb5-8c860524ba02")
-		(property "Reference" "TP?"
+		(property "Reference" "TP26"
 			(at 337.82 42.4179 0)
 			(effects
 				(font
@@ -9524,7 +9474,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "TP?")
+					(reference "TP26")
 					(unit 1)
 				)
 			)
@@ -9540,7 +9490,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9fcc6ce6-562b-4d50-88b8-81dd816135ae")
-		(property "Reference" "C?"
+		(property "Reference" "C100"
 			(at 50.8 121.9199 0)
 			(effects
 				(font
@@ -9549,7 +9499,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10u"
+		(property "Value" "10uF"
 			(at 50.8 124.4599 0)
 			(effects
 				(font
@@ -9558,7 +9508,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 47.9552 127 0)
 			(effects
 				(font
@@ -9567,7 +9517,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 46.99 123.19 0)
 			(effects
 				(font
@@ -9576,7 +9526,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" ""
 			(at 46.99 123.19 0)
 			(effects
 				(font
@@ -9594,7 +9544,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C100")
 					(unit 1)
 				)
 			)
@@ -9609,7 +9559,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a0ca9bfb-b25a-4121-9a28-080f02a28444")
-		(property "Reference" "TP?"
+		(property "Reference" "TP25"
 			(at 240.284 26.67 0)
 			(effects
 				(font
@@ -9660,7 +9610,7 @@
 		(instances
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "TP?")
+					(reference "TP25")
 					(unit 1)
 				)
 			)
@@ -9742,7 +9692,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a8ccca23-153f-4a3d-aab1-bf7aafd097ad")
-		(property "Reference" "U?"
+		(property "Reference" "U11"
 			(at 319.405 76.2 0)
 			(effects
 				(font
@@ -9852,7 +9802,7 @@
 		(instances
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "U?")
+					(reference "U11")
 					(unit 1)
 				)
 			)
@@ -10000,7 +9950,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "afb7c720-5b86-4bee-b5a4-afc28a947219")
-		(property "Reference" "L?"
+		(property "Reference" "L39"
 			(at 60.96 35.56 90)
 			(effects
 				(font
@@ -10008,7 +9958,7 @@
 				)
 			)
 		)
-		(property "Value" "1.2u"
+		(property "Value" "1uH"
 			(at 60.96 38.1 90)
 			(effects
 				(font
@@ -10016,7 +9966,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
 			(at 60.96 40.64 0)
 			(effects
 				(font
@@ -10052,7 +10002,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "L?")
+					(reference "L39")
 					(unit 1)
 				)
 			)
@@ -10134,7 +10084,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b90b41b5-a9fa-4b84-8b1c-dca9fe4ede11")
-		(property "Reference" "U?"
+		(property "Reference" "U8"
 			(at 105.0133 143.51 0)
 			(effects
 				(font
@@ -10143,7 +10093,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TPS63020QDSJRQ1"
+		(property "Value" "BQ25622RYKR"
 			(at 105.0133 146.05 0)
 			(effects
 				(font
@@ -10162,7 +10112,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.arrow.com/en/products/tps63020qdsjrq1/texas-instruments?region=nac"
+		(property "Datasheet" "https://www.ti.com/lit/gpn/bq25620"
 			(at 48.26 396.85 0)
 			(effects
 				(font
@@ -10172,62 +10122,12 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Switching Voltage Regulators Single Inductor Buck Boost Converter"
+		(property "Description" ""
 			(at 19.05 214.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
-			)
-		)
-		(property "Height" "1"
-			(at 48.26 596.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "595-TPS63020QDSJRQ1"
-			(at 48.26 696.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Texas-Instruments/TPS63020QDSJRQ1?qs=VymPLiRQZISDN5SwwPCkkQ%3D%3D"
-			(at 48.26 796.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" "Texas Instruments"
-			(at 48.26 896.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" "TPS63020QDSJRQ1"
-			(at 48.26 996.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
 				(hide yes)
 			)
 		)
@@ -10279,7 +10179,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "U?")
+					(reference "U8")
 					(unit 1)
 				)
 			)
@@ -10359,7 +10259,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "bfbc1136-7c00-401c-bd2c-6add6462254e")
-		(property "Reference" "C?"
+		(property "Reference" "C112"
 			(at 134.112 55.88 90)
 			(effects
 				(font
@@ -10411,7 +10311,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C112")
 					(unit 1)
 				)
 			)
@@ -10492,7 +10392,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c33eaebd-9679-41d8-8d94-58b816eb99de")
-		(property "Reference" "R?"
+		(property "Reference" "R45"
 			(at 292.862 37.592 90)
 			(effects
 				(font
@@ -10546,7 +10446,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R45")
 					(unit 1)
 				)
 			)
@@ -10694,7 +10594,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c855b4cf-9da1-49f4-981d-f9bcfc4a7332")
-		(property "Reference" "R?"
+		(property "Reference" "R43"
 			(at 180.34 125.7299 0)
 			(effects
 				(font
@@ -10748,7 +10648,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R43")
 					(unit 1)
 				)
 			)
@@ -10764,7 +10664,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cc18d200-ad69-4a0f-ba39-580e8c595d40")
-		(property "Reference" "C?"
+		(property "Reference" "C116"
 			(at 160.02 118.1099 0)
 			(effects
 				(font
@@ -10818,7 +10718,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C116")
 					(unit 1)
 				)
 			)
@@ -10834,7 +10734,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cef14f97-98ba-4972-877e-f230a5132d01")
-		(property "Reference" "C?"
+		(property "Reference" "C117"
 			(at 171.45 118.1099 0)
 			(effects
 				(font
@@ -10888,7 +10788,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C117")
 					(unit 1)
 				)
 			)
@@ -10970,7 +10870,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d3310fb4-fb36-4f6f-8b0e-9d2f1d56ea7c")
-		(property "Reference" "C?"
+		(property "Reference" "C105"
 			(at 80.01 137.1599 0)
 			(effects
 				(font
@@ -10979,7 +10879,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100n"
+		(property "Value" "C"
 			(at 80.01 139.6999 0)
 			(effects
 				(font
@@ -10988,7 +10888,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 77.1652 142.24 0)
 			(effects
 				(font
@@ -10997,7 +10897,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 76.2 138.43 0)
 			(effects
 				(font
@@ -11006,7 +10906,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" ""
 			(at 76.2 138.43 0)
 			(effects
 				(font
@@ -11024,7 +10924,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C105")
 					(unit 1)
 				)
 			)
@@ -11106,7 +11006,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d52c53f3-7cfa-4fcf-bf8c-e671b80642c2")
-		(property "Reference" "R?"
+		(property "Reference" "R37"
 			(at 124.46 126.9999 0)
 			(effects
 				(font
@@ -11115,7 +11015,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "5.1k"
 			(at 124.46 129.5399 0)
 			(effects
 				(font
@@ -11124,7 +11024,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 123.698 128.27 90)
 			(effects
 				(font
@@ -11160,7 +11060,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R37")
 					(unit 1)
 				)
 			)
@@ -11242,7 +11142,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e27d5b0c-b328-44a6-bd5b-5fe7b4ea833a")
-		(property "Reference" "C?"
+		(property "Reference" "C129"
 			(at 340.36 121.158 0)
 			(effects
 				(font
@@ -11296,7 +11196,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C129")
 					(unit 1)
 				)
 			)
@@ -11311,7 +11211,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e3ba4163-c9ab-40e5-b9c4-14670881bf16")
-		(property "Reference" "R?"
+		(property "Reference" "R32"
 			(at 76.454 49.784 90)
 			(effects
 				(font
@@ -11319,7 +11219,7 @@
 				)
 			)
 		)
-		(property "Value" "255k"
+		(property "Value" "R"
 			(at 76.708 54.356 90)
 			(effects
 				(font
@@ -11327,7 +11227,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 76.2 53.848 90)
 			(effects
 				(font
@@ -11363,7 +11263,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R32")
 					(unit 1)
 				)
 			)
@@ -11379,7 +11279,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e48b69d0-5336-4f59-8d77-f7eb4883bfe1")
-		(property "Reference" "C?"
+		(property "Reference" "C113"
 			(at 142.748 42.418 0)
 			(effects
 				(font
@@ -11433,7 +11333,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C113")
 					(unit 1)
 				)
 			)
@@ -11449,7 +11349,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e51b0b17-1782-42f1-8a44-6e353c467b3d")
-		(property "Reference" "C?"
+		(property "Reference" "C128"
 			(at 339.09 85.598 0)
 			(effects
 				(font
@@ -11503,7 +11403,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C128")
 					(unit 1)
 				)
 			)
@@ -11584,7 +11484,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ef443a07-a404-4dc0-956e-ae240c9b5e4f")
-		(property "Reference" "R?"
+		(property "Reference" "R46"
 			(at 392.938 40.132 90)
 			(effects
 				(font
@@ -11638,7 +11538,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "R?")
+					(reference "R46")
 					(unit 1)
 				)
 			)
@@ -11654,7 +11554,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f0011823-00fb-41b8-bd40-843788bfa568")
-		(property "Reference" "TP?"
+		(property "Reference" "TP27"
 			(at 340.36 36.0679 0)
 			(effects
 				(font
@@ -11705,7 +11605,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "TP?")
+					(reference "TP27")
 					(unit 1)
 				)
 			)
@@ -11721,7 +11621,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f5d644d0-f601-49cf-a556-0c3e177642e4")
-		(property "Reference" "TP?"
+		(property "Reference" "TP23"
 			(at 44.45 110.9979 0)
 			(effects
 				(font
@@ -11772,7 +11672,7 @@
 		(instances
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "TP?")
+					(reference "TP23")
 					(unit 1)
 				)
 			)
@@ -11788,7 +11688,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f730adcc-501f-4ab8-bba2-56720353e4c5")
-		(property "Reference" "C?"
+		(property "Reference" "C125"
 			(at 313.69 33.528 0)
 			(effects
 				(font
@@ -11842,7 +11742,7 @@
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/9fe85a84-eb88-4cb0-ad9c-c856ce023e7b/373e85c5-845e-46e8-8277-a2c3386d744f"
-					(reference "C?")
+					(reference "C125")
 					(unit 1)
 				)
 			)

@@ -8536,7 +8536,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 250.19 26.67 0)
 			(effects
 				(font
@@ -8676,7 +8676,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 189.23 49.53 0)
 			(effects
 				(font
@@ -8685,7 +8685,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 189.23 49.53 0)
 			(effects
 				(font
@@ -9266,7 +9266,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 113.03 33.02 0)
 			(effects
 				(font
@@ -9275,7 +9275,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 113.03 33.02 0)
 			(effects
 				(font
@@ -9395,7 +9395,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 134.62 0)
 			(effects
 				(font
@@ -9778,7 +9778,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 143.51 0)
 			(effects
 				(font
@@ -9845,7 +9845,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 237.49 26.67 0)
 			(effects
 				(font
@@ -10054,7 +10054,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 40.64 71.12 0)
 			(effects
 				(font
@@ -10063,7 +10063,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 40.64 71.12 0)
 			(effects
 				(font
@@ -10247,7 +10247,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 121.92 0)
 			(effects
 				(font
@@ -10579,7 +10579,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 73.66 0)
 			(effects
 				(font
@@ -10723,7 +10723,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 189.23 97.79 0)
 			(effects
 				(font
@@ -10732,7 +10732,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 189.23 97.79 0)
 			(effects
 				(font
@@ -10987,7 +10987,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 107.95 0)
 			(effects
 				(font
@@ -11120,7 +11120,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 194.31 102.87 0)
 			(effects
 				(font
@@ -11392,7 +11392,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 275.59 24.13 0)
 			(effects
 				(font
@@ -11459,7 +11459,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 63.5 0)
 			(effects
 				(font
@@ -11669,7 +11669,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 157.48 33.02 0)
 			(effects
 				(font
@@ -11678,7 +11678,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 157.48 33.02 0)
 			(effects
 				(font
@@ -11807,7 +11807,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 148.59 33.02 0)
 			(effects
 				(font
@@ -11816,7 +11816,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 148.59 33.02 0)
 			(effects
 				(font
@@ -11999,7 +11999,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 58.42 0)
 			(effects
 				(font
@@ -12066,7 +12066,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 194.31 54.61 0)
 			(effects
 				(font
@@ -12281,7 +12281,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 139.7 33.02 0)
 			(effects
 				(font
@@ -12290,7 +12290,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 139.7 33.02 0)
 			(effects
 				(font
@@ -12341,7 +12341,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 78.74 0)
 			(effects
 				(font
@@ -12541,7 +12541,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 102.87 0)
 			(effects
 				(font
@@ -12608,7 +12608,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 116.84 0)
 			(effects
 				(font
@@ -12745,7 +12745,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 68.58 0)
 			(effects
 				(font
@@ -12878,7 +12878,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 129.54 0)
 			(effects
 				(font
@@ -12954,7 +12954,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 130.81 33.02 0)
 			(effects
 				(font
@@ -12963,7 +12963,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 130.81 33.02 0)
 			(effects
 				(font
@@ -13015,7 +13015,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 204.47 54.61 0)
 			(effects
 				(font
@@ -13085,7 +13085,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 194.31 151.13 0)
 			(effects
 				(font
@@ -13361,7 +13361,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 156.21 81.28 0)
 			(effects
 				(font
@@ -13370,7 +13370,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 156.21 81.28 0)
 			(effects
 				(font
@@ -13430,7 +13430,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 128.27 68.58 0)
 			(effects
 				(font
@@ -13439,7 +13439,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 128.27 68.58 0)
 			(effects
 				(font
@@ -13491,7 +13491,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 53.34 0)
 			(effects
 				(font
@@ -13890,7 +13890,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 189.23 146.05 0)
 			(effects
 				(font
@@ -13899,7 +13899,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 189.23 146.05 0)
 			(effects
 				(font
@@ -13908,7 +13908,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 189.23 146.05 0)
 			(effects
 				(font
@@ -14029,7 +14029,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 48.26 0)
 			(effects
 				(font
@@ -14441,7 +14441,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 166.37 33.02 0)
 			(effects
 				(font
@@ -14450,7 +14450,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 166.37 33.02 0)
 			(effects
 				(font
@@ -14570,7 +14570,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 160.02 134.62 0)
 			(effects
 				(font
@@ -14579,7 +14579,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 160.02 134.62 0)
 			(effects
 				(font
@@ -14588,7 +14588,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 160.02 134.62 0)
 			(effects
 				(font
@@ -14908,7 +14908,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 148.59 0)
 			(effects
 				(font
@@ -15110,7 +15110,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 85.09 0)
 			(effects
 				(font
@@ -15186,7 +15186,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 104.14 33.02 0)
 			(effects
 				(font
@@ -15195,7 +15195,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 104.14 33.02 0)
 			(effects
 				(font
@@ -15255,7 +15255,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 119.38 68.58 0)
 			(effects
 				(font
@@ -15264,7 +15264,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 119.38 68.58 0)
 			(effects
 				(font
@@ -15525,7 +15525,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 146.05 81.28 0)
 			(effects
 				(font
@@ -15534,7 +15534,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 146.05 81.28 0)
 			(effects
 				(font
@@ -15592,7 +15592,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" " ~"
+		(property "Datasheet" "~"
 			(at 127 170.18 0)
 			(effects
 				(font
@@ -16090,7 +16090,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 110.49 68.58 0)
 			(effects
 				(font
@@ -16099,7 +16099,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 110.49 68.58 0)
 			(effects
 				(font
@@ -16569,7 +16569,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 43.18 0)
 			(effects
 				(font
@@ -16636,7 +16636,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 204.47 102.87 0)
 			(effects
 				(font
@@ -16781,7 +16781,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 101.6 68.58 0)
 			(effects
 				(font
@@ -16790,7 +16790,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 101.6 68.58 0)
 			(effects
 				(font
@@ -16910,7 +16910,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 90.17 0)
 			(effects
 				(font
@@ -16986,7 +16986,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 95.25 33.02 0)
 			(effects
 				(font
@@ -16995,7 +16995,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 95.25 33.02 0)
 			(effects
 				(font
@@ -17248,7 +17248,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Inductor_SMD:L_0402_1005Metric"
 			(at 204.47 151.13 0)
 			(effects
 				(font
@@ -17464,7 +17464,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 121.92 33.02 0)
 			(effects
 				(font
@@ -17473,7 +17473,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" ""
 			(at 121.92 33.02 0)
 			(effects
 				(font
@@ -17525,7 +17525,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 247.65 97.79 0)
 			(effects
 				(font
@@ -17598,7 +17598,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" " ~"
+		(property "Datasheet" "~"
 			(at 127 121.92 0)
 			(effects
 				(font
