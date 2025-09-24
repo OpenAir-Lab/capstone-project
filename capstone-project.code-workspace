@@ -10,7 +10,8 @@
 	],
 	"settings": {
 		"files.associations": {
-			"cc1200.h": "c"
+			"cc1200.h": "c",
+			"adafruit_display_demo.h": "c"
 		}
 	}
 }

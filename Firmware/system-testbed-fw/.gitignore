@@ -3,3 +3,7 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
+
+# for espressif/arduino-esp32 managed ESP-IDF component
+managed_components
+dependencies.lock
