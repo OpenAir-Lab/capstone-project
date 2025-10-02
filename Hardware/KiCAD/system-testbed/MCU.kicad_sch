@@ -17002,6 +17002,16 @@
 	)
 	(wire
 		(pts
+			(xy 176.53 87.63) (xy 168.91 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "163c315b-23a3-425b-a36e-782cb3bda5cb")
+	)
+	(wire
+		(pts
 			(xy 92.71 96.52) (xy 92.71 85.09)
 		)
 		(stroke
@@ -17079,6 +17089,16 @@
 			(type default)
 		)
 		(uuid "3dcb8cf3-39d6-446d-b484-e7bb3dc16996")
+	)
+	(wire
+		(pts
+			(xy 176.53 90.17) (xy 168.91 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "47d449af-ad6b-4aed-b036-6aef39d21da0")
 	)
 	(wire
 		(pts
@@ -17400,6 +17420,17 @@
 		)
 		(uuid "f8363b38-1637-4f46-a55f-1a6fedffc8a4")
 	)
+	(hierarchical_label "TXD0"
+		(shape output)
+		(at 176.53 87.63 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0dd58bfb-98a8-400b-b61d-f72866463fb2")
+	)
 	(hierarchical_label "VSPI_GDO2"
 		(shape bidirectional)
 		(at 120.65 95.25 180)
@@ -17575,6 +17606,17 @@
 			(justify left)
 		)
 		(uuid "a6a95ef3-6279-483b-920a-fa0bac5aeddb")
+	)
+	(hierarchical_label "RXD0"
+		(shape output)
+		(at 176.53 90.17 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c1e5aeec-8e38-48d0-9c3a-61e312b3978f")
 	)
 	(hierarchical_label "HSPI_SCLK"
 		(shape output)
