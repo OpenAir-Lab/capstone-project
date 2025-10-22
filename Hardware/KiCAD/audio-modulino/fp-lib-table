@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "capstone-project")(type "KiCad")(uri "${KIPRJMOD}/capstone-project.pretty")(options "")(descr ""))
+)
