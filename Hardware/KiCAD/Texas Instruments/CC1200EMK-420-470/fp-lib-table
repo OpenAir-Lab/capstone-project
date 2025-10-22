@@ -1,4 +1,0 @@
-(fp_lib_table
-  (version 7)
-  (lib (name "CC1200EMK-420-470")(type "KiCad")(uri "${KIPRJMOD}/CC1200EMK-420-470.pretty")(options "")(descr ""))
-)
