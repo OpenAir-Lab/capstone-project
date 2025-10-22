@@ -6,7 +6,7 @@
 	(descr "WR-FPC SMT ZIF Horizontal Hinge Type")
 	(tags "EYESPI, FPC")
 	(property "Reference" "J"
-		(at -11.375 -2.235 0)
+		(at 7.874 2.032 0)
 		(layer "F.SilkS")
 		(uuid "fdd1fe3b-c4f2-45f8-9cee-1465a29903ab")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "687118149022"
-		(at -15.47 1.215 0)
+		(at 0 4.064 0)
 		(layer "F.Fab")
 		(uuid "a596403d-d400-498f-8c0c-02f387a33510")
 		(effects
@@ -51,7 +51,7 @@
 			)
 		)
 	)
-	(attr smd)
+	(attr smd allow_soldermask_bridges)
 	(fp_line
 		(start -6.65 -3)
 		(end -6.65 -1.85)

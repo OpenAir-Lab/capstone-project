@@ -49,10 +49,11 @@
 			)
 		)
 	)
-	(attr smd)
+	(clearance 0.1554)
+	(attr smd allow_soldermask_bridges)
 	(fp_line
 		(start -1 -1)
-		(end -1 -0.75)
+		(end -1 -0.8)
 		(stroke
 			(width 0.1524)
 			(type solid)
@@ -62,7 +63,7 @@
 	)
 	(fp_line
 		(start -1 1)
-		(end -1 0.75)
+		(end -1 0.8)
 		(stroke
 			(width 0.1524)
 			(type solid)
@@ -71,7 +72,7 @@
 		(uuid "e98fb5d8-5340-414c-90db-1dfeabb36bf1")
 	)
 	(fp_line
-		(start -0.75 -1)
+		(start -0.8 -1)
 		(end -1 -1)
 		(stroke
 			(width 0.1524)
@@ -81,7 +82,7 @@
 		(uuid "1cb23a2f-b5f5-4789-9238-97682470da85")
 	)
 	(fp_line
-		(start -0.75 1)
+		(start -0.8 1)
 		(end -1 1)
 		(stroke
 			(width 0.1524)
@@ -91,7 +92,7 @@
 		(uuid "cc4a14e3-69da-4afb-8598-2976c7a08d73")
 	)
 	(fp_line
-		(start 0.75 -1)
+		(start 0.8 -1)
 		(end 1 -1)
 		(stroke
 			(width 0.1524)
@@ -101,7 +102,7 @@
 		(uuid "3169b540-e50d-49e5-8875-01172ef9d139")
 	)
 	(fp_line
-		(start 0.75 1)
+		(start 0.8 1)
 		(end 1 1)
 		(stroke
 			(width 0.1524)
@@ -112,7 +113,7 @@
 	)
 	(fp_line
 		(start 1 -1)
-		(end 1 -0.75)
+		(end 1 -0.8)
 		(stroke
 			(width 0.1524)
 			(type solid)
@@ -122,7 +123,7 @@
 	)
 	(fp_line
 		(start 1 1)
-		(end 1 0.75)
+		(end 1 0.8)
 		(stroke
 			(width 0.1524)
 			(type solid)
@@ -131,8 +132,8 @@
 		(uuid "02c6f5ab-2944-4220-8ab4-09f0961c9e22")
 	)
 	(fp_circle
-		(center -1.5 -0.625)
-		(end -1.323225 -0.625)
+		(center -1.528023 -0.660358)
+		(end -1.351248 -0.660358)
 		(stroke
 			(width 0.1524)
 			(type solid)
