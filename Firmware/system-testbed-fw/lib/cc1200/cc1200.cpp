@@ -36,7 +36,7 @@ int cc1200_command_strobe_access(cc1200_command_strobe_t strobe) {
 // Section 3.1.2 Chip Status Byte
 // Status byte is sent on the MISO pin each time a header byte is transmitted on the MOSI pin.
 
-// 
+// `
 // Program CC120X into different modes (RX, TX, SLEEP, IDLE, etc)
 //
 
@@ -84,7 +84,7 @@ int cc1200_idle_mode() {
 // Entered on
 // SPWD or WOR              from IDLE
 int cc1200_sleep_mode() {
-    cc1200_command_strobe_access(SNOP);
+    cc1200_command_strobe_access(SPWD);
     return 0;
 }
 // Left on CSn=0

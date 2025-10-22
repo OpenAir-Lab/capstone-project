@@ -1,0 +1,222 @@
+(footprint "SON50P150X150X50-7N-D"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "DFN-6")
+	(tags "Integrated Circuit")
+	(property "Reference" "IC**"
+		(at 0 0 0)
+		(layer "F.SilkS")
+		(uuid "08f35458-2e52-42d5-b161-d8ded8fe4c15")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(property "Value" "SON50P150X150X50-7N-D"
+		(at 0 0 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "9becfe2c-deea-4838-b0c2-b4f2e149b6bf")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0143706f-331b-453b-a9d0-4fa009c10990")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d72c770e-dca8-4609-be25-4e08579f4c04")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_circle
+		(center -1.15 -1.125)
+		(end -1.15 -1)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "f62d1ed3-b5af-48ce-9256-dbf951838e19")
+	)
+	(fp_line
+		(start -1.375 -1.025)
+		(end 1.375 -1.025)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "0acf39ed-f5a0-471a-8555-84129ce7a11d")
+	)
+	(fp_line
+		(start -1.375 1.025)
+		(end -1.375 -1.025)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "37177d64-ba49-4af3-9b4d-c36073df1397")
+	)
+	(fp_line
+		(start 1.375 -1.025)
+		(end 1.375 1.025)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "8c68bf0b-bd5c-48f1-8b2c-083702d3f296")
+	)
+	(fp_line
+		(start 1.375 1.025)
+		(end -1.375 1.025)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "6918ffcd-6b4a-4eeb-bbc8-ec6241da56cc")
+	)
+	(fp_line
+		(start -0.75 -0.75)
+		(end 0.75 -0.75)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "a08cd208-3970-4201-a5ad-3f4c43bb4c10")
+	)
+	(fp_line
+		(start -0.75 -0.375)
+		(end -0.375 -0.75)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "85c1ba11-26d7-469f-a6e7-f9fcfe3e7106")
+	)
+	(fp_line
+		(start -0.75 0.75)
+		(end -0.75 -0.75)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "376ae788-6818-43e2-a27c-e83b92778626")
+	)
+	(fp_line
+		(start 0.75 -0.75)
+		(end 0.75 0.75)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "3d6a48c6-f9fd-4342-9231-5d4b21893b58")
+	)
+	(fp_line
+		(start 0.75 0.75)
+		(end -0.75 0.75)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "08230bbc-c155-498a-937a-82220cca7fd1")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "c1fcd993-ae39-4565-86f1-e144b53725bd")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -0.85 -0.5 90)
+		(size 0.25 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "03b41824-14da-4b51-b186-ce4b5d8b6d3b")
+	)
+	(pad "2" smd rect
+		(at -0.85 0 90)
+		(size 0.25 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "e97fd6cf-1024-474c-9865-ed9ea4a2119a")
+	)
+	(pad "3" smd rect
+		(at -0.85 0.5 90)
+		(size 0.25 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "84ae2c12-c9b2-48b5-aec4-b2f599789f35")
+	)
+	(pad "4" smd rect
+		(at 0.85 0.5 90)
+		(size 0.25 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "09d6f095-44f5-4e3c-b073-047b8813e7ad")
+	)
+	(pad "5" smd rect
+		(at 0.85 0 90)
+		(size 0.25 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "77927576-31f9-40f5-94ba-a1de5ee1ee42")
+	)
+	(pad "6" smd rect
+		(at 0.85 -0.5 90)
+		(size 0.25 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "24102c15-d1e3-4a81-b84e-ef1bf074dda6")
+	)
+	(pad "7" smd rect
+		(at 0 0)
+		(size 0.65 1.15)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "81786326-4128-42c8-9f15-f212819e7aff")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/GRF2106/GRF2106.pretty/DFN-6-1.5x1.5mm_Pitch0.5mm.wrl"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)
