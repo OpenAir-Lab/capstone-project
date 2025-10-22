@@ -6,6 +6,9 @@
 		{
 			"name": "system-testbed-fw",
 			"path": "Firmware/system-testbed-fw"
+		},
+		{
+			"path": "../capstone-project.wiki"
 		}
 	],
 	"settings": {
