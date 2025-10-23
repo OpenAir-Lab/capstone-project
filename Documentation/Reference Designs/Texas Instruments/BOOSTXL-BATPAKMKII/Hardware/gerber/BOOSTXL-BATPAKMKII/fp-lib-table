@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "BOOSTXL-BATPAKMKII")(type "KiCad")(uri "$(KIPRJMOD)/BOOSTXL-BATPAKMKII.pretty")(options "")(descr ""))
+)

@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 0)
+  (lib (name "GRF-QFN16-30-21-A-eagle-import")(type "KiCad")(uri "${KIPRJMOD}/GRF-QFN16-30-21-A-eagle-import.kicad_sym")(options "")(descr ""))
+  (lib (name "GRF-QFN16-30-21-A-altium-import")(type "KiCad")(uri "${KIPRJMOD}/GRF-QFN16-30-21-A-altium-import.kicad_sym")(options "")(descr ""))
+)

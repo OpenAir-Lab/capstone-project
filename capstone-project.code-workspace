@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "system-testbed-fw",
+			"path": "Firmware/system-testbed-fw"
+		},
+		{
+			"path": "../capstone-project.wiki"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"cc1200.h": "c",
+			"adafruit_display_demo.h": "c"
+		}
+	}
+}

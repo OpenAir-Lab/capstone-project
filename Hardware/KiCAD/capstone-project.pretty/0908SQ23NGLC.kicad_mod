@@ -1,0 +1,192 @@
+(footprint "0908SQ23NGLC"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "0908SQ-23NGLC-1")
+	(tags "Inductor")
+	(property "Reference" "L**"
+		(at 2.54 0 90)
+		(layer "F.SilkS")
+		(uuid "6d4b8ea1-1c01-4748-9747-e8f646e451f6")
+		(effects
+			(font
+				(size 0.75 0.75)
+				(thickness 0.15)
+				(bold yes)
+			)
+		)
+	)
+	(property "Value" "0908SQ23NGLC"
+		(at 0 0 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "6f353e88-c185-42c4-a61b-c1f7bebf3b33")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "883e2542-c17c-4ad2-9984-460ef567b4f5")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "9f8768e6-04cb-4f93-9675-8a0735c4637b")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -0.4 -1.067)
+		(end 0.4 -1.067)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "7c2152e2-4a66-4548-9f65-0b61a248e3bd")
+	)
+	(fp_line
+		(start -0.4 1.067)
+		(end 0.4 1.067)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "52295830-4912-4535-90a0-0ab6f844a453")
+	)
+	(fp_line
+		(start -1.778 -1.778)
+		(end 1.778 -1.778)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "d03f4866-576f-4186-abae-0090614d76f3")
+	)
+	(fp_line
+		(start -1.778 1.778)
+		(end -1.778 -1.778)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "eedb6caf-2376-4109-aa38-4d4a799029b0")
+	)
+	(fp_line
+		(start 1.778 -1.778)
+		(end 1.778 1.778)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "e473fe3e-2796-4202-aeb5-f35608fd85b8")
+	)
+	(fp_line
+		(start 1.778 1.778)
+		(end -1.778 1.778)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "199675ca-e0e1-485d-9a68-b4240cd4dee5")
+	)
+	(fp_line
+		(start -1.117 -1.067)
+		(end 1.117 -1.067)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "5a7dbf16-0b30-436f-99b4-1979e29fc9db")
+	)
+	(fp_line
+		(start -1.117 1.067)
+		(end -1.117 -1.067)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "3e3abde6-9c3f-4e04-802d-d2d385b5721a")
+	)
+	(fp_line
+		(start 1.117 -1.067)
+		(end 1.117 1.067)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "4bd18171-4705-46cf-aabc-549f4b02613b")
+	)
+	(fp_line
+		(start 1.117 1.067)
+		(end -1.117 1.067)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "95e2cd11-da1e-46ff-97eb-ca016e2833ff")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "bbf142d9-4917-4a29-b3c1-861ee7d0024e")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -0.95 0)
+		(size 0.64 2.8)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "ddb61c73-f6eb-4c88-a605-0c4f3e9d5f3f")
+	)
+	(pad "2" smd rect
+		(at 0.95 0)
+		(size 0.64 2.8)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "64362f46-8c7c-467a-81ae-22da28c6d1b3")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/capstone-project.pretty/3dmodels/Coilcraft-0908SQ-23N.step"
+		(offset
+			(xyz -1 -1 0.175)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 -0 -0)
+		)
+	)
+)
