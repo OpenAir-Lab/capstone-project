@@ -9,7 +9,7 @@
 /// @brief configuration of CC1200 sub 1-GHz radio transceiver
 typedef struct {
     SPIClass *spi;
-    int8_t sck = 5;
+    int8_t pin_sck = 5;
 } cc1200_config_t;
 
 // @brief CC1200 Command Strobes (0x30 ≤ SPI Address Space ≤ 0x3D)

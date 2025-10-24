@@ -7,7 +7,7 @@ extern cc1200_config_t cc1200;
 int cc1200_init(cc1200_config_t &cc1200) {
     // Initialize SPI
     cc1200.spi->setFrequency(10000000); // 10 MHz
-    cc1200.spi->begin(cc1200.sck);
+    cc1200.spi->begin(cc1200.pin_sck);
     // 100 ns delay between consecutive data bytes must be added
     // during burst write access to the configuration registers.
     return 0;

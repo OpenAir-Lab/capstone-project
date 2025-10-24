@@ -231,7 +231,7 @@ void setup(void) {
     Serial.printf("Hello! ST77xx TFT Test\n");
 
 
-    cc1200.sck = 4; //Default 5, GPIO5 is a pull-up strapping pin.
+    cc1200.pin_sck = 4; //Default 5, GPIO5 is a pull-up strapping pin.
     cc1200.spi = new SPIClass(VSPI);
 
     // // Use this initializer (uncomment) if using a 1.3" or 1.54" 240x240 TFT:
