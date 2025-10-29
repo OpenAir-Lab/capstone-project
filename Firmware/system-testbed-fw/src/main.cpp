@@ -7,6 +7,7 @@
 #include "esp_flash.h"
 #include "esp_system.h"
 #include <cc1200.h>
+#include <pcf8575.h>
 
 #include <adafruit_display_demo.h>
 
@@ -57,10 +58,12 @@ static const unsigned char PROGMEM image_battery_100_bits[] = {0x00,0x00,0x00,0x
 // Texas Instruments CC1200 Configuration 
 // VSPI normally attached to pins 5, 18, 19, and 23,
 // but can be matrixed to any pins as shown below.
-#define CC1200_SCLK  4 // SCK 5 -> 4
-#define CC1200_MISO 18 // Default
-#define CC1200_MOSI 19 // Default
-#define CC1200_SS   23 // Default
+// #define CC1200_NRST PORT03 // Reset -> Port 3 of MCU Port Expander
+#define CC1200_NRST 33    // Reset -> 33
+#define CC1200_SCLK  4    // SCK 5 -> 4
+#define CC1200_MISO 18    // Default
+#define CC1200_MOSI 19    // Default
+#define CC1200_SS   23    // Default
 cc1200_config_t cc1200;
 
 void frequencyScreen() {
@@ -249,10 +252,11 @@ typedef enum {
     DIGITAL_AUDIO_INTERFACE, // Source and sink digital audio
     RADIO_TRANSCEIVER,       // Traverse radio control states 
     RADIO_AMPLIFIER,         // Amplify UHF or VHF radio signals 
-    RADIO_SWITCH             // Scatter parameterize multiport Switch 
+    RADIO_SWITCH,            // Scatter parameterize multiport Switch 
+    EXPO_DEMO                // Comprehensive system integration tests
 } demonstration_t;
 
-demonstration_t demo = HUMAN_MACHINE_INTERFACE;
+demonstration_t demo = RADIO_TRANSCEIVER;
 
 void demonstrate_usb_power_delivery() {
 
@@ -286,18 +290,22 @@ void setup(void) {
     #endif
 
     // Texas Instruments CC1200 Sub 1-GHz Radio Transceiver
+    cc1200.pin_nrst = CC1200_NRST; 
     cc1200.pin_sck = CC1200_SCLK; //Default 5, GPIO5 is a pull-up strapping pin.
+    cc1200.pin_miso = CC1200_MISO;
+    cc1200.pin_mosi = CC1200_MOSI;
     cc1200.spi = new SPIClass(VSPI);
     cc1200_init(cc1200);
+    delay(500);
     #ifdef DEBUG
-    DEBUG.printf("Initialized Radio Transceiver over VSPI");
+    DEBUG.printf("Initialized Radio Transceiver over VSPI\n");
     #endif
-
     // Adafruit 1.9" 170x320 TFT Module
     tft.init(170, 320); // Initialize the ST7789 onboard module
     tft.setSPISpeed(40000000); // HSPI Speed = 40 MHz
+    tft.fillScreen(ST77XX_BLACK);
     #ifdef DEBUG
-    DEBUG.printf("Initialized TFT Module over HSPI");
+    DEBUG.printf("Initialized TFT Module over HSPI\n");
     #endif
     // measure time to demo completion
     uint16_t time_to_completion = millis();
@@ -326,7 +334,7 @@ void setup(void) {
     }
     time_to_completion = millis() - time_to_completion;
     #ifdef DEBUG
-    DEBUG.println(time_to_completion, DEC);
+    DEBUG.printf("Time to demonstration completion: %d ms\n", time_to_completion, DEC);
     #endif
     delay(500);
 }
