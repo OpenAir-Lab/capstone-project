@@ -1,6 +1,5 @@
 #include <pcf8575.h>
 
-// TODO: Phase out adafruit BusIO dependency
 #include <Adafruit_PCF8575.h>
 Adafruit_PCF8575 pcf;
 
