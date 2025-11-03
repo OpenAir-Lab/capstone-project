@@ -54,3 +54,5 @@ void testroundrects();
 void tftPrintTest();
 
 void mediabuttons();
+
+void demoAdafruitDriver();
