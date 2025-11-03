@@ -6,18 +6,48 @@
 #include "esp_chip_info.h"
 #include "esp_flash.h"
 #include "esp_system.h"
-#include <cc1200.h>
-#include <pcf8575.h>
 
-#include <adafruit_display_demo.h>
+#include <cc1200.h>   // used in Transceiver Modulino 
+#include <sky13330.h> // used in RF Switch Modulino
+#include <grf5604.h>  // used in Amplifier Modulino
 
-#include <Fonts/FreeMono9pt7b.h>
-#include <Fonts/FreeMonoBold9pt7b.h>
-#include <Fonts/FreeSerifBoldItalic12pt7b.h>
+#include <pcf8575.h>  // used in MCU, HMI, and RF Modulinos
+
+#include <st7735.h> // used in HMI Modulino
+
+// use doxygen formatting in block comments
+// for auto-generated firmware documentation!
 
 // NOTE: UART bridge uses UART0 over RX and TX pins.
 // This is only enabled when UART0 is not reassigned! 
 #define DEBUG Serial // uncomment to enable print debugging.
+
+// Radio Configuration
+
+// Texas Instruments CC1200 Configuration
+// VSPI normally attached to pins 5, 18, 19, and 23,
+// but can be matrixed to any pins as shown below.
+// #define CC1200_NRST PORT03 // Reset -> Port 3 of MCU Port Expander
+#define CC1200_NRST  21    // Reset is not correct pin yet. 
+#define CC1200_SCLK  18    //  SCK=05 -> 18
+#define CC1200_MISO  19    // MISO=18 -> 19
+#define CC1200_MOSI  23    // MOSI=19 -> 23
+#define CC1200_SS    5     //   SS=23 -> 5
+#define CC1200_GDIO0 32
+#define CC1200_GDIO2 33
+cc1200_config_t cc1200;
+#define RFSW_ENABLE  PORT10 
+#define RFSW_BAND    PORT11 
+#define RFSW_TRX     PORT12 
+sky13330_config_t sky13330;
+#define UHF_SHUTDOWN PORT13
+#define UHF_ENABLE1  PORT15
+#define UHF_ENABLE2  UHF_ENABLE1 // stages share enables
+grf5604_config_t uhf_grf5604;
+#define VHF_SHUTDOWN PORT14
+#define VHF_ENABLE1  PORT16
+#define VHF_ENABLE2  VHF_ENABLE1 // stages share enables
+grf5604_config_t vhf_grf5604;
 
 // Human-Machine Interface Configuration
 
@@ -34,7 +64,6 @@
 #define TFT_MOSI 13  // 14 -> 13
 #define TFT_SS   4   // 15 -> 4
 Adafruit_ST7789 tft = Adafruit_ST7789(TFT_SS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
-
 /*! ICONAGRAPHY BITMAPS 
     \brief is loaded into PROGMEM used by TFT display buffers.
     
@@ -52,19 +81,6 @@ static const unsigned char PROGMEM image_battery_100_bits[] = {0x00,0x00,0x00,0x
     Keypad is on the first port of the port expander on HMI.
     Scanning is acheived using domino logic.
 */
-
-// Radio Configuration
-
-// Texas Instruments CC1200 Configuration 
-// VSPI normally attached to pins 5, 18, 19, and 23,
-// but can be matrixed to any pins as shown below.
-// #define CC1200_NRST PORT03 // Reset -> Port 3 of MCU Port Expander
-#define CC1200_NRST 33    // Reset -> 33
-#define CC1200_SCLK  4    // SCK 5 -> 4
-#define CC1200_MISO 18    // Default
-#define CC1200_MOSI 19    // Default
-#define CC1200_SS   23    // Default
-cc1200_config_t cc1200;
 
 void frequencyScreen() {
 
@@ -125,7 +141,6 @@ void frequencyScreen() {
 
 
 }
-
 
 void testdemoA() {
     tft.fillScreen(0x0);
@@ -199,52 +214,6 @@ void testdemoA() {
     tft.drawBitmap(278, -2, image_guy_bits, 41, 43, 0xFFFF);
 }
 
-void demoAdafruitDriver() {
-    // large block of text
-    tft.fillScreen(ST77XX_BLACK);
-    char* sample_text = (char*)"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ";
-    testdrawtext(sample_text, ST77XX_WHITE);
-    delay(1000);
-
-    // tft print function!
-    tftPrintTest();
-    delay(4000);
-
-    // a single pixel
-    tft.drawPixel(tft.width()/2, tft.height()/2, ST77XX_GREEN);
-    delay(500);
-
-    // line draw test
-    testlines(ST77XX_YELLOW);
-    delay(500);
-
-    // optimized lines
-    testfastlines(ST77XX_RED, ST77XX_BLUE);
-    delay(500);
-
-    testdrawrects(ST77XX_GREEN);
-    delay(500);
-
-    testfillrects(ST77XX_YELLOW, ST77XX_MAGENTA);
-    delay(500);
-
-    tft.fillScreen(ST77XX_BLACK);
-    testfillcircles(10, ST77XX_BLUE);
-    testdrawcircles(10, ST77XX_WHITE);
-    delay(500);
-
-    testroundrects();
-    delay(500);
-
-    testtriangles();
-    delay(500);
-
-    // mediabuttons();
-    // delay(500);
-
-    Serial.println("done");
-    delay(1000);
-}
 typedef enum {
     USB_POWER_DELIVERY,      // Advertise modern power delivery profiles 
     BATTERY_POWER_SUPPLY,    // Charge and customize battery power
@@ -256,57 +225,98 @@ typedef enum {
     EXPO_DEMO                // Comprehensive system integration tests
 } demonstration_t;
 
-demonstration_t demo = RADIO_TRANSCEIVER;
+demonstration_t demo = RADIO_SWITCH;
 
 void demonstrate_usb_power_delivery() {
 
 }
+
 void demonstrate_battery_power_supply() {
 
 }
+
 void demonstrate_human_machine_interface() {
     tft.fillScreen(ST77XX_BLACK);
-    // frequencyScreen();
-    testdemoA();
-    // demoAdafruitDriver();
 }
+
 void demonstrate_digital_audio_interface() {
 
 }
-void demonstrate_radio_transceiver() {
 
-}
 void demonstrate_radio_amplifier() {
-
-}
-void demonstrate_radio_switch() {
-
+    
 }
 
-void setup(void) {
-    // ESP32 Serial Monitor
-    #ifdef DEBUG
-    DEBUG.begin(115200); // Monitor has 115200 Baud rate.
-    #endif
+void demonstrate_expo() {
+    demonstrate_usb_power_delivery();
+    demonstrate_battery_power_supply();
+    demonstrate_human_machine_interface();
+    demonstrate_digital_audio_interface();
+    demonstrate_radio_transceiver();
+    demonstrate_radio_amplifier();
+    demonstrate_radio_switch();
+}
 
-    // Texas Instruments CC1200 Sub 1-GHz Radio Transceiver
-    cc1200.pin_nrst = CC1200_NRST; 
-    cc1200.pin_sck = CC1200_SCLK; //Default 5, GPIO5 is a pull-up strapping pin.
-    cc1200.pin_miso = CC1200_MISO;
-    cc1200.pin_mosi = CC1200_MOSI;
-    cc1200.spi = new SPIClass(VSPI);
-    cc1200_init(cc1200);
-    delay(500);
-    #ifdef DEBUG
-    DEBUG.printf("Initialized Radio Transceiver over VSPI\n");
-    #endif
+int hmi_init() {
     // Adafruit 1.9" 170x320 TFT Module
     tft.init(170, 320); // Initialize the ST7789 onboard module
     tft.setSPISpeed(40000000); // HSPI Speed = 40 MHz
     tft.fillScreen(ST77XX_BLACK);
     #ifdef DEBUG
-    DEBUG.printf("Initialized TFT Module over HSPI\n");
+    DEBUG.printf("(HSPI) Initialized TFT Module and Blanked Screen\n");
     #endif
+    // TODO: Initialize HMI Port Expander.
+    #ifdef DEBUG
+    DEBUG.printf("(I2C) Initialized HMI Port Expander\n");
+    #endif
+    return 0;
+}
+
+void setup(void) {
+    bool initialized = false; 
+    // ESP32 Serial Monitor
+    #ifdef DEBUG
+    while(!DEBUG) {
+        DEBUG.begin(115200); // Monitor has 115200 Baud rate.
+    }
+    #endif
+    // Texas Instruments CC1200 Sub 1-GHz Radio Transceiver
+    cc1200.pin_nrst  = CC1200_NRST; 
+    cc1200.pin_sck   = CC1200_SCLK; //Default 5, GPIO5 is a pull-up strapping pin.
+    cc1200.pin_miso  = CC1200_MISO;
+    cc1200.pin_mosi  = CC1200_MOSI;
+    cc1200.pin_ss    = CC1200_SS;
+    cc1200.pin_gdio0 = CC1200_GDIO0;
+    cc1200.pin_gdio2 = CC1200_GDIO2;
+    cc1200.spi = new SPIClass(VSPI);
+    do {
+        initialized = (cc1200_init(cc1200) == 0);
+    } while (!initialized);
+    #ifdef DEBUG
+    DEBUG.printf("(VSPI) Initialized Radio Transceiver\n");
+    #endif
+    // Skyworks SKY13330-397LF SPDT RF Switch
+    sky13330.pin_enable = RFSW_ENABLE;
+    sky13330.pin_band = RFSW_BAND;
+    sky13330.pin_trx = RFSW_TRX;
+    do {
+        initialized = (sky13330_init(sky13330) == 0);
+    } while (!initialized);
+    #ifdef DEBUG
+    DEBUG.printf("(I2C) Initialized RF Switch\n");
+    #endif
+    // Initialize Amplifiers in powered down state
+    do {
+        initialized = (grf5604_init(uhf_grf5604) == 0);
+    } while (!initialized);
+    do {
+        initialized = (grf5604_init(vhf_grf5604) == 0);
+    } while (!initialized);
+    // Initialize HMI
+    do {
+        initialized = (hmi_init() == 0);
+    } while (!initialized);
+    
     // measure time to demo completion
     uint16_t time_to_completion = millis();
     switch(demo) {
@@ -331,6 +341,8 @@ void setup(void) {
         case (RADIO_SWITCH):            // Scatter parameterize multiport Switch
             demonstrate_radio_switch();
             break;
+        case (EXPO_DEMO):
+            demonstrate_expo();
     }
     time_to_completion = millis() - time_to_completion;
     #ifdef DEBUG
