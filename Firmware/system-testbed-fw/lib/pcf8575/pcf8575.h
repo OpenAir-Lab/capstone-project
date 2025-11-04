@@ -4,6 +4,7 @@
 #include <string.h>
 #include "HardwareSerial.h"
 #include "Wire.h"
+#include <Adafruit_PCF8575.h>
 
 typedef struct {
   TwoWire *i2c;
@@ -14,17 +15,10 @@ typedef struct {
   // uint8_t sensor_write_address = 0x40; // 0x40 -> 0x4E
 } pcf8575_config_t;
 
-typedef enum {
-  // LOW,   HIGH,    LOW,    LOW,  ADDR2,  ADDR1,  ADDR0,   R/NW
-  PORT00, PORT01, PORT02, PORT03, PORT04, PORT05, PORT06, PORT07, // P0x I/O data bus
-  PORT10, PORT11, PORT12, PORT13, PORT14, PORT15, PORT16, PORT17  // P1x I/O data bus
-} pcf8575_address_map_t;
+bool pcf8575_portMode(Adafruit_PCF8575 &pcf, uint8_t port, uint8_t mode);
 
+int pcf8575_readPort(Adafruit_PCF8575 &pcf, uint8_t port);
 
-bool pcf8575_portMode(uint8_t port, uint8_t mode);
+int pcf8575_writePort(Adafruit_PCF8575 &pcf, uint8_t port, uint8_t value);
 
-int pcf8575_readPort(uint8_t port);
-
-int pcf8575_writePort(uint8_t port, uint8_t value);
-
-int pcf8575_init(pcf8575_config_t &configuration);
+int pcf8575_init(Adafruit_PCF8575 &pcf, pcf8575_config_t &configuration);
