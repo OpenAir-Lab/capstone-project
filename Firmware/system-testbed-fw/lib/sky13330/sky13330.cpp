@@ -1,8 +1,10 @@
 #include <sky13330.h>
 #include <Arduino.h>
 #include <st7735.h>
+#include <pcf8575.h>
 
 extern Adafruit_ST7789 tft;
+extern Adafruit_PCF8575 pcf_radio;
 
 #define RFSW_DEBUG Serial
 
@@ -16,8 +18,8 @@ const char* scatter_parameter[4] = {
 };
 
 void rfsw_switchTo(bool band_select, bool trx_select) {
-    digitalWrite(sky13330.pin_band, band_select);
-    digitalWrite(sky13330.pin_trx, trx_select);
+    pcf8575_writePort(pcf_radio, sky13330.pin_band, band_select);
+    pcf8575_writePort(pcf_radio, sky13330.pin_trx, trx_select);
     int8_t port_select = (band_select << 1) + (trx_select);
     #ifdef RFSW_DEBUG
     RFSW_DEBUG.printf("Now switched to P%d band=%d trx=%d for measurement %s\n", 2+port_select, band_select, trx_select, scatter_parameter[port_select]);
@@ -74,7 +76,7 @@ void rfsw_switchTo(rfsw_port_selections_t port_select) {
 }
 
 int sky13330_init(sky13330_config_t &sky13330) {
-    digitalWrite(sky13330.pin_enable, HIGH);
+    pcf8575_writePort(pcf_radio, sky13330.pin_enable, HIGH);
     rfsw_switchTo(RX_UHF);
     return 0;
 }
