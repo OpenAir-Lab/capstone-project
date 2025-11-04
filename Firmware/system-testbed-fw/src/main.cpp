@@ -22,13 +22,17 @@
 // This is only enabled when UART0 is not reassigned! 
 #define DEBUG Serial // uncomment to enable print debugging.
 
+
 // Radio Configuration
+#define PIN_SDA 21
+#define PIN_SCL 22
+Adafruit_PCF8575 pcf_radio;
+pcf8575_config_t pcf_radio_config;
 
 // Texas Instruments CC1200 Configuration
 // VSPI normally attached to pins 5, 18, 19, and 23,
 // but can be matrixed to any pins as shown below.
-// #define CC1200_NRST PORT03 // Reset -> Port 3 of MCU Port Expander
-#define CC1200_NRST  21    // Reset is not correct pin yet. 
+#define CC1200_NRST  15    // Reset is not correct pin yet. 
 #define CC1200_SCLK  18    //  SCK=05 -> 18
 #define CC1200_MISO  19    // MISO=18 -> 19
 #define CC1200_MOSI  23    // MOSI=19 -> 23
@@ -36,16 +40,16 @@
 #define CC1200_GDIO0 32
 #define CC1200_GDIO2 33
 cc1200_config_t cc1200;
-#define RFSW_ENABLE  PORT10 
-#define RFSW_BAND    PORT11 
-#define RFSW_TRX     PORT12 
+#define RFSW_ENABLE  8
+#define RFSW_BAND    9
+#define RFSW_TRX     10
 sky13330_config_t sky13330;
-#define UHF_SHUTDOWN PORT13
-#define UHF_ENABLE1  PORT15
+#define UHF_SHUTDOWN 11
+#define UHF_ENABLE1  13
 #define UHF_ENABLE2  UHF_ENABLE1 // stages share enables
 grf5604_config_t uhf_grf5604;
-#define VHF_SHUTDOWN PORT14
-#define VHF_ENABLE1  PORT16
+#define VHF_SHUTDOWN 12
+#define VHF_ENABLE1  14
 #define VHF_ENABLE2  VHF_ENABLE1 // stages share enables
 grf5604_config_t vhf_grf5604;
 
@@ -55,14 +59,14 @@ grf5604_config_t vhf_grf5604;
     \brief used with an instance of Adafruit_ST7789 class.
 */
 // For the breakout board, matrix to any 2 or 3 pins.
-#define TFT_RST -1 // ESP32 Reset pin is -1
-#define TFT_DC  26 // Display Command pin
 // HSPI normally attached to pins 12, 13, 14, and 15, 
 // but can be matrixed to any pins as shown below.
-#define TFT_SCLK 14  // 12 -> 14
-// HSPI MISO not utilized, default 13
-#define TFT_MOSI 13  // 14 -> 13
-#define TFT_SS   4   // 15 -> 4
+// HSPI MISO not utilized, default 12
+#define TFT_SS    4 // 15 -> 4
+#define TFT_DC   26 // Display Command pin
+#define TFT_MOSI 13 // ESP32 IOMUX Default
+#define TFT_SCLK 14 // ESP32 IOMUX Default
+#define TFT_RST  -1 // ESP32 Reset pin is -1
 Adafruit_ST7789 tft = Adafruit_ST7789(TFT_SS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 /*! ICONAGRAPHY BITMAPS 
     \brief is loaded into PROGMEM used by TFT display buffers.
@@ -280,15 +284,50 @@ void setup(void) {
         DEBUG.begin(115200); // Monitor has 115200 Baud rate.
     }
     #endif
+    Wire.setPins(PIN_SDA, PIN_SCL);
+    Wire.begin();
+    // attachInterrupt(digitalPinToInterrupt(radio.pin_interrupt), inputISR, CHANGE);
+    pcf_radio_config.i2c = &Wire;
+    pcf_radio_config.pin_interrupt = 12;
+    // pcf_radio_config.sensor_address; must change
+    Serial.println("\nStarting I2C scan...");
+
+    bool found = false;
+    for (uint8_t addr = 1; addr < 127; addr++) { // Iterates through all addresses 1-126
+        Wire.beginTransmission(addr);              // If address is found this should begin the exchange with said address
+        if (Wire.endTransmission() == 0) {         // ends that exchange 
+            DEBUG.print("Found device at 0x");
+            DEBUG.println(addr, HEX);
+            found = true;
+        }
+    }
+    if (!found) DEBUG.println("No devices found.");
+
+    do {
+        initialized = (pcf8575_init(pcf_radio, pcf_radio_config) == 0);
+    } while (!initialized);
+    pcf8575_portMode(pcf_radio, CC1200_NRST, OUTPUT);
+    pcf8575_portMode(pcf_radio, RFSW_ENABLE, OUTPUT);
+    pcf8575_portMode(pcf_radio, RFSW_BAND, OUTPUT);
+    pcf8575_portMode(pcf_radio, RFSW_TRX, OUTPUT);
+    pcf8575_portMode(pcf_radio, UHF_SHUTDOWN, OUTPUT);
+    pcf8575_portMode(pcf_radio, UHF_ENABLE1, OUTPUT);
+    pcf8575_portMode(pcf_radio, UHF_ENABLE2, OUTPUT);
+    pcf8575_portMode(pcf_radio, VHF_SHUTDOWN, OUTPUT);
+    pcf8575_portMode(pcf_radio, VHF_ENABLE1, OUTPUT);
+    pcf8575_portMode(pcf_radio, VHF_ENABLE2, OUTPUT);
+    
     // Texas Instruments CC1200 Sub 1-GHz Radio Transceiver
-    cc1200.pin_nrst  = CC1200_NRST; 
-    cc1200.pin_sck   = CC1200_SCLK; //Default 5, GPIO5 is a pull-up strapping pin.
-    cc1200.pin_miso  = CC1200_MISO;
-    cc1200.pin_mosi  = CC1200_MOSI;
-    cc1200.pin_ss    = CC1200_SS;
-    cc1200.pin_gdio0 = CC1200_GDIO0;
-    cc1200.pin_gdio2 = CC1200_GDIO2;
+    cc1200.pin_ss    = CC1200_SS;    // Default
+    cc1200.pin_sck   = CC1200_SCLK;  // Default
+    cc1200.pin_miso  = CC1200_MISO;  // Default
+    cc1200.pin_mosi  = CC1200_MOSI;  // Default
+    cc1200.pin_nrst  = CC1200_NRST;  //
+    cc1200.pin_gdio0 = CC1200_GDIO0; //
+    cc1200.pin_gdio2 = CC1200_GDIO2; //
     cc1200.spi = new SPIClass(VSPI);
+    // cc1200.spi_frequency = 7700000;
+    cc1200.spi_frequency = 100000;
     do {
         initialized = (cc1200_init(cc1200) == 0);
     } while (!initialized);
@@ -348,7 +387,6 @@ void setup(void) {
     #ifdef DEBUG
     DEBUG.printf("Time to demonstration completion: %d ms\n", time_to_completion, DEC);
     #endif
-    delay(500);
 }
 
 void loop() {
