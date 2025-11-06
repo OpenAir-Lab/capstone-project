@@ -1,0 +1,2 @@
+*.kicad_sch merge=ours
+*.kicad_pcb merge=ours
