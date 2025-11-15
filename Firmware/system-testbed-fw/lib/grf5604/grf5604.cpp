@@ -1,5 +1,11 @@
 #include <grf5604.h>
+#include <pcf8575.h>
+#include <st7735.h>
 #include <Arduino.h>
+
+#define RFAMP_DEBUG Serial
+
+extern Adafruit_ST7789 tft;
 
 extern grf5604_config_t uhf_grf5604;
 extern grf5604_config_t vhf_grf5604;
@@ -29,6 +35,7 @@ extern grf5604_config_t vhf_grf5604;
 // through a range of values prior to settling. During this time, a device which is stable under steady-state conditions may
 // become unstable. Applying RF power can sometimes lead to destructive oscillations.
 int grf5604_powerup(grf5604_config_t &grf5604) {
+    // TODO: stop transmitting, is there a lock?
     digitalWrite(grf5604.pin_enable1, HIGH);
     digitalWrite(grf5604.pin_enable2, HIGH);
     digitalWrite(grf5604.pin_shutdown, LOW);
@@ -39,6 +46,7 @@ int grf5604_powerup(grf5604_config_t &grf5604) {
 // 2) Bring VENABLE voltages to ground potential.
 // 3) Bring VDD/VCC to ground potential at a time ≥ to the time when the VENABLE voltages are brought to ground.
 int grf5604_powerdown(grf5604_config_t &grf5604) {
+    // TODO: stop transmitting, is there a lock?
     digitalWrite(grf5604.pin_enable1, LOW);
     digitalWrite(grf5604.pin_enable2, LOW);
     digitalWrite(grf5604.pin_shutdown, HIGH);
@@ -61,4 +69,66 @@ int grf5604_init(grf5604_config_t &grf5604) {
     pinMode(grf5604.pin_enable1, OUTPUT);
     pinMode(grf5604.pin_enable2, OUTPUT);
     return grf5604_powerdown(grf5604);
+}
+
+
+void grf5604_drawPorts(grf5604_config_t &grf5604) {
+    int portColor;
+    tft.setFont((grf5604.band == UHF) ? &FreeMonoBold9pt7b : &FreeMono9pt7b);
+    portColor = (grf5604.band == UHF) ? 0x250D : 0x73AF;
+    tft.fillRoundRect(90, 50, 25, 25, 3, portColor);
+    tft.setCursor(92, 68);
+    tft.printf("P1");
+    tft.fillRoundRect(205, 50, 25, 25, 3, portColor);
+    tft.setCursor(207, 68);
+    tft.printf("P2");
+    tft.setFont((grf5604.band == VHF) ? &FreeMonoBold9pt7b : &FreeMono9pt7b);
+    portColor = (grf5604.band == VHF) ? 0x250D : 0x73AF;
+    tft.fillRoundRect(90, 95, 25, 25, 3, portColor);
+    tft.setCursor(92, 112);
+    tft.printf("P3");
+    tft.fillRoundRect(205, 95, 25, 25, 3, portColor);
+    tft.setCursor(207, 112);
+    tft.printf("P4");
+}
+
+void demonstrate_radio_amplifier() {
+    #ifdef RFAMP_DEBUG
+    RFAMP_DEBUG.printf("Entering Radio Amplifier Demonstration!\n");
+    #endif
+    tft.fillScreen(ST77XX_BLACK);
+    tft.setRotation(1);
+
+    tft.setTextWrap(false);
+    tft.setTextColor(0xFFFF);
+    // tft.setCursor(10, 20);
+
+    tft.fillRoundRect(103, 40, 115, 90, 10, 0x61B0);
+    tft.fillRoundRect(90, 50, 25, 25, 3, 0xE0C4); // P2
+    tft.fillRoundRect(90, 95, 25, 25, 3, 0xE0C4); // P3
+    tft.fillRoundRect(205, 50, 25, 25, 3, 0xE0C4); // P4
+    tft.fillRoundRect(205, 95, 25, 25, 3, 0xE0C4); // P5
+
+    #ifdef RFAMP_DEBUG
+    RFAMP_DEBUG.printf("(I2C0 0x2?) UHF Radio Amplifier powering up...\n");
+    #endif
+    grf5604_drawPorts(uhf_grf5604);
+    grf5604_powerup(uhf_grf5604);
+    delay(15000); // wait 15 seconds
+    #ifdef RFAMP_DEBUG
+    RFAMP_DEBUG.printf("(I2C0 0x2?) UHF Radio Amplifier powering down...\n");
+    #endif
+    grf5604_powerdown(uhf_grf5604);
+    delay(15000); // wait 15 seconds
+    #ifdef RFAMP_DEBUG
+    RFAMP_DEBUG.printf("(I2C0 0x2?) VHF Radio Amplifier powering up...\n");
+    #endif
+    grf5604_drawPorts(vhf_grf5604);
+    grf5604_powerup(vhf_grf5604);
+    delay(15000); // wait 15 seconds
+    #ifdef RFAMP_DEBUG
+    RFAMP_DEBUG.printf("(I2C0 0x2?) VHF Radio Amplifier powering down...\n");
+    #endif
+    grf5604_powerdown(vhf_grf5604);
+    delay(15000); // wait 15 seconds
 }
