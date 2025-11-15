@@ -1,5 +1,7 @@
 #include <cc1200.h>
 #include <Arduino.h>
+#include <pcf8575.h>
+#include <bitset>
 
 /*! \file cc1200.cpp
     \brief Device Driver for CC1200 using Espressif Arduino Core.
@@ -13,6 +15,7 @@
 // Configure the CC120X
 // 
 extern cc1200_config_t cc1200;
+extern Adafruit_PCF8575 pcf_radio;
 
 /*
 https://docs.arduino.cc/learn/communication/spi/#serial-peripheral-interface-spi
@@ -22,89 +25,103 @@ SPI_MODE1	0	                    1	                Rising	    Falling
 SPI_MODE2	1	                    0	                Rising	    Falling
 SPI_MODE3	1	                    1	                Falling	    Rising
 */
-// #define CC1200_SPI_MODE SPI_MODE0 // per User Guide 3.1.1
+#define CC1200_SPI_MODE SPI_MODE0 // per User Guide 3.1.1
 
-int cc1200_init(cc1200_config_t &cc1200) {
-    // Initialize SPI
-    // https://e2e.ti.com/support/wireless-connectivity/other-wireless-group/other-wireless/f/other-wireless-technologies-forum/307966/cc1200-spi-clock-query
-    cc1200.spi->setFrequency(cc1200.spi_frequency); // 7.7 MHz per Martin B of TI E2E forums over 12 years ago 
-    cc1200.spi->begin(cc1200.pin_sck);
-    // set up slave select pins as outputs as the Arduino API
-    // doesn't handle automatically pulling SS low
-    // https://docs.espressif.com/projects/arduino-esp32/en/latest/api/spi.html
-    pinMode(cc1200.spi->pinSS(), OUTPUT);  // VSPI SS
-
-    // 100 ns delay between consecutive data bytes must be added
-    // during burst write access to the configuration registers.
-
-    // To verify initialization, the read the part number to confirm CC1200.
-    uint8_t status_byte = 0;
-    cc1200_spi_access_t register_access;
-    register_access.readwrite_flag = COMMAND_RW_FLAG; // write = 0, read = 1
-    register_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
-    register_access.extended_address = cc1200_extended_register_space_t::PARTNUMBER;
-    status_byte = cc1200_single_register_access(READ, register_access);
-    cc1200_partnumber_t partnumber = (cc1200_partnumber_t)register_access.data;
-    register_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
-    register_access.extended_address = cc1200_extended_register_space_t::PARTVERSION;
-    status_byte = cc1200_single_register_access(READ, register_access);
-    uint8_t partversion = register_access.data;
-
+int setup_interface() {
+    // Set up VSPI interface pins
     #ifdef CC1200_DEBUG
-    CC1200_DEBUG.printf("Radio Transceiver Part Number: 0x%2.2X", partnumber);
-    #endif 
+            CC1200_DEBUG.print("Setting pin_nrst...\n");
+    #endif
+    pcf8575_portMode(pcf_radio, cc1200.pin_nrst, OUTPUT); // used in Power-On
+    delay(100);
+    #ifdef CC1200_DEBUG
+            CC1200_DEBUG.print("Setting pin_ss...\n");
+    #endif
+    pinMode(cc1200.pin_ss, OUTPUT);
+    digitalWrite(cc1200.pin_ss, HIGH);
+    #ifdef CC1200_DEBUG
+            CC1200_DEBUG.print("Setting pin_sck...\n");
+    #endif
+    pinMode(cc1200.pin_sck, OUTPUT);
+    digitalWrite(cc1200.pin_ss, HIGH);
+    #ifdef CC1200_DEBUG
+            CC1200_DEBUG.print("Setting pin_miso...\n");
+    #endif
+    pinMode(cc1200.pin_miso, INPUT_PULLUP); // used in Power-On
+    #ifdef CC1200_DEBUG
+            CC1200_DEBUG.print("Setting pin_mosi...\n");
+    #endif
+    pinMode(cc1200.pin_mosi, OUTPUT); // used in Power-On
+
+    // Configure SPIClass from Espressif HAL Arduino Core compat
+    // cc1200.spi_frequency = 7700000; // // keep at 7.7 MHz per Martin B of TI E2E forums over 12 years ago 
+    cc1200.spi_frequency = 1000000; // 1 MHz
+    #ifdef CC1200_DEBUG
+            CC1200_DEBUG.print("(VSPI) Beginning use of VSPI...\n");
+    #endif
+    digitalWrite(cc1200.pin_ss, HIGH); // use of SS is bitbanged?
+    cc1200.spi->begin(cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi, cc1200.pin_ss);
+    cc1200.spi->beginTransaction(
+        SPISettings(cc1200.spi_frequency, MSBFIRST, CC1200_SPI_MODE)
+    );
     return 0;
 }
 
 // Section 3.1.1 4-Wire Serial Configuration and Data Interface
 
-// Table 3: SPI Access Types
-int cc1200_single_register_access(bool readwrite_flag, cc1200_spi_access_t register_access) {
-    register_access.burst_flag = !COMMAND_BURST_FLAG;
-    // Extended register space access
-    // This access mode starts with a specific command byte (0x2F).
-    // When the extended address byte is sent on the SI line, SO will return all zeros. 
-    // The chip status byte is returned on the SO line when the command is
-    // transmitted as well as when data are written to the extended address 
-    uint8_t address = readwrite_flag
-        || register_access.burst_flag
-        || register_access.configuration_address;
-    uint8_t command;
-    uint8_t data = 0;
-    if (register_access.configuration_address == cc1200_configuration_register_space_t::EXTENDED_ADDRESS) {
-        cc1200.spi_frequency = 7700000; // 7.7 MHz for extended memory read access
-        // The first byte is interpreted as the command byte.
-        command = address;
-        // The first byte following this command is interpreted as the extended address
-        address = register_access.extended_address;
-        // Exactly one data byte is expected after the extended address byte
-        data = 0;
-    }
-        // SPI interface transfers are MSB-first.
-    cc1200.spi->beginTransaction(SPISettings(cc1200.spi_frequency, MSBFIRST, SPI_MODE0));
-    // SS pin must be kept low during transfers on the SPI bus.
-    digitalWrite(cc1200.spi->pinSS(), LOW);  //pull SS slow to prep other end for transfer
 
-    // Transfer command byte with R/Wn bit, Burst access B bit, and 6-bit address.
-    uint8_t status_byte = cc1200.spi->transfer(command);
-    if (register_access.extended_address != 0) {
-        // Transfer address byte with 8-bit address.
-        status_byte = cc1200.spi->transfer(register_access.extended_address);
-        if (status_byte == 0x00) {
+// Table 3: SPI Access Types
+int cc1200_single_register_access(bool readwrite_flag, cc1200_spi_access_t &register_access) {
+    uint8_t chip_status = 0;
+    digitalWrite(cc1200.pin_ss, LOW);
+    #ifdef CC1200_DEBUG
+        CC1200_DEBUG.print("Wait for MISO to go low...\n");
+    #endif
+    while (digitalRead(cc1200.pin_miso)); // Wait for MISO to go low
+    bool isCommandStrobe = register_access.configuration_address >= 0x30 
+        && register_access.configuration_address <= 0x3D;
+    if (isCommandStrobe) {
+        uint8_t command = (readwrite_flag ? COMMAND_RW_FLAG : 0x00)
+            | register_access.configuration_address;
+        chip_status = cc1200.spi->transfer(command);
+        #ifdef CC1200_DEBUG
+        CC1200_DEBUG.printf("(VSPI) Transferred strobe 0x%2.2X (0x%2.2X)\n", command, chip_status);
+        #endif
+    } else {
+        uint8_t address;
+        // extended access requires two byte transfers
+        if (register_access.extended_address != NOTUSED) {
+            // first transfer as command (0x2F)
+            uint8_t command = (readwrite_flag ? COMMAND_RW_FLAG : 0x00)
+            | register_access.configuration_address;
+            chip_status = cc1200.spi->transfer(command);
             #ifdef CC1200_DEBUG
-            CC1200_DEBUG.printf("Extended address transferred: %s\n", register_access.extended_address);
+            CC1200_DEBUG.printf("(VSPI) Transferred command 0x%2.2X (0x%2.2X)\n", command, chip_status);
             #endif
+            // second transfer as extended address
+            address = (readwrite_flag ? COMMAND_RW_FLAG : 0x00)
+            | register_access.extended_address;
+        // one byte transfer as configuration address
+        } else {
+            address = (readwrite_flag ? COMMAND_RW_FLAG : 0x00)
+            | register_access.configuration_address;
+        }
+        chip_status = cc1200.spi->transfer(address);
+        #ifdef CC1200_DEBUG
+            CC1200_DEBUG.printf("(VSPI) Transferred address 0x%2.2X (0x%2.2X)\n", address, chip_status);
+        #endif
+        if (readwrite_flag == READ) {
+            register_access.data = cc1200.spi->transfer(0x00);
+        } else {
+            chip_status = cc1200.spi->transfer(register_access.data);
         }
     }
-    // Transfer data byte.
-    status_byte = cc1200.spi->transfer(data);
-    digitalWrite(cc1200.spi->pinSS(), HIGH);  //pull ss high to signify end of data transfer
-    cc1200.spi->endTransaction();
-
-    cc1200.spi_frequency = 10000000; // return to 10 MHz from 7.7 MHz
-    return 0;
+    digitalWrite(cc1200.pin_ss, HIGH);
+    return chip_status;
 }
 
+// 100 ns delay between consecutive data bytes must be added
+// during burst write access to the configuration registers.
 int cc1200_burst_register_access(cc1200_spi_access_t register_access) {
     register_access.burst_flag = COMMAND_BURST_FLAG;
     return 0;
@@ -113,10 +130,10 @@ int cc1200_burst_register_access(cc1200_spi_access_t register_access) {
 int cc1200_command_strobe_access(cc1200_command_strobe_t command_strobe) {
     // header read write flag ignored, burst access not possible.
     cc1200_spi_access_t strobe_access;
-    strobe_access.address = command_strobe;
+    strobe_access.configuration_address = (cc1200_configuration_register_space_t)command_strobe;
     // the chip status byte is returned on the MISO line 
     // when a command strobe is sent on the MOSI line.
-    uint8_t chip_status = cc1200_single_register_access(WRITE, strobe_access);
+    uint8_t chip_status = cc1200_single_register_access(READ, strobe_access);
     return chip_status;
 }
 
@@ -216,3 +233,85 @@ int cc1200_direct_AES_access() {
 //
 // Read status information
 //
+
+// 9.1.2 Manual Reset
+// by issuing a manual reset, all internal registers are set
+// to their default values and the radio will enter IDLE state.
+int cc1200_reset(bool hard_reset) {
+    uint8_t chip_status;
+    if (hard_reset) {
+        pcf8575_writePort(pcf_radio, cc1200.pin_nrst, LOW); // active low reset signal
+        delay(10);
+        pcf8575_writePort(pcf_radio, cc1200.pin_nrst, HIGH); // active low reset signal
+        // delay(1000);
+    } else {
+        chip_status = cc1200_command_strobe_access(SRES);
+    }
+    // If the chip has had sufficient time for the 
+    // crystal oscillator to stabilize after the power-on-reset: 
+    // the SO pin will go low immediately after taking CSn low. 
+    #ifdef CC1200_DEBUG
+        CC1200_DEBUG.print("(VSPI) Chip power and crystal have not yet stabilized...\n");
+    #endif
+    bool chip_nrdy;
+    uint8_t chip_state;
+    do {
+        chip_status = cc1200_command_strobe_access(SNOP);
+        chip_nrdy = (chip_status >> 7); // ready when low
+        chip_state = ((chip_status >> 4) & 0x7);//  
+        // If CSn is taken low before reset is completed:
+        // the SO pin will first go high, indicating that the crystal 
+        // oscillator is not stabilized, before going low
+        if (chip_nrdy == HIGH) {
+            #ifdef CC1200_DEBUG
+            CC1200_DEBUG.print("Insufficient time for Crystal Oscillator to stabilize!\n");
+            #endif
+        }
+        // delayMicroseconds(100);
+    } while (chip_nrdy == HIGH);
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.print("Sufficient time for Crystal Oscillator to stabilize!\n");
+    #endif
+    return 0;
+}
+
+int cc1200_init(cc1200_config_t &cc1200) {
+
+    // set up slave select pins as outputs as the Arduino API
+    // doesn't handle automatically pulling SS low
+    // https://docs.espressif.com/projects/arduino-esp32/en/latest/api/spi.html
+    // pinMode(cc1200.spi->pinSS(), OUTPUT);  // VSPI SS
+    // Initialize SPI
+    // https://e2e.ti.com/support/wireless-connectivity/other-wireless-group/other-wireless/f/other-wireless-technologies-forum/307966/cc1200-spi-clock-query    
+    setup_interface();
+    #ifdef CC1200_DEBUG
+            CC1200_DEBUG.print("(VSPI) CC1200 SPI has begun...\n");
+    #endif
+    // 9.1 Power-On Start-Up Sequence
+    // Must be reset before entering the state diagram in Figure 2.
+    // CHIP_RDYn on the SO pin after SS is pulled low.
+    cc1200_reset(true);
+    // once reset is completed, chip will be in the IDLE state.
+    return 0;
+}
+
+void demonstrate_radio_transceiver() {
+    // To verify initialization, the read the part number to confirm CC1200.
+    uint8_t status_byte = 0;
+    cc1200_spi_access_t register_access;
+    register_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
+    register_access.extended_address = cc1200_extended_register_space_t::PARTNUMBER;
+    status_byte = cc1200_single_register_access(READ, register_access);
+    cc1200_partnumber_t partnumber = (cc1200_partnumber_t)register_access.data;
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("Radio Transceiver Part Number: 0x%2.2X, expects 0x20\n", partnumber);
+    #endif 
+    register_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
+    register_access.extended_address = cc1200_extended_register_space_t::PARTVERSION;
+    status_byte = cc1200_single_register_access(READ, register_access);
+    uint8_t partversion = register_access.data;
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("Radio Transceiver Part Revision: 0x%2.2X, expects 0x11\n", partversion);
+    #endif
+
+}

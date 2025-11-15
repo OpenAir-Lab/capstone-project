@@ -18,11 +18,22 @@
 #define GENMASK(h, l) \
 	(((~0UL) - (1UL << (l)) + 1) & (~0UL >> (BITS_PER_LONG - 1 - (h))))
 
+#define COMMAND_RW_FLAG BIT(7) 
+#define COMMAND_BURST_FLAG BIT(6)
+
+#define WRITE 0
+#define READ 1
 // @brief configuration of CC1200 sub 1-GHz radio transceiver
 typedef struct {
     SPIClass *spi = NULL; // no default spi 
     int32_t spi_frequency = 7700000; // 7.7 MHz default despite 10 MHz configuration read
+    int8_t pin_nrst;
     int8_t pin_sck = 5;
+    int8_t pin_mosi;
+    int8_t pin_miso;
+    int8_t pin_ss;
+    int8_t pin_gdio0;
+    int8_t pin_gdio2;
 } cc1200_config_t;
 
 /*! \enum cc1200_command_strobe_t
@@ -47,7 +58,7 @@ typedef enum {
     SFRX,    // flush the RX FIFO. Only issue SFRX in IDLE or RX_FIFO_ERR states    
     SFTX,    // flush the TX FIFO. Only issue SFTX in IDLE or TX_FIFO_ERR states
     SWORRST, // reset the eWOR timer to the Event1 value
-    SNOP     // no operation. May be used to get access to the chip status byte
+    SNOP // no operation. May be used to get access to the chip status byte
 } cc1200_command_strobe_t;
 
 typedef enum {
@@ -84,8 +95,9 @@ typedef enum {
 typedef enum {
     PARTNUMBER = 0x8F, // Part Number
     #define PARTNUM GENMASK(7, 0) 
-    PARTVERSION = 0x90 // Part Revision
+    PARTVERSION = 0x90, // Part Revision
     #define PARTVER GENMASK(7, 0)
+    NOTUSED = 0xDB
 } cc1200_extended_register_space_t;
 
 // ---------------------------
@@ -105,22 +117,24 @@ typedef enum {
 */
 typedef struct {
     // header byte contents
-    uint8_t readwrite_flag;
-    uint8_t burst_flag;
-    uint8_t address; 
-    cc1200_configuration_register_space_t configuration_address : 6; // 6-bit address
+    uint8_t readwrite_flag = READ;
+    uint8_t burst_flag = false;
+    uint8_t header; 
+    cc1200_configuration_register_space_t configuration_address; // 6-bit address
     // address byte contents
-    cc1200_extended_register_space_t extended_address; // 8-bit address
+    cc1200_extended_register_space_t extended_address = NOTUSED; // 8-bit address
     // data byte contents 
     uint8_t data = 0x00;
 } cc1200_spi_access_t;
 
-#define COMMAND_RW_FLAG BIT(7) 
-#define COMMAND_BURST_FLAG BIT(6)
 
-#define WRITE 0
-#define READ 1
-
-int cc1200_single_register_access(bool readwrite, cc1200_spi_access_t register_access);
+int cc1200_single_register_access(bool readwrite, cc1200_spi_access_t &register_access);
 
 int cc1200_init(cc1200_config_t &cc1200);
+/**
+ * To verify if the RF Modulino can communicate over baseband (SPI) to the MCU Modulino:
+ * [ ] Can the transceiver complete a SPI transaction requesting for device information?
+ * [ ] Can the transceiver be asked to go to sleep and then be woken up?
+ * [ ] How about entering SPI transparent transaction mode? Can the GPIO pins be set up for Custom Frequency Modulation?
+ */
+void demonstrate_radio_transceiver();

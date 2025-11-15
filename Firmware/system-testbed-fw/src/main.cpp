@@ -21,7 +21,18 @@
 // NOTE: UART bridge uses UART0 over RX and TX pins.
 // This is only enabled when UART0 is not reassigned! 
 #define DEBUG Serial // uncomment to enable print debugging.
+typedef enum {
+    USB_POWER_DELIVERY,      // Advertise modern power delivery profiles 
+    BATTERY_POWER_SUPPLY,    // Charge and customize battery power
+    HUMAN_MACHINE_INTERFACE, // Navigate menus and accept user input  
+    DIGITAL_AUDIO_INTERFACE, // Source and sink digital audio
+    RADIO_TRANSCEIVER,       // Traverse radio control states 
+    RADIO_AMPLIFIER,         // Amplify UHF or VHF radio signals 
+    RADIO_SWITCH,            // Scatter parameterize multiport Switch 
+    EXPO_DEMO                // Comprehensive system integration tests
+} demonstration_t;
 
+demonstration_t demo = RADIO_TRANSCEIVER;
 
 // Radio Configuration
 #define PIN_SDA 21
@@ -39,6 +50,7 @@ pcf8575_config_t pcf_radio_config;
 #define CC1200_SS    5     //   SS=23 -> 5
 #define CC1200_GDIO0 32
 #define CC1200_GDIO2 33
+// cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi, cc1200.pin_ss
 cc1200_config_t cc1200;
 #define RFSW_ENABLE  8
 #define RFSW_BAND    9
@@ -218,19 +230,6 @@ void testdemoA() {
     tft.drawBitmap(278, -2, image_guy_bits, 41, 43, 0xFFFF);
 }
 
-typedef enum {
-    USB_POWER_DELIVERY,      // Advertise modern power delivery profiles 
-    BATTERY_POWER_SUPPLY,    // Charge and customize battery power
-    HUMAN_MACHINE_INTERFACE, // Navigate menus and accept user input  
-    DIGITAL_AUDIO_INTERFACE, // Source and sink digital audio
-    RADIO_TRANSCEIVER,       // Traverse radio control states 
-    RADIO_AMPLIFIER,         // Amplify UHF or VHF radio signals 
-    RADIO_SWITCH,            // Scatter parameterize multiport Switch 
-    EXPO_DEMO                // Comprehensive system integration tests
-} demonstration_t;
-
-demonstration_t demo = RADIO_SWITCH;
-
 void demonstrate_usb_power_delivery() {
 
 }
@@ -245,10 +244,6 @@ void demonstrate_human_machine_interface() {
 
 void demonstrate_digital_audio_interface() {
 
-}
-
-void demonstrate_radio_amplifier() {
-    
 }
 
 void demonstrate_expo() {
@@ -290,23 +285,9 @@ void setup(void) {
     pcf_radio_config.i2c = &Wire;
     pcf_radio_config.pin_interrupt = 12;
     // pcf_radio_config.sensor_address; must change
-    Serial.println("\nStarting I2C scan...");
-
-    bool found = false;
-    for (uint8_t addr = 1; addr < 127; addr++) { // Iterates through all addresses 1-126
-        Wire.beginTransmission(addr);              // If address is found this should begin the exchange with said address
-        if (Wire.endTransmission() == 0) {         // ends that exchange 
-            DEBUG.print("Found device at 0x");
-            DEBUG.println(addr, HEX);
-            found = true;
-        }
-    }
-    if (!found) DEBUG.println("No devices found.");
-
     do {
         initialized = (pcf8575_init(pcf_radio, pcf_radio_config) == 0);
     } while (!initialized);
-    pcf8575_portMode(pcf_radio, CC1200_NRST, OUTPUT);
     pcf8575_portMode(pcf_radio, RFSW_ENABLE, OUTPUT);
     pcf8575_portMode(pcf_radio, RFSW_BAND, OUTPUT);
     pcf8575_portMode(pcf_radio, RFSW_TRX, OUTPUT);
@@ -345,6 +326,8 @@ void setup(void) {
     DEBUG.printf("(I2C) Initialized RF Switch\n");
     #endif
     // Initialize Amplifiers in powered down state
+    uhf_grf5604.band = UHF;
+    vhf_grf5604.band = VHF;
     do {
         initialized = (grf5604_init(uhf_grf5604) == 0);
     } while (!initialized);
