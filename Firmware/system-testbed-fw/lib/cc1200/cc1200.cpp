@@ -292,10 +292,6 @@ int cc1200_init(cc1200_config_t &cc1200) {
     // CHIP_RDYn on the SO pin after SS is pulled low.
     cc1200_reset(true);
     // once reset is completed, chip will be in the IDLE state.
-    return 0;
-}
-
-void demonstrate_radio_transceiver() {
     // To verify initialization, the read the part number to confirm CC1200.
     uint8_t status_byte = 0;
     cc1200_spi_access_t register_access;
@@ -313,5 +309,13 @@ void demonstrate_radio_transceiver() {
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.printf("Radio Transceiver Part Revision: 0x%2.2X, expects 0x11\n", partversion);
     #endif
-
+    return 0;
+}
+// TER de TI E2E Forums: 
+// Use of transparent mode requires oversampling of the output.
+// Naїve upsampling: Can also try repeating a sample 3 times for 8kHz signal  
+// TODO: Try sample rate of 24?
+// Avoid using a edge based demodulation due to jitter/ spikes.
+void demonstrate_radio_transceiver() {
+    
 }
