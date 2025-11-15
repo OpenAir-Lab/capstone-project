@@ -17,9 +17,10 @@
 | | CS | GPIO04 | separate CS from radio | 
 | | DC | GPIO26 | data/command |
 | | RST | -- | tie to 3V3 w/RC or to board’s reset |
+| | HMI_INT | GPIO35 | interrupt for HMI |
 | I2C —> | SDA | GPIO21 | shared bus - use 4.7-10 kΩ pull-up resistor | 
 | | SCL | GPIO22 | |
-| | Expander INT| IO12 | wakes HMI task on change |
+| | Expander INT| IO12 | interrupt for expander |
 | BMS Int|  |GPIO36 |  
 | I2S —> Audio (full-duplex) | BCLK | GPIO27 | connect to Mic SCK + Amp BCLK, one clock for both devices |
 | | LRCLK/WS | GPIO25 | connect to Mic WS + Amp LRCLK, shared LRCLK/WS  |
