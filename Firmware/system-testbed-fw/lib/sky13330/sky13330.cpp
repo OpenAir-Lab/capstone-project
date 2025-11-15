@@ -59,7 +59,21 @@ void rfsw_drawPort(rfsw_port_selections_t port_select) {
 void rfsw_switchTo(rfsw_port_selections_t port_select) {
     rfsw_switchTo((BIT1 & port_select),(BIT0 & port_select));
     sky13330.port_active = port_select;
+}
 
+int sky13330_init(sky13330_config_t &sky13330) {
+    pcf8575_writePort(pcf_radio, sky13330.pin_enable, HIGH);
+    rfsw_switchTo(RX_UHF);
+    return 0;
+}
+
+/*
+- [ ] Can the RF subsystem receive a signal through one of the two receive ports of the 4-to-1 switch? If so, can the correct band be selected?
+- [ ] For transmission, can the RF switch being driven by a VNA move the input signal from either Port 2, 3, 4, or 5 to Port 1 (antenna)? If so, can the input signal be measured through the antenna port, Port 1?
+- [ ] Before introducing the Amplifier Modulino in line with the RF transceiver, first attempt to use the transceiver directly. If the switch behavior is consistent, only then re-run the tests with amplification. 
+*/
+// TODO: Utilize "press any key to continue" instead of time delay.
+void rfsw_update_screen(rfsw_port_selections_t port_select) {
     tft.setFont(&FreeMonoBold9pt7b);
     tft.setCursor(150, 90);
     tft.print("P1");
@@ -75,18 +89,6 @@ void rfsw_switchTo(rfsw_port_selections_t port_select) {
     tft.printf("Switched to measuring %s\n", scatter_parameter[port_select]);
 }
 
-int sky13330_init(sky13330_config_t &sky13330) {
-    pcf8575_writePort(pcf_radio, sky13330.pin_enable, HIGH);
-    rfsw_switchTo(RX_UHF);
-    return 0;
-}
-
-/*
-- [ ] Can the RF subsystem receive a signal through one of the two receive ports of the 4-to-1 switch? If so, can the correct band be selected?
-- [ ] For transmission, can the RF switch being driven by a VNA move the input signal from either Port 2, 3, 4, or 5 to Port 1 (antenna)? If so, can the input signal be measured through the antenna port, Port 1?
-- [ ] Before introducing the Amplifier Modulino in line with the RF transceiver, first attempt to use the transceiver directly. If the switch behavior is consistent, only then re-run the tests with amplification. 
-*/
-// TODO: Utilize "press any key to continue" instead of time delay.
 void demonstrate_radio_switch() {
     #ifdef RFSW_DEBUG
     RFSW_DEBUG.printf("Entering Radio Switch Demonstration!\n");
@@ -96,7 +98,7 @@ void demonstrate_radio_switch() {
 
     tft.setTextWrap(false);
     tft.setTextColor(0xFFFF);
-    tft.setCursor(10, 20);
+    // tft.setCursor(10, 20);
 
     tft.fillRoundRect(126, 40, 69, 90, 10, 0x61B0);
     tft.fillRoundRect(148, 73, 25, 25, 3, 0xE521); // COM
@@ -123,11 +125,15 @@ void demonstrate_radio_switch() {
     tft.print("Switch DUT");
     
     rfsw_switchTo(RX_UHF);
+    rfsw_update_screen(RX_UHF);
     delay(15000); // wait 15 seconds
     rfsw_switchTo(TX_UHF);
+    rfsw_update_screen(TX_UHF);
     delay(15000); // wait 15 seconds
     rfsw_switchTo(RX_VHF);
+    rfsw_update_screen(RX_VHF);
     delay(15000); // wait 15 seconds
     rfsw_switchTo(TX_VHF);
+    rfsw_update_screen(TX_VHF);
     delay(15000); // wait 15 seconds
 }
