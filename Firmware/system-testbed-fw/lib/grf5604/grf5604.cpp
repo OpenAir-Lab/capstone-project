@@ -1,11 +1,12 @@
 #include <grf5604.h>
 #include <pcf8575.h>
-#include <st7735.h>
+#include <st7789.h>
 #include <Arduino.h>
 
 #define RFAMP_DEBUG Serial
 
 extern Adafruit_ST7789 tft;
+extern st7789_config_t display_config; 
 
 extern grf5604_config_t uhf_grf5604;
 extern grf5604_config_t vhf_grf5604;
@@ -56,6 +57,9 @@ int grf5604_powerdown(grf5604_config_t &grf5604) {
  * \brief power down amplifier and ready control GPIO.
  */
 int grf5604_init(grf5604_config_t &grf5604) {
+    if (grf5604.initialized) {
+        return 0;
+    }
     // if (!digitalPinCanOutput(grf5604.pin_shutdown)) {
     //     throw std::runtime_error("Error: Shutdown Pin " + String(grf5604.pin_shutdown) + " must be a digital pin that can output.");
     // }
@@ -68,6 +72,7 @@ int grf5604_init(grf5604_config_t &grf5604) {
     pinMode(grf5604.pin_shutdown, OUTPUT);
     pinMode(grf5604.pin_enable1, OUTPUT);
     pinMode(grf5604.pin_enable2, OUTPUT);
+    grf5604.initialized == true;
     return grf5604_powerdown(grf5604);
 }
 
@@ -96,8 +101,7 @@ void demonstrate_radio_amplifier() {
     #ifdef RFAMP_DEBUG
     RFAMP_DEBUG.printf("Entering Radio Amplifier Demonstration!\n");
     #endif
-    tft.fillScreen(ST77XX_BLACK);
-    tft.setRotation(1);
+    display_init(display_config);
 
     tft.setTextWrap(false);
     tft.setTextColor(0xFFFF);

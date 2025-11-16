@@ -1,9 +1,10 @@
 #include <sky13330.h>
 #include <Arduino.h>
-#include <st7735.h>
+#include <st7789.h>
 #include <pcf8575.h>
 
 extern Adafruit_ST7789 tft;
+extern st7789_config_t display_config; 
 extern Adafruit_PCF8575 pcf_radio;
 
 #define RFSW_DEBUG Serial
@@ -62,8 +63,15 @@ void rfsw_switchTo(rfsw_port_selections_t port_select) {
 }
 
 int sky13330_init(sky13330_config_t &sky13330) {
+    if (sky13330.initialized) {
+        return 0;
+    }
+    #ifdef RFSW_DEBUG
+    RFSW_DEBUG.print("Initializing RF Switches...\n");
+    #endif
     pcf8575_writePort(pcf_radio, sky13330.pin_enable, HIGH);
     rfsw_switchTo(RX_UHF);
+    sky13330.initialized = true;
     return 0;
 }
 
@@ -90,6 +98,7 @@ void rfsw_update_screen(rfsw_port_selections_t port_select) {
 }
 
 void demonstrate_radio_switch() {
+    display_init(display_config);
     #ifdef RFSW_DEBUG
     RFSW_DEBUG.printf("Entering Radio Switch Demonstration!\n");
     #endif

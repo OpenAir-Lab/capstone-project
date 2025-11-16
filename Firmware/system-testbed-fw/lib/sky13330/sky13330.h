@@ -8,6 +8,7 @@ typedef enum {
     TX_VHF
 } rfsw_port_selections_t;
 typedef struct {
+    bool initialized = false;
     int8_t pin_band;
     int8_t pin_trx;
     int8_t pin_enable;

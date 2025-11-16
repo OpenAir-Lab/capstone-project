@@ -13,7 +13,7 @@
 
 #include <pcf8575.h>  // used in MCU, HMI, and RF Modulinos
 
-#include <st7735.h> // used in HMI Modulino
+#include <st7789.h> // used in HMI Modulino
 
 // use doxygen formatting in block comments
 // for auto-generated firmware documentation!
@@ -22,9 +22,10 @@
 // This is only enabled when UART0 is not reassigned! 
 #define DEBUG Serial // uncomment to enable print debugging.
 typedef enum {
+    MCU_ECHO_TEST,           // Verifies ESP32 communication interfaces  
     USB_POWER_DELIVERY,      // Advertise modern power delivery profiles 
     BATTERY_POWER_SUPPLY,    // Charge and customize battery power
-    HUMAN_MACHINE_INTERFACE, // Navigate menus and accept user input  
+    HUMAN_MACHINE_INTERFACE, // Navigate menus and accept user input
     DIGITAL_AUDIO_INTERFACE, // Source and sink digital audio
     RADIO_TRANSCEIVER,       // Traverse radio control states 
     RADIO_AMPLIFIER,         // Amplify UHF or VHF radio signals 
@@ -32,18 +33,24 @@ typedef enum {
     EXPO_DEMO                // Comprehensive system integration tests
 } demonstration_t;
 
-demonstration_t demo = RADIO_TRANSCEIVER;
+demonstration_t demo = RADIO_AMPLIFIER;
 
-// Radio Configuration
 #define PIN_SDA 21
 #define PIN_SCL 22
+// MCU Port Expander
+Adafruit_PCF8575 pcf_mcu;
+pcf8575_config_t pcf_mcu_config; // on 0x20+0
+// HMI Port Expander
+Adafruit_PCF8575 pcf_hmi;
+pcf8575_config_t pcf_hmi_config; // on 0x20+1
+// Radio Port Expander
 Adafruit_PCF8575 pcf_radio;
-pcf8575_config_t pcf_radio_config;
+pcf8575_config_t pcf_radio_config; // on 0x20+2
 
 // Texas Instruments CC1200 Configuration
 // VSPI normally attached to pins 5, 18, 19, and 23,
 // but can be matrixed to any pins as shown below.
-#define CC1200_NRST  15    // Reset is not correct pin yet. 
+#define CC1200_NRST  3    // Reset is not correct pin yet. 
 #define CC1200_SCLK  18    //  SCK=05 -> 18
 #define CC1200_MISO  19    // MISO=18 -> 19
 #define CC1200_MOSI  23    // MOSI=19 -> 23
@@ -78,8 +85,11 @@ grf5604_config_t vhf_grf5604;
 #define TFT_DC   26 // Display Command pin
 #define TFT_MOSI 13 // ESP32 IOMUX Default
 #define TFT_SCLK 14 // ESP32 IOMUX Default
-#define TFT_RST  -1 // ESP32 Reset pin is -1
+#define TFT_RST  -1 // Not connected
+st7789_config_t display_config;
+
 Adafruit_ST7789 tft = Adafruit_ST7789(TFT_SS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
+
 /*! ICONAGRAPHY BITMAPS 
     \brief is loaded into PROGMEM used by TFT display buffers.
     
@@ -97,6 +107,59 @@ static const unsigned char PROGMEM image_battery_100_bits[] = {0x00,0x00,0x00,0x
     Keypad is on the first port of the port expander on HMI.
     Scanning is acheived using domino logic.
 */
+
+bool initialized;
+int hmi_init() {
+    // Adafruit 1.9" 170x320 TFT Module
+    do {
+        display_init(display_config);
+        if (!display_config.initialized) {
+            #ifdef DEBUG
+            DEBUG.printf("(HSPI) Still init HMI Display...\n");
+            #endif
+            delay(500);
+        }
+    } while (!display_config.initialized);
+    #ifdef DEBUG
+    DEBUG.printf("(HSPI) Initialized HMI Display\n");
+    #endif
+    // TODO: Initialize HMI Port Expander.
+    do {
+        pcf8575_init(pcf_hmi, pcf_hmi_config);
+        if (!pcf_hmi_config.initialized) {
+            #ifdef DEBUG
+            DEBUG.printf("(I2C) No HMI Port Expander Found...\n");
+            #endif
+            delay(500);
+        }
+    } while (!pcf_hmi_config.initialized);
+    #ifdef DEBUG
+    DEBUG.printf("(I2C) Initialized HMI Port Expander\n");
+    #endif
+    return 0;
+}
+
+int radio_init() {
+    do {
+        initialized = (pcf8575_init(pcf_radio, pcf_radio_config) == 0);
+    } while (!pcf_radio_config.initialized);
+    #ifdef DEBUG
+    DEBUG.printf("(I2C) Initialized Radio Port Expander\n");
+    #endif
+    do {
+        cc1200_init(cc1200);
+    } while (!cc1200.initialized);
+    #ifdef DEBUG
+    DEBUG.printf("(VSPI) Initialized Radio Transceiver\n");
+    #endif
+    do {
+        sky13330_init(sky13330);
+    } while (!sky13330.initialized);
+    #ifdef DEBUG
+    DEBUG.printf("(I2C) Initialized RF Switch\n");
+    #endif
+    return 0;   
+}
 
 void frequencyScreen() {
 
@@ -230,6 +293,15 @@ void testdemoA() {
     tft.drawBitmap(278, -2, image_guy_bits, 41, 43, 0xFFFF);
 }
 
+void demonstrate_mcu() {
+    do {
+        initialized = (pcf8575_init(pcf_mcu, pcf_mcu_config) == 0);
+    } while (!pcf_mcu_config.initialized);
+    #ifdef DEBUG
+    DEBUG.printf("(I2C) Initialized MCU Port Expander\n");
+    #endif
+}
+
 void demonstrate_usb_power_delivery() {
 
 }
@@ -239,7 +311,10 @@ void demonstrate_battery_power_supply() {
 }
 
 void demonstrate_human_machine_interface() {
-    tft.fillScreen(ST77XX_BLACK);
+    // Initialize HMI
+    do {
+        initialized = (hmi_init() == 0);
+    } while (!initialized);
 }
 
 void demonstrate_digital_audio_interface() {
@@ -256,48 +331,42 @@ void demonstrate_expo() {
     demonstrate_radio_switch();
 }
 
-int hmi_init() {
-    // Adafruit 1.9" 170x320 TFT Module
-    tft.init(170, 320); // Initialize the ST7789 onboard module
-    tft.setSPISpeed(40000000); // HSPI Speed = 40 MHz
-    tft.fillScreen(ST77XX_BLACK);
-    #ifdef DEBUG
-    DEBUG.printf("(HSPI) Initialized TFT Module and Blanked Screen\n");
-    #endif
-    // TODO: Initialize HMI Port Expander.
-    #ifdef DEBUG
-    DEBUG.printf("(I2C) Initialized HMI Port Expander\n");
-    #endif
-    return 0;
-}
-
 void setup(void) {
-    bool initialized = false; 
-    // ESP32 Serial Monitor
+    // ESP32 Serial Monitor over USB->UART
     #ifdef DEBUG
     while(!DEBUG) {
         DEBUG.begin(115200); // Monitor has 115200 Baud rate.
     }
     #endif
+    // ESP32 I2C0 Interface
     Wire.setPins(PIN_SDA, PIN_SCL);
     Wire.begin();
-    // attachInterrupt(digitalPinToInterrupt(radio.pin_interrupt), inputISR, CHANGE);
-    pcf_radio_config.i2c = &Wire;
-    pcf_radio_config.pin_interrupt = 12;
-    // pcf_radio_config.sensor_address; must change
-    do {
-        initialized = (pcf8575_init(pcf_radio, pcf_radio_config) == 0);
-    } while (!initialized);
-    pcf8575_portMode(pcf_radio, RFSW_ENABLE, OUTPUT);
-    pcf8575_portMode(pcf_radio, RFSW_BAND, OUTPUT);
-    pcf8575_portMode(pcf_radio, RFSW_TRX, OUTPUT);
-    pcf8575_portMode(pcf_radio, UHF_SHUTDOWN, OUTPUT);
-    pcf8575_portMode(pcf_radio, UHF_ENABLE1, OUTPUT);
-    pcf8575_portMode(pcf_radio, UHF_ENABLE2, OUTPUT);
-    pcf8575_portMode(pcf_radio, VHF_SHUTDOWN, OUTPUT);
-    pcf8575_portMode(pcf_radio, VHF_ENABLE1, OUTPUT);
-    pcf8575_portMode(pcf_radio, VHF_ENABLE2, OUTPUT);
-    
+    // ST7789 TFT Display Driver onboard Adafruit 1.9" TFT Module
+    display_config.pin_ss = TFT_SS;
+    display_config.pin_dc = TFT_DC;
+    display_config.pin_mosi = TFT_MOSI;
+    display_config.pin_sclk = TFT_SCLK;
+    display_config.pin_reset = TFT_RST;
+    // Texas Instruments PCF8575 16-bit Port Expander
+    pcf_mcu_config.i2c = &Wire;   // I2C0
+    pcf_hmi_config.i2c = &Wire;   // I2C0
+    pcf_radio_config.i2c = &Wire; // I2C0
+    pcf_mcu_config.sensor_address = PCF8575_I2CADDR_DEFAULT+0;
+    pcf_hmi_config.sensor_address = PCF8575_I2CADDR_DEFAULT+1;
+    // TODO: Use proper addressing for radio expander
+    // pcf_radio_config.sensor_address = PCF8575_I2CADDR_DEFAULT+2;
+    pcf_hmi_config.sensor_address = pcf_radio_config.sensor_address;
+    pcf_mcu_config.pin_interrupt = 12;
+    pcf_hmi_config.pin_interrupt = 35;
+    pcf_radio_config.pin_interrupt = 39;
+    // attachInterrupt(digitalPinToInterrupt(pcf_mcu_config.pin_interrupt), inputISR, CHANGE);
+    // Skyworks SKY13330-397LF SPDT RF Switch
+    sky13330.pin_enable = RFSW_ENABLE;
+    sky13330.pin_band = RFSW_BAND;
+    sky13330.pin_trx = RFSW_TRX;
+    // GuerrillaRF GRF5604 RF Amplifier
+    uhf_grf5604.band = UHF;
+    vhf_grf5604.band = VHF;
     // Texas Instruments CC1200 Sub 1-GHz Radio Transceiver
     cc1200.pin_ss    = CC1200_SS;    // Default
     cc1200.pin_sck   = CC1200_SCLK;  // Default
@@ -307,38 +376,7 @@ void setup(void) {
     cc1200.pin_gdio0 = CC1200_GDIO0; //
     cc1200.pin_gdio2 = CC1200_GDIO2; //
     cc1200.spi = new SPIClass(VSPI);
-    // cc1200.spi_frequency = 7700000;
     cc1200.spi_frequency = 100000;
-    do {
-        initialized = (cc1200_init(cc1200) == 0);
-    } while (!initialized);
-    #ifdef DEBUG
-    DEBUG.printf("(VSPI) Initialized Radio Transceiver\n");
-    #endif
-    // Skyworks SKY13330-397LF SPDT RF Switch
-    sky13330.pin_enable = RFSW_ENABLE;
-    sky13330.pin_band = RFSW_BAND;
-    sky13330.pin_trx = RFSW_TRX;
-    do {
-        initialized = (sky13330_init(sky13330) == 0);
-    } while (!initialized);
-    #ifdef DEBUG
-    DEBUG.printf("(I2C) Initialized RF Switch\n");
-    #endif
-    // Initialize Amplifiers in powered down state
-    uhf_grf5604.band = UHF;
-    vhf_grf5604.band = VHF;
-    do {
-        initialized = (grf5604_init(uhf_grf5604) == 0);
-    } while (!initialized);
-    do {
-        initialized = (grf5604_init(vhf_grf5604) == 0);
-    } while (!initialized);
-    // Initialize HMI
-    do {
-        initialized = (hmi_init() == 0);
-    } while (!initialized);
-    
     // measure time to demo completion
     uint16_t time_to_completion = millis();
     switch(demo) {
@@ -355,16 +393,57 @@ void setup(void) {
             demonstrate_digital_audio_interface();
             break;
         case (RADIO_TRANSCEIVER):       // Traverse radio control states
+            // Initialize HMI Devices
+            do {
+                initialized = (hmi_init() == 0);
+            } while (!initialized);
+            // Initialize Radio Devices
+            do {
+                initialized = (radio_init() == 0);
+            } while (!initialized);
             demonstrate_radio_transceiver();
             break;
         case (RADIO_AMPLIFIER):         // Amplify UHF or VHF radio signals
+            // Initialize HMI Devices
+            do {
+                initialized = (hmi_init() == 0);
+            } while (!initialized);
+            // Initialize Radio Devices
+            do {
+                initialized = (radio_init() == 0);
+            } while (!initialized);
+            // Initialize Amplifiers in powered down state
+            do {
+                initialized = (grf5604_init(uhf_grf5604) == 0);
+            } while (!uhf_grf5604.initialized);
+            do {
+                initialized = (grf5604_init(vhf_grf5604) == 0);
+            } while (!vhf_grf5604.initialized);
             demonstrate_radio_amplifier();
             break;
         case (RADIO_SWITCH):            // Scatter parameterize multiport Switch
+            // Initialize HMI Devices
+            do {
+                initialized = (hmi_init() == 0);
+            } while (!initialized);
+            // Initialize Radio Devices
+            do {
+                initialized = (pcf8575_init(pcf_radio, pcf_radio_config) == 0);
+            } while (!pcf_radio_config.initialized);
+            #ifdef DEBUG
+            DEBUG.printf("(I2C) Initialized Radio Port Expander\n");
+            #endif
+            do {
+                sky13330_init(sky13330);
+            } while (!sky13330.initialized);
+            #ifdef DEBUG
+            DEBUG.printf("(I2C) Initialized RF Switch\n");
+            #endif
             demonstrate_radio_switch();
             break;
         case (EXPO_DEMO):
             demonstrate_expo();
+            break;
     }
     time_to_completion = millis() - time_to_completion;
     #ifdef DEBUG

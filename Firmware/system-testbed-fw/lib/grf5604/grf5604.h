@@ -6,6 +6,7 @@ typedef enum {
     VHF
 } grf5604_band_t;
 typedef struct {
+    bool initialized = false;
     int8_t pin_shutdown;
     int8_t pin_enable1; // input stage
     int8_t pin_enable2; // output stage

@@ -25,8 +25,9 @@
 #define READ 1
 // @brief configuration of CC1200 sub 1-GHz radio transceiver
 typedef struct {
+    bool initialized = false;
     SPIClass *spi = NULL; // no default spi 
-    int32_t spi_frequency = 7700000; // 7.7 MHz default despite 10 MHz configuration read
+    uint32_t spi_frequency = 7700000; // 7.7 MHz default despite 10 MHz configuration read
     int8_t pin_nrst;
     int8_t pin_sck = 5;
     int8_t pin_mosi;
@@ -34,6 +35,8 @@ typedef struct {
     int8_t pin_ss;
     int8_t pin_gdio0;
     int8_t pin_gdio2;
+    uint8_t partnumber = -1;
+    uint8_t partrevision = -1;
 } cc1200_config_t;
 
 /*! \enum cc1200_command_strobe_t
@@ -104,8 +107,14 @@ typedef enum {
 // Descriptive Register Values
 // ---------------------------
 typedef enum {
-    CC1200=0x20,
-    CC1201=0x21
+    // See TI swru346b
+    CC1200 = 0x20, // selected Chip ID
+    CC1201 = 0x21, // economy version without narrow bandwidth
+    // See TI swru295e
+    CC1121 = 0x40,
+    CC1120 = 0x48, // utilized in Skyworks reference designs
+    CC1125 = 0x58,
+    CC1175 = 0x5A  // based on CC1120
 } cc1200_partnumber_t;
 
 // ---------------------------
