@@ -2,8 +2,10 @@
 #include <SPI.h>
 
 #include <Adafruit_GFX.h>    // Core graphics library
+#include <Fonts/TomThumb.h>
 #include <Fonts/FreeMono9pt7b.h>
 #include <Fonts/FreeMonoBold9pt7b.h>
+#include <Fonts/FreeMonoOblique9pt7b.h>
 #include <Fonts/FreeMonoBoldOblique9pt7b.h>
 #include <Fonts/FreeSerifBoldItalic12pt7b.h>
 
