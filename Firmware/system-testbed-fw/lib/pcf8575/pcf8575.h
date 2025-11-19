@@ -9,11 +9,9 @@
 typedef struct {
   bool initialized = false;
   TwoWire *i2c;
-  uint8_t sensor_address = PCF8575_I2CADDR_DEFAULT; // known sensor address
+  uint8_t sensor_address = PCF8575_I2CADDR_DEFAULT;
   uint8_t pin_interrupt;
-  // Select one of eight PCF8575 sensor address pairs
-  // uint8_t sensor_read_address = 0x41;  // 0x41 -> 0x4F
-  // uint8_t sensor_write_address = 0x40; // 0x40 -> 0x4E
+  std::string subsystem_name = "N/A";
 } pcf8575_config_t;
 
 bool pcf8575_portMode(Adafruit_PCF8575 &pcf, uint8_t port, uint8_t mode);
