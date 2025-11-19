@@ -22,7 +22,7 @@
 // This is only enabled when UART0 is not reassigned! 
 #define DEBUG Serial // uncomment to enable print debugging.
 typedef enum {
-    MCU_ECHO_TEST,           // Verifies ESP32 communication interfaces  
+    MCU_ECHO_TEST,           // Verify ESP32 communication interfaces  
     USB_POWER_DELIVERY,      // Advertise modern power delivery profiles 
     BATTERY_POWER_SUPPLY,    // Charge and customize battery power
     HUMAN_MACHINE_INTERFACE, // Navigate menus and accept user input
@@ -33,7 +33,7 @@ typedef enum {
     EXPO_DEMO                // Comprehensive system integration tests
 } demonstration_t;
 
-demonstration_t demo = RADIO_AMPLIFIER;
+demonstration_t demo = RADIO_SWITCH;
 
 #define PIN_SDA 21
 #define PIN_SCL 22
@@ -63,13 +63,13 @@ cc1200_config_t cc1200;
 #define RFSW_BAND    9
 #define RFSW_TRX     10
 sky13330_config_t sky13330;
-#define UHF_SHUTDOWN 11
-#define UHF_ENABLE1  13
-#define UHF_ENABLE2  UHF_ENABLE1 // stages share enables
+#define UHF_ENABLE1  15
+#define UHF_ENABLE2  14 // bands share enables
+#define UHF_SHUTDOWN 13
 grf5604_config_t uhf_grf5604;
+#define VHF_ENABLE1  15
+#define VHF_ENABLE2  14 // bands share enables
 #define VHF_SHUTDOWN 12
-#define VHF_ENABLE1  14
-#define VHF_ENABLE2  VHF_ENABLE1 // stages share enables
 grf5604_config_t vhf_grf5604;
 
 // Human-Machine Interface Configuration
@@ -108,202 +108,75 @@ static const unsigned char PROGMEM image_battery_100_bits[] = {0x00,0x00,0x00,0x
     Scanning is acheived using domino logic.
 */
 
-bool initialized;
 int hmi_init() {
-    // Adafruit 1.9" 170x320 TFT Module
-    do {
-        display_init(display_config);
-        if (!display_config.initialized) {
-            #ifdef DEBUG
-            DEBUG.printf("(HSPI) Still init HMI Display...\n");
-            #endif
-            delay(500);
-        }
-    } while (!display_config.initialized);
-    #ifdef DEBUG
-    DEBUG.printf("(HSPI) Initialized HMI Display\n");
-    #endif
+    pcf_hmi_config.i2c = &Wire;   // I2C0
+    pcf_hmi_config.pin_interrupt = 35;
+    pcf_hmi_config.subsystem_name = "HMI";
+    pcf_hmi_config.sensor_address = PCF8575_I2CADDR_DEFAULT;
+    // ST7789 TFT Display Driver onboard Adafruit 1.9" 170x320 TFT Module
+    display_config.pin_ss = TFT_SS;
+    display_config.pin_dc = TFT_DC;
+    display_config.pin_mosi = TFT_MOSI;
+    display_config.pin_sclk = TFT_SCLK;
+    display_config.pin_reset = TFT_RST;
+    while (!(display_init(display_config) == 0));
     // TODO: Initialize HMI Port Expander.
-    do {
-        pcf8575_init(pcf_hmi, pcf_hmi_config);
-        if (!pcf_hmi_config.initialized) {
-            #ifdef DEBUG
-            DEBUG.printf("(I2C) No HMI Port Expander Found...\n");
-            #endif
-            delay(500);
-        }
-    } while (!pcf_hmi_config.initialized);
-    #ifdef DEBUG
-    DEBUG.printf("(I2C) Initialized HMI Port Expander\n");
-    #endif
+    while (!(pcf8575_init(pcf_hmi, pcf_hmi_config) == 0));
     return 0;
 }
 
 int radio_init() {
-    do {
-        initialized = (pcf8575_init(pcf_radio, pcf_radio_config) == 0);
-    } while (!pcf_radio_config.initialized);
-    #ifdef DEBUG
-    DEBUG.printf("(I2C) Initialized Radio Port Expander\n");
-    #endif
-    do {
-        cc1200_init(cc1200);
-    } while (!cc1200.initialized);
-    #ifdef DEBUG
-    DEBUG.printf("(VSPI) Initialized Radio Transceiver\n");
-    #endif
-    do {
-        sky13330_init(sky13330);
-    } while (!sky13330.initialized);
-    #ifdef DEBUG
-    DEBUG.printf("(I2C) Initialized RF Switch\n");
-    #endif
+    pcf_radio_config.i2c = &Wire; // I2C0
+    pcf_radio_config.pin_interrupt = 39;
+    pcf_radio_config.subsystem_name = "Radio";
+    pcf_radio_config.sensor_address = PCF8575_I2CADDR_DEFAULT;
+    // attachInterrupt(digitalPinToInterrupt(pcf_mcu_config.pin_interrupt), inputISR, CHANGE);
+    // Skyworks SKY13330-397LF SPDT RF Switch
+    sky13330.pin_enable = RFSW_ENABLE;
+    sky13330.pin_band = RFSW_BAND;
+    sky13330.pin_trx = RFSW_TRX;
+    // GuerrillaRF GRF5604 RF Amplifier
+    uhf_grf5604.band = UHF;
+    uhf_grf5604.pin_shutdown = UHF_SHUTDOWN;
+    uhf_grf5604.pin_enable1 = UHF_ENABLE1;
+    uhf_grf5604.pin_enable2 = UHF_ENABLE2;
+    vhf_grf5604.band = VHF;
+    vhf_grf5604.pin_shutdown = VHF_SHUTDOWN;
+    vhf_grf5604.pin_enable1 = VHF_ENABLE1;
+    vhf_grf5604.pin_enable2 = VHF_ENABLE2;
+    // Texas Instruments CC1200 Sub 1-GHz Radio Transceiver
+    cc1200.pin_ss    = CC1200_SS;    // Default
+    cc1200.pin_sck   = CC1200_SCLK;  // Default
+    cc1200.pin_miso  = CC1200_MISO;  // Default
+    cc1200.pin_mosi  = CC1200_MOSI;  // Default
+    cc1200.pin_nrst  = CC1200_NRST;  //
+    cc1200.pin_gdio0 = CC1200_GDIO0; //
+    cc1200.pin_gdio2 = CC1200_GDIO2; //
+    cc1200.spi = new SPIClass(VSPI);
+    cc1200.spi_frequency = 100000;
+
+    while (!(pcf8575_init(pcf_radio, pcf_radio_config) == 0));
+    // Initialize RF Amplifiers in powered down state
+    while (!(grf5604_init(uhf_grf5604) == 0));
+    while (!(grf5604_init(vhf_grf5604) == 0));
+    // Initialize SP4T Switch for UHF receive on Port 2
+    while (!(sky13330_init(sky13330) == 0));
+    // Initialize RF Transceiver in UHF receive Analog FM mode
+    while (!(cc1200_init(cc1200) == 0));
     return 0;   
 }
 
-void frequencyScreen() {
-
-    tft.fillScreen(0x0);
-    tft.setRotation(1);
-
-    tft.setTextColor(0xC0E5);
-    tft.setTextWrap(false);
-    tft.setFont(&FreeMono9pt7b);
-    tft.setCursor(104, 60);
-    tft.print("145.430 MHz");
-
-    tft.setCursor(104, 75);
-    tft.print("-0.6 MHz");
-
-    tft.setFont(&FreeMonoBold9pt7b);
-    tft.setCursor(11, 75);
-    tft.print("Offset");
-
-    tft.setCursor(10, 59);
-    tft.print("Receive");
-
-    tft.setCursor(105, 109);
-    tft.print("FM Simplex");
-
-    tft.setCursor(105, 39);
-    tft.print("FM Repeater");
-
-    tft.setFont(&FreeMono9pt7b);
-    tft.setCursor(105, 129);
-    tft.print("145.430 MHz");
-
-    tft.setCursor(105, 144);
-    tft.print("144.830 MHz");
-
-    tft.setFont(&FreeMonoBold9pt7b);
-    tft.setCursor(11, 143);
-    tft.print("Transmit");
-
-    tft.setCursor(11, 128);
-    tft.print("Receive");
-
-    tft.setFont(&FreeMono9pt7b);
-    tft.setCursor(104, 90);
-    tft.print("110.0 Hz");
-
-    tft.setFont(&FreeMonoBold9pt7b);
-    tft.setCursor(11, 90);
-    tft.print("PL Tone");
-
-    tft.setFont(&FreeMono9pt7b);
-    tft.setCursor(105, 159);
-    tft.print("110.0 Hz");
-
-    tft.setFont(&FreeMonoBold9pt7b);
-    tft.setCursor(12, 159);
-    tft.print("PL Tone");
-
-
-}
-
-void testdemoA() {
-    tft.fillScreen(0x0);
-    tft.setRotation(1);
-
-    tft.setTextColor(0xC0E5);
-    tft.setTextWrap(false);
-    tft.setFont(&FreeMono9pt7b);
-    tft.setCursor(104, 60);
-    tft.print("145.430 MHz");
-
-    tft.setCursor(104, 75);
-    tft.print("-0.6 MHz");
-
-    tft.setFont(&FreeMonoBold9pt7b);
-    tft.setCursor(11, 75);
-    tft.print("Offset");
-
-    tft.setCursor(10, 59);
-    tft.print("Receive");
-
-    tft.setFont(&FreeSerifBoldItalic12pt7b);
-    tft.setCursor(105, 39);
-    tft.print("FM Repeater");
-
-    tft.setTextColor(0x8E09);
-    tft.setFont(&FreeMonoBold9pt7b);
-    tft.setCursor(105, 109);
-    tft.print("FM Half Duplex");
-
-    tft.setTextColor(0xC0E5);
-    tft.setFont(&FreeMono9pt7b);
-    tft.setCursor(105, 129);
-    tft.print("145.430 MHz");
-
-    tft.setCursor(105, 144);
-    tft.print("144.830 MHz");
-
-    tft.setFont(&FreeMonoBold9pt7b);
-    tft.setCursor(11, 143);
-    tft.print("Transmit");
-
-    tft.setCursor(11, 128);
-    tft.print("Receive");
-
-    tft.setFont(&FreeMono9pt7b);
-    tft.setCursor(104, 90);
-    tft.print("110.0 Hz");
-
-    tft.setFont(&FreeMonoBold9pt7b);
-    tft.setCursor(11, 90);
-    tft.print("PL Tone");
-
-    tft.setFont(&FreeMono9pt7b);
-    tft.setCursor(105, 159);
-    tft.print("110.0 Hz");
-
-    tft.setFont(&FreeMonoBold9pt7b);
-    tft.setCursor(12, 159);
-    tft.print("PL Tone");
-
-    tft.setTextColor(0xFFFF);
-    tft.setFont(&FreeMono9pt7b);
-    tft.setCursor(44, 19);
-    tft.print("0%");
-
-    tft.drawBitmap(47, 24, image_battery_0_bits, 24, 16, 0xFFFF);
-
-    tft.drawBitmap(11, 6, image_battery_100_bits, 24, 16, 0xFFFF);
-
-    tft.drawBitmap(278, -2, image_guy_bits, 41, 43, 0xFFFF);
-}
-
 void demonstrate_mcu() {
-    do {
-        initialized = (pcf8575_init(pcf_mcu, pcf_mcu_config) == 0);
-    } while (!pcf_mcu_config.initialized);
-    #ifdef DEBUG
-    DEBUG.printf("(I2C) Initialized MCU Port Expander\n");
-    #endif
+    // Texas Instruments PCF8575 16-bit Port Expander
+    pcf_mcu_config.i2c = &Wire;   // I2C0
+    pcf_mcu_config.pin_interrupt = 12;
+    pcf_mcu_config.subsystem_name = "MCU";
+    pcf_mcu_config.sensor_address = PCF8575_I2CADDR_DEFAULT+0;
+    while (!(pcf8575_init(pcf_mcu, pcf_mcu_config) == 0));
 }
 
 void demonstrate_usb_power_delivery() {
-
+    // Requires having run the one time advertisement programming routine.
 }
 
 void demonstrate_battery_power_supply() {
@@ -312,9 +185,7 @@ void demonstrate_battery_power_supply() {
 
 void demonstrate_human_machine_interface() {
     // Initialize HMI
-    do {
-        initialized = (hmi_init() == 0);
-    } while (!initialized);
+    while (!(hmi_init() == 0));
 }
 
 void demonstrate_digital_audio_interface() {
@@ -340,105 +211,89 @@ void setup(void) {
     #endif
     // ESP32 I2C0 Interface
     Wire.setPins(PIN_SDA, PIN_SCL);
-    Wire.begin();
-    // ST7789 TFT Display Driver onboard Adafruit 1.9" TFT Module
-    display_config.pin_ss = TFT_SS;
-    display_config.pin_dc = TFT_DC;
-    display_config.pin_mosi = TFT_MOSI;
-    display_config.pin_sclk = TFT_SCLK;
-    display_config.pin_reset = TFT_RST;
-    // Texas Instruments PCF8575 16-bit Port Expander
-    pcf_mcu_config.i2c = &Wire;   // I2C0
-    pcf_hmi_config.i2c = &Wire;   // I2C0
-    pcf_radio_config.i2c = &Wire; // I2C0
-    pcf_mcu_config.sensor_address = PCF8575_I2CADDR_DEFAULT+0;
-    pcf_hmi_config.sensor_address = PCF8575_I2CADDR_DEFAULT+1;
-    // TODO: Use proper addressing for radio expander
-    // pcf_radio_config.sensor_address = PCF8575_I2CADDR_DEFAULT+2;
-    pcf_hmi_config.sensor_address = pcf_radio_config.sensor_address;
-    pcf_mcu_config.pin_interrupt = 12;
-    pcf_hmi_config.pin_interrupt = 35;
-    pcf_radio_config.pin_interrupt = 39;
-    // attachInterrupt(digitalPinToInterrupt(pcf_mcu_config.pin_interrupt), inputISR, CHANGE);
-    // Skyworks SKY13330-397LF SPDT RF Switch
-    sky13330.pin_enable = RFSW_ENABLE;
-    sky13330.pin_band = RFSW_BAND;
-    sky13330.pin_trx = RFSW_TRX;
-    // GuerrillaRF GRF5604 RF Amplifier
-    uhf_grf5604.band = UHF;
-    vhf_grf5604.band = VHF;
-    // Texas Instruments CC1200 Sub 1-GHz Radio Transceiver
-    cc1200.pin_ss    = CC1200_SS;    // Default
-    cc1200.pin_sck   = CC1200_SCLK;  // Default
-    cc1200.pin_miso  = CC1200_MISO;  // Default
-    cc1200.pin_mosi  = CC1200_MOSI;  // Default
-    cc1200.pin_nrst  = CC1200_NRST;  //
-    cc1200.pin_gdio0 = CC1200_GDIO0; //
-    cc1200.pin_gdio2 = CC1200_GDIO2; //
-    cc1200.spi = new SPIClass(VSPI);
-    cc1200.spi_frequency = 100000;
+    while(!Wire.begin());
+    #ifdef DEBUG
+    DEBUG.printf("(I2C0 -----) Beginning use of I2C0..."
+        "[SDA=%d, SCL=%d]\n", PIN_SDA, PIN_SCL
+    );
+    #endif
+    
     // measure time to demo completion
     uint16_t time_to_completion = millis();
     switch(demo) {
         case (USB_POWER_DELIVERY):      // Advertise modern power delivery profiles
+            #ifdef DEBUG
+            DEBUG.printf("Selected Demo is of the USB Power Delivery Modulino!\n"
+                "USB PD Modulino requires Battery Modulino to be plugged in.\n"
+                "USB PD Modulino must first have PD profiles loaded onto STUSB4500.\n"
+            );
+            #endif
             demonstrate_usb_power_delivery();
             break;
         case (BATTERY_POWER_SUPPLY):    // Charge and customize battery power
+            #ifdef DEBUG
+            DEBUG.printf("Selected Demo is of the Battery Modulino!\n"
+                "Battery Modulino requires HMI Modulino to be plugged in.\n"
+                "Battery Modulino requires Li-Ion Battery Pack to be plugged in.\n"
+            );
+            #endif
             demonstrate_battery_power_supply();
             break;
         case (HUMAN_MACHINE_INTERFACE): // Navigate menus and accept user input
+            #ifdef DEBUG
+            DEBUG.printf("Selected Demo is of the Human-Machine Interface Modulino!\n"
+                "HMI Modulino requires Adafruit 1.9\" 170x320 TFT Module to be plugged in.\n"
+            );
+            #endif
             demonstrate_human_machine_interface();
             break;
         case (DIGITAL_AUDIO_INTERFACE): // Source and sink digital audio
+            #ifdef DEBUG
+            DEBUG.printf("Selected Demo is of the Digital Audio Modulino!\n"
+                "Audio Modulino requires HMI Modulino to be plugged in.\n"
+                "Audio Modulino requires Mono Speaker to be plugged in.\n"
+            );
+            #endif
             demonstrate_digital_audio_interface();
             break;
         case (RADIO_TRANSCEIVER):       // Traverse radio control states
-            // Initialize HMI Devices
-            do {
-                initialized = (hmi_init() == 0);
-            } while (!initialized);
+            #ifdef DEBUG
+            DEBUG.printf("Selected Demo is of the Dual-Band Transceiver Modulino!\n"
+                "Transceiver Modulino expects Amplifier Modulino to be plugged in.\n"
+                "Transceiver Modulino expects Switch Modulino to be plugged in.\n"
+            );
+            #endif
             // Initialize Radio Devices
-            do {
-                initialized = (radio_init() == 0);
-            } while (!initialized);
+            while (!(radio_init() == 0));
+            // Initialize HMI Devices
+            while (!(hmi_init() == 0));
             demonstrate_radio_transceiver();
             break;
         case (RADIO_AMPLIFIER):         // Amplify UHF or VHF radio signals
-            // Initialize HMI Devices
-            do {
-                initialized = (hmi_init() == 0);
-            } while (!initialized);
+            #ifdef DEBUG
+            DEBUG.printf("Selected Demo is of the Dual-Band RF Amplifier Modulino!\n"
+                "Amplifier Modulino expects Transceiver Modulino to be plugged in.\n"
+                "Amplifier Modulino expects Switch Modulino to be plugged in.\n"
+                "Amplifier Modulino requires Dual-Band Antenna to be plugged in.\n"
+            );
+            #endif
             // Initialize Radio Devices
-            do {
-                initialized = (radio_init() == 0);
-            } while (!initialized);
-            // Initialize Amplifiers in powered down state
-            do {
-                initialized = (grf5604_init(uhf_grf5604) == 0);
-            } while (!uhf_grf5604.initialized);
-            do {
-                initialized = (grf5604_init(vhf_grf5604) == 0);
-            } while (!vhf_grf5604.initialized);
+            while (!(radio_init() == 0));
+            // Initialize HMI Devices
+            while (!(hmi_init() == 0));
             demonstrate_radio_amplifier();
             break;
         case (RADIO_SWITCH):            // Scatter parameterize multiport Switch
-            // Initialize HMI Devices
-            do {
-                initialized = (hmi_init() == 0);
-            } while (!initialized);
+            #ifdef DEBUG
+            DEBUG.printf("Selected Demo is of the SP4T RF Switch Modulino!\n"
+                "Switch Modulino requires HMI Modulino to be plugged in.\n"
+                "Switch Modulino requires Dual-Band Antenna to be plugged in.\n"
+            );
+            #endif
             // Initialize Radio Devices
-            do {
-                initialized = (pcf8575_init(pcf_radio, pcf_radio_config) == 0);
-            } while (!pcf_radio_config.initialized);
-            #ifdef DEBUG
-            DEBUG.printf("(I2C) Initialized Radio Port Expander\n");
-            #endif
-            do {
-                sky13330_init(sky13330);
-            } while (!sky13330.initialized);
-            #ifdef DEBUG
-            DEBUG.printf("(I2C) Initialized RF Switch\n");
-            #endif
+            while (!(radio_init() == 0));
+            // Initialize HMI Devices
+            while (!(hmi_init() == 0));
             demonstrate_radio_switch();
             break;
         case (EXPO_DEMO):
