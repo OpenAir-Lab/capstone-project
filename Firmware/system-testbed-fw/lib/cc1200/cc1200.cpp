@@ -30,32 +30,6 @@ SPI_MODE3	1	                    1	                Falling	    Rising
 */
 #define CC1200_SPI_MODE SPI_MODE0 // per User Guide 3.1.1
 
-int setup_interface() {
-    // Set up VSPI interface pins
-    pinMode(cc1200.pin_ss, OUTPUT);
-    digitalWrite(cc1200.pin_ss, HIGH);
-    pinMode(cc1200.pin_sck, OUTPUT);
-    digitalWrite(cc1200.pin_ss, HIGH);
-    pinMode(cc1200.pin_miso, INPUT_PULLUP); // used in Power-On
-    pinMode(cc1200.pin_mosi, OUTPUT); // used in Power-On
-    pcf8575_portMode(pcf_radio, cc1200.pin_nrst, OUTPUT); // used in Power-On
-    // Configure SPIClass from Espressif HAL Arduino Core compat
-    // cc1200.spi_frequency = 7700000; // // keep at 7.7 MHz per Martin B of TI E2E forums over 12 years ago 
-    cc1200.spi_frequency = 1000000; // 1 MHz
-    #ifdef CC1200_DEBUG
-        CC1200_DEBUG.printf("(VSPI) Beginning use of VSPI...SS=%d,SCK=%d, MISO=%d, MOSI=%d,\n",
-            cc1200.pin_ss, cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi
-        );
-        CC1200_DEBUG.printf("(I2C)  CC1200 Reset signal on \n", pcf_radio_config.sensor_address, cc1200.pin_nrst);
-    #endif
-    digitalWrite(cc1200.pin_ss, HIGH); // use of SS is bitbanged?
-    cc1200.spi->begin(cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi, cc1200.pin_ss);
-    cc1200.spi->beginTransaction(
-        SPISettings(cc1200.spi_frequency, MSBFIRST, CC1200_SPI_MODE)
-    );
-    return 0;
-}
-
 // Section 3.1.1 4-Wire Serial Configuration and Data Interface
 
 
@@ -64,7 +38,7 @@ int cc1200_single_register_access(bool readwrite_flag, cc1200_spi_access_t &regi
     uint8_t chip_status = 0;
     digitalWrite(cc1200.pin_ss, LOW);
     #ifdef CC1200_DEBUG
-        CC1200_DEBUG.print("Wait for MISO to go low...\n");
+        CC1200_DEBUG.print("(VSPI) Wait for MISO to go low...\n");
     #endif
     while (digitalRead(cc1200.pin_miso)); // Wait for MISO to go low
     bool isCommandStrobe = register_access.configuration_address >= 0x30 
@@ -253,14 +227,47 @@ int cc1200_reset(bool hard_reset) {
         // oscillator is not stabilized, before going low
         if (chip_nrdy == HIGH) {
             #ifdef CC1200_DEBUG
-            CC1200_DEBUG.print("Insufficient time for Crystal Oscillator to stabilize!\n");
+            CC1200_DEBUG.print("(VSPI) Insufficient time for Crystal Oscillator to stabilize!\n");
             #endif
         }
         // delayMicroseconds(100);
     } while (chip_nrdy == HIGH);
     #ifdef CC1200_DEBUG
-    CC1200_DEBUG.print("Sufficient time for Crystal Oscillator to stabilize!\n");
+    CC1200_DEBUG.print("(VSPI) Sufficient time for Crystal Oscillator to stabilize!\n");
     #endif
+    return 0;
+}
+
+int setup_interface() {
+    // Set up VSPI interface pins
+    pinMode(cc1200.pin_ss, OUTPUT);
+    digitalWrite(cc1200.pin_ss, HIGH);
+    pinMode(cc1200.pin_sck, OUTPUT);
+    digitalWrite(cc1200.pin_ss, HIGH);
+    pinMode(cc1200.pin_miso, INPUT_PULLUP); // used in Power-On
+    pinMode(cc1200.pin_mosi, OUTPUT); // used in Power-On
+    pcf8575_portMode(pcf_radio, cc1200.pin_nrst, OUTPUT); // used in Power-On
+    // Configure SPIClass from Espressif HAL Arduino Core compat
+    // cc1200.spi_frequency = 7700000; // // keep at 7.7 MHz per Martin B of TI E2E forums over 12 years ago 
+    cc1200.spi_frequency = 1000000; // 1 MHz
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("(VSPI) Beginning use of VSPI... "
+        "[%d MHz, SS=%d,SCK=%d, MISO=%d, MOSI=%d]\n",
+        cc1200.spi_frequency, cc1200.pin_ss, cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi
+    );
+    CC1200_DEBUG.printf("(VSPI ----------) Beginning use of CC1200... "
+        "[GDIO0=%d, GDIO1=MISO, GDIO2=%d, GPIO3=-1]\n", 
+        cc1200.pin_gdio0, cc1200.pin_gdio2
+    );
+    CC1200_DEBUG.printf("(---- I2C0 @0x%2.2X) Beginning use of CC1200 [RESET=%d]\n", 
+        pcf_radio_config.sensor_address, cc1200.pin_nrst
+    );
+    #endif
+    digitalWrite(cc1200.pin_ss, HIGH); // use of SS is bitbanged?
+    cc1200.spi->begin(cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi, cc1200.pin_ss);
+    cc1200.spi->beginTransaction(
+        SPISettings(cc1200.spi_frequency, MSBFIRST, CC1200_SPI_MODE)
+    );
     return 0;
 }
 
@@ -276,7 +283,7 @@ int cc1200_init(cc1200_config_t &cc1200) {
     // https://e2e.ti.com/support/wireless-connectivity/other-wireless-group/other-wireless/f/other-wireless-technologies-forum/307966/cc1200-spi-clock-query    
     setup_interface();
     #ifdef CC1200_DEBUG
-            CC1200_DEBUG.print("(VSPI) CC1200 SPI has begun...\n");
+            CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized CC1200 Interfaces!\n", pcf_radio_config.sensor_address);
     #endif
     // 9.1 Power-On Start-Up Sequence
     // Must be reset before entering the state diagram in Figure 2.
@@ -290,17 +297,18 @@ int cc1200_init(cc1200_config_t &cc1200) {
     register_access.extended_address = cc1200_extended_register_space_t::PARTNUMBER;
     status_byte = cc1200_single_register_access(READ, register_access);
     cc1200.partnumber = (cc1200_partnumber_t)register_access.data;
-    #ifdef CC1200_DEBUG
-    CC1200_DEBUG.printf("Radio Transceiver Part Number: 0x%2.2X, expects 0x20\n", cc1200.partnumber);
-    #endif 
     register_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
     register_access.extended_address = cc1200_extended_register_space_t::PARTVERSION;
     status_byte = cc1200_single_register_access(READ, register_access);
     cc1200.partrevision = register_access.data;
-    #ifdef CC1200_DEBUG
-    CC1200_DEBUG.printf("Radio Transceiver Part Revision: 0x%2.2X, expects 0x11\n", cc1200.partrevision);
-    #endif
     cc1200.initialized = true;
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized Radio Transceiver!\n"
+        "CC1200 Initalization Results: [Part Number=0x%2.2X, %s] [Part Revision=0x%2.2X, %s]\n", pcf_radio_config.sensor_address,
+        cc1200.partnumber, cc1200.partnumber == 0x20 ? "PASS" : "FAIL", 
+        cc1200.partrevision, cc1200.partrevision == 0x11 ? "PASS" : "FAIL"
+    );
+    #endif
     return 0;
 }
 // TER de TI E2E Forums: 
