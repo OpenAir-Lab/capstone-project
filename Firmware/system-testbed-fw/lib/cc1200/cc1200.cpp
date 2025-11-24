@@ -12,14 +12,15 @@
 
 #define CC1200_DEBUG Serial
 
+extern Adafruit_ST7789 tft;
+extern st7789_config_t display_config; 
 // 
 // Configure the CC120X
 // 
 extern cc1200_config_t cc1200;
 extern Adafruit_PCF8575 pcf_radio;
 extern pcf8575_config_t pcf_radio_config;
-extern Adafruit_ST7789 tft;
-extern st7789_config_t display_config; 
+// Section 3.1.1 4-Wire Serial Configuration and Data Interface
 /*
 https://docs.arduino.cc/learn/communication/spi/#serial-peripheral-interface-spi
 Mode	    Clock Polarity (CPOL)	Clock Phase (CPHA)	Output Edge	Data Capture
@@ -30,63 +31,99 @@ SPI_MODE3	1	                    1	                Falling	    Rising
 */
 #define CC1200_SPI_MODE SPI_MODE0 // per User Guide 3.1.1
 
-// Section 3.1.1 4-Wire Serial Configuration and Data Interface
+// Section 3.1.2 Chip Status Byte
+// Status byte is sent on the MISO pin each time a header byte is transmitted on the MOSI pin.
+const char* main_states[21] = {
+    // idle state
+    "IDLE",
+    // receive states
+    "RX",
+    "RX_END",
+    // transmit states
+    "TX",
+    "TX_END",
+    // fast TX ready
+    "FSTXON",
+    // frequency synthesizer calibration is running
+    "CALIBRATE" ,
+    "BIAS_SETTLE_MC",
+    "MANCAL",
+    "STARTCAL",
+    "ENDCAL",
+    // PLL is setting
+    "BIAS_SETTLE",
+    "REG_SETTLE",
+    "BWBOOST",
+    "FS_LOCK",
+    "IFADCON",
+    "RXTX_SWITCH"
+    "TXRX_SWITCH"
+    "IFADCON_TXRX"
+    // RX FIFO has over/underflowed. Read out any useful data,
+    // then flush the FIFO with an SFRX strobe
+    "RX_FIFO_ERR",
+    // TX FIFO has over/underflowed. 
+    // Flush the FIFO with an SFTX strobe
+    "TX_FIFO_ERR"
+};
 
+int update_status(uint8_t chip_status) {
+    cc1200.chip_nrdy =  (uint8_t)(chip_status & BIT7); // ready when low
+    cc1200.main_state = (uint8_t)(chip_status & GENMASK(6,4));
+    return cc1200.main_state; 
+}
 
 // Table 3: SPI Access Types
-int cc1200_single_register_access(bool readwrite_flag, cc1200_spi_access_t &register_access) {
-    uint8_t chip_status = 0;
+int cc1200_single_register_access(cc1200_spi_access_t &register_access) {
     digitalWrite(cc1200.pin_ss, LOW);
     #ifdef CC1200_DEBUG
         CC1200_DEBUG.print("(VSPI) Wait for MISO to go low...\n");
     #endif
     while (digitalRead(cc1200.pin_miso)); // Wait for MISO to go low
-    bool isCommandStrobe = register_access.configuration_address >= 0x30 
-        && register_access.configuration_address <= 0x3D;
-    if (isCommandStrobe) {
-        uint8_t command = (readwrite_flag ? COMMAND_RW_FLAG : 0x00)
-            | register_access.configuration_address;
-        chip_status = cc1200.spi->transfer(command);
+    bool isCommandStrobe = (
+           (uint8_t)register_access.configuration_address >= 0x30 
+        && (uint8_t)register_access.configuration_address <= 0x3D
+    );
+    uint8_t address = (register_access.readwrite_flag ? COMMAND_RW_FLAG : !COMMAND_RW_FLAG);
+    address |= register_access.configuration_address;
+    // extended access requires two byte transfers
+    if (register_access.extended_address != NOTUSED) {
+        // first transfer as command (0x2F)
+        update_status(cc1200.spi->transfer(address));
         #ifdef CC1200_DEBUG
-        CC1200_DEBUG.printf("(VSPI) Transferred strobe 0x%2.2X (0x%2.2X)\n", command, chip_status);
+        CC1200_DEBUG.printf("(VSPI) Transferred command 0x%2.2X [%s]\n", 
+            address, main_states[cc1200.main_state]
+        );
         #endif
-    } else {
-        uint8_t address;
-        // extended access requires two byte transfers
-        if (register_access.extended_address != NOTUSED) {
-            // first transfer as command (0x2F)
-            uint8_t command = (readwrite_flag ? COMMAND_RW_FLAG : 0x00)
-            | register_access.configuration_address;
-            chip_status = cc1200.spi->transfer(command);
-            #ifdef CC1200_DEBUG
-            CC1200_DEBUG.printf("(VSPI) Transferred command 0x%2.2X (0x%2.2X)\n", command, chip_status);
-            #endif
-            // second transfer as extended address
-            address = (readwrite_flag ? COMMAND_RW_FLAG : 0x00)
-            | register_access.extended_address;
-        // one byte transfer as configuration address
-        } else {
-            address = (readwrite_flag ? COMMAND_RW_FLAG : 0x00)
-            | register_access.configuration_address;
-        }
-        chip_status = cc1200.spi->transfer(address);
-        #ifdef CC1200_DEBUG
-            CC1200_DEBUG.printf("(VSPI) Transferred address 0x%2.2X (0x%2.2X)\n", address, chip_status);
-        #endif
-        if (readwrite_flag == READ) {
-            register_access.data = cc1200.spi->transfer(0x00);
-        } else {
-            chip_status = cc1200.spi->transfer(register_access.data);
-        }
+        // second transfer as extended address
+        address = register_access.extended_address;
+    // one byte transfer as configuration address
     }
+    update_status(cc1200.spi->transfer(address));
+    #ifdef CC1200_DEBUG
+        CC1200_DEBUG.printf("(VSPI) Transferred %s 0x%2.2X [%s]\n", isCommandStrobe ? "strobe" : "address",
+            address, main_states[cc1200.main_state]
+        );
+    #endif
+    if (register_access.readwrite_flag == READ) {
+        register_access.data = cc1200.spi->transfer(0x00);
+    } else {
+        update_status(cc1200.spi->transfer(register_access.data));
+    }
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("(VSPI) %s data 0x%2.2X [%s]\n", register_access.readwrite_flag ? "Read in" : "Wrote in", 
+        register_access.data, main_states[cc1200.main_state]
+    );
+    #endif
     digitalWrite(cc1200.pin_ss, HIGH);
-    return chip_status;
+    return cc1200.main_state;
 }
 
 // 100 ns delay between consecutive data bytes must be added
 // during burst write access to the configuration registers.
 int cc1200_burst_register_access(cc1200_spi_access_t register_access) {
-    register_access.burst_flag = COMMAND_BURST_FLAG;
+    register_access.burst_flag = BURST;
+    cc1200_single_register_access(register_access);
     return 0;
 }
 
@@ -96,12 +133,9 @@ int cc1200_command_strobe_access(cc1200_command_strobe_t command_strobe) {
     strobe_access.configuration_address = (cc1200_configuration_register_space_t)command_strobe;
     // the chip status byte is returned on the MISO line 
     // when a command strobe is sent on the MOSI line.
-    uint8_t chip_status = cc1200_single_register_access(READ, strobe_access);
-    return chip_status;
+    update_status(cc1200_single_register_access(strobe_access));
+    return cc1200.main_state;
 }
-
-// Section 3.1.2 Chip Status Byte
-// Status byte is sent on the MISO pin each time a header byte is transmitted on the MOSI pin.
 
 // 
 // Program CC120X into different modes (RX, TX, SLEEP, IDLE, etc)
@@ -201,14 +235,13 @@ int cc1200_direct_AES_access() {
 // by issuing a manual reset, all internal registers are set
 // to their default values and the radio will enter IDLE state.
 int cc1200_reset(bool hard_reset) {
-    uint8_t chip_status;
     if (hard_reset) {
         pcf8575_writePort(pcf_radio, cc1200.pin_nrst, LOW); // active low reset signal
         delay(10);
         pcf8575_writePort(pcf_radio, cc1200.pin_nrst, HIGH); // active low reset signal
         // delay(1000);
     } else {
-        chip_status = cc1200_command_strobe_access(SRES);
+        update_status(cc1200_command_strobe_access(SRES));
     }
     // If the chip has had sufficient time for the 
     // crystal oscillator to stabilize after the power-on-reset: 
@@ -216,22 +249,18 @@ int cc1200_reset(bool hard_reset) {
     #ifdef CC1200_DEBUG
         CC1200_DEBUG.print("(VSPI) Chip power and crystal have not yet stabilized...\n");
     #endif
-    bool chip_nrdy;
-    uint8_t chip_state;
     do {
-        chip_status = cc1200_command_strobe_access(SNOP);
-        chip_nrdy = (chip_status >> 7); // ready when low
-        chip_state = ((chip_status >> 4) & 0x7);//  
+        update_status(cc1200_command_strobe_access(SNOP));
         // If CSn is taken low before reset is completed:
         // the SO pin will first go high, indicating that the crystal 
         // oscillator is not stabilized, before going low
-        if (chip_nrdy == HIGH) {
+        if (cc1200.chip_nrdy == HIGH) {
             #ifdef CC1200_DEBUG
             CC1200_DEBUG.print("(VSPI) Insufficient time for Crystal Oscillator to stabilize!\n");
             #endif
         }
         // delayMicroseconds(100);
-    } while (chip_nrdy == HIGH);
+    } while (cc1200.chip_nrdy == HIGH);
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.print("(VSPI) Sufficient time for Crystal Oscillator to stabilize!\n");
     #endif
@@ -248,10 +277,9 @@ int setup_interface() {
     pinMode(cc1200.pin_mosi, OUTPUT); // used in Power-On
     pcf8575_portMode(pcf_radio, cc1200.pin_nrst, OUTPUT); // used in Power-On
     // Configure SPIClass from Espressif HAL Arduino Core compat
-    // cc1200.spi_frequency = 7700000; // // keep at 7.7 MHz per Martin B of TI E2E forums over 12 years ago 
-    cc1200.spi_frequency = 1000000; // 1 MHz
+    cc1200.spi_frequency = 7700000; // // keep at 7.7 MHz per Martin B of TI E2E forums over 12 years ago 
     #ifdef CC1200_DEBUG
-    CC1200_DEBUG.printf("(VSPI) Beginning use of VSPI... "
+    CC1200_DEBUG.printf("(VSPI) Beginning use of VSPI Interface... "
         "[%d MHz, SS=%d,SCK=%d, MISO=%d, MOSI=%d]\n",
         cc1200.spi_frequency, cc1200.pin_ss, cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi
     );
@@ -259,8 +287,8 @@ int setup_interface() {
         "[GDIO0=%d, GDIO1=MISO, GDIO2=%d, GPIO3=-1]\n", 
         cc1200.pin_gdio0, cc1200.pin_gdio2
     );
-    CC1200_DEBUG.printf("(---- I2C0 @0x%2.2X) Beginning use of CC1200 [RESET=%d]\n", 
-        pcf_radio_config.sensor_address, cc1200.pin_nrst
+    CC1200_DEBUG.printf("(---- I2C0 @0x%2.2X) Beginning use of CC1200... [RESET=%d on %s IOMUX]\n", 
+        pcf_radio_config.sensor_address, cc1200.pin_nrst, pcf_radio_config.subsystem_name.c_str()
     );
     #endif
     digitalWrite(cc1200.pin_ss, HIGH); // use of SS is bitbanged?
@@ -291,22 +319,22 @@ int cc1200_init(cc1200_config_t &cc1200) {
     cc1200_reset(true);
     // once reset is completed, chip will be in the IDLE state.
     // To verify initialization, the read the part number to confirm CC1200.
-    uint8_t status_byte = 0;
     cc1200_spi_access_t register_access;
-    register_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
+    register_access.readwrite_flag = READ;
     register_access.extended_address = cc1200_extended_register_space_t::PARTNUMBER;
-    status_byte = cc1200_single_register_access(READ, register_access);
+    update_status(cc1200_single_register_access(register_access));
     cc1200.partnumber = (cc1200_partnumber_t)register_access.data;
-    register_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
     register_access.extended_address = cc1200_extended_register_space_t::PARTVERSION;
-    status_byte = cc1200_single_register_access(READ, register_access);
+    update_status(cc1200_single_register_access(register_access));
     cc1200.partrevision = register_access.data;
     cc1200.initialized = true;
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized Radio Transceiver!\n"
-        "CC1200 Initalization Results: [Part Number=0x%2.2X, %s] [Part Revision=0x%2.2X, %s]\n", pcf_radio_config.sensor_address,
+        "* CC1200 Initialization Results: [Part Number=0x%2.2X, %s] [Part Revision=0x%2.2X, %s]\n"
+        "* MAin Radio Control 'MARC' Unit is %s: [State=0x%2.2X, %s]\n", pcf_radio_config.sensor_address,
         cc1200.partnumber, cc1200.partnumber == 0x20 ? "PASS" : "FAIL", 
-        cc1200.partrevision, cc1200.partrevision == 0x11 ? "PASS" : "FAIL"
+        cc1200.partrevision, cc1200.partrevision == 0x11 ? "PASS" : "FAIL",
+        main_states[cc1200.main_state], cc1200.main_state, main_states[cc1200.main_state] == "IDLE" ? "PASS" : "FAIL"
     );
     #endif
     return 0;
@@ -325,37 +353,99 @@ void demonstrate_radio_transceiver() {
     tft.setRotation(1);
     tft.setTextWrap(false);
     tft.setTextColor(0xFFFF);
-    tft.printf("Current Transceiver Configuration:\nPart Number/Revision = 0x%2.2X/0x%2.2X\n", 
+    tft.setFont();
+    tft.setCursor(0, 0);
+    tft.printf("MARC State: %s\n"
+        "Current Transceiver Configuration:\nPart Number/Revision = 0x%2.2X/0x%2.2X\n", 
+        main_states[cc1200.main_state],
         cc1200.partnumber, cc1200.partrevision
     );
-        // IOCFG3 = 0x08, IOCFG2 = 0x09, IOCFG1 = 0xB0, IOCFG0 0xB0,
-        // // SYNC3, SYNC2, SYNC1, SYNC0,
-        // SYNC_CFG1 = 0x08, // SYNC_CFG0,
-        // // DEVIATION_M,
-        // MODCFG_DEV_E = 0x03,
-        // DCFILT_CFG = 0x1C,
-        // PREAMBLE_CFG1 = 0x14, // PREAMBLE_CFG0,
-        // IQIC = 0xC4,
-        // CHAN_BW = 0x28,
-        // MDMCFG1 = 0x06, MDMCFG0 = 0x0A,
-        // SYMBOL_RATE2 = 0x43, SYMBOL_RATE1 = 0xA9, SYMBOL_RATE0 = 0x2A,
-        // AGC_REF = 0x20,
-        // AGC_CS_THR = 0x19,
-        // // AGC_GAIN_ADJUST,
-        // // AGC_CFG3, AGC_CFG2, 
-        // AGC_CFG1 = 0xAF, AGC_CFG0 = 0xCF,
-        // FIFO_CFG = 0x00,
-        // // DEV_ADDR,
-        // // SETTLING_CFG,
-        // FS_CFG = 0x12,
-        // // WOR_CFG1, WOR_CFG0,
-        // // WOR_EVENT0_MSB, WOR_EVENT0_LSB,
-        // // RXDCM_TIME,
-        // PKT_CFG2 = 0x05, PKT_CFG1 = 0x00, PKT_CFG0 = 0x20,
-        // // RFEND_CFG1, RFEND_CFG0,
-        // PA_CFG1 = 0x78, PA_CFG0 = 0x7C,
-        // // ASK_CFG,
-        // // PKT_LEN,
+    cc1200_spi_access_t config_access;
+    config_access.readwrite_flag = WRITE;
+    // 3.4 General Purpose Input/Output Control Pins 
+    // TODO: use GPIO3 as external PA control SD? Is impossible with EMK.
+    // config_access.configuration_address = cc1200_configuration_register_space_t::IOCFG3;
+    // config_access.data = 0x00;
+    // update_status(cc1200_single_register_access(config_access));
+
+
+    // ---------------------------------------------------------
+    //             SWRU346B 6 Receive Configuration
+    // ---------------------------------------------------------
+    // 6.1 RX Channel Filter Bandwidth
+    bool widefm = true; // WFM and NFM configurations available
+    config_access.configuration_address = cc1200_configuration_register_space_t::CHAN_BW;
+    // set CHAN_BW.ADC_CIC_DECFACT first decimation filter factor
+    config_access.data |= (widefm ? FACTOR24 : FACTOR48) << 6;
+    // set CHAN_BW.BB_CIC_DECFACT second decimation filter factor
+    config_access.data |= (widefm ? WFM_DECFACT_OVERSHOOT : NFM_DECFACT_OVERSHOOT);
+    update_status(cc1200_single_register_access(config_access));
+    
+
+    // ---------------------------------------------------------
+    // SWRU346B 5.2.4 Custom Frequency Modulation(CFM)/Analog FM
+    // ---------------------------------------------------------
+
+    // The modulator writes values to the PLL at 16x the 
+    // programmed symbol rate using the soft data clock. 40kHz
+    config_access.extended_address = cc1200_extended_register_space_t::NOTUSED;
+
+
+    config_access.configuration_address = cc1200_configuration_register_space_t::SYMBOL_RATE2;
+    config_access.data = 0x00;
+    update_status(cc1200_single_register_access(config_access));
+
+    // set IOCFGx.GPIOx_CFG = 29 to use GPIO signal CLKEN_CFM as a data clock 
+    // trigger to read the CFM_TX_DATA_OUT samples for demodulator soft data.
+    // this GPIO signal runs at the same rate as the programmed symbol rate.
+    config_access.configuration_address = cc1200_configuration_register_space_t::IOCFG2;
+    config_access.data = CFM_TX_DATA_CLK;
+    update_status(cc1200_single_register_access(config_access));
+    
+    config_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
+    config_access.extended_address = cc1200_extended_register_space_t::MDMCFG2;
+    config_access.data = CFM_DATA_EN; // CFM mode enabled (write frequency word directly)
+    update_status(cc1200_single_register_access(config_access));
+    // set EXT_CTRL.BURST_ADDR_INCR_EN = 0 to continuously access
+    // the same register address without any SPI address overhead.
+    config_access.extended_address = cc1200_extended_register_space_t::EXT_CTRL;
+    config_access.data = ~BURST_ADDR_INCR_EN;
+    update_status(cc1200_single_register_access(config_access));
+
+    
+
+    // The two CFM_TX_DATA registers have the same format (two’s complement)
+    // to simplify software control and data buffering in both TX and RX.
+    
+    // CFM_TX_DATA_IN is used to set the carrier frequency offset.
+    config_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
+    config_access.extended_address = cc1200_extended_register_space_t::CFM_TX_DATA_IN;
+    config_access.data = 0x00;
+    update_status(cc1200_single_register_access(config_access));
+    
+    // CFM_RX_DATA_OUT is used to read the instantaneous frequency offset.
+    config_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
+    config_access.extended_address = cc1200_extended_register_space_t::CFM_RX_DATA_OUT;
+    update_status(cc1200_single_register_access(config_access));
+    uint8_t offset = config_access.data; 
+    /** 129 values between -f_{dev} and +f_{dev}
+     * f_{offset} = \frac{f_{dev}*CFM_TX_DATA_IN}{64}
+     * consider linear upsampler UPSAMPLER_P
+     */
+
+    // cc1200_command_strobe_access(STX);
+    // Note that in TX mode, 3 dummy symbols should be written to the 
+    // CFM_TX_DATA_IN register before strobing SIDLE 
+    // in order for all symbols to be sent on the air before TX mode is ended.
+    config_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
+    config_access.extended_address = cc1200_extended_register_space_t::CFM_TX_DATA_IN;
+    config_access.data = 0x00;
+    update_status(cc1200_single_register_access(config_access));
+    update_status(cc1200_single_register_access(config_access));
+    update_status(cc1200_single_register_access(config_access));
+    cc1200_command_strobe_access(SIDLE);
+
+    // display radio settings
     tft.printf("IO Pin GPIO3/2/1/0=0x%2.2X %2.2X %2.2X %2.2X\n"
         "Sync Word [31:24] [23:16] [15:8] [7:0] SYNCHH_LL=0x00 00 00 00\n"
         "SYNC_CFG1=0x%2.2X\n"
@@ -375,8 +465,4 @@ void demonstrate_radio_transceiver() {
         "Power Amplifier PA_CFG2=0x%2.2X PA_CFG0=0x%2.2X\n",
         0x08,0x09,0xB0,0xB0,0x08,0x03,0x1C,0x14,0xC4,0x28,0x06,0x0A,0x43,0xA9,0x2A,0x20,0x19,0xAF,0xCF,0x00,0x12,0x05,0x00,0x20,0x78,0x7C    
     );
-    // ((SYNC_CFG1 & GENMASK(7,5)) == 0x00) ? "No Sync Word" : "Sync Word" // no sync word in analog FM
-    //         // sync threshold not yet understood
-            
-    // tft.printf("Soft Decision sync word threshold = 0x%2.2X\n", (SYNC_CFG1 & GENMASK(4,0)));
 }
