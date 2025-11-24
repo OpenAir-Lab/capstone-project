@@ -85,12 +85,13 @@ int grf5604_init(grf5604_config_t &grf5604) {
         return 0;
     }
     #ifdef RFAMP_DEBUG
-    RFAMP_DEBUG.printf(grf5604.band ?                         \
-        "(I2C0 @0x%2.2X) Initializing VHF Radio Amplifier... " \
-        "[SHUTDOWN=%d, ENABLE3=%d, ENABLE4=%d]\n" :           \
-        "(I2C0 @0x%2.2X) Initializing UHF Radio Amplifier... " \
-        "[SHUTDOWN=%d, ENABLE1=%d, ENABLE2=%d]\n", pcf_radio_config.sensor_address,
-        grf5604.pin_shutdown, grf5604.pin_enable1, grf5604.pin_enable2);
+    RFAMP_DEBUG.printf(grf5604.band ?                              \
+        "(I2C0 @0x%2.2X) Beginning use of VHF Radio Amplifier... " \
+        "[SD=%d, EN3=%d, EN4=%d on %s IOMUX]\n" :    \
+        "(I2C0 @0x%2.2X) Beginning use of UHF Radio Amplifier... " \
+        "[SD=%d, EN1=%d, EN2=%d on %s IOMUX]\n", pcf_radio_config.sensor_address,
+        grf5604.pin_shutdown, grf5604.pin_enable1, grf5604.pin_enable2, pcf_radio_config.subsystem_name.c_str()
+    );
     #endif
     if (digitalPinCanOutput(grf5604.pin_shutdown) && digitalPinCanOutput(grf5604.pin_enable1) && digitalPinCanOutput(grf5604.pin_enable2)) {
         pcf8575_portMode(pcf_radio, grf5604.pin_shutdown, OUTPUT);

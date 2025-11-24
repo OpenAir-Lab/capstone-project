@@ -7,20 +7,20 @@
 #include "esp_flash.h"
 #include "esp_system.h"
 
-#include <cc1200.h>   // used in Transceiver Modulino 
-#include <sky13330.h> // used in RF Switch Modulino
-#include <grf5604.h>  // used in Amplifier Modulino
+#include <cc1200.h>          // used in Transceiver Modulino 
+#include <sky13330.h>        // used in RF Switch Modulino
+#include <grf5604.h>         // used in Amplifier Modulino
 
-#include <pcf8575.h>  // used in MCU, HMI, and RF Modulinos
+#include <pcf8575.h>         // used in MCU, HMI, and RF Modulinos
 
-#include <st7789.h> // used in HMI Modulino
+#include <st7789.h>          // used in HMI Modulino
 
 // use doxygen formatting in block comments
 // for auto-generated firmware documentation!
 
 // NOTE: UART bridge uses UART0 over RX and TX pins.
 // This is only enabled when UART0 is not reassigned! 
-#define DEBUG Serial // uncomment to enable print debugging.
+#define DEBUG Serial         // uncomment to enable print debugging.
 typedef enum {
     MCU_ECHO_TEST,           // Verify ESP32 communication interfaces  
     USB_POWER_DELIVERY,      // Advertise modern power delivery profiles 
@@ -210,13 +210,13 @@ void setup(void) {
     }
     #endif
     // ESP32 I2C0 Interface
-    Wire.setPins(PIN_SDA, PIN_SCL);
-    while(!Wire.begin());
     #ifdef DEBUG
-    DEBUG.printf("(I2C0 -----) Beginning use of I2C0..."
+    DEBUG.printf("(I2C0 -----) Beginning use of I2C0 Interface... "
         "[SDA=%d, SCL=%d]\n", PIN_SDA, PIN_SCL
     );
     #endif
+    Wire.setPins(PIN_SDA, PIN_SCL);
+    while(!Wire.begin());
     
     // measure time to demo completion
     uint16_t time_to_completion = millis();
@@ -224,8 +224,8 @@ void setup(void) {
         case (USB_POWER_DELIVERY):      // Advertise modern power delivery profiles
             #ifdef DEBUG
             DEBUG.printf("Selected Demo is of the USB Power Delivery Modulino!\n"
-                "USB PD Modulino requires Battery Modulino to be plugged in.\n"
-                "USB PD Modulino must first have PD profiles loaded onto STUSB4500.\n"
+                "[X] USB PD Modulino requires Battery Modulino to be plugged in.\n"
+                "[X] USB PD Modulino must first have PD profiles loaded onto STUSB4500.\n"
             );
             #endif
             demonstrate_usb_power_delivery();
@@ -233,8 +233,8 @@ void setup(void) {
         case (BATTERY_POWER_SUPPLY):    // Charge and customize battery power
             #ifdef DEBUG
             DEBUG.printf("Selected Demo is of the Battery Modulino!\n"
-                "Battery Modulino requires HMI Modulino to be plugged in.\n"
-                "Battery Modulino requires Li-Ion Battery Pack to be plugged in.\n"
+                "[X] Battery Modulino requires HMI Modulino to be plugged in.\n"
+                "[X] Battery Modulino requires Li-Ion Battery Pack to be plugged in.\n"
             );
             #endif
             demonstrate_battery_power_supply();
@@ -242,7 +242,7 @@ void setup(void) {
         case (HUMAN_MACHINE_INTERFACE): // Navigate menus and accept user input
             #ifdef DEBUG
             DEBUG.printf("Selected Demo is of the Human-Machine Interface Modulino!\n"
-                "HMI Modulino requires Adafruit 1.9\" 170x320 TFT Module to be plugged in.\n"
+                "[X] HMI Modulino requires Adafruit 1.9\" 170x320 TFT Module to be plugged in.\n"
             );
             #endif
             demonstrate_human_machine_interface();
@@ -250,8 +250,8 @@ void setup(void) {
         case (DIGITAL_AUDIO_INTERFACE): // Source and sink digital audio
             #ifdef DEBUG
             DEBUG.printf("Selected Demo is of the Digital Audio Modulino!\n"
-                "Audio Modulino requires HMI Modulino to be plugged in.\n"
-                "Audio Modulino requires Mono Speaker to be plugged in.\n"
+                "[X] Audio Modulino requires HMI Modulino to be plugged in.\n"
+                "[X] Audio Modulino requires Mono Speaker to be plugged in.\n"
             );
             #endif
             demonstrate_digital_audio_interface();
@@ -259,8 +259,8 @@ void setup(void) {
         case (RADIO_TRANSCEIVER):       // Traverse radio control states
             #ifdef DEBUG
             DEBUG.printf("Selected Demo is of the Dual-Band Transceiver Modulino!\n"
-                "Transceiver Modulino expects Amplifier Modulino to be plugged in.\n"
-                "Transceiver Modulino expects Switch Modulino to be plugged in.\n"
+                "[X] Transceiver Modulino expects Amplifier Modulino to be plugged in.\n"
+                "[X] Transceiver Modulino expects Switch Modulino to be plugged in.\n"
             );
             #endif
             // Initialize Radio Devices
@@ -272,9 +272,9 @@ void setup(void) {
         case (RADIO_AMPLIFIER):         // Amplify UHF or VHF radio signals
             #ifdef DEBUG
             DEBUG.printf("Selected Demo is of the Dual-Band RF Amplifier Modulino!\n"
-                "Amplifier Modulino expects Transceiver Modulino to be plugged in.\n"
-                "Amplifier Modulino expects Switch Modulino to be plugged in.\n"
-                "Amplifier Modulino requires Dual-Band Antenna to be plugged in.\n"
+                "[X] Amplifier Modulino expects Transceiver Modulino to be plugged in.\n"
+                "[X] Amplifier Modulino expects Switch Modulino to be plugged in.\n"
+                "[X] Amplifier Modulino requires Dual-Band Antenna to be plugged in.\n"
             );
             #endif
             // Initialize Radio Devices
@@ -286,8 +286,8 @@ void setup(void) {
         case (RADIO_SWITCH):            // Scatter parameterize multiport Switch
             #ifdef DEBUG
             DEBUG.printf("Selected Demo is of the SP4T RF Switch Modulino!\n"
-                "Switch Modulino requires HMI Modulino to be plugged in.\n"
-                "Switch Modulino requires Dual-Band Antenna to be plugged in.\n"
+                "[X] Switch Modulino requires HMI Modulino to be plugged in.\n"
+                "[X] Switch Modulino requires Dual-Band Antenna to be plugged in.\n"
             );
             #endif
             // Initialize Radio Devices
@@ -302,7 +302,7 @@ void setup(void) {
     }
     time_to_completion = millis() - time_to_completion;
     #ifdef DEBUG
-    DEBUG.printf("Time to demonstration completion: %d ms\n", time_to_completion, DEC);
+    DEBUG.printf("[X] Time to demonstration completion: %d ms\n", time_to_completion, DEC);
     #endif
 }
 

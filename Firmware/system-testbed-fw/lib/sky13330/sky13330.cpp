@@ -23,8 +23,11 @@ void rfsw_switchTo(bool band_select, bool trx_select) {
     int8_t port_select = (band_select << 1) + (trx_select);
     if (!sky13330.initialized) {
         #ifdef RFSW_DEBUG
-        RFSW_DEBUG.printf("(I2C0 @0x%2.2X) Failed switching to P%d [BAND=%d TRX=%d]!\n", pcf_radio_config.sensor_address,
-            2+port_select, band_select, trx_select
+        RFSW_DEBUG.printf("(I2C0 @0x%2.2X) Failed switching to Port P%d "
+            "[BAND=%s TRX=%s]!\n", pcf_radio_config.sensor_address,
+            2+port_select,
+            band_select ? "HIGH" : "LOW",
+            trx_select ? "HIGH" : "LOW"
         );
         #endif
         return;
@@ -32,8 +35,12 @@ void rfsw_switchTo(bool band_select, bool trx_select) {
     pcf8575_writePort(pcf_radio, sky13330.pin_band, band_select);
     pcf8575_writePort(pcf_radio, sky13330.pin_trx, trx_select);
     #ifdef RFSW_DEBUG
-    RFSW_DEBUG.printf("(I2C0 @0x%2.2X) Successfully switched to P%d [BAND=%d TRX=%d], now available for measuring %s\n", pcf_radio_config.sensor_address,
-        2+port_select, band_select, trx_select, scatter_parameter[port_select]
+    RFSW_DEBUG.printf("(I2C0 @0x%2.2X) Successfully switched to Port P%d "
+        "[BAND=%s TRX=%s] for measuring %s\n", pcf_radio_config.sensor_address,
+        2+port_select, 
+        band_select ? "HIGH" : "LOW",
+        trx_select ? "HIGH" : "LOW",
+        scatter_parameter[port_select]
     );
     #endif
 }
@@ -78,13 +85,15 @@ int sky13330_init(sky13330_config_t &sky13330) {
         return 0;
     }
     #ifdef RFSW_DEBUG
-    RFSW_DEBUG.printf("(I2C0 @0x%2.2X) Initializing RF Switches...\n", pcf_radio_config.sensor_address);
+    RFSW_DEBUG.printf("(I2C0 @0x%2.2X) Beginning use of SP4T RF Switch... [BAND=%d, TRX=%d, EN=%d, on %s IOMUX]\n", pcf_radio_config.sensor_address, 
+        sky13330.pin_band, sky13330.pin_trx, sky13330.pin_enable, pcf_radio_config.subsystem_name.c_str()
+    );
     #endif
     pcf8575_writePort(pcf_radio, sky13330.pin_enable, HIGH);
     sky13330.initialized = true;
     rfsw_switchTo(RX_UHF); // default is P2
     #ifdef RFSW_DEBUG
-    RFSW_DEBUG.printf("(I2C0 @0x%2.2X) Initialized RF Switch\n", pcf_radio_config.sensor_address);
+    RFSW_DEBUG.printf("(I2C0 @0x%2.2X) Initialized SP4T RF Switch Interfaces!\n", pcf_radio_config.sensor_address);
     #endif
     return 0;
 }
@@ -147,4 +156,5 @@ void demonstrate_radio_switch() {
     rfsw_switchTo(TX_VHF);
     rfsw_update_screen(TX_VHF);
     delay(15000); // wait 15 seconds
+    pcf8575_writePort(pcf_radio, sky13330.pin_enable, LOW);
 }

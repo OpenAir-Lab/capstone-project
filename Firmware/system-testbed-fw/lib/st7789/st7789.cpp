@@ -10,7 +10,7 @@ int display_init(st7789_config_t &display_config) {
       return 0;
     }
     #ifdef ST7789_DEBUG
-    ST7789_DEBUG.printf("(HSPI) Beginning use of HSPI... "
+    ST7789_DEBUG.printf("(HSPI) Beginning use of HSPI Interface... "
         "[%d MHz, SS=%d, SCK=%d, MISO =-1, MOSI=%d]\n",
         display_config.spi_speed, display_config.pin_ss, display_config.pin_sclk, display_config.pin_mosi
     );
