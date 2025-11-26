@@ -74,31 +74,18 @@ int update_status(uint8_t chip_status) {
 }
 
 // Table 3: SPI Access Types
-int cc1200_single_register_access(cc1200_spi_access_t &register_access) {
+int cc1200_single_register_access(cc1200_configuration_register_space_t configuration_address, cc1200_spi_access_t &register_access) {
     digitalWrite(cc1200.pin_ss, LOW);
     #ifdef CC1200_DEBUG
         CC1200_DEBUG.print("(VSPI) Wait for MISO to go low...\n");
     #endif
     while (digitalRead(cc1200.pin_miso)); // Wait for MISO to go low
     bool isCommandStrobe = (
-           (uint8_t)register_access.configuration_address >= 0x30 
-        && (uint8_t)register_access.configuration_address <= 0x3D
+           (uint8_t)configuration_address >= 0x30 
+        && (uint8_t)configuration_address <= 0x3D
     );
     uint8_t address = (register_access.readwrite_flag ? COMMAND_RW_FLAG : !COMMAND_RW_FLAG);
-    address |= register_access.configuration_address;
-    // extended access requires two byte transfers
-    if (register_access.extended_address != NOTUSED) {
-        // first transfer as command (0x2F)
-        update_status(cc1200.spi->transfer(address));
-        #ifdef CC1200_DEBUG
-        CC1200_DEBUG.printf("(VSPI) Transferred command 0x%2.2X [%s]\n", 
-            address, main_states[cc1200.main_state]
-        );
-        #endif
-        // second transfer as extended address
-        address = register_access.extended_address;
-    // one byte transfer as configuration address
-    }
+    address |= configuration_address;
     update_status(cc1200.spi->transfer(address));
     #ifdef CC1200_DEBUG
         CC1200_DEBUG.printf("(VSPI) Transferred %s 0x%2.2X [%s]\n", isCommandStrobe ? "strobe" : "address",
@@ -119,21 +106,64 @@ int cc1200_single_register_access(cc1200_spi_access_t &register_access) {
     return cc1200.main_state;
 }
 
+int cc1200_single_register_access(cc1200_extended_register_space_t extended_address, cc1200_spi_access_t &register_access) {
+    digitalWrite(cc1200.pin_ss, LOW);
+    #ifdef CC1200_DEBUG
+        CC1200_DEBUG.print("(VSPI) Wait for MISO to go low...\n");
+    #endif
+    while (digitalRead(cc1200.pin_miso)); // Wait for MISO to go low
+    uint8_t address = (register_access.readwrite_flag ? COMMAND_RW_FLAG : !COMMAND_RW_FLAG);
+    // extended access requires two byte transfers
+    // first transfer as command (0x2F)
+    address |= cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
+    update_status(cc1200.spi->transfer(address));
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("(VSPI) Transferred command 0x%2.2X [%s]\n", 
+        address, main_states[cc1200.main_state]
+    );
+    #endif
+    // second transfer as extended address
+    address = extended_address;
+    // one byte transfer as configuration address
+    update_status(cc1200.spi->transfer(address));
+    #ifdef CC1200_DEBUG
+        CC1200_DEBUG.printf("(VSPI) Transferred address 0x%2.2X [%s]\n",
+            address, main_states[cc1200.main_state]
+        );
+    #endif
+    if (register_access.readwrite_flag == READ) {
+        register_access.data = cc1200.spi->transfer(0x00);
+    } else {
+        update_status(cc1200.spi->transfer(register_access.data));
+    }
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("(VSPI) %s data 0x%2.2X [%s]\n", register_access.readwrite_flag ? "Read in" : "Wrote in", 
+        register_access.data, main_states[cc1200.main_state]
+    );
+    #endif
+    digitalWrite(cc1200.pin_ss, HIGH);
+    return cc1200.main_state;
+}
+
 // 100 ns delay between consecutive data bytes must be added
 // during burst write access to the configuration registers.
-int cc1200_burst_register_access(cc1200_spi_access_t register_access) {
+int cc1200_burst_register_access(cc1200_configuration_register_space_t configuration_address, cc1200_spi_access_t &register_access) {
     register_access.burst_flag = BURST;
-    cc1200_single_register_access(register_access);
+    cc1200_single_register_access(configuration_address, register_access);
+    return 0;
+}
+int cc1200_burst_register_access(cc1200_extended_register_space_t extended_address, cc1200_spi_access_t &register_access) {
+    register_access.burst_flag = BURST;
+    cc1200_single_register_access(extended_address, register_access);
     return 0;
 }
 
 int cc1200_command_strobe_access(cc1200_command_strobe_t command_strobe) {
     // header read write flag ignored, burst access not possible.
     cc1200_spi_access_t strobe_access;
-    strobe_access.configuration_address = (cc1200_configuration_register_space_t)command_strobe;
     // the chip status byte is returned on the MISO line 
     // when a command strobe is sent on the MOSI line.
-    update_status(cc1200_single_register_access(strobe_access));
+    update_status(cc1200_single_register_access((cc1200_configuration_register_space_t)command_strobe, strobe_access));
     return cc1200.main_state;
 }
 
@@ -267,6 +297,13 @@ int cc1200_reset(bool hard_reset) {
     return 0;
 }
 
+
+// set up slave select pins as outputs as the Arduino API
+    // doesn't handle automatically pulling SS low
+    // https://docs.espressif.com/projects/arduino-esp32/en/latest/api/spi.html
+    // pinMode(cc1200.spi->pinSS(), OUTPUT);  // VSPI SS
+    // Initialize SPI
+    // https://e2e.ti.com/support/wireless-connectivity/other-wireless-group/other-wireless/f/other-wireless-technologies-forum/307966/cc1200-spi-clock-query   
 int setup_interface() {
     // Set up VSPI interface pins
     pinMode(cc1200.pin_ss, OUTPUT);
@@ -303,31 +340,37 @@ int cc1200_init(cc1200_config_t &cc1200) {
     if (cc1200.initialized) {
       return 0;
     }
-    // set up slave select pins as outputs as the Arduino API
-    // doesn't handle automatically pulling SS low
-    // https://docs.espressif.com/projects/arduino-esp32/en/latest/api/spi.html
-    // pinMode(cc1200.spi->pinSS(), OUTPUT);  // VSPI SS
-    // Initialize SPI
-    // https://e2e.ti.com/support/wireless-connectivity/other-wireless-group/other-wireless/f/other-wireless-technologies-forum/307966/cc1200-spi-clock-query    
+    // -------------------------------------------------------------
+    // SWRU346B 3.1.1 4-wire Serial Configuration and Data Interface
+    // -------------------------------------------------------------
     setup_interface();
     #ifdef CC1200_DEBUG
             CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized CC1200 Interfaces!\n", pcf_radio_config.sensor_address);
     #endif
-    // 9.1 Power-On Start-Up Sequence
+    // ---------------------------------------------------------
+    //        SWRU346B 9.1 Power-On Start-Up Sequence 
+    // ---------------------------------------------------------
     // Must be reset before entering the state diagram in Figure 2.
     // CHIP_RDYn on the SO pin after SS is pulled low.
     cc1200_reset(true);
     // once reset is completed, chip will be in the IDLE state.
     // To verify initialization, the read the part number to confirm CC1200.
-    cc1200_spi_access_t register_access;
-    register_access.readwrite_flag = READ;
-    register_access.extended_address = cc1200_extended_register_space_t::PARTNUMBER;
-    update_status(cc1200_single_register_access(register_access));
-    cc1200.partnumber = (cc1200_partnumber_t)register_access.data;
-    register_access.extended_address = cc1200_extended_register_space_t::PARTVERSION;
-    update_status(cc1200_single_register_access(register_access));
-    cc1200.partrevision = register_access.data;
-    cc1200.initialized = true;
+    cc1200_spi_access_t config_access;
+    config_access.readwrite_flag = READ;
+    update_status(cc1200_single_register_access(PARTNUMBER, config_access));
+    cc1200.partnumber = (cc1200_partnumber_t)config_access.data;
+    update_status(cc1200_single_register_access(PARTVERSION, config_access));
+    cc1200.partrevision = config_access.data;    
+    config_access.readwrite_flag = WRITE;
+    // ---------------------------------------------------------
+    //  SWRU346B 3.4 General Purpose Input/Output Control Pins 
+    // ---------------------------------------------------------
+    // To control an external LNA, PA, or RX/TX switch in applications where the 
+    // SLEEP state is used it is therefore recommended to map this signal to
+    // GDO3 as this signal will be hardwired to 1(0) in the SLEEP state.
+    cc1200.registers.IOCFG3 |= ((PA_PD << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO3 asserts PA_PD GPIO signal 
+    config_access.data = cc1200.registers.IOCFG3;
+    update_status(cc1200_single_register_access(IOCFG3, config_access));
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized Radio Transceiver!\n"
         "* CC1200 Initialization Results: [Part Number=0x%2.2X, %s] [Part Revision=0x%2.2X, %s]\n"
@@ -337,8 +380,164 @@ int cc1200_init(cc1200_config_t &cc1200) {
         main_states[cc1200.main_state], cc1200.main_state, main_states[cc1200.main_state] == "IDLE" ? "PASS" : "FAIL"
     );
     #endif
+    if (cc1200.partnumber == 0x20 && cc1200.partrevision == 0x11) {
+        cc1200.initialized = true;
+    }
     return 0;
 }
+
+uint8_t symbol_rate_exponent;
+uint32_t symbol_rate_mantissa;
+
+/** Calculate Symbol Rate Programming
+ * \brief implements SWRU346B 5.4 Symbol Rate Programming.
+ * NOTE: SWRU346B shows units in ksps, sps actually configurable. 
+ * 
+ * CC1200_OSC_FREQ from given f_{xosc} = 40 MHz
+ * CC1200_OSC_FREQ_LOG2 from log2(40*10^6) = 25.253496f
+ */
+void calculate_symbol_rate(float sampleRate) {
+    // SWRU346B Equation 8 (SRATE_E for given symbol rate)
+    symbol_rate_exponent = (uint8_t)(std::min((float)MAX_04_BIT_VALUE,
+        (float)(std::log2(sampleRate) - CC1200_OSC_FREQ_LOG2 + 19)
+    )); // 4-bits wide exponent, select bounded SRATE_E value.
+    float SRATE;
+    // SWRU346B Equation 9 (SRATE_M for given symbol rate)
+    if (symbol_rate_exponent >= 1) {
+        symbol_rate_mantissa = (uint32_t)(std::min((float)MAX_20_BIT_VALUE,
+                (std::pow(2.0f, (float)(39-symbol_rate_exponent))*sampleRate)
+                / CC1200_OSC_FREQ - TWO_TO_THE_20
+        )); // 20-bits wide mantissa. select bounded SRATE_M value.
+        // SWRU346B Equation 6 (Symbol Rate when SRATE_E > 0)
+        SRATE = ((float)(symbol_rate_mantissa) + TWO_TO_THE_20) *
+                pow(2.0f,(float)(symbol_rate_exponent))*CC1200_OSC_FREQ
+                / TWO_TO_THE_39; // sps samples per second
+    } else {
+        // SWRU346B Equation 9 (SRATE_M for given symbol rate when SRATE_E = 0)
+        symbol_rate_mantissa = sampleRate*TWO_TO_THE_38/CC1200_OSC_FREQ;
+        // SWRU346B Equation 7 (Symbol Rate when SRATE_E = 0)
+        SRATE = symbol_rate_mantissa*CC1200_OSC_FREQ/TWO_TO_THE_38; // sps samples per second
+    }
+    // If SYMBOL_RATE_M is rounded to the nearest integer and becomes 220, one 
+    // should increment SYMBOL_RATE_E and use SYMBOL_RATE_M = 0 instead.
+    if (round(symbol_rate_mantissa) == TWO_TO_THE_20) {
+        symbol_rate_mantissa = 0;
+        symbol_rate_exponent = MAX_04_BIT_VALUE;
+    }
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("Target SRATE=%2.2f sps\n"
+        "04-bit SRATE_E=0x%1.1X\n"
+        "20-bit SRATE_M=0x%5.5X\n"
+        "Calculated SRATE=%2.2f sps\n", 
+        sampleRate, 
+        symbol_rate_exponent,
+        symbol_rate_mantissa,
+        SRATE
+    );
+    #endif
+}
+
+// ---------------------------------------------------------
+// SWRU346B 5.2.4 Custom Frequency Modulation(CFM)/Analog FM
+// ---------------------------------------------------------
+
+void cc1200_enter_custom_frequency_modulation(float sampleRate) {
+    cc1200_spi_access_t config_access;
+    config_access.readwrite_flag = WRITE;
+    // ---------------------------------------------------------
+    //             SWRU346B 5.4 Symbol Rate Programming
+    // ---------------------------------------------------------
+    // The modulator writes values to the PLL at 16x the 
+    // programmed symbol rate using the soft data clock.
+    calculate_symbol_rate(sampleRate);
+    cc1200.registers.SYMBOL_RATE2 |= ((symbol_rate_exponent << SRATE_E_SHIFT) & SRATE_E);
+    cc1200.registers.SYMBOL_RATE2 |= (((symbol_rate_mantissa >> 16) << SRATE_M_19_16_SHIFT) & SRATE_M_19_16);
+    cc1200.registers.SYMBOL_RATE1 = symbol_rate_mantissa >> 8; // [15:8]
+    cc1200.registers.SYMBOL_RATE0 = symbol_rate_mantissa >> 0; // [7:0]
+    config_access.data = cc1200.registers.SYMBOL_RATE2;
+    update_status(cc1200_single_register_access(SYMBOL_RATE2, config_access));
+    config_access.data = cc1200.registers.SYMBOL_RATE1;
+    update_status(cc1200_single_register_access(SYMBOL_RATE1, config_access));
+    config_access.data = cc1200.registers.SYMBOL_RATE0;
+    update_status(cc1200_single_register_access(SYMBOL_RATE0, config_access));
+    // ---------------------------------------------------------
+    //             SWRU346B 6 Receive Configuration
+    // ---------------------------------------------------------
+    // 6.1 RX Channel Filter Bandwidth
+    bool widefm = true; // WFM and NFM configurations available
+    // set CHAN_BW.ADC_CIC_DECFACT first decimation filter factor
+    config_access.data |= (widefm ? FACTOR24 : FACTOR48) << 6;
+    // set CHAN_BW.BB_CIC_DECFACT second decimation filter factor
+    config_access.data |= (widefm ? WFM_DECFACT_OVERSHOOT : NFM_DECFACT_OVERSHOOT);
+    update_status(cc1200_single_register_access(CHAN_BW, config_access));
+
+    cc1200.registers.MDMCFG2 |= ((0b1 << CFM_DATA_EN_SHIFT) & CFM_DATA_EN); // CFM mode enabled (write frequency word directly)
+    cc1200.registers.MDMCFG2 |= ((0x04 << UPSAMPLER_P_SHIFT) & UPSAMPLER_P); // variable TX upsampling factor default is P=16 0x04
+    config_access.data = cc1200.registers.MDMCFG2; 
+    update_status(cc1200_single_register_access(MDMCFG2, config_access));
+    // disable Normal/FIFO Mode packet format configuration
+    cc1200.registers.MDMCFG1 |= ((0b0 << FIFO_EN_SHIFT) & FIFO_EN); 
+    config_access.data = cc1200.registers.MDMCFG1; 
+    update_status(cc1200_single_register_access(MDMCFG1, config_access));
+    // disable Transparent Mode packet format configuration
+    cc1200.registers.MDMCFG0 |= ((0b0 << TRANSPARENT_MODE_EN_SHIFT) & TRANSPARENT_MODE_EN); 
+    config_access.data = cc1200.registers.MDMCFG0; 
+    update_status(cc1200_single_register_access(MDMCFG0, config_access));
+    // select Synchronous serial mode packet format configuration
+    cc1200.registers.PKT_CFG2 |= ((0b1 << CCA_MODE_SHIFT) & CCA_MODE); // indicate clear channel when RSSI is below threshold
+    cc1200.registers.PKT_CFG2 |= ((0b01 << PKT_FORMAT_SHIFT) & PKT_FORMAT); // select Synchronous serial mode
+    config_access.data = cc1200.registers.PKT_CFG2;
+    update_status(cc1200_single_register_access(PKT_CFG2, config_access));
+
+    // 
+    /** SWRU346B Equation 3 f_{offset}
+     * f_{offset} = f_{dev}*CFM_TX_DATA_IN/64 [Hz]
+     * This equation is only valid when -64 ≤ CFM_TX_DATA_IN ≤ +64. 
+     * CFM_TX_DATA_IN > 64 corresponds to +fdev while 
+     * CFM_TX_DATA_IN < -64 gives a frequency of −fdev. 
+     * CFM_TX_DATA_IN = -128 is the same as setting CFM_TX_DATA_IN = 0.
+     * See Section 5.2.1 regarding frequency deviation.
+     */
+    // set EXT_CTRL.BURST_ADDR_INCR_EN = 0 to continuously access
+    // the same register address without any SPI address overhead.
+    cc1200.registers.EXT_CTRL |= ((0b0 << BURST_ADDR_INCR_EN_SHIFT) & BURST_ADDR_INCR_EN);
+    config_access.data = cc1200.registers.EXT_CTRL;
+    update_status(cc1200_single_register_access(EXT_CTRL, config_access));
+
+    
+
+    
+    // ---------------------------------------------------------
+    //  SWRU346B 3.4 General Purpose Input/Output Control Pins 
+    // ---------------------------------------------------------
+    // set IOCFGx.GPIOx_CFG=29=0x1D to use GPIO signal CLKEN_CFM data clock 
+    // trigger to read the CFM_TX_DATA_OUT samples for demodulator soft data.
+    // this GPIO signal runs at the same rate as the programmed symbol rate.
+    cc1200.registers.IOCFG2 |= ((CLKEN_CFM << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO2 asserts CLKEN_CFM GPIO signal 
+    config_access.data = cc1200.registers.IOCFG2;
+    update_status(cc1200_single_register_access(IOCFG2, config_access));
+    // set IOCFGx.GPIOx_CFG=30=0x1E to use GPIO signal CFM_TX_DATA_CLK data clock
+    // interrupt to the MCU to synchronize the SPI data to the internal modulation rate.
+    // this GPIO signal runs at 16x the programmed symbol rate.
+    cc1200.registers.IOCFG0 |= ((CFM_TX_DATA_CLK << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO0 asserts CFM_TX_DATA_CLK GPIO signal 
+    config_access.data = cc1200.registers.IOCFG0;
+    update_status(cc1200_single_register_access(IOCFG0, config_access));
+    // -- end of Custom FM configuration changes --
+}
+
+void cc1200_exit_custom_frequency_modulation() {
+    // Note that in TX mode, 3 dummy symbols should be written to the 
+    // CFM_TX_DATA_IN register before strobing SIDLE 
+    // in order for all symbols to be sent on the air before TX mode is ended.
+    cc1200_spi_access_t config_access;
+    config_access.readwrite_flag = WRITE;
+    config_access.data = 0x00;
+    update_status(cc1200_single_register_access(CFM_TX_DATA_IN, config_access));
+    update_status(cc1200_single_register_access(CFM_TX_DATA_IN, config_access));
+    update_status(cc1200_single_register_access(CFM_TX_DATA_IN, config_access));
+    cc1200_command_strobe_access(SIDLE);
+}
+
 // TER de TI E2E Forums: 
 // Use of transparent mode requires oversampling of the output.
 // Naїve upsampling: Can also try repeating a sample 3 times for 8kHz signal  
@@ -360,90 +559,38 @@ void demonstrate_radio_transceiver() {
         main_states[cc1200.main_state],
         cc1200.partnumber, cc1200.partrevision
     );
-    cc1200_spi_access_t config_access;
-    config_access.readwrite_flag = WRITE;
-    // 3.4 General Purpose Input/Output Control Pins 
-    // TODO: use GPIO3 as external PA control SD? Is impossible with EMK.
-    // config_access.configuration_address = cc1200_configuration_register_space_t::IOCFG3;
-    // config_access.data = 0x00;
-    // update_status(cc1200_single_register_access(config_access));
-
-
-    // ---------------------------------------------------------
-    //             SWRU346B 6 Receive Configuration
-    // ---------------------------------------------------------
-    // 6.1 RX Channel Filter Bandwidth
-    bool widefm = true; // WFM and NFM configurations available
-    config_access.configuration_address = cc1200_configuration_register_space_t::CHAN_BW;
-    // set CHAN_BW.ADC_CIC_DECFACT first decimation filter factor
-    config_access.data |= (widefm ? FACTOR24 : FACTOR48) << 6;
-    // set CHAN_BW.BB_CIC_DECFACT second decimation filter factor
-    config_access.data |= (widefm ? WFM_DECFACT_OVERSHOOT : NFM_DECFACT_OVERSHOOT);
-    update_status(cc1200_single_register_access(config_access));
     
 
-    // ---------------------------------------------------------
-    // SWRU346B 5.2.4 Custom Frequency Modulation(CFM)/Analog FM
-    // ---------------------------------------------------------
-
-    // The modulator writes values to the PLL at 16x the 
-    // programmed symbol rate using the soft data clock. 40kHz
-    config_access.extended_address = cc1200_extended_register_space_t::NOTUSED;
-
-
-    config_access.configuration_address = cc1200_configuration_register_space_t::SYMBOL_RATE2;
-    config_access.data = 0x00;
-    update_status(cc1200_single_register_access(config_access));
-
-    // set IOCFGx.GPIOx_CFG = 29 to use GPIO signal CLKEN_CFM as a data clock 
-    // trigger to read the CFM_TX_DATA_OUT samples for demodulator soft data.
-    // this GPIO signal runs at the same rate as the programmed symbol rate.
-    config_access.configuration_address = cc1200_configuration_register_space_t::IOCFG2;
-    config_access.data = CFM_TX_DATA_CLK;
-    update_status(cc1200_single_register_access(config_access));
-    
-    config_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
-    config_access.extended_address = cc1200_extended_register_space_t::MDMCFG2;
-    config_access.data = CFM_DATA_EN; // CFM mode enabled (write frequency word directly)
-    update_status(cc1200_single_register_access(config_access));
-    // set EXT_CTRL.BURST_ADDR_INCR_EN = 0 to continuously access
-    // the same register address without any SPI address overhead.
-    config_access.extended_address = cc1200_extended_register_space_t::EXT_CTRL;
-    config_access.data = ~BURST_ADDR_INCR_EN;
-    update_status(cc1200_single_register_access(config_access));
-
-    
-
-    // The two CFM_TX_DATA registers have the same format (two’s complement)
+    uint8_t* cfm_data_buffer;
+    // curiouselectron demo targets 40kHz sample rate.
+    cc1200_enter_custom_frequency_modulation(40000.0f);
+    cc1200_command_strobe_access(SRX);
+    // The two CFM_TRX_DATA registers have the same format (two’s complement)
     // to simplify software control and data buffering in both TX and RX.
-    
     // CFM_TX_DATA_IN is used to set the carrier frequency offset.
-    config_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
-    config_access.extended_address = cc1200_extended_register_space_t::CFM_TX_DATA_IN;
-    config_access.data = 0x00;
-    update_status(cc1200_single_register_access(config_access));
-    
+    cc1200_spi_access_t trx_access;
     // CFM_RX_DATA_OUT is used to read the instantaneous frequency offset.
-    config_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
-    config_access.extended_address = cc1200_extended_register_space_t::CFM_RX_DATA_OUT;
-    update_status(cc1200_single_register_access(config_access));
-    uint8_t offset = config_access.data; 
+    // 8-bit signed soft-decision symbol data, 
+    // either from normal receiver or transparent receiver. 
+    // Can be read using burst mode to do custom demodulation
+    trx_access.readwrite_flag = READ;
+    update_status(cc1200_single_register_access(CFM_RX_DATA_OUT, trx_access));
+    uint8_t offset = trx_access.data; 
     /** 129 values between -f_{dev} and +f_{dev}
      * f_{offset} = \frac{f_{dev}*CFM_TX_DATA_IN}{64}
      * consider linear upsampler UPSAMPLER_P
      */
 
-    // cc1200_command_strobe_access(STX);
-    // Note that in TX mode, 3 dummy symbols should be written to the 
-    // CFM_TX_DATA_IN register before strobing SIDLE 
-    // in order for all symbols to be sent on the air before TX mode is ended.
-    config_access.configuration_address = cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
-    config_access.extended_address = cc1200_extended_register_space_t::CFM_TX_DATA_IN;
-    config_access.data = 0x00;
-    update_status(cc1200_single_register_access(config_access));
-    update_status(cc1200_single_register_access(config_access));
-    update_status(cc1200_single_register_access(config_access));
-    cc1200_command_strobe_access(SIDLE);
+    // 8-bit signed soft TX data input register for custom SW controlled modulation. 
+    // Can be accessed using burst mode to get arbitrary modulation
+    trx_access.readwrite_flag = WRITE;
+    trx_access.data = 0x00;
+    update_status(cc1200_single_register_access(CFM_TX_DATA_IN, trx_access));
+
+
+
+    cc1200_command_strobe_access(STX);
+    
 
     // display radio settings
     tft.printf("IO Pin GPIO3/2/1/0=0x%2.2X %2.2X %2.2X %2.2X\n"
