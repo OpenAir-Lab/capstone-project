@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <pcf8575.h>
 #include <st7789.h>
+#include <algorithm>
 #include <bitset>
 
 /*! \file cc1200.cpp
@@ -37,28 +38,16 @@ const char* main_states[21] = {
     // idle state
     "IDLE",
     // receive states
-    "RX",
-    "RX_END",
+    "RX","RX_END",
     // transmit states
-    "TX",
-    "TX_END",
+    "TX","TX_END",
     // fast TX ready
     "FSTXON",
     // frequency synthesizer calibration is running
-    "CALIBRATE" ,
-    "BIAS_SETTLE_MC",
-    "MANCAL",
-    "STARTCAL",
-    "ENDCAL",
+    "CALIBRATE","BIAS_SETTLE_MC","MANCAL","STARTCAL","ENDCAL",
     // PLL is setting
-    "BIAS_SETTLE",
-    "REG_SETTLE",
-    "BWBOOST",
-    "FS_LOCK",
-    "IFADCON",
-    "RXTX_SWITCH"
-    "TXRX_SWITCH"
-    "IFADCON_TXRX"
+    "BIAS_SETTLE","REG_SETTLE","BWBOOST","FS_LOCK","IFADCON",
+    "RXTX_SWITCH","TXRX_SWITCH","IFADCON_TXRX"
     // RX FIFO has over/underflowed. Read out any useful data,
     // then flush the FIFO with an SFRX strobe
     "RX_FIFO_ERR",
@@ -386,8 +375,55 @@ int cc1200_init(cc1200_config_t &cc1200) {
     return 0;
 }
 
-uint8_t symbol_rate_exponent;
-uint32_t symbol_rate_mantissa;
+uint8_t frequency_deviation_exponent; // 03 bit Exponent
+uint8_t frequency_deviation_mantissa; // 08 bit Mantissa
+
+/** Calculate Symbol Rate Programming
+ * \brief implements SWRU346B 5.4 Frequency Deviation Programming.
+ * NOTE: SWRU346B shows units in Hz. Maximum DEV = ~1.2 MHz
+ * 
+ * CC1200_OSC_FREQ from given f_{xosc} = 40 MHz
+ * CC1200_OSC_FREQ_LOG2 from log2(40*10^6) = 25.253496f
+ */
+void cc1200_calculate_frequency_deviation(double targetDeviation) {
+    
+    // SWRU346B Deviation Equation (DEV_E for given frequency deviation) 
+    double oscillatorRatio = targetDeviation / CC1200_OSC_FREQ;
+    frequency_deviation_exponent = (uint8_t)std::clamp(
+        (int)std::floor((int)std::log2(oscillatorRatio*TWO_TO_THE_14)),
+        0, (int)MAX_03_BIT_VALUE
+    );
+    if (frequency_deviation_exponent > 0) { // use DEV_E > 0 Equation
+        frequency_deviation_mantissa = (uint8_t)std::clamp(
+            std::round((oscillatorRatio*std::pow(2.0f, 22 - frequency_deviation_exponent)) - TWO_TO_THE_08), 
+            0.0, (double)MAX_08_BIT_VALUE
+        );
+        cc1200.frequency_deviation = (CC1200_OSC_FREQ/TWO_TO_THE_22) 
+            * (TWO_TO_THE_08 + frequency_deviation_mantissa)
+            * std::pow(2.0f, (double)(frequency_deviation_exponent)); // [Hz]
+    } else { // use DEV_E = 0 Equation
+        frequency_deviation_mantissa = oscillatorRatio*TWO_TO_THE_21;
+        cc1200.frequency_deviation = (CC1200_OSC_FREQ/TWO_TO_THE_21) 
+            * (TWO_TO_THE_08 + frequency_deviation_mantissa); // [Hz]
+    }
+    cc1200.registers.DEVIATION_M = frequency_deviation_mantissa;
+    cc1200.registers.MODCFG_DEV_E &= ~DEV_E;
+    cc1200.registers.MODCFG_DEV_E |= (frequency_deviation_exponent & DEV_E);
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("Target DEV=%2.2f Hz\n"
+        "03-bit DEV_E=0b%3.3B=0x%1.1X\n"
+        "08-bit DEV_M=0b%3.3B=0x%2.2X\n"
+        "Calculated DEV=%2.2f Hz\n", 
+        targetDeviation, 
+        frequency_deviation_exponent,
+        frequency_deviation_mantissa,
+        cc1200.symbol_rate
+    );
+    #endif
+}
+
+uint8_t symbol_rate_exponent;  // 04-bit Exponent
+uint32_t symbol_rate_mantissa; // 20-bit Mantissa
 
 /** Calculate Symbol Rate Programming
  * \brief implements SWRU346B 5.4 Symbol Rate Programming.
@@ -396,43 +432,50 @@ uint32_t symbol_rate_mantissa;
  * CC1200_OSC_FREQ from given f_{xosc} = 40 MHz
  * CC1200_OSC_FREQ_LOG2 from log2(40*10^6) = 25.253496f
  */
-void calculate_symbol_rate(float sampleRate) {
+void cc1200_calculate_symbol_rate(double targetSampleRate) {
     // SWRU346B Equation 8 (SRATE_E for given symbol rate)
-    symbol_rate_exponent = (uint8_t)(std::min((float)MAX_04_BIT_VALUE,
-        (float)(std::log2(sampleRate) - CC1200_OSC_FREQ_LOG2 + 19)
-    )); // 4-bits wide exponent, select bounded SRATE_E value.
-    float SRATE;
+    double oscillatorRatio = targetSampleRate / CC1200_OSC_FREQ;
+    // 4-bits wide exponent, select clamped SRATE_E value.
+    symbol_rate_exponent = (uint8_t)std::clamp((int)std::floor((int)std::log2(oscillatorRatio*TWO_TO_THE_19)), 0, (int)MAX_04_BIT_VALUE);
     // SWRU346B Equation 9 (SRATE_M for given symbol rate)
     if (symbol_rate_exponent >= 1) {
-        symbol_rate_mantissa = (uint32_t)(std::min((float)MAX_20_BIT_VALUE,
-                (std::pow(2.0f, (float)(39-symbol_rate_exponent))*sampleRate)
-                / CC1200_OSC_FREQ - TWO_TO_THE_20
-        )); // 20-bits wide mantissa. select bounded SRATE_M value.
+        // 20-bits wide mantissa. select clamped SRATE_M value.
+        symbol_rate_mantissa = std::round((oscillatorRatio*std::pow(2.0f, 39 - symbol_rate_exponent)) - TWO_TO_THE_20); 
+        // If SYMBOL_RATE_M is rounded to the nearest integer and becomes 2^20, one 
+        // should increment SYMBOL_RATE_E and use SYMBOL_RATE_M = 0 instead.
+        if (symbol_rate_mantissa == TWO_TO_THE_20) {
+            if (symbol_rate_exponent < MAX_04_BIT_VALUE) {
+                symbol_rate_exponent++;
+                symbol_rate_mantissa = 0;
+            } else {
+                symbol_rate_mantissa = MAX_20_BIT_VALUE - 1;
+            }
+        }
+        symbol_rate_mantissa = (uint32_t)std::clamp((double)symbol_rate_mantissa, 0.0, (double)MAX_20_BIT_VALUE);
         // SWRU346B Equation 6 (Symbol Rate when SRATE_E > 0)
-        SRATE = ((float)(symbol_rate_mantissa) + TWO_TO_THE_20) *
-                pow(2.0f,(float)(symbol_rate_exponent))*CC1200_OSC_FREQ
+        cc1200.symbol_rate = ((double)(symbol_rate_mantissa) + TWO_TO_THE_20) *
+                pow(2.0f,(double)(symbol_rate_exponent))*CC1200_OSC_FREQ
                 / TWO_TO_THE_39; // sps samples per second
     } else {
         // SWRU346B Equation 9 (SRATE_M for given symbol rate when SRATE_E = 0)
-        symbol_rate_mantissa = sampleRate*TWO_TO_THE_38/CC1200_OSC_FREQ;
+        symbol_rate_mantissa = oscillatorRatio*TWO_TO_THE_38;
         // SWRU346B Equation 7 (Symbol Rate when SRATE_E = 0)
-        SRATE = symbol_rate_mantissa*CC1200_OSC_FREQ/TWO_TO_THE_38; // sps samples per second
+        cc1200.symbol_rate = symbol_rate_mantissa*CC1200_OSC_FREQ/TWO_TO_THE_38; // sps samples per second
     }
-    // If SYMBOL_RATE_M is rounded to the nearest integer and becomes 220, one 
-    // should increment SYMBOL_RATE_E and use SYMBOL_RATE_M = 0 instead.
-    if (round(symbol_rate_mantissa) == TWO_TO_THE_20) {
-        symbol_rate_mantissa = 0;
-        symbol_rate_exponent = MAX_04_BIT_VALUE;
-    }
+    cc1200.registers.SYMBOL_RATE2 &= ~(SRATE_E | SRATE_M_19_16); // clear register fields
+    cc1200.registers.SYMBOL_RATE2 |= ((symbol_rate_exponent << SRATE_E_SHIFT) & SRATE_E);
+    cc1200.registers.SYMBOL_RATE2 |= (((symbol_rate_mantissa >> 16) << SRATE_M_19_16_SHIFT) & SRATE_M_19_16);
+    cc1200.registers.SYMBOL_RATE1 = symbol_rate_mantissa >> 8; // [15:8]
+    cc1200.registers.SYMBOL_RATE0 = symbol_rate_mantissa >> 0; // [7:0]
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.printf("Target SRATE=%2.2f sps\n"
         "04-bit SRATE_E=0x%1.1X\n"
         "20-bit SRATE_M=0x%5.5X\n"
         "Calculated SRATE=%2.2f sps\n", 
-        sampleRate, 
+        targetSampleRate, 
         symbol_rate_exponent,
         symbol_rate_mantissa,
-        SRATE
+        cc1200.symbol_rate
     );
     #endif
 }
@@ -441,19 +484,26 @@ void calculate_symbol_rate(float sampleRate) {
 // SWRU346B 5.2.4 Custom Frequency Modulation(CFM)/Analog FM
 // ---------------------------------------------------------
 
-void cc1200_enter_custom_frequency_modulation(float sampleRate) {
+void cc1200_enter_custom_frequency_modulation(double targetSampleRate, double targetDeviation) {
     cc1200_spi_access_t config_access;
     config_access.readwrite_flag = WRITE;
+
+    // ---------------------------------------------------------
+    // SWRU346B Frequency Deviation Configuration
+    // ---------------------------------------------------------
+    cc1200_calculate_frequency_deviation(targetDeviation);
+    // Frequency Deviation Configuration
+    config_access.data = cc1200.registers.DEVIATION_M;
+    update_status(cc1200_single_register_access(DEVIATION_M, config_access));
+    // Modulation Format and Frequency Deviation Configuration
+    config_access.data = cc1200.registers.MODCFG_DEV_E;
+    update_status(cc1200_single_register_access(MODCFG_DEV_E, config_access));
     // ---------------------------------------------------------
     //             SWRU346B 5.4 Symbol Rate Programming
     // ---------------------------------------------------------
     // The modulator writes values to the PLL at 16x the 
     // programmed symbol rate using the soft data clock.
-    calculate_symbol_rate(sampleRate);
-    cc1200.registers.SYMBOL_RATE2 |= ((symbol_rate_exponent << SRATE_E_SHIFT) & SRATE_E);
-    cc1200.registers.SYMBOL_RATE2 |= (((symbol_rate_mantissa >> 16) << SRATE_M_19_16_SHIFT) & SRATE_M_19_16);
-    cc1200.registers.SYMBOL_RATE1 = symbol_rate_mantissa >> 8; // [15:8]
-    cc1200.registers.SYMBOL_RATE0 = symbol_rate_mantissa >> 0; // [7:0]
+    cc1200_calculate_symbol_rate(targetSampleRate);
     config_access.data = cc1200.registers.SYMBOL_RATE2;
     update_status(cc1200_single_register_access(SYMBOL_RATE2, config_access));
     config_access.data = cc1200.registers.SYMBOL_RATE1;
@@ -466,9 +516,11 @@ void cc1200_enter_custom_frequency_modulation(float sampleRate) {
     // 6.1 RX Channel Filter Bandwidth
     bool widefm = true; // WFM and NFM configurations available
     // set CHAN_BW.ADC_CIC_DECFACT first decimation filter factor
-    config_access.data |= (widefm ? FACTOR24 : FACTOR48) << 6;
+    cc1200.registers.CHAN_BW &= ~(ADC_CIC_DECFACT | BB_CIC_DECFACT); // clear register fields
+    cc1200.registers.CHAN_BW |= ((widefm ? FACTOR24 : FACTOR48) << ADC_CIC_DECFACT_SHIFT & ADC_CIC_DECFACT);
     // set CHAN_BW.BB_CIC_DECFACT second decimation filter factor
-    config_access.data |= (widefm ? WFM_DECFACT_OVERSHOOT : NFM_DECFACT_OVERSHOOT);
+    cc1200.registers.CHAN_BW |= ((widefm ? WFM_DECFACT_OVERSHOOT : NFM_DECFACT_OVERSHOOT) & BB_CIC_DECFACT);
+    config_access.data = cc1200.registers.CHAN_BW;
     update_status(cc1200_single_register_access(CHAN_BW, config_access));
 
     cc1200.registers.MDMCFG2 |= ((0b1 << CFM_DATA_EN_SHIFT) & CFM_DATA_EN); // CFM mode enabled (write frequency word directly)
@@ -525,6 +577,14 @@ void cc1200_enter_custom_frequency_modulation(float sampleRate) {
     // -- end of Custom FM configuration changes --
 }
 
+void IRAM_ATTR CLKEN_CFM_ISR() {
+
+}
+
+void IRAM_ATTR CFM_TX_DATA_CLK_ISR() {
+
+}
+
 void cc1200_exit_custom_frequency_modulation() {
     // Note that in TX mode, 3 dummy symbols should be written to the 
     // CFM_TX_DATA_IN register before strobing SIDLE 
@@ -563,29 +623,17 @@ void demonstrate_radio_transceiver() {
 
     uint8_t* cfm_data_buffer;
     // curiouselectron demo targets 40kHz sample rate.
-    cc1200_enter_custom_frequency_modulation(40000.0f);
-    cc1200_command_strobe_access(SRX);
-    // The two CFM_TRX_DATA registers have the same format (two’s complement)
-    // to simplify software control and data buffering in both TX and RX.
-    // CFM_TX_DATA_IN is used to set the carrier frequency offset.
-    cc1200_spi_access_t trx_access;
-    // CFM_RX_DATA_OUT is used to read the instantaneous frequency offset.
-    // 8-bit signed soft-decision symbol data, 
-    // either from normal receiver or transparent receiver. 
-    // Can be read using burst mode to do custom demodulation
-    trx_access.readwrite_flag = READ;
-    update_status(cc1200_single_register_access(CFM_RX_DATA_OUT, trx_access));
-    uint8_t offset = trx_access.data; 
-    /** 129 values between -f_{dev} and +f_{dev}
-     * f_{offset} = \frac{f_{dev}*CFM_TX_DATA_IN}{64}
-     * consider linear upsampler UPSAMPLER_P
-     */
+    cc1200_enter_custom_frequency_modulation(40000.0, 5000.0);
 
-    // 8-bit signed soft TX data input register for custom SW controlled modulation. 
-    // Can be accessed using burst mode to get arbitrary modulation
-    trx_access.readwrite_flag = WRITE;
-    trx_access.data = 0x00;
-    update_status(cc1200_single_register_access(CFM_TX_DATA_IN, trx_access));
+    attachInterrupt(digitalPinToInterrupt(cc1200.pin_gdio0), CFM_TX_DATA_CLK_ISR, RISING);
+    attachInterrupt(digitalPinToInterrupt(cc1200.pin_gdio2), CLKEN_CFM_ISR, RISING);
+
+
+
+    cc1200_command_strobe_access(SRX);
+    
+
+    
 
 
 
