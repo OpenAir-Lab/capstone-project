@@ -14,6 +14,8 @@
 #include <pcf8575.h>         // used in MCU, HMI, and RF Modulinos
 
 #include <st7789.h>          // used in HMI Modulino
+#include <max98357a.h>
+#include <ics43434.h>
 
 // use doxygen formatting in block comments
 // for auto-generated firmware documentation!
@@ -74,6 +76,22 @@ grf5604_config_t vhf_grf5604;
 
 // Human-Machine Interface Configuration
 
+/*! \def I2S0 Controller Pin Matrix
+    \brief used with an instance of I2CClass class.
+    I2S0 utilized by MAX98357A Audio Amplifier and ICS-43434 Microphone.
+    Controller is put into full duplex mode, common serial data not used.
+*/
+#define I2S0_PIN_BCLK  26 // shared bit clock
+#define I2S0_PIN_LRCLK 25 // shared left-right clock
+#define I2S0_PIN_DOUT  34 // data output to amplifier 
+#define I2S0_PIN_DIN   27 // data input from microphone
+
+#define I2S0_SAMPLE_RATE    40000 // 40 kSps (40 kHz audio)
+#define I2S0_WORD_SIZE      32 // 32-bit data words
+max98357a_config_t max98357a;
+ics43434_config_t ics43434;
+
+
 /*! \def TFT Module Pin Matrix
     \brief used with an instance of Adafruit_ST7789 class.
 */
@@ -109,6 +127,7 @@ static const unsigned char PROGMEM image_battery_100_bits[] = {0x00,0x00,0x00,0x
 */
 
 int hmi_init() {
+    // PCF8575 HMI Port Expander
     pcf_hmi_config.i2c = &Wire;   // I2C0
     pcf_hmi_config.pin_interrupt = 35;
     pcf_hmi_config.subsystem_name = "HMI";
@@ -119,9 +138,9 @@ int hmi_init() {
     display_config.pin_mosi = TFT_MOSI;
     display_config.pin_sclk = TFT_SCLK;
     display_config.pin_reset = TFT_RST;
-    while (!(display_init(display_config) == 0));
-    // TODO: Initialize HMI Port Expander.
+
     while (!(pcf8575_init(pcf_hmi, pcf_hmi_config) == 0));
+    while (!(display_init(display_config) == 0));
     return 0;
 }
 
@@ -217,6 +236,23 @@ void setup(void) {
     #endif
     Wire.setPins(PIN_SDA, PIN_SCL);
     while(!Wire.begin());
+
+    // ESP32 I2S0 Interface
+    max98357a.pin_bclk = I2S0_PIN_BCLK;
+    max98357a.pin_lrclk = I2S0_PIN_LRCLK;
+    max98357a.pin_data_in = I2S0_PIN_DOUT;
+    ics43434.pin_bclk = I2S0_PIN_BCLK;
+    ics43434.pin_lrclk = I2S0_PIN_LRCLK;
+    ics43434.pin_data_out = I2S0_PIN_DIN;
+    ics43434.sample_rate = I2S0_SAMPLE_RATE;
+    ics43434.bits_per_sample = I2S0_WORD_SIZE;
+    #ifdef DEBUG
+    DEBUG.printf("(I2S0 -----) Beginning use of I2S0 Interface... "
+        "[BCLK=%d, LRCLK=%d, DOUT=%d, DIN=%d]\n", I2S0_PIN_BCLK, I2S0_PIN_LRCLK, max98357a.pin_data_in, ics43434.pin_data_out 
+    );
+    #endif
+    I2S.begin(I2S_PHILIPS_MODE, I2S0_SAMPLE_RATE, I2S0_WORD_SIZE);
+    I2S.setAllPins(I2S0_PIN_BCLK, I2S0_PIN_LRCLK, I2S_PIN_NO_CHANGE, max98357a.pin_data_in, ics43434.pin_data_out);
     
     // measure time to demo completion
     uint16_t time_to_completion = millis();
