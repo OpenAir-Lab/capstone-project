@@ -59,13 +59,20 @@ typedef enum {
 #define WFM_DECFACT_OVERSHOOT 33  //  25.25 kHz at FACTOR24
 #define NFM_DECFACT_OVERSHOOT 28  //  14.88 kHz at FACTOR48
 
-// Sample Rate Definitions
-#define MAX_04_BIT_VALUE (1U << 4) - 1
-#define TWO_TO_THE_20 (1ULL << 20)
-#define MAX_20_BIT_VALUE TWO_TO_THE_20 - 1
-#define TWO_TO_THE_28 (1ULL << 28)
-#define TWO_TO_THE_38 (1ULL << 38)
-#define TWO_TO_THE_39 (1ULL << 39)
+// Powers of Two Definitions
+#define MAX_03_BIT_VALUE (1U << 3) - 1     // used by frequency deviation
+#define MAX_04_BIT_VALUE (1U << 4) - 1     // used by symbol rate
+#define TWO_TO_THE_08    (1ULL << 8)       // used by frequency deviation
+#define MAX_08_BIT_VALUE TWO_TO_THE_08 - 1 // used by frequency deviation
+#define TWO_TO_THE_14    (1ULL << 14)      // used by frequency deviation
+#define TWO_TO_THE_19    (1ULL << 19)      // used by symbol rate
+#define TWO_TO_THE_20    (1ULL << 20)      // used by symbol rate
+#define MAX_20_BIT_VALUE TWO_TO_THE_20 - 1 // used by symbol rate
+#define TWO_TO_THE_21    (1ULL << 21)      // used by frequency deviation
+#define TWO_TO_THE_22    (1ULL << 22)      // used by frequency deviation
+#define TWO_TO_THE_28    (1ULL << 28)      // used by symbol rate
+#define TWO_TO_THE_38    (1ULL << 38)      // used by symbol rate
+#define TWO_TO_THE_39    (1ULL << 39)      // used by symbol rate
 #define CC1200_OSC_FREQ 40000000UL
 #define CC1200_OSC_FREQ_LOG2 25.253496f
 typedef struct {
@@ -174,10 +181,6 @@ typedef struct {
 
 } cc1200_registers_t;
 
-
-
-
-
 // @brief configuration of CC1200 sub 1-GHz radio transceiver
 typedef struct {
     bool initialized = false;
@@ -192,6 +195,8 @@ typedef struct {
     int8_t pin_gdio2;
     uint8_t partnumber = -1;
     uint8_t partrevision = -1;
+    double symbol_rate;
+    double frequency_deviation;
     bool chip_nrdy;
     uint8_t main_state;
     cc1200_registers_t registers;
@@ -274,7 +279,9 @@ typedef enum {
     SYNC3, SYNC2, SYNC1, SYNC0,
     SYNC_CFG1, SYNC_CFG0,
     DEVIATION_M,
+    #define DEV_M GENMASK(7,0) // reset 0x06
     MODCFG_DEV_E,
+    #define DEV_E GENMASK(2,0) // reset 0x03
     DCFILT_CFG,
     PREAMBLE_CFG1, PREAMBLE_CFG0,
     IQIC,
@@ -450,6 +457,7 @@ typedef struct {
     uint8_t data = 0x00;
 } cc1200_spi_access_t;
 
+int update_status(uint8_t chip_status);
 
 int cc1200_single_register_access(cc1200_configuration_register_space_t configuration_address, cc1200_spi_access_t &register_access);
 int cc1200_single_register_access(cc1200_extended_register_space_t extended_address, cc1200_spi_access_t &register_access);
