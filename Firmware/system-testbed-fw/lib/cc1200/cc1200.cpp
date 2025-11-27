@@ -523,19 +523,23 @@ void cc1200_enter_custom_frequency_modulation(double targetSampleRate, double ta
     config_access.data = cc1200.registers.CHAN_BW;
     update_status(cc1200_single_register_access(CHAN_BW, config_access));
 
+    cc1200.registers.MDMCFG2 &= ~(CFM_DATA_EN | UPSAMPLER_P); 
     cc1200.registers.MDMCFG2 |= ((0b1 << CFM_DATA_EN_SHIFT) & CFM_DATA_EN); // CFM mode enabled (write frequency word directly)
     cc1200.registers.MDMCFG2 |= ((0x04 << UPSAMPLER_P_SHIFT) & UPSAMPLER_P); // variable TX upsampling factor default is P=16 0x04
     config_access.data = cc1200.registers.MDMCFG2; 
     update_status(cc1200_single_register_access(MDMCFG2, config_access));
     // disable Normal/FIFO Mode packet format configuration
+    cc1200.registers.MDMCFG1 &= ~FIFO_EN;
     cc1200.registers.MDMCFG1 |= ((0b0 << FIFO_EN_SHIFT) & FIFO_EN); 
     config_access.data = cc1200.registers.MDMCFG1; 
     update_status(cc1200_single_register_access(MDMCFG1, config_access));
     // disable Transparent Mode packet format configuration
+    cc1200.registers.MDMCFG0 &= ~TRANSPARENT_MODE_EN;
     cc1200.registers.MDMCFG0 |= ((0b0 << TRANSPARENT_MODE_EN_SHIFT) & TRANSPARENT_MODE_EN); 
     config_access.data = cc1200.registers.MDMCFG0; 
     update_status(cc1200_single_register_access(MDMCFG0, config_access));
     // select Synchronous serial mode packet format configuration
+    cc1200.registers.PKT_CFG2 &= ~(CCA_MODE | PKT_FORMAT);
     cc1200.registers.PKT_CFG2 |= ((0b1 << CCA_MODE_SHIFT) & CCA_MODE); // indicate clear channel when RSSI is below threshold
     cc1200.registers.PKT_CFG2 |= ((0b01 << PKT_FORMAT_SHIFT) & PKT_FORMAT); // select Synchronous serial mode
     config_access.data = cc1200.registers.PKT_CFG2;
@@ -552,6 +556,7 @@ void cc1200_enter_custom_frequency_modulation(double targetSampleRate, double ta
      */
     // set EXT_CTRL.BURST_ADDR_INCR_EN = 0 to continuously access
     // the same register address without any SPI address overhead.
+    cc1200.registers.EXT_CTRL &= ~BURST_ADDR_INCR_EN;
     cc1200.registers.EXT_CTRL |= ((0b0 << BURST_ADDR_INCR_EN_SHIFT) & BURST_ADDR_INCR_EN);
     config_access.data = cc1200.registers.EXT_CTRL;
     update_status(cc1200_single_register_access(EXT_CTRL, config_access));
@@ -565,12 +570,14 @@ void cc1200_enter_custom_frequency_modulation(double targetSampleRate, double ta
     // set IOCFGx.GPIOx_CFG=29=0x1D to use GPIO signal CLKEN_CFM data clock 
     // trigger to read the CFM_TX_DATA_OUT samples for demodulator soft data.
     // this GPIO signal runs at the same rate as the programmed symbol rate.
+    cc1200.registers.IOCFG2 &= ~GPIOx_CFG; // clear previous GPIO config
     cc1200.registers.IOCFG2 |= ((CLKEN_CFM << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO2 asserts CLKEN_CFM GPIO signal 
     config_access.data = cc1200.registers.IOCFG2;
     update_status(cc1200_single_register_access(IOCFG2, config_access));
     // set IOCFGx.GPIOx_CFG=30=0x1E to use GPIO signal CFM_TX_DATA_CLK data clock
     // interrupt to the MCU to synchronize the SPI data to the internal modulation rate.
     // this GPIO signal runs at 16x the programmed symbol rate.
+    cc1200.registers.IOCFG0 &= ~GPIOx_CFG; // clear previous GPIO config
     cc1200.registers.IOCFG0 |= ((CFM_TX_DATA_CLK << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO0 asserts CFM_TX_DATA_CLK GPIO signal 
     config_access.data = cc1200.registers.IOCFG0;
     update_status(cc1200_single_register_access(IOCFG0, config_access));
@@ -591,7 +598,8 @@ void cc1200_exit_custom_frequency_modulation() {
     // in order for all symbols to be sent on the air before TX mode is ended.
     cc1200_spi_access_t config_access;
     config_access.readwrite_flag = WRITE;
-    config_access.data = 0x00;
+    cc1200.registers.CFM_TX_DATA_IN = 0x00;
+    config_access.data = cc1200.registers.CFM_TX_DATA_IN;
     update_status(cc1200_single_register_access(CFM_TX_DATA_IN, config_access));
     update_status(cc1200_single_register_access(CFM_TX_DATA_IN, config_access));
     update_status(cc1200_single_register_access(CFM_TX_DATA_IN, config_access));
@@ -620,7 +628,6 @@ void demonstrate_radio_transceiver() {
         cc1200.partnumber, cc1200.partrevision
     );
     
-
     uint8_t* cfm_data_buffer;
     // curiouselectron demo targets 40kHz sample rate.
     cc1200_enter_custom_frequency_modulation(40000.0, 5000.0);
