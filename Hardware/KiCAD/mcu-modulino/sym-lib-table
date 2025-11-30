@@ -2,4 +2,5 @@
   (version 7)
   (lib (name "capstone-project")(type "KiCad")(uri "${KIPRJMOD}/capstone-project.pretty/capstone-project.kicad_sym")(options "")(descr ""))
   (lib (name "EspressIf")(type "Legacy")(uri "${KIPRJMOD}/capstone-project.pretty/EspressIf.lib")(options "")(descr ""))
+  (lib (name "2025-11-18_22-10-15")(type "KiCad")(uri "/Users/adriannequick/Downloads/KiCADv6/2025-11-18_22-10-15.kicad_sym")(options "")(descr ""))
 )
