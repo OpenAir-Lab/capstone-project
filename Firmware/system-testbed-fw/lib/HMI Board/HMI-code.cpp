@@ -34,7 +34,7 @@
 // These determine how often we check hardware. Lower = Faster response.
 #define INTERVAL_FAST_INPUT  30   // Keypad/Mic (Fast)
 #define INTERVAL_ENCODER     50   // Rotary Knob (Medium)
-#define INTERVAL_SLOW_TASKS  2000 // Battery/Temp (Slow)
+#define INTERVAL_RX_CHECK    100  // [CHANGED] Replaces slow tasks. Checks Serial for battery data.
 
 // ====================================================
 //                2. GLOBAL VARIABLES
@@ -62,7 +62,7 @@ String inputBuffer = "";       // Stores typed numbers (e.g., "145")
 float activeFrequency = 145.000; 
 bool isEditingFreq = false;    // Are we typing a number right now?
 bool isTransmitting = false;   // Is PTT pressed?
-int batteryPercentage = 100;
+int batteryPercentage = 0;     // [CHANGED] Init to 0. Waits for real data.
 int volumeLevel = 5;           // 0 to 10
 
 // Menu Data
@@ -76,7 +76,7 @@ int lastEncoderValue = 0;
 // Scheduler Timers
 unsigned long timerInput = 0;
 unsigned long timerEncoder = 0;
-unsigned long timerSlow = 0;
+unsigned long timerRX = 0;     // [CHANGED] Replaces timerSlow
 
 // ====================================================
 //           3. FORWARD DECLARATIONS
@@ -86,7 +86,7 @@ void HMI_Setup();
 void HMI_Loop();
 void hardware_scanInputs();
 void hardware_scanEncoder();
-void logic_simulateBMS();
+void hardware_listenForBMS(); // [CHANGED] New function
 void view_refreshPage(); 
 void view_drawHome();
 void view_drawSubMenu(String title);
@@ -101,6 +101,7 @@ void logic_navigateMenu(int delta);
 void logic_confirmFrequency();
 void logic_enterMenu();
 void logic_goBack();
+void logic_handlePTT(bool pressed); // [ADDED MISSING PROTOTYPE] (Was implicit in original, explicit is safer)
 void hardware_set_RF_Frequency(float freq);
 void hardware_set_Audio_Volume(int vol);
 void hardware_set_PTT_State(bool tx);
@@ -170,10 +171,11 @@ void HMI_Loop() {
     hardware_scanEncoder();
   }
 
-  // TASK C: Slow Tasks (Every 2 Seconds)
-  if (now - timerSlow > INTERVAL_SLOW_TASKS) { 
-    timerSlow = now;
-    logic_simulateBMS(); 
+  // TASK C: Check Battery Data [CHANGED] (Every 100ms)
+  // Replaced "logic_simulateBMS" with "hardware_listenForBMS"
+  if (now - timerRX > INTERVAL_RX_CHECK) { 
+    timerRX = now;
+    hardware_listenForBMS(); 
   }
 }
 
@@ -282,13 +284,8 @@ void logic_handlePTT(bool pressed) {
   }
 }
 
-void logic_simulateBMS() {
-  batteryPercentage--; 
-  if (batteryPercentage < 0) batteryPercentage = 100;
-  view_updateBattery();
-  
-  // Note: In real version, read I2C Fuel Gauge here.
-}
+// [DELETED] logic_simulateBMS() was here.
+// Replaced by real data handling in hardware_listenForBMS() below.
 
 // ====================================================
 //           8. VIEW LAYER (Drawing to Screen)
@@ -477,7 +474,32 @@ void hardware_scanEncoder() {
 }
 
 // ====================================================
-//      10. HARDWARE INTEGRATION STUBS (TEAM AREA)
+//      10. HARDWARE INTEGRATION (COMMUNICATION)
+// ====================================================
+
+// [ADDED] Listens for "BAT:XX" over Serial
+void hardware_listenForBMS() {
+  // Check if data is available in Serial buffer
+  if (Serial.available() > 0) {
+    String msg = Serial.readStringUntil('\n'); // Read line from BMS
+    msg.trim(); // Clean up whitespace
+
+    // Check for our protocol prefix
+    if (msg.startsWith("BAT:")) {
+      String valStr = msg.substring(4); // Remove "BAT:"
+      int newVal = valStr.toInt();
+      
+      // Update global variable only if changed
+      if (newVal != batteryPercentage) {
+        batteryPercentage = newVal;
+        view_updateBattery(); // Redraw only the battery number
+      }
+    }
+  }
+}
+
+// ====================================================
+//      11. HARDWARE INTEGRATION STUBS (TEAM AREA)
 // ====================================================
 
 void hardware_set_RF_Frequency(float freq) {
