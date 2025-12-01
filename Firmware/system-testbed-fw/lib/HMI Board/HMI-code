@@ -1,0 +1,503 @@
+/*
+ * PROJECT: OPEN AIR LAB - MAIN CONTROLLER FIRMWARE
+ * SYSTEM:  ESP32 + ST7789 DISPLAY + PCF8575 KEYPAD + I2C ENCODER
+ *
+ * GUIDE FOR THE TEAM:
+ * 1. CONFIG:   Top section defines Pins and Addresses. Check your wiring here.
+ * 2. LOOP:     We do NOT use delay(). We use timers to multitask.
+ * 3. INTEGRATION: Scroll to the bottom (SECTION 10) to add your hardware code.
+ */
+
+#include <Wire.h>       // I2C Communication
+#include "PCF8575.h"    // Keypad Driver
+#include <TFT_eSPI.h>   // Display Driver
+#include <SPI.h>
+
+// ====================================================
+//                1. CONFIGURATION
+// ====================================================
+
+// --- WIRING ---
+#define MIC_PIN_PCF  4       // PTT Button is on PCF8575 Pin P4
+#define I2C_SDA      21      // ESP32 Data Pin
+#define I2C_SCL      22      // ESP32 Clock Pin
+
+// --- I2C ADDRESSES ---
+#define ADDR_KEYPAD  0x20    // PCF8575 Address
+#define ADDR_ENCODER 0x3A    // Rotary Knob Address
+
+// --- DISPLAY SETTINGS ---
+#define TFT_GREY     0x5AEB  
+#define SCREEN_ROT   3       // 3 = Landscape (USB right)
+
+// --- SCHEDULER TIMING (Milliseconds) ---
+// These determine how often we check hardware. Lower = Faster response.
+#define INTERVAL_FAST_INPUT  30   // Keypad/Mic (Fast)
+#define INTERVAL_ENCODER     50   // Rotary Knob (Medium)
+#define INTERVAL_SLOW_TASKS  2000 // Battery/Temp (Slow)
+
+// ====================================================
+//                2. GLOBAL VARIABLES
+// ====================================================
+
+// Hardware Objects
+TFT_eSPI tft = TFT_eSPI(); 
+PCF8575 pcf(ADDR_KEYPAD);         
+
+// Keypad Map (Rows P11-P8, Cols P12-P15)
+int rowPins[4] = {11, 10, 9, 8};   
+int colPins[4] = {12, 13, 14, 15}; 
+const char keys[4][4] = {
+  {'L', '1', '2', '3'}, 
+  {'U', '4', '5', '6'}, 
+  {'D', '7', '8', '9'}, 
+  {'R', '*', '0', '#'}  
+};
+
+// --- SYSTEM STATE (The "Truth" of the radio) ---
+enum PageState { PAGE_HOME, PAGE_RF, PAGE_AUD, PAGE_PWR };
+PageState currentPage = PAGE_HOME; // Which screen are we looking at?
+
+String inputBuffer = "";       // Stores typed numbers (e.g., "145")
+float activeFrequency = 145.000; 
+bool isEditingFreq = false;    // Are we typing a number right now?
+bool isTransmitting = false;   // Is PTT pressed?
+int batteryPercentage = 100;
+int volumeLevel = 5;           // 0 to 10
+
+// Menu Data
+int menuIndex = 0; 
+const char* menuItems[] = {"RF", "AUD", "PWR"};
+
+// Memory for Debouncing (Prevents double-clicks)
+char lastKeyPressed = 0;       
+int lastEncoderValue = 0;      
+
+// Scheduler Timers
+unsigned long timerInput = 0;
+unsigned long timerEncoder = 0;
+unsigned long timerSlow = 0;
+
+// ====================================================
+//           3. FORWARD DECLARATIONS
+// ====================================================
+// (Tells the compiler these functions exist further down)
+void HMI_Setup();
+void HMI_Loop();
+void hardware_scanInputs();
+void hardware_scanEncoder();
+void logic_simulateBMS();
+void view_refreshPage(); 
+void view_drawHome();
+void view_drawSubMenu(String title);
+void view_updateFrequency();
+void view_updateMenu();
+void view_updateVolume();
+void view_updateBattery();
+void view_updateStatusHeader();
+void logic_handleKeyPress(char key);
+void logic_changeVolume(int delta);
+void logic_navigateMenu(int delta);
+void logic_confirmFrequency();
+void logic_enterMenu();
+void logic_goBack();
+void hardware_set_RF_Frequency(float freq);
+void hardware_set_Audio_Volume(int vol);
+void hardware_set_PTT_State(bool tx);
+
+// ====================================================
+//                4. ARDUINO MAIN
+// ====================================================
+
+void setup() {
+  Serial.begin(115200);
+  HMI_Setup(); // Run our initialization
+}
+
+void loop() {
+  HMI_Loop();  // Run our scheduler
+}
+
+// ====================================================
+//           5. INITIALIZATION (Setup)
+// ====================================================
+void HMI_Setup() {
+  // Prevent crashes by reserving memory for text
+  inputBuffer.reserve(16); 
+
+  // 1. Start Screen
+  tft.init();
+  tft.setRotation(SCREEN_ROT); 
+  tft.fillScreen(TFT_BLACK); 
+  tft.setViewport(0, 35, 320, 170); // Crop driver to fit physical glass
+
+  // 2. Start I2C (Slow speed prevents crash on long wires)
+  Wire.begin(I2C_SDA, I2C_SCL);
+  Wire.setClock(50000);     
+  Wire.setTimeOut(50);      
+  
+  // 3. Start Keypad
+  if (!pcf.begin()) {
+    Serial.println("ERROR: Keypad not found");
+  } else {
+    for(int i=0; i<16; i++) pcf.write(i, HIGH); // Set pins to Input
+  }
+
+  // 4. Wake Up Encoder (Send reset command)
+  Wire.beginTransmission(ADDR_ENCODER);
+  Wire.write(0x00); Wire.write(0x00); 
+  Wire.endTransmission();
+
+  // 5. Draw UI
+  view_refreshPage();
+}
+
+// ====================================================
+//           6. SCHEDULER (Loop)
+// ====================================================
+void HMI_Loop() {
+  unsigned long now = millis(); // Current time
+
+  // TASK A: Check Inputs (Every 30ms)
+  if (now - timerInput > INTERVAL_FAST_INPUT) { 
+    timerInput = now;
+    hardware_scanInputs();
+  }
+
+  // TASK B: Check Knob (Every 50ms)
+  if (now - timerEncoder > INTERVAL_ENCODER) {
+    timerEncoder = now;
+    hardware_scanEncoder();
+  }
+
+  // TASK C: Slow Tasks (Every 2 Seconds)
+  if (now - timerSlow > INTERVAL_SLOW_TASKS) { 
+    timerSlow = now;
+    logic_simulateBMS(); 
+  }
+}
+
+// ====================================================
+//           7. LOGIC LAYER (Decision Making)
+// ====================================================
+
+// Decides what to do when a key is pressed
+void logic_handleKeyPress(char key) {
+  
+  // If on HOME screen, allow typing and volume control
+  if (currentPage == PAGE_HOME) {
+    
+    if (key == 'U') logic_changeVolume(1);       // Vol Up
+    else if (key == 'D') logic_changeVolume(-1); // Vol Down
+    else if (key == 'L') logic_navigateMenu(-1); // Menu Left
+    else if (key == 'R') logic_navigateMenu(1);  // Menu Right
+    
+    // Enter Key (#)
+    else if (key == '#') {
+      if (isEditingFreq) logic_confirmFrequency(); // Save Number
+      else logic_enterMenu();                      // Enter Menu
+    }
+
+    // Number Keys (Type Frequency)
+    else if (key >= '0' && key <= '9') {
+      if (!isEditingFreq) { inputBuffer = ""; isEditingFreq = true; }
+      if (inputBuffer.length() < 6) inputBuffer += key;
+      view_updateFrequency();
+    }
+    
+    // Backspace (*)
+    else if (key == '*') {
+       if (inputBuffer.length() > 0) inputBuffer.remove(inputBuffer.length() - 1);
+       view_updateFrequency();
+    }
+  }
+  
+  // If in Sub-Menu, only allow Back (*)
+  else {
+    if (key == '*') logic_goBack();
+  }
+}
+
+void logic_enterMenu() {
+  // Switch page based on selection
+  if (menuIndex == 0) currentPage = PAGE_RF;
+  else if (menuIndex == 1) currentPage = PAGE_AUD;
+  else if (menuIndex == 2) currentPage = PAGE_PWR;
+  view_refreshPage();
+}
+
+void logic_goBack() {
+  currentPage = PAGE_HOME;
+  view_refreshPage();
+}
+
+void logic_confirmFrequency() {
+  // Convert "145123" string to 145.123 float
+  if (inputBuffer.length() == 6) {
+    String temp = inputBuffer.substring(0,3) + "." + inputBuffer.substring(3,6);
+    activeFrequency = temp.toFloat();
+    
+    // ** HARDWARE CALL **
+    hardware_set_RF_Frequency(activeFrequency);
+  }
+  
+  isEditingFreq = false;
+  inputBuffer = ""; 
+  view_updateFrequency();
+  
+  // Flash Green Box for confirmation
+  tft.drawRect(38, 48, 220, 55, TFT_GREEN);
+  delay(50); 
+  tft.drawRect(38, 48, 220, 55, TFT_BLACK);
+}
+
+void logic_changeVolume(int delta) {
+  volumeLevel += delta;
+  if (volumeLevel > 10) volumeLevel = 10; // Clamp Max
+  if (volumeLevel < 0) volumeLevel = 0;   // Clamp Min
+  
+  if (currentPage == PAGE_HOME) view_updateVolume();
+  
+  // ** HARDWARE CALL **
+  hardware_set_Audio_Volume(volumeLevel);
+}
+
+void logic_navigateMenu(int delta) {
+  menuIndex += delta;
+  // Wrap around logic
+  if (menuIndex > 2) menuIndex = 0;
+  if (menuIndex < 0) menuIndex = 2;
+  
+  if (currentPage == PAGE_HOME) view_updateMenu();
+}
+
+void logic_handlePTT(bool pressed) {
+  // Only act if state CHANGED
+  if (pressed != isTransmitting) {
+    isTransmitting = pressed;
+    view_updateStatusHeader();
+    
+    // ** HARDWARE CALL **
+    hardware_set_PTT_State(isTransmitting);
+  }
+}
+
+void logic_simulateBMS() {
+  batteryPercentage--; 
+  if (batteryPercentage < 0) batteryPercentage = 100;
+  view_updateBattery();
+  
+  // Note: In real version, read I2C Fuel Gauge here.
+}
+
+// ====================================================
+//           8. VIEW LAYER (Drawing to Screen)
+// ====================================================
+
+void view_refreshPage() {
+  tft.fillScreen(TFT_BLACK);
+  
+  // Draw Header (Common to all pages)
+  tft.setTextSize(2);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.drawCentreString("Open Air lab", 160, 5, 2); // Centered Title
+  
+  // Separator Lines
+  tft.drawLine(0, 30, 320, 30, TFT_WHITE);
+  tft.drawLine(0, 31, 320, 31, TFT_WHITE); 
+  
+  view_updateStatusHeader();
+  view_updateBattery();
+
+  // Draw Body
+  if (currentPage == PAGE_HOME) view_drawHome();
+  else if (currentPage == PAGE_RF) view_drawSubMenu("RF SETTINGS");
+  else if (currentPage == PAGE_AUD) view_drawSubMenu("AUDIO SETTINGS");
+  else if (currentPage == PAGE_PWR) view_drawSubMenu("POWER SETTINGS");
+}
+
+void view_drawHome() {
+  tft.drawLine(0, 125, 320, 125, TFT_WHITE); // Bottom Line
+  tft.drawLine(0, 126, 320, 126, TFT_WHITE);
+  
+  view_updateFrequency();
+  view_updateVolume();
+  view_updateMenu();
+}
+
+void view_drawSubMenu(String title) {
+  tft.setTextSize(3);
+  tft.setTextColor(TFT_CYAN, TFT_BLACK);
+  tft.drawCentreString(title, 160, 70, 1);
+  
+  tft.setTextSize(2);
+  tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+  tft.drawString("* BACK", 120, 140);
+}
+
+void view_updateFrequency() {
+  if (currentPage != PAGE_HOME) return; // Only draw on Home
+
+  int x = 40; int y = 50;
+  tft.fillRect(0, 45, 320, 60, TFT_BLACK); // Clear old number
+  tft.setTextSize(4); 
+  
+  String displayStr = "";
+  
+  // If Editing, draw Yellow with formatting mask (14_.___)
+  if (isEditingFreq) {
+    tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+    for(int i=0; i<3; i++) {
+      if (i < inputBuffer.length()) displayStr += inputBuffer[i]; else displayStr += "_";
+    }
+    displayStr += ".";
+    for(int i=3; i<6; i++) {
+      if (i < inputBuffer.length()) displayStr += inputBuffer[i]; else displayStr += "_";
+    }
+  } else {
+    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+    displayStr = String(activeFrequency, 3);
+  }
+  tft.setCursor(x, y);
+  tft.print(displayStr);
+  
+  tft.setTextSize(2);
+  tft.setTextColor(TFT_CYAN, TFT_BLACK); 
+  tft.drawString("MHz", 230, 65); 
+}
+
+void view_updateVolume() {
+  if (currentPage != PAGE_HOME) return;
+
+  int xStart = 60; int yStart = 105; int width = 200; int height = 10;
+  tft.drawRect(xStart, yStart, width, height, TFT_GREY); // Frame
+  
+  // Calculate Green Fill
+  int fillWidth = map(volumeLevel, 0, 10, 0, width - 2);
+  tft.fillRect(xStart + 1, yStart + 1, fillWidth, height - 2, TFT_GREEN);
+  // Erase the rest (Black)
+  tft.fillRect(xStart + 1 + fillWidth, yStart + 1, (width - 2) - fillWidth, height - 2, TFT_BLACK);
+  
+  tft.setTextSize(1);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.drawString("VOL", 25, yStart);
+}
+
+void view_updateMenu() {
+  if (currentPage != PAGE_HOME) return;
+
+  int startY = 130; int boxWidth = 90; int gap = 10;
+  for (int i = 0; i < 3; i++) {
+    int x = 15 + (i * (boxWidth + gap));
+    // Highlight selected box Yellow
+    uint16_t boxColor = (i == menuIndex) ? TFT_YELLOW : TFT_GREY;
+    uint16_t textColor = (i == menuIndex) ? TFT_BLACK : TFT_WHITE;
+    
+    tft.fillRect(x, startY, boxWidth, 35, boxColor);
+    tft.setTextSize(2);
+    tft.setTextColor(textColor, boxColor);
+    tft.drawCentreString(menuItems[i], x + (boxWidth/2), startY + 10, 1);
+  }
+}
+
+void view_updateStatusHeader() {
+  // Draws TX (Red) or RX (Green)
+  if (isTransmitting) {
+    tft.fillCircle(20, 15, 10, TFT_RED); 
+    tft.setTextColor(TFT_WHITE, TFT_RED);
+    tft.setTextSize(2);
+    tft.setCursor(13, 8);
+    tft.print("TX");
+  } else {
+    tft.fillCircle(20, 15, 10, TFT_GREEN); 
+    tft.setTextColor(TFT_BLACK, TFT_GREEN);
+    tft.setTextSize(2);
+    tft.setCursor(13, 8);
+    tft.print("RX");
+  }
+}
+
+void view_updateBattery() {
+  tft.fillRect(240, 0, 80, 30, TFT_BLACK); // Clear Corner
+  tft.setTextSize(2);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setCursor(250, 5); 
+  tft.print(batteryPercentage);
+  tft.print("%");
+}
+
+// ====================================================
+//           9. HARDWARE DRIVERS (I2C)
+// ====================================================
+
+char hardware_rawKeypadScan() {
+  // Safety: Keep Mic Pin HIGH
+  pcf.write(MIC_PIN_PCF, HIGH); 
+  
+  for (int r = 0; r < 4; r++) {
+    for(int i=0; i<4; i++) pcf.write(rowPins[i], HIGH); 
+    pcf.write(rowPins[r], LOW); 
+    delayMicroseconds(100); 
+    for (int c = 0; c < 4; c++) {
+      if (pcf.read(colPins[c]) == LOW) {
+        pcf.write(rowPins[r], HIGH); 
+        return keys[r][c]; 
+      }
+    }
+    pcf.write(rowPins[r], HIGH); 
+  }
+  return 0; 
+}
+
+void hardware_scanInputs() {
+  char key = hardware_rawKeypadScan();
+  // Debounce: Only act if key changed
+  if (key != 0 && key != lastKeyPressed) {
+    logic_handleKeyPress(key);
+  }
+  lastKeyPressed = key; 
+
+  // Check Mic PTT
+  int micState = pcf.read(MIC_PIN_PCF);
+  logic_handlePTT(micState == LOW);
+}
+
+void hardware_scanEncoder() {
+  // Ask Modulino for data
+  int bytes = Wire.requestFrom(ADDR_ENCODER, 1);
+  if (bytes > 0 && Wire.available()) {
+    int rawVal = Wire.read();
+    // Ignore ID 116. Check for change.
+    if (rawVal != 116 && rawVal != lastEncoderValue) {
+      if (rawVal > lastEncoderValue) logic_changeVolume(1);
+      else logic_changeVolume(-1);
+      lastEncoderValue = rawVal;
+    }
+  }
+}
+
+// ====================================================
+//      10. HARDWARE INTEGRATION STUBS (TEAM AREA)
+// ====================================================
+
+void hardware_set_RF_Frequency(float freq) {
+  Serial.print("[RF HARDWARE] Setting Frequency to: ");
+  Serial.println(freq);
+  // [RF TEAM] INSERT SPI/SERIAL CODE HERE TO TUNE RADIO
+}
+
+void hardware_set_Audio_Volume(int vol) {
+  Serial.print("[AUDIO HARDWARE] Setting Volume to: ");
+  Serial.println(vol);
+  // [AUDIO TEAM] INSERT CODE HERE TO SET AMPLIFIER GAIN
+}
+
+void hardware_set_PTT_State(bool tx) {
+  if (tx) {
+    Serial.println("[RF HARDWARE] TX MODE ACTIVE");
+    // [RF TEAM] SET TX_PIN HIGH
+  } else {
+    Serial.println("[RF HARDWARE] RX MODE ACTIVE");
+    // [RF TEAM] SET TX_PIN LOW
+  }
+}
