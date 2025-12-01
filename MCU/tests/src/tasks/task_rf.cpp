@@ -2,38 +2,38 @@
 #include <Arduino.h>
 #include "system_state.h"
 #include <cc1200.h>
-#include <sky13330.h>
-#include <grf5604.h>
+//#include <sky13330.h>
+//#include <grf5604.h>
 
 // These are defined in main.cpp
 extern cc1200_config_t cc1200;
-extern sky13330_config_t sky13330;
-extern grf5604_config_t grf5604_vhf;  // or whatever you named your VHF PA
+//extern sky13330_config_t sky13330;
+//extern grf5604_config_t grf5604_vhf;  // or whatever you named your VHF PA
 
 // TX timeout in ms (for demo)
 #define TX_TIMEOUT_MS 10000
 
 // TODO: map these helper functions to your existing driver API.
 static void enter_tx_mode() {
-    // Set RF switch to TX
-    sky13330_set_tx(sky13330);
+    // Set RF switch to TX ---- abstracted away by cc1200
+    //sky13330_set_tx(sky13330);
 
-    // Enable PA (choose the correct band: VHF or UHF)
-    grf5604_enable(grf5604_vhf);
+    // Enable PA (choose the correct band: VHF or UHF) ---- abstracted away by 1200
+    //grf5604_enable(grf5604_vhf);
 
     // Put CC1200 in TX mode at the current frequency
-    cc1200_enter_tx(&cc1200, state.rx_freq_hz);   // TODO: match your function signature
+    cc1200_transmit_mode(&cc1200, state.rx_freq_hz);   // TODO: match your function signature
 }
 
 static void enter_rx_mode() {
-    // Set RF switch to RX
-    sky13330_set_rx(sky13330);
+    // Set RF switch to RX ---- abstracted away by cc1200
+    //sky13330_set_rx(sky13330);
 
-    // Disable PA
-    grf5604_disable(grf5604_vhf);
+    // Disable PA ---- abstracted away by cc1200
+    //grf5604_disable(grf5604_vhf);
 
     // Put CC1200 in RX mode at the current frequency
-    cc1200_enter_rx(&cc1200, state.rx_freq_hz);   // TODO: match your function signature
+    cc1200_receive_mode(&cc1200, state.rx_freq_hz);   // TODO: match your function signature
 }
 
 void rfTask(void *pvParameters) {
