@@ -4,6 +4,8 @@
 #include <st7789.h>
 #include <algorithm>
 #include <bitset>
+#include <grf5604.h>
+#include <sky13330.h>
 
 /*! \file cc1200.cpp
     \brief Device Driver for CC1200 using Espressif Arduino Core.
@@ -15,12 +17,15 @@
 
 extern Adafruit_ST7789 tft;
 extern st7789_config_t display_config; 
-// 
-// Configure the CC120X
-// 
-extern cc1200_config_t cc1200;
+
 extern Adafruit_PCF8575 pcf_radio;
 extern pcf8575_config_t pcf_radio_config;
+
+extern cc1200_config_t cc1200;
+extern grf5604_config_t uhf_grf5604;
+extern grf5604_config_t vhf_grf5604;
+extern sky13330_config_t sky13330;
+
 // Section 3.1.1 4-Wire Serial Configuration and Data Interface
 /*
 https://docs.arduino.cc/learn/communication/spi/#serial-peripheral-interface-spi
@@ -38,16 +43,16 @@ const char* main_states[21] = {
     // idle state
     "IDLE",
     // receive states
-    "RX","RX_END",
+    "RX or RX_END"
     // transmit states
-    "TX","TX_END",
+    "TX or TX_END"
     // fast TX ready
     "FSTXON",
     // frequency synthesizer calibration is running
-    "CALIBRATE","BIAS_SETTLE_MC","MANCAL","STARTCAL","ENDCAL",
+    "CALIBRATE, BIAS_SETTLE_MC, MANCAL, STARTCAL, or ENDCAL",
     // PLL is setting
-    "BIAS_SETTLE","REG_SETTLE","BWBOOST","FS_LOCK","IFADCON",
-    "RXTX_SWITCH","TXRX_SWITCH","IFADCON_TXRX"
+    "BIAS_SETTLE, REG_SETTLE, BWBOOST, FS_LOCK or IFADCON",
+    "RXTX_SWITCH, TXRX_SWITCH, or IFADCON_TXRX"
     // RX FIFO has over/underflowed. Read out any useful data,
     // then flush the FIFO with an SFRX strobe
     "RX_FIFO_ERR",
@@ -57,17 +62,21 @@ const char* main_states[21] = {
 };
 
 int update_status(uint8_t chip_status) {
-    cc1200.chip_nrdy =  (uint8_t)(chip_status & BIT7); // ready when low
-    cc1200.main_state = (uint8_t)(chip_status & GENMASK(6,4));
+    cc1200.chip_nrdy =  (uint8_t)((chip_status >> 7) & BIT7); // ready when low
+    cc1200.main_state = (uint8_t)((chip_status >> 4) & GENMASK(6,4));
     return cc1200.main_state; 
 }
+
+const char* command_strobes[14] = {
+    "SRES", "SFSTXON", "SXOFF", "SCAL",
+    "SRX", "STX", "SIDLE", "SAFC", 
+    "SWOR", "SPWD", "SFRX",
+    "SFTX", "SWORRST", "SNOP"
+};
 
 // Table 3: SPI Access Types
 int cc1200_single_register_access(cc1200_configuration_register_space_t configuration_address, cc1200_spi_access_t &register_access) {
     digitalWrite(cc1200.pin_ss, LOW);
-    #ifdef CC1200_DEBUG
-        CC1200_DEBUG.print("(VSPI) Wait for MISO to go low...\n");
-    #endif
     while (digitalRead(cc1200.pin_miso)); // Wait for MISO to go low
     bool isCommandStrobe = (
            (uint8_t)configuration_address >= 0x30 
@@ -76,58 +85,50 @@ int cc1200_single_register_access(cc1200_configuration_register_space_t configur
     uint8_t address = (register_access.readwrite_flag ? COMMAND_RW_FLAG : !COMMAND_RW_FLAG);
     address |= configuration_address;
     update_status(cc1200.spi->transfer(address));
-    #ifdef CC1200_DEBUG
-        CC1200_DEBUG.printf("(VSPI) Transferred %s 0x%2.2X [%s]\n", isCommandStrobe ? "strobe" : "address",
-            address, main_states[cc1200.main_state]
-        );
-    #endif
     if (register_access.readwrite_flag == READ) {
         register_access.data = cc1200.spi->transfer(0x00);
     } else {
         update_status(cc1200.spi->transfer(register_access.data));
     }
     #ifdef CC1200_DEBUG
-    CC1200_DEBUG.printf("(VSPI) %s data 0x%2.2X [%s]\n", register_access.readwrite_flag ? "Read in" : "Wrote in", 
-        register_access.data, main_states[cc1200.main_state]
-    );
+    isCommandStrobe ? 
+        CC1200_DEBUG.printf("(VSPI) %s data 0x%2.2X [%s]"
+        " after accessing strobe %s\n",
+        register_access.readwrite_flag ? "Read in" : "Wrote in", 
+        register_access.data, main_states[cc1200.main_state], command_strobes[configuration_address-0x30]) :
+        CC1200_DEBUG.printf("(VSPI) %s data 0x%2.2X [%s]"
+        " after accessing address 0x%2.2X\n", 
+        register_access.readwrite_flag ? "Read in" : "Wrote in", 
+        register_access.data, main_states[cc1200.main_state], address);
     #endif
     digitalWrite(cc1200.pin_ss, HIGH);
     return cc1200.main_state;
 }
-
 int cc1200_single_register_access(cc1200_extended_register_space_t extended_address, cc1200_spi_access_t &register_access) {
     digitalWrite(cc1200.pin_ss, LOW);
-    #ifdef CC1200_DEBUG
-        CC1200_DEBUG.print("(VSPI) Wait for MISO to go low...\n");
-    #endif
     while (digitalRead(cc1200.pin_miso)); // Wait for MISO to go low
     uint8_t address = (register_access.readwrite_flag ? COMMAND_RW_FLAG : !COMMAND_RW_FLAG);
     // extended access requires two byte transfers
     // first transfer as command (0x2F)
     address |= cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
     update_status(cc1200.spi->transfer(address));
-    #ifdef CC1200_DEBUG
-    CC1200_DEBUG.printf("(VSPI) Transferred command 0x%2.2X [%s]\n", 
-        address, main_states[cc1200.main_state]
-    );
-    #endif
+    uint8_t command = address;
     // second transfer as extended address
     address = extended_address;
     // one byte transfer as configuration address
     update_status(cc1200.spi->transfer(address));
-    #ifdef CC1200_DEBUG
-        CC1200_DEBUG.printf("(VSPI) Transferred address 0x%2.2X [%s]\n",
-            address, main_states[cc1200.main_state]
-        );
-    #endif
     if (register_access.readwrite_flag == READ) {
         register_access.data = cc1200.spi->transfer(0x00);
     } else {
         update_status(cc1200.spi->transfer(register_access.data));
     }
+
     #ifdef CC1200_DEBUG
-    CC1200_DEBUG.printf("(VSPI) %s data 0x%2.2X [%s]\n", register_access.readwrite_flag ? "Read in" : "Wrote in", 
-        register_access.data, main_states[cc1200.main_state]
+    CC1200_DEBUG.printf("(VSPI) %s data 0x%2.2X [%s]"
+        " after accessing register 0x%2.2X%2.2X\n", 
+        register_access.readwrite_flag ? "Read in" : "Wrote in", 
+        register_access.data, main_states[cc1200.main_state],
+        command, address
     );
     #endif
     digitalWrite(cc1200.pin_ss, HIGH);
@@ -156,101 +157,9 @@ int cc1200_command_strobe_access(cc1200_command_strobe_t command_strobe) {
     return cc1200.main_state;
 }
 
-// 
-// Program CC120X into different modes (RX, TX, SLEEP, IDLE, etc)
-//
-
-// RXOFF_MODE=01 or TXOFF_MODE=01 means return to SFSTXON.
-
-// Entered on 
-// SRX                      from FSSTXON
-// SRX/WOR                  from FSCAL, 
-// SRX     or TXOFF_MODE=11 from STX
-int cc1200_receive_mode() {
-    cc1200_command_strobe_access(SRX);
-    return 0;
-}
-// Left on 
-//            RXOFF_MODE=00 to FSCAL,
-// SFSTXON or RXOFF_MODE=01 to SFSTXON,
-// STX     or RXOFF_MODE=10 to STX,
-// Data Buffer Error        to RX_FIFO_ERROR
-
-// Entered on STX or RXOFF_MODE=10, 
-int cc1200_transmit_mode() {
-    cc1200_command_strobe_access(STX);
-    return 0;
-}
-// Left on
-//            TXOFF_MODE=00 to FSCAL,
-//            TXOFF_MODE=01 to FSSTXON,
-// SRX     or TXOFF_MODE=11 to SRX,
-// Data Buffer Error        to TX_FIFO_ERROR 
-
-// Entered on
-// SIDLE                    
-//                          from FSCAL
-// SFRX                     from RX_FIFO_ERROR
-// SFTX                     from TX_FIFO_ERROR
-int cc1200_idle_mode() {
-    cc1200_command_strobe_access(SNOP);
-    return 0;
-}
-// Left on
-// SFSTXON/SRX/STX/WOR      to SFSTXON
-// SCAL                     to FSCAL
-// SPWD or WOR              to SLEEP
-
-// Entered on
-// SPWD or WOR              from IDLE
-int cc1200_sleep_mode() {
-    cc1200_command_strobe_access(SPWD);
-    return 0;
-}
-// Left on CSn=0
-//
-// Read and write buffered data (RX FIFO and TX FIFO)
-//
-
-
-int cc1200_standard_FIFO_access() {
-    return 0;
-}
-
-int cc1200_receive_FIFO_byte() {
-    // See Section 3.2.3
-    return 0;
-}
-
-int cc1200_transmit_FIFO_byte() {
-    return 0;
-}
-// SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG
-// Configures which memory to access when using direct memory access
-int cc1200_direct_FIFO_access() {
-    // SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG = 0
-    return 0;
-}
-
-// FEC Workspace or AES Command Workspace (128 bytes free area).
-// (PKT_CFG1.FEC_EN = 1) (free space otherwise)
-int cc1200_direct_FEC_access() {
-    // SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG = 1
-    // (Address < 0x80)
-    return 0;
-}
-
-int cc1200_direct_AES_access() {
-    // SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG = 1
-    
-    // (0x80 < Address < 0xFF)
-    return 0;
-}
-//
-// Read status information
-//
-
-// 9.1.2 Manual Reset
+// -------------------------------------------------------------
+//                SWRU346B 9.1.2 Manual Reset
+// ------------------------------------------------------------- 
 // by issuing a manual reset, all internal registers are set
 // to their default values and the radio will enter IDLE state.
 int cc1200_reset(bool hard_reset) {
@@ -286,97 +195,120 @@ int cc1200_reset(bool hard_reset) {
     return 0;
 }
 
+/** Calculate Local and Voltage Controlled Oscillator Programming
+ * \brief implements SWRU346B 9.12 RF Programming.
+ * \param targetFrequency target VCO frequency in Hertz
+ * \param targetOffset target frequency offset in Hertz
+ * 
+ * 
+ * Frequency offset intended to adjust for crystal intolerance
+ * or fine adjustments of the RF programming.
+ * Strobe SAFC automatic frequency compensation to accumulate offset estimation.
+ * Equation 27: Radio Frequency
+ */
 
-// set up slave select pins as outputs as the Arduino API
-    // doesn't handle automatically pulling SS low
-    // https://docs.espressif.com/projects/arduino-esp32/en/latest/api/spi.html
-    // pinMode(cc1200.spi->pinSS(), OUTPUT);  // VSPI SS
-    // Initialize SPI
-    // https://e2e.ti.com/support/wireless-connectivity/other-wireless-group/other-wireless/f/other-wireless-technologies-forum/307966/cc1200-spi-clock-query   
-int setup_interface() {
-    // Set up VSPI interface pins
-    pinMode(cc1200.pin_ss, OUTPUT);
-    digitalWrite(cc1200.pin_ss, HIGH);
-    pinMode(cc1200.pin_sck, OUTPUT);
-    digitalWrite(cc1200.pin_ss, HIGH);
-    pinMode(cc1200.pin_miso, INPUT_PULLUP); // used in Power-On
-    pinMode(cc1200.pin_mosi, OUTPUT); // used in Power-On
-    pcf8575_portMode(pcf_radio, cc1200.pin_nrst, OUTPUT); // used in Power-On
-    // Configure SPIClass from Espressif HAL Arduino Core compat
-    cc1200.spi_frequency = 7700000; // // keep at 7.7 MHz per Martin B of TI E2E forums over 12 years ago 
-    #ifdef CC1200_DEBUG
-    CC1200_DEBUG.printf("(VSPI) Beginning use of VSPI Interface... "
-        "[%d MHz, SS=%d,SCK=%d, MISO=%d, MOSI=%d]\n",
-        cc1200.spi_frequency, cc1200.pin_ss, cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi
-    );
-    CC1200_DEBUG.printf("(VSPI ----------) Beginning use of CC1200... "
-        "[GDIO0=%d, GDIO1=MISO, GDIO2=%d, GPIO3=-1]\n", 
-        cc1200.pin_gdio0, cc1200.pin_gdio2
-    );
-    CC1200_DEBUG.printf("(---- I2C0 @0x%2.2X) Beginning use of CC1200... [RESET=%d on %s IOMUX]\n", 
-        pcf_radio_config.sensor_address, cc1200.pin_nrst, pcf_radio_config.subsystem_name.c_str()
-    );
-    #endif
-    digitalWrite(cc1200.pin_ss, HIGH); // use of SS is bitbanged?
-    cc1200.spi->begin(cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi, cc1200.pin_ss);
-    cc1200.spi->beginTransaction(
-        SPISettings(cc1200.spi_frequency, MSBFIRST, CC1200_SPI_MODE)
-    );
-    return 0;
-}
+const double band_resolution[8] = {
+    38.1, // RF Band=820.0-960 MHz (33cm band)
+    19.1, // RF Band=410.0-480 MHz (70cm U.S. ONLY band)
+    19.1, // RF Band=410.0-480 MHz (70cm band)
+    12.7, // RF Band=273.3-320 MHz (Government)
+    9.5,  // RF Band=205.0-240 MHz (1.25m Digital Link)
+    9.5,  // RF Band=205.0-240 MHz (1.25m band)
+    7.6,  // RF Band=164.0-192 MHz (VHF Highband)
+    6.4   // RF Band=136.7-160 MHz (2m band)
+};
 
-int cc1200_init(cc1200_config_t &cc1200) {
-    if (cc1200.initialized) {
-      return 0;
+// Table 34: RF Band Selection Decoding
+const uint8_t lo_factor[17] {
+    0, 0, 4, 0, 8, 0, 12, 0, 16, 0, 20, 0, 24, 0, 0, 0, 0 // zeros are bands never decoded.
+};
+
+void cc1200_calculate_frequency_programming(double targetFrequency) {
+    if (targetFrequency >= 420000000 && targetFrequency <= 450000000) {
+        cc1200.band = BAND_70CM;
+        cc1200.lo_divider = DIVIDE_BY_08;
+    } else if (targetFrequency >= 144000000 && targetFrequency <= 148000000) {
+        cc1200.band = BAND_2M;
+        cc1200.lo_divider = DIVIDE_BY_24;
+    } else {
+        #ifdef CC1200_DEBUG
+        CC1200_DEBUG.print("(VSPI) Cannot enter an unimplemented band!\n");
+        #endif
+        return;
     }
-    // -------------------------------------------------------------
-    // SWRU346B 3.1.1 4-wire Serial Configuration and Data Interface
-    // -------------------------------------------------------------
-    setup_interface();
-    #ifdef CC1200_DEBUG
-            CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized CC1200 Interfaces!\n", pcf_radio_config.sensor_address);
-    #endif
-    // ---------------------------------------------------------
-    //        SWRU346B 9.1 Power-On Start-Up Sequence 
-    // ---------------------------------------------------------
-    // Must be reset before entering the state diagram in Figure 2.
-    // CHIP_RDYn on the SO pin after SS is pulled low.
-    cc1200_reset(true);
-    // once reset is completed, chip will be in the IDLE state.
-    // To verify initialization, the read the part number to confirm CC1200.
+    cc1200.frequency_resolution = band_resolution[cc1200.band];
+    // vco frequency programming
+
+    // Equation 27: Radio Frequency [Hz]
+    // targetFrequency [Hz] is f_{rf}
+    // f_{vco} = f_{rf}*(band lo divider factor)
+    uint8_t numeric_lo_divider = lo_factor[cc1200.lo_divider];
+    double vco_frequency = targetFrequency*(double)numeric_lo_divider; // VCO should be targetFrequency*8 or *24
+    // now that f_{vco} is known, the FREQ word and FREQOFF word must be found.
+
+    // Frequency Offset Estimate as utilized Offset Programming
+    cc1200_command_strobe_access(SAFC); // any compensation is independent of the selected RF band.
     cc1200_spi_access_t config_access;
     config_access.readwrite_flag = READ;
-    update_status(cc1200_single_register_access(PARTNUMBER, config_access));
-    cc1200.partnumber = (cc1200_partnumber_t)config_access.data;
-    update_status(cc1200_single_register_access(PARTVERSION, config_access));
-    cc1200.partrevision = config_access.data;    
+    update_status(cc1200_single_register_access(FREQOFF_EST1, config_access));
+    cc1200.registers.FREQOFF_EST1 = config_access.data;
+    update_status(cc1200_single_register_access(FREQOFF_EST0, config_access));
+    cc1200.registers.FREQOFF_EST0 = config_access.data;
+
+    uint16_t U_FREQOFF_EST = (cc1200.registers.FREQOFF_EST1 << 8) | cc1200.registers.FREQOFF_EST0;
+    U_FREQOFF_EST &= MAX_14_BIT_VALUE; // mask
+    // sign-extend FREQOFF MSB and LSB two's comp register values into one two's comp value
+    int16_t FREQOFF_EST = (U_FREQOFF_EST & TWO_TO_THE_13) ? (int16_t)(U_FREQOFF_EST - TWO_TO_THE_14) : (int16_t)U_FREQOFF_EST;
+    // FREQOFF 18-bit signed word is only computed for debugging purposes.
+    int32_t FREQOFF = (int32_t)std::llround(cc1200.frequency_offset / CC1200_OSC_FREQ * TWO_TO_THE_18);
+    FREQOFF = (int32_t)std::clamp(FREQOFF,
+        (int32_t)-TWO_TO_THE_17, (int32_t)MAX_17_BIT_VALUE
+    );
+    FREQOFF &= MAX_18_BIT_VALUE;
+    
+    // Equation 28: VCO Frequency [Hz] word FREQ after estimating FREQOFF:
+    double normalized_frequency_offset = (FREQOFF/TWO_TO_THE_18*CC1200_OSC_FREQ);
+    double vcoOscillatorRatio = (vco_frequency - normalized_frequency_offset) / CC1200_OSC_FREQ;
+    uint32_t FREQ = (uint32_t)std::clamp((long long)std::llround(vcoOscillatorRatio*TWO_TO_THE_16),
+        0LL, (long long)MAX_24_BIT_VALUE
+    );
+    // Calculated Offset, VCO, and RF Frequencies
+    cc1200.frequency_offset = CC1200_OSC_FREQ * ((double)FREQOFF_EST / TWO_TO_THE_18); // [Hz]
+    cc1200.vco_frequency = CC1200_OSC_FREQ * ((double)FREQ/TWO_TO_THE_16 + (double)FREQOFF/TWO_TO_THE_18); // [Hz]
+    cc1200.frequency = (double)vco_frequency / numeric_lo_divider; // [Hz]
+    // Calculated register values
+    cc1200.registers.FREQOFF1 = cc1200.registers.FREQOFF_EST1; // updated on SAFC
+    cc1200.registers.FREQOFF0 = cc1200.registers.FREQOFF_EST0; // updated on SAFC
+    cc1200.registers.FREQ2 = (uint8_t)(FREQ >> 16);  // [23:16]
+    cc1200.registers.FREQ1 = (uint8_t)(FREQ >> 8);   // [15:8]
+    cc1200.registers.FREQ0 = (uint8_t)(FREQ & 0xFF); // [7:0]
+    // 
+    cc1200.registers.FS_CFG &= ~FSD_BANDSELECT;
+    cc1200.registers.FS_CFG |= (uint8_t)((cc1200.lo_divider << FSD_BANDSELECT_SHIFT ) & FSD_BANDSELECT);
+    // enable Frequency Synthesizer Out of Lock detector on FSCAL_CTRL.LOCK
+    cc1200.registers.FS_CFG &= ~FS_LOCK_EN;
+    cc1200.registers.FS_CFG |= (0b1 << FS_LOCK_EN_SHIFT) & FS_LOCK_EN;
     config_access.readwrite_flag = WRITE;
-    // ---------------------------------------------------------
-    //  SWRU346B 3.4 General Purpose Input/Output Control Pins 
-    // ---------------------------------------------------------
-    // To control an external LNA, PA, or RX/TX switch in applications where the 
-    // SLEEP state is used it is therefore recommended to map this signal to
-    // GDO3 as this signal will be hardwired to 1(0) in the SLEEP state.
-    cc1200.registers.IOCFG3 |= ((PA_PD << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO3 asserts PA_PD GPIO signal 
-    config_access.data = cc1200.registers.IOCFG3;
-    update_status(cc1200_single_register_access(IOCFG3, config_access));
+    config_access.data = cc1200.registers.FS_CFG;
+    update_status(cc1200_single_register_access(FS_CFG, config_access));
+
+    config_access.readwrite_flag = READ;
+    update_status(cc1200_single_register_access(FSCAL_CTRL, config_access));
+    cc1200.registers.FSCAL_CTRL = config_access.data;
+    (cc1200.registers.FSCAL_CTRL & LOCK) ? "FS is in lock" : "FS is Out of Lock";
+    
     #ifdef CC1200_DEBUG
-    CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized Radio Transceiver!\n"
-        "* CC1200 Initialization Results: [Part Number=0x%2.2X, %s] [Part Revision=0x%2.2X, %s]\n"
-        "* MAin Radio Control 'MARC' Unit is %s: [State=0x%2.2X, %s]\n", pcf_radio_config.sensor_address,
-        cc1200.partnumber, cc1200.partnumber == 0x20 ? "PASS" : "FAIL", 
-        cc1200.partrevision, cc1200.partrevision == 0x11 ? "PASS" : "FAIL",
-        main_states[cc1200.main_state], cc1200.main_state, main_states[cc1200.main_state] == "IDLE" ? "PASS" : "FAIL"
+        CC1200_DEBUG.printf("(VSPI) Programming %s band... [FSD_BANDSELECT=0x%1.1X]\n"
+            "Target FREQ=%3.3f MHz, VCO=%3.3f MHz [FREQ=0x%3.3X]\n" // FREQ is 24-bit 
+            "Estimated Frequency Offset = %3.3f MHz, [FREQOFF_EST=%3.3f MHz, FREQOFF=%3.3f MHz]\n" // FREQOFF is 16-bit
+            "Calculated FREQ = %3.3f MHz\n",
+            (cc1200.band == BAND_70CM) ? "UHF" : "VHF", cc1200.lo_divider,
+            targetFrequency/1000000.0, cc1200.vco_frequency/1000000.0, FREQ,
+            cc1200.frequency_offset/1000000.0, (double)FREQOFF_EST/1000000.0, (double)FREQOFF/1000000.0,
+            cc1200.frequency/1000000.0
     );
     #endif
-    if (cc1200.partnumber == 0x20 && cc1200.partrevision == 0x11) {
-        cc1200.initialized = true;
-    }
-    return 0;
 }
-
-uint8_t frequency_deviation_exponent; // 03 bit Exponent
-uint8_t frequency_deviation_mantissa; // 08 bit Mantissa
 
 /** Calculate Symbol Rate Programming
  * \brief implements SWRU346B 5.4 Frequency Deviation Programming.
@@ -385,6 +317,8 @@ uint8_t frequency_deviation_mantissa; // 08 bit Mantissa
  * CC1200_OSC_FREQ from given f_{xosc} = 40 MHz
  * CC1200_OSC_FREQ_LOG2 from log2(40*10^6) = 25.253496f
  */
+uint8_t frequency_deviation_exponent; // 03 bit Exponent
+uint8_t frequency_deviation_mantissa; // 08 bit Mantissa
 void cc1200_calculate_frequency_deviation(double targetDeviation) {
     
     // SWRU346B Deviation Equation (DEV_E for given frequency deviation) 
@@ -396,7 +330,7 @@ void cc1200_calculate_frequency_deviation(double targetDeviation) {
     if (frequency_deviation_exponent > 0) { // use DEV_E > 0 Equation
         frequency_deviation_mantissa = (uint8_t)std::clamp(
             std::round((oscillatorRatio*std::pow(2.0f, 22 - frequency_deviation_exponent)) - TWO_TO_THE_08), 
-            0.0, (double)MAX_08_BIT_VALUE
+            0.0, (double)std::numeric_limits<uint8_t>::max()
         );
         cc1200.frequency_deviation = (CC1200_OSC_FREQ/TWO_TO_THE_22) 
             * (TWO_TO_THE_08 + frequency_deviation_mantissa)
@@ -411,13 +345,13 @@ void cc1200_calculate_frequency_deviation(double targetDeviation) {
     cc1200.registers.MODCFG_DEV_E |= (frequency_deviation_exponent & DEV_E);
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.printf("Target DEV=%2.2f Hz\n"
-        "03-bit DEV_E=0b%3.3B=0x%1.1X\n"
-        "08-bit DEV_M=0b%3.3B=0x%2.2X\n"
+        "08-bit DEV_M=0x%2.2X\n"
+        "03-bit DEV_E=0x%1.1X\n"
         "Calculated DEV=%2.2f Hz\n", 
         targetDeviation, 
-        frequency_deviation_exponent,
         frequency_deviation_mantissa,
-        cc1200.symbol_rate
+        frequency_deviation_exponent,
+        cc1200.frequency_deviation
     );
     #endif
 }
@@ -469,29 +403,211 @@ void cc1200_calculate_symbol_rate(double targetSampleRate) {
     cc1200.registers.SYMBOL_RATE0 = symbol_rate_mantissa >> 0; // [7:0]
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.printf("Target SRATE=%2.2f sps\n"
-        "04-bit SRATE_E=0x%1.1X\n"
         "20-bit SRATE_M=0x%5.5X\n"
+        "04-bit SRATE_E=0x%1.1X\n"
         "Calculated SRATE=%2.2f sps\n", 
         targetSampleRate, 
-        symbol_rate_exponent,
         symbol_rate_mantissa,
+        symbol_rate_exponent,
         cc1200.symbol_rate
     );
     #endif
+}
+
+void cc1200_TER_SmartRF_export(void) {
+    cc1200_spi_access_t config_access;
+    config_access.readwrite_flag = WRITE;
+    // these are superseded by cc1200_init() and cc1200_enter_custom_frequency_modulation()
+    cc1200.registers.IOCFG3           = 0x08; // SERIAL_CLK
+    cc1200.registers.IOCFG2           = 0x09; // SERIAL_RX
+    cc1200.registers.IOCFG1           = 0xB0; // HighZ
+    cc1200.registers.IOCFG0           = 0xB0; // HighZ
+    
+    cc1200.registers.SYNC_CFG1        = 0x08; // SYNC_MODE=000 No sync word, 01010 Sync word threshold = 8 (strict)  
+
+    // cc1200.registers.MODCFG_DEV_E     = 0x03; // default exponent (reset)
+    cc1200.registers.DCFILT_CFG       = 0x1C; // filtering enabled, 64 samples, default bandwidth
+    cc1200.registers.PREAMBLE_CFG1    = 0x14; // Preamble word = 0xAA, minimum preamble size = 3 bits
+    cc1200.registers.IQIC             = 0xC4; // image compensation enabled, coefficient enabled, 8 samples, THR > 256
+    cc1200.registers.CHAN_BW          = 0x28; // ADC_CIC_DECFACT=0b00=48 (reset), BB_CIC_DECFACT=0b101000=40 (reset = 20) 
+    cc1200.registers.MDMCFG1          = 0x06; // DVGA = reserved (reset), both channels (I/Q) (reset), bypass fifo 
+
+    cc1200.registers.MDMCFG0          = 0x0A; // VITERBI detection disabled, should reflect reserved value change.
+
+    // these are superseded by cc1200_calculate_symbol_rate()
+    // cc1200.registers.SYMBOL_RATE2     = 0x43; // SRATE_E=0b0100 (reset), SRATE_M_19_16=0b0011 (reset) 
+    // cc1200.registers.SYMBOL_RATE1     = 0xA9; // SRATE_M_15_8=0xA9 (reset)
+    // cc1200.registers.SYMBOL_RATE0     = 0x2A; // SRATE_M_7_0=0x2A (reset)
+    // 
+    cc1200.registers.AGC_REF          = 0x20; // AGC_REFERENCE=0x20=10log10(RX_FILTER_BW)-92-(RSSI Offset)
+    cc1200.registers.AGC_CS_THR       = 0x19; // AGC_CS_TH=25 dB (1dB resolution in two's comp)
+    cc1200.registers.AGC_CFG1         = 0xAF; // AGC_CFG1_NOT_USED=1 RSSI_STEP_THR=0=3 dB sync search, 10 dB packet reception, AGC_WIN_SIZE=0b101=256 samples, AGC_SETTLE_WAIT=0b111=127 samples
+    cc1200.registers.AGC_CFG0         = 0xCF; // 11 00 RSSI_VALID_CNT=11=update after 9 input samples, 11
+    // these are superseded by cc1200_enter_custom_frequency_modulation()
+    cc1200.registers.FIFO_CFG         = 0x00; // CRC_AUTOFLUSH=false
+    // these are superseded by cc1200_calculate_frequency_programming()
+    cc1200.registers.FS_CFG           = 0x12; // 000 FS_LOCK_EN=0b1=Out of lock detector enabled, FSD_BANDSELECT=0b0010=(LO divider = 4)
+
+    // these are superseded by cc1200_enter_custom_frequency_modulation()
+    cc1200.registers.PKT_CFG2         = 0x05; // 0 0 0 001 PKT_FORMAT=01 Synchronous serial mode
+    cc1200.registers.PKT_CFG1         = 0x00; // 0 0 0 00 CRC_CFG=00=disabled for TX and RX, APPEND_STATUS=0 status byte not appended 
+    cc1200.registers.PKT_CFG0         = 0x20; // 0 LENGTH_CONFIG=01=Variable packet length mode, 000 0 0
+
+    cc1200.registers.PA_CFG1          = 0x78; // 0 1 PA_POWER_RAMP=111000=(56+1)/2 - 18 = 10.5 dBm
+    cc1200.registers.PA_CFG0          = 0x7C; // FIRST_IPL=111=7/16 SECOND_IPL=111=15/16 RAMP_SHAPE=00 3/8 symbol ramp time and 1/32 symbol ASK/OOK shape length (legal UPSAMPLER_P values: 100b, 101b, and 110b)
+    cc1200.registers.IF_MIX_CFG       = 0x04; // 000 CMIX_CFG=001 f_{if} = -f_{xosc}/(CHAN_BW.ADC_CIC_DECFACT*4) [kHz] 00
+    cc1200.registers.FREQOFF_CFG      = 0x22; // 00 1 00 0 FOC_KI_FACTOR=MDMCFG0.TRANSPARENT_MODE_EN|10 = 1/64
+    
+    // these are superseded by cc1200_calculate_frequency_programming()
+    // cc1200.registers.FREQ2            = 0xD8; // FREQ_23_16=0xD8 
+    // cc1200.registers.FREQ1            = 0x80; // FREQ_15_8=0x80
+
+    cc1200.registers.IF_ADC0          = 0x04; // 00 IF_ADC0_RESERVED5_0=000100
+    cc1200.registers.FS_DIG0          = 0x5F; // FS_DIG0_RESERVED7_4=0101, RX_LPF_BW=11 500 kHz, TX_LPF_BW=11 500 kHz
+    // cc1200.registers.FS_CAL2          = 0x20; // reset
+    cc1200.registers.FS_CAL0          = 0x0F; // 0000 LOCK_CFG=11 infinite average, FS_CAL0_RESERVED1_0=11
+    cc1200.registers.FS_CHP           = 0x16; // 00 FS_CHP_RESERVED5_0=010110
+    // cc1200.registers.FS_DIVTWO        = 0x01; // reset
+    cc1200.registers.FS_DSM1          = 0x0B; // FS_DSM1_NOT_USED=00001 FS_DSM1_RESERVED2_0=011
+    cc1200.registers.FS_DSM0          = 0x30; // FS_DSM0_RESERVED7_0=0x30 
+    // cc1200.registers.FS_DVC1          = 0xFF; // reset
+    // cc1200.registers.FS_DVC0          = 0x1F; // reset
+    // cc1200.registers.FS_PFD           = 0x51; // reset
+    cc1200.registers.FS_PRE           = 0x1F; // 0 FS_PRE_RESERVED6_0=0011111
+    cc1200.registers.FS_REG_DIV_CML   = 0x1D; // 000 FS_REG_DIV_CML_RESERVED4_0=11101
+    // cc1200.registers.FS_VCO0          = 0x81; // reset
+
+    cc1200.registers.XOSC3            = 0xC7; // XOSC3_RESERVED7_0=0xC7
+    cc1200.registers.XOSC1            = 0x0F; // XOSC1_NOT_USED=0b00001, XOSC1_RESERVED2=0b1, XOSC_BUF_SEL=0b1 Low phase noise differential buffer (low power buffer still used for digital clock), XOSC_STABLE=0b1 XOSC is stable (has finished settling)
+    
+    cc1200.registers.RSSI1            = 0x80; // read-only RSSI_11_4=0x80 
+
+    // cc1200.registers.MARCSTATE        = 0x41; // 0 10 00001 (read-only)
+    // cc1200.registers.PQT_SYNC_ERR     = 0xFF; // reset
+    // cc1200.registers.AGC_GAIN2        = 0xD1; // reset
+    // cc1200.registers.AGC_GAIN0        = 0x3F; // reset
+    // cc1200.registers.ASK_SOFT_RX_DATA = 0x30; // reset
+    // cc1200.registers.RNDGEN           = 0x7F; // reset
+
+    // cc1200.registers.CHFILT_I2        = 0x08; // read-only, 000010 0 CHFILT_STARTUP_VALID=0 
+
+    // cc1200.registers.FSCAL_CTRL       = 0x01; // reset
+    // cc1200.registers.PARTNUMBER       = 0x58; // read-only
+    // cc1200.registers.PARTVERSION      = 0x10; // read-only
+    // cc1200.registers.MODEM_STATUS1    = 0x10; // read-only 
+    // cc1200.registers.DVC_TEST         = 0x0B; // reset
+    // cc1200.registers.FIFO_NUM_TXBYTES = 0x0F; // reset
+    cc1200.registers.XOSC_TEST1       = 0x0C; // XOSC_TEST1_RESERVED7_0=0x0C
+    config_access.data = cc1200.registers.XOSC_TEST1;
+    update_status(cc1200_single_register_access(XOSC_TEST1, config_access));
+}
+
+
+// Initialize SPI
+// https://e2e.ti.com/support/wireless-connectivity/other-wireless-group/other-wireless/f/other-wireless-technologies-forum/307966/cc1200-spi-clock-query   
+int setup_interface() {
+    // Set up VSPI interface pins
+    pinMode(cc1200.pin_ss, OUTPUT);
+    digitalWrite(cc1200.pin_ss, HIGH);
+    pinMode(cc1200.pin_sck, OUTPUT);
+    digitalWrite(cc1200.pin_ss, HIGH);
+    pinMode(cc1200.pin_miso, INPUT_PULLUP); // used in Power-On
+    pinMode(cc1200.pin_mosi, OUTPUT); // used in Power-On
+    pcf8575_portMode(pcf_radio, cc1200.pin_nrst, OUTPUT); // used in Power-On
+    // Configure SPIClass from Espressif HAL Arduino Core compat
+    cc1200.spi_frequency = 7700000; // // keep at 7.7 MHz per Martin B of TI E2E forums over 12 years ago 
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("(VSPI) Beginning use of VSPI Interface... "
+        "[%d MHz, SS=%d,SCK=%d, MISO=%d, MOSI=%d]\n",
+        cc1200.spi_frequency, cc1200.pin_ss, cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi
+    );
+    CC1200_DEBUG.printf("(VSPI ----------) Beginning use of CC1200... "
+        "[GDIO0=%d, GDIO1=MISO, GDIO2=%d, GPIO3=-1]\n", 
+        cc1200.pin_gdio0, cc1200.pin_gdio2
+    );
+    CC1200_DEBUG.printf("(---- I2C0 @0x%2.2X) Beginning use of CC1200... [RESET=%d on %s IOMUX]\n", 
+        pcf_radio_config.sensor_address, cc1200.pin_nrst, pcf_radio_config.subsystem_name.c_str()
+    );
+    #endif
+    digitalWrite(cc1200.pin_ss, HIGH); // use of SS is bitbanged?
+    cc1200.spi->begin(cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi, cc1200.pin_ss);
+    cc1200.spi->beginTransaction(
+        SPISettings(cc1200.spi_frequency, MSBFIRST, CC1200_SPI_MODE)
+    );
+    #ifdef CC1200_DEBUG
+            CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized CC1200 Interfaces!\n", pcf_radio_config.sensor_address);
+    #endif
+    return 0;
+}
+
+int cc1200_init(cc1200_config_t &cc1200) {
+    if (cc1200.initialized) {
+      return 0;
+    }
+    // -------------------------------------------------------------
+    // SWRU346B 3.1.1 4-wire Serial Configuration and Data Interface
+    // -------------------------------------------------------------
+    setup_interface();
+    // ---------------------------------------------------------
+    //        SWRU346B 9.1 Power-On Start-Up Sequence 
+    // ---------------------------------------------------------
+    // Must be reset before entering the state diagram in Figure 2.
+    // CHIP_RDYn on the SO pin after SS is pulled low.
+    cc1200_reset(true);
+    // once reset is completed, chip will be in the IDLE state.
+    // To verify initialization, the read the part number to confirm CC1200.
+    cc1200_spi_access_t config_access;
+    config_access.readwrite_flag = READ;
+    update_status(cc1200_single_register_access(PARTNUMBER, config_access));
+    cc1200.partnumber = (cc1200_partnumber_t)config_access.data;
+    update_status(cc1200_single_register_access(PARTVERSION, config_access));
+    cc1200.partrevision = config_access.data;    
+    config_access.readwrite_flag = WRITE;
+
+    // SFSTXON strobe enables and calibrates FS if SETTLING_CFG.FS_AUTOCAL=1
+    cc1200.registers.SETTLING_CFG &= ~FS_AUTOCAL;
+    cc1200.registers.SETTLING_CFG |= ((0b1 << FS_AUTOCAL_SHIFT) & FS_AUTOCAL); 
+    config_access.data = cc1200.registers.SETTLING_CFG;
+    update_status(cc1200_single_register_access(SETTLING_CFG, config_access));
+
+    update_status(cc1200_command_strobe_access(SCAL));
+    // ---------------------------------------------------------
+    //  SWRU346B 3.4 General Purpose Input/Output Control Pins 
+    // ---------------------------------------------------------
+    // To control an external LNA, PA, or RX/TX switch in applications where the 
+    // SLEEP state is used it is therefore recommended to map this signal to
+    // GDO3 as this signal will be hardwired to 1(0) in the SLEEP state.
+    cc1200.registers.IOCFG3 &= ~GPIOx_CFG;
+    cc1200.registers.IOCFG3 |= ((PA_PD << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO3 asserts PA_PD GPIO signal 
+    config_access.data = cc1200.registers.IOCFG3;
+    update_status(cc1200_single_register_access(IOCFG3, config_access));
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized Radio Transceiver!\n"
+        "* CC1200 Initialization Results: [Part Number=0x%2.2X, %s] [Part Revision=0x%2.2X, %s]\n"
+        "* MAin Radio Control 'MARC' Unit is %s: [State=0x%1.1X, %s]\n", pcf_radio_config.sensor_address,
+        cc1200.partnumber, cc1200.partnumber == 0x20 ? "PASS" : "FAIL", 
+        cc1200.partrevision, cc1200.partrevision == 0x11 ? "PASS" : "FAIL",
+        main_states[cc1200.main_state], cc1200.main_state, main_states[cc1200.main_state] == "IDLE" ? "PASS" : "FAIL"
+    );
+    #endif
+    if (cc1200.partnumber == 0x20 && cc1200.partrevision == 0x11) {
+        cc1200.initialized = true;
+    }
+    return 0;
 }
 
 // ---------------------------------------------------------
 // SWRU346B 5.2.4 Custom Frequency Modulation(CFM)/Analog FM
 // ---------------------------------------------------------
 
-void cc1200_enter_custom_frequency_modulation(double targetSampleRate, double targetDeviation) {
+void cc1200_enter_custom_frequency_modulation() {
     cc1200_spi_access_t config_access;
     config_access.readwrite_flag = WRITE;
 
     // ---------------------------------------------------------
     // SWRU346B Frequency Deviation Configuration
     // ---------------------------------------------------------
-    cc1200_calculate_frequency_deviation(targetDeviation);
+    cc1200_calculate_frequency_deviation(cc1200.frequency_deviation);
     // Frequency Deviation Configuration
     config_access.data = cc1200.registers.DEVIATION_M;
     update_status(cc1200_single_register_access(DEVIATION_M, config_access));
@@ -503,7 +619,7 @@ void cc1200_enter_custom_frequency_modulation(double targetSampleRate, double ta
     // ---------------------------------------------------------
     // The modulator writes values to the PLL at 16x the 
     // programmed symbol rate using the soft data clock.
-    cc1200_calculate_symbol_rate(targetSampleRate);
+    cc1200_calculate_symbol_rate(cc1200.symbol_rate);
     config_access.data = cc1200.registers.SYMBOL_RATE2;
     update_status(cc1200_single_register_access(SYMBOL_RATE2, config_access));
     config_access.data = cc1200.registers.SYMBOL_RATE1;
@@ -514,7 +630,7 @@ void cc1200_enter_custom_frequency_modulation(double targetSampleRate, double ta
     //             SWRU346B 6 Receive Configuration
     // ---------------------------------------------------------
     // 6.1 RX Channel Filter Bandwidth
-    bool widefm = true; // WFM and NFM configurations available
+    bool widefm = true; // WFM (25.25 kHz) and NFM (14.88 kHz) configurations available
     // set CHAN_BW.ADC_CIC_DECFACT first decimation filter factor
     cc1200.registers.CHAN_BW &= ~(ADC_CIC_DECFACT | BB_CIC_DECFACT); // clear register fields
     cc1200.registers.CHAN_BW |= ((widefm ? FACTOR24 : FACTOR48) << ADC_CIC_DECFACT_SHIFT & ADC_CIC_DECFACT);
@@ -523,29 +639,56 @@ void cc1200_enter_custom_frequency_modulation(double targetSampleRate, double ta
     config_access.data = cc1200.registers.CHAN_BW;
     update_status(cc1200_single_register_access(CHAN_BW, config_access));
 
+    cc1200.registers.FIFO_CFG &= ~CRC_AUTOFLUSH;
+    cc1200.registers.FIFO_CFG |= (0b0 << CRC_AUTOFLUSH_SHIFT) & CRC_AUTOFLUSH;
+    config_access.data = cc1200.registers.FIFO_CFG; 
+    update_status(cc1200_single_register_access(FIFO_CFG, config_access));
+
+    // ---------------------------------------------------------
+    //         General Modem Parameter Configuration
+    // ---------------------------------------------------------
+    // MDMCFG2: enable CFM mode and set variable TX upsampling factor P=16.
     cc1200.registers.MDMCFG2 &= ~(CFM_DATA_EN | UPSAMPLER_P); 
-    cc1200.registers.MDMCFG2 |= ((0b1 << CFM_DATA_EN_SHIFT) & CFM_DATA_EN); // CFM mode enabled (write frequency word directly)
-    cc1200.registers.MDMCFG2 |= ((0x04 << UPSAMPLER_P_SHIFT) & UPSAMPLER_P); // variable TX upsampling factor default is P=16 0x04
+    cc1200.registers.MDMCFG2 |= ((0b1 << CFM_DATA_EN_SHIFT) & CFM_DATA_EN);
+    cc1200.registers.MDMCFG2 |= ((P16 << UPSAMPLER_P_SHIFT) & UPSAMPLER_P);
     config_access.data = cc1200.registers.MDMCFG2; 
     update_status(cc1200_single_register_access(MDMCFG2, config_access));
-    // disable Normal/FIFO Mode packet format configuration
+    // MDMCFG1: disable Normal/FIFO Mode packet format configuration.
+    // NOTE: this means modem data goes directly to/from the serial pin(s)
     cc1200.registers.MDMCFG1 &= ~FIFO_EN;
     cc1200.registers.MDMCFG1 |= ((0b0 << FIFO_EN_SHIFT) & FIFO_EN); 
     config_access.data = cc1200.registers.MDMCFG1; 
     update_status(cc1200_single_register_access(MDMCFG1, config_access));
-    // disable Transparent Mode packet format configuration
+    // MDMCFG0: disable Transparent & Extended data filters and Viterbi detection.
+    // NOTE: having the data filters enabled may improve sensitivity.
     cc1200.registers.MDMCFG0 &= ~TRANSPARENT_MODE_EN;
     cc1200.registers.MDMCFG0 |= ((0b0 << TRANSPARENT_MODE_EN_SHIFT) & TRANSPARENT_MODE_EN); 
+    // DATA_FILTER_EN when MDMCFG0.TRANSPARENT_MODE_EN=0: (true)
+    // iff WFM (25250 Hz)/(24000 Hz) > 10 or in NFM (14880 Hz)/(24000 Hz) > 10 (false)
+    // and Timing offset correction limit offset < 0.2% [TOC_CFG.TOC_LIMIT=0] (reset)
+    cc1200.registers.MDMCFG0 &= ~DATA_FILTER_EN;
+    cc1200.registers.MDMCFG0 |= ((0b0 << DATA_FILTER_EN_SHIFT) & DATA_FILTER_EN); // Extended data filter disabled
+    // NOTE: having Viterbi detection also improves sensitivity.
+    cc1200.registers.MDMCFG0 &= ~VITERBI;
+    cc1200.registers.MDMCFG0 |= ((0b0 << VITERBI_SHIFT) & VITERBI); // Viterbi detection disabled
+    cc1200.registers.MDMCFG0 |= ((0b10) & MDMCFG0_RESERVED1_0); // use values from SmartRF Studio (reset = 0x01)
     config_access.data = cc1200.registers.MDMCFG0; 
     update_status(cc1200_single_register_access(MDMCFG0, config_access));
+    // SYNC_CFG1: disable sync word
+    cc1200.registers.SYNC_CFG1 &= ~(SYNC_MODE_SHIFT);
+    cc1200.registers.SYNC_CFG1 |= ((0b000 << SYNC_MODE_SHIFT) & SYNC_MODE);
+    config_access.data = cc1200.registers.SYNC_CFG1; 
+    update_status(cc1200_single_register_access(SYNC_CFG1, config_access));
+
     // select Synchronous serial mode packet format configuration
+    // NOTE: synchronous serial mode makes use of the WaveMatch detector, which 
+    // means the performance will be similar to the performance in FIFO mode.
     cc1200.registers.PKT_CFG2 &= ~(CCA_MODE | PKT_FORMAT);
     cc1200.registers.PKT_CFG2 |= ((0b1 << CCA_MODE_SHIFT) & CCA_MODE); // indicate clear channel when RSSI is below threshold
     cc1200.registers.PKT_CFG2 |= ((0b01 << PKT_FORMAT_SHIFT) & PKT_FORMAT); // select Synchronous serial mode
     config_access.data = cc1200.registers.PKT_CFG2;
     update_status(cc1200_single_register_access(PKT_CFG2, config_access));
 
-    // 
     /** SWRU346B Equation 3 f_{offset}
      * f_{offset} = f_{dev}*CFM_TX_DATA_IN/64 [Hz]
      * This equation is only valid when -64 ≤ CFM_TX_DATA_IN ≤ +64. 
@@ -561,9 +704,6 @@ void cc1200_enter_custom_frequency_modulation(double targetSampleRate, double ta
     config_access.data = cc1200.registers.EXT_CTRL;
     update_status(cc1200_single_register_access(EXT_CTRL, config_access));
 
-    
-
-    
     // ---------------------------------------------------------
     //  SWRU346B 3.4 General Purpose Input/Output Control Pins 
     // ---------------------------------------------------------
@@ -581,7 +721,7 @@ void cc1200_enter_custom_frequency_modulation(double targetSampleRate, double ta
     cc1200.registers.IOCFG0 |= ((CFM_TX_DATA_CLK << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO0 asserts CFM_TX_DATA_CLK GPIO signal 
     config_access.data = cc1200.registers.IOCFG0;
     update_status(cc1200_single_register_access(IOCFG0, config_access));
-    // -- end of Custom FM configuration changes --
+    // -- end of one-time Custom FM configuration changes --
 }
 
 void IRAM_ATTR CLKEN_CFM_ISR() {
@@ -606,6 +746,156 @@ void cc1200_exit_custom_frequency_modulation() {
     cc1200_command_strobe_access(SIDLE);
 }
 
+// 
+// Program CC120X into different modes (RX, TX, SLEEP, IDLE, etc)
+//
+// Left on
+//            TXOFF_MODE=00 to FSCAL,
+//            TXOFF_MODE=01 to FSSTXON,
+// SRX     or TXOFF_MODE=11 to SRX,
+// Data Buffer Error        to TX_FIFO_ERROR 
+
+// Entered on
+// SIDLE                    
+//                          from FSCAL
+// SFRX                     from RX_FIFO_ERROR
+// SFTX                     from TX_FIFO_ERROR
+int cc1200_idle_mode() {
+    cc1200_command_strobe_access(SNOP);
+    return 0;
+}
+
+// RXOFF_MODE=01 or TXOFF_MODE=01 means return to SFSTXON.
+
+// Entered on 
+// SRX                      from FSTXON
+// SRX/WOR                  from FSCAL, 
+// SRX     or TXOFF_MODE=11 from STX
+double currentFrequency;
+radio_frequency_bands_t currentBand;
+
+int cc1200_receive_mode(double targetFrequency) {
+    if (currentFrequency != targetFrequency ) {
+        cc1200_idle_mode();
+        // update_status(cc1200_command_strobe_access(SFSTXON));
+        cc1200_spi_access_t config_access;
+        config_access.readwrite_flag = WRITE;
+        // 
+        cc1200_calculate_frequency_programming(targetFrequency); // 446.000 MHz
+        config_access.data = cc1200.registers.FREQOFF1;
+        update_status(cc1200_single_register_access(FREQOFF1, config_access));
+        config_access.data = cc1200.registers.FREQOFF0;
+        update_status(cc1200_single_register_access(FREQOFF0, config_access));
+        config_access.data = cc1200.registers.FREQ2;
+        update_status(cc1200_single_register_access(FREQ2, config_access));
+        config_access.data = cc1200.registers.FREQ1;
+        update_status(cc1200_single_register_access(FREQ1, config_access));
+        config_access.data = cc1200.registers.FREQ0;
+        update_status(cc1200_single_register_access(FREQ0, config_access));
+        //
+        if (currentBand != cc1200.band) {
+            rfsw_switchTo(((cc1200.band == BAND_70CM) ? UHF : VHF), LOW);
+            currentBand = cc1200.band;
+        }
+        currentFrequency = targetFrequency;
+    }
+    update_status(cc1200_command_strobe_access(SRX));
+
+    // update_status(cc1200_command_strobe_access(SNOP));
+    #ifdef CC1200_DEBUG
+        CC1200_DEBUG.printf("(VSPI) Entering Receive Mode! [%s]\n", main_states[cc1200.main_state]);
+    #endif
+    return 0;
+}
+// Left on 
+//            RXOFF_MODE=00 to FSCAL,
+// SFSTXON or RXOFF_MODE=01 to SFSTXON,
+// STX     or RXOFF_MODE=10 to STX,
+// Data Buffer Error        to RX_FIFO_ERROR
+
+// Entered on STX or RXOFF_MODE=10, 
+int cc1200_transmit_mode(double targetFrequency) {
+    #ifdef CC1200_DEBUG
+        CC1200_DEBUG.printf("Beginning Radio Transmit Mode...\n");
+    #endif
+    if (currentFrequency != targetFrequency ) {
+        cc1200_idle_mode();
+        // update_status(cc1200_command_strobe_access(SFSTXON));
+        cc1200_spi_access_t config_access;
+        config_access.readwrite_flag = WRITE;
+        cc1200_calculate_frequency_programming(targetFrequency); // 446.000 MHz
+        config_access.data = cc1200.registers.FREQOFF1;
+        update_status(cc1200_single_register_access(FREQOFF1, config_access));
+        config_access.data = cc1200.registers.FREQOFF0;
+        update_status(cc1200_single_register_access(FREQOFF0, config_access));
+        config_access.data = cc1200.registers.FREQ2;
+        update_status(cc1200_single_register_access(FREQ2, config_access));
+        config_access.data = cc1200.registers.FREQ1;
+        update_status(cc1200_single_register_access(FREQ1, config_access));
+        config_access.data = cc1200.registers.FREQ0;
+        update_status(cc1200_single_register_access(FREQ0, config_access));
+        if (currentBand != cc1200.band) {
+            rfsw_switchTo(((cc1200.band == BAND_70CM) ? UHF : VHF), HIGH);
+            currentBand = cc1200.band;
+        }
+        currentFrequency = targetFrequency;
+    }
+    cc1200_command_strobe_access(STX);
+    // TODO: correctly select RF switch port
+    #ifdef CC1200_DEBUG
+        CC1200_DEBUG.printf("(VSPI) Entering Transmit Mode... [%s]\n", main_states[cc1200.main_state]);
+    #endif
+    return 0;
+}
+// Left on
+// SFSTXON/SRX/STX/WOR      to SFSTXON
+// SCAL                     to FSCAL
+// SPWD or WOR              to SLEEP
+
+// Entered on
+// SPWD or WOR              from IDLE
+int cc1200_sleep_mode() {
+    cc1200_command_strobe_access(SPWD);
+    return 0;
+}
+// Left on CSn=0
+//
+// Read and write buffered data (RX FIFO and TX FIFO)
+//
+int cc1200_standard_FIFO_access() {
+    return 0;
+}
+
+int cc1200_receive_FIFO_byte() {
+    // See Section 3.2.3
+    return 0;
+}
+
+int cc1200_transmit_FIFO_byte() {
+    return 0;
+}
+// SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG
+// Configures which memory to access when using direct memory access
+int cc1200_direct_FIFO_access() {
+    // SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG = 0
+    return 0;
+}
+
+// FEC Workspace or AES Command Workspace (128 bytes free area).
+// (PKT_CFG1.FEC_EN = 1) (free space otherwise)
+int cc1200_direct_FEC_access() {
+    // SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG = 1
+    // (Address < 0x80)
+    return 0;
+}
+
+int cc1200_direct_AES_access() {
+    // SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG = 1
+    
+    // (0x80 < Address < 0xFF)
+    return 0;
+}
+
 // TER de TI E2E Forums: 
 // Use of transparent mode requires oversampling of the output.
 // Naїve upsampling: Can also try repeating a sample 3 times for 8kHz signal  
@@ -627,24 +917,26 @@ void demonstrate_radio_transceiver() {
         main_states[cc1200.main_state],
         cc1200.partnumber, cc1200.partrevision
     );
-    
-    uint8_t* cfm_data_buffer;
-    // curiouselectron demo targets 40kHz sample rate.
-    cc1200_enter_custom_frequency_modulation(40000.0, 5000.0);
 
+    uint8_t* cfm_data_buffer;
     attachInterrupt(digitalPinToInterrupt(cc1200.pin_gdio0), CFM_TX_DATA_CLK_ISR, RISING);
     attachInterrupt(digitalPinToInterrupt(cc1200.pin_gdio2), CLKEN_CFM_ISR, RISING);
 
-
-
-    cc1200_command_strobe_access(SRX);
+    // cc1200.symbol_rate = 40000; // curiouselectron demo targets 40kHz sample rate. Default is 24kHz.
     
+    cc1200_enter_custom_frequency_modulation();
+    // // update RF switch port to reflect current RF band and tentative active state  
+    marc_state_t active_state = MARC_RX; 
+    if (active_state == MARC_RX) { // RX
+        cc1200_receive_mode(446000000); // frequency programming is adjusted on change.
+    } else if (active_state == MARC_TX) { // TX
+        cc1200_transmit_mode(446000000);
+    }
+    vTaskDelay(10000/portTICK_PERIOD_MS);
+    cc1200_exit_custom_frequency_modulation();
 
-    
 
-
-
-    cc1200_command_strobe_access(STX);
+    // cc1200_command_strobe_access(STX);
     
 
     // display radio settings
