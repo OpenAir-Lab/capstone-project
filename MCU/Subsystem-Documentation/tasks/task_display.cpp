@@ -1,7 +1,7 @@
 #include "task_display.h"
 #include <Arduino.h>
-#include "system_state.h"
-#include "ui_display.h"
+#include "core/system_state.h"
+#include "ui/ui_display.h"
 
 void displayTask(void *pvParameters) {
     ui_init();

@@ -1,7 +1,7 @@
 #include "task_system.h"
 #include <Arduino.h>
-#include "system_state.h"
-#include "input_hmi.h"
+#include "core/system_state.h"
+#include "inputs/input_hmi.h"
 
 void systemTask(void *pvParameters) {
     const TickType_t interval = pdMS_TO_TICKS(50);  // 20 Hz poll

@@ -1,7 +1,7 @@
 #include "ui_display.h"
 #include <Arduino.h>
 #include <st7789.h>
-#include "system_state.h"
+#include "core/system_state.h"
 
 // These are defined in main.cpp
 extern Adafruit_ST7789 tft;
