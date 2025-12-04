@@ -1,7 +1,9 @@
 # OpenAir Lab Educational Roadmap  
 ### Hands-on Labs + Short Explainer Videos (For Expo & Curriculum)
 
-This roadmap is designed for students with little or no RF or embedded experience. It gradually reveals how a handheld radio works from power, to MCU, to buses, to RF, audio, UI, and full system integration. All content references your actual project hardware and subsystem documentation.
+This roadmap is designed for students with little or no RF or embedded experience. 
+It gradually reveals how a handheld radio works from power, to MCU, to buses, to RF, audio, UI, and full system integration. 
+All content references project hardware and subsystem documentation.
 
 ---
 
@@ -200,7 +202,7 @@ Video 11: “Bringing It All Together — Your First Working Radio” (2–3 min
 
 ---
 
-# Expo Deliverables
+# Possible Expo Deliverables (tbd)
 
 ### One-Page Educational Map Poster
 - Linear or circular pathway of labs.  
