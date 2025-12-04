@@ -1,0 +1,52 @@
+VIDEO 0 — “What Is OpenAir Lab?”
+Rough Monologue Draft (unpolished, informational only)
+
+
+“Welcome to OpenAir Lab. 
+
+Our project is built around one simple idea: modern handheld radios have become black boxes. 
+You buy a commercial transceiver, you press a few buttons, and everything inside is hidden. 
+For students or new hobbyists, there’s no way to see how a radio actually works or how the different subsystems talk to each other.
+OpenAir Lab is our answer to that problem. 
+We designed a fully modular, open-source handheld radio platform where every major subsystem is separated into its own small ‘modulino,’ 
+and everything plugs into the main microcontroller board through clearly defined connectors. 
+The goal isn’t just to build a working radio, but to create a system you can learn from, modify, and hack on.
+
+The platform is divided into several modules. 
+
+The first is the MCU modulino, which uses an ESP32-WROVER-E. 
+This board handles the digital logic, the communication buses, all the firmware, and the real-time task scheduling that keeps the radio 
+responsive. 
+Everything connects to it through an 18-pin EYESPI interface and a standard I²C expansion header.
+
+Next is the RF modulino, built around the TI CC1200 transceiver. 
+This is the actual radio front-end: it transmits and receives signals, measures RSSI, and supports packet-based digital communication. 
+All interactions with the RF chip happen through SPI and dedicated interrupt lines, and students can see exactly what each register and pin does.
+
+We also have the Audio modulino, which handles the microphone input and speaker output using digital audio interfaces. 
+There’s a MEMS microphone that feeds data through I²S into the ESP32, and an amplifier that converts digital samples back into sound for the 
+speaker. 
+This lets students trace a real audio path through the system.
+
+The HMI modulino is where users interact with the radio: the color TFT display, the keypad or buttons, the rotary encoder, and any indicator LEDs.
+This module makes it easy to visualize state, navigate menus, tune frequencies, and monitor battery or signal strength.
+
+And finally, the BMS and Power modulinos manages USB-PD input, battery charging, fuel gauging, and system power regulation. 
+This gives students a complete look at how portable devices manage power safely and efficiently.
+
+When you put all of these together, you get a fully functioning radio system, but more importantly, a platform designed for learning. 
+Every cable, every connector, and every bus is exposed. 
+Students can unplug individual pieces, probe signals, load example firmware, and complete structured labs that walk through each subsystem
+in isolation before bringing them all together.
+
+Throughout the project, we’ve created exercises that teach the fundamentals behind each part of the radio: how a microcontroller boots, how 
+digital buses move data, how interrupts coordinate timing-sensitive events, how audio gets encoded and decoded, and how RF hardware is configured
+and controlled.
+
+The goal of OpenAir Lab is to make radio electronics approachable. 
+
+Instead of treating the radio as a sealed device, we treat it as a kit that reveals how communication systems really work. 
+
+By the end of the curriculum, students not only have a working radio, but a working understanding of everything that makes it possible.
+
+That’s the heart of OpenAir Lab: a modular, transparent, hands-on learning platform that opens up the internals of modern radio design.”
