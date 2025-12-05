@@ -1,0 +1,100 @@
+Lab 1 Video Narration Script  
+Title: ESP32 Boot, Flashing, and Strapping Pins
+
+---
+
+[Opening]
+
+In this lab, we’re going to walk through the very first thing every student needs to understand before working with the rest of the OpenAir Lab 
+radio system: how the ESP32 boots, how to flash firmware onto it, and why the strapping pins matter.
+
+By the end of this video, you’ll know exactly how the ESP32 decides what mode to start in, how to force it into bootloader mode, and how to 
+successfully upload your first program.
+
+---
+
+[Section: What Happens When the ESP32 Boots]
+
+When the ESP32 powers on or resets, it performs a very specific sequence.
+
+First, it reads a small group of pins called strapping pins. In our design, these include GPIO0, GPIO2, GPIO5, GPIO12, and GPIO15. 
+Their voltages at the moment of reset tell the ESP32 what to do next: whether to load code from flash, enter UART programming mode, 
+or configure flash voltage.
+
+Once those pins are sampled, the values are locked in, and the chip proceeds to run the bootloader or the application.
+
+Understanding these pins is important, because if any of them are pulled the wrong way, the ESP32 simply won’t boot or accept new firmware.
+
+---
+
+[Section: EN and BOOT Buttons]
+
+On the MCU modulino you’ll see two buttons: EN and BOOT.
+
+EN is the reset button. Pressing it restarts the ESP32.  
+BOOT is connected to GPIO0. Holding this button forces the ESP32 into UART bootloader mode, which is required for flashing code over USB or the
+ESP-PROG.
+
+To enter bootloader mode manually, hold BOOT, tap EN, and release BOOT once the flashing process begins. 
+You will get used to this sequence quickly.
+
+---
+
+[Section: Connecting the ESP-PROG]
+
+To flash firmware, connect the ESP-PROG to the modulino.
+
+Connect TX from the ESP-PROG to RX on the ESP32.  
+Connect RX from the ESP-PROG to TX on the ESP32.  
+And don’t forget ground. Without a shared ground, the UART interface will not work.
+
+Once connected, open your serial monitor at 115200 baud and press EN. You should see the ESP32 print its boot message.
+This confirms the board is powered, the strapping pins are correct, and the UART interface is functioning.
+
+---
+
+[Section: Uploading Code]
+
+Now that the board is wired and we’ve confirmed the serial output, let’s upload our first test program.
+
+In PlatformIO or the Arduino IDE, open the example that prints “ESP32 Boot Successful” and blinks a GPIO.
+
+Start the upload.  
+If the ESP32 does not automatically enter bootloader mode, hold BOOT, tap EN, and release BOOT once the flashing begins.
+
+When the upload finishes, open your serial monitor again.
+
+You should see the printed message.  
+You should also see the LED blinking on the assigned GPIO pin.
+
+At this point, your board is fully operational.
+
+---
+
+[Section: Troubleshooting]
+
+If you encounter errors, this is normal. Here are the most common issues:
+
+If you see “Failed to connect: Invalid head of packet,” the ESP32 is not in bootloader mode. Try the BOOT plus EN sequence again and check your
+wiring.
+
+If you see random characters in the serial monitor, the baud rate may be wrong, or the flash voltage selected by GPIO12 may be incorrect.
+
+If you see no output at all, verify that the board is actually powered and that the EN pin is pulled high.
+
+Troubleshooting is an essential part of embedded work, so treat these messages as valuable signals rather than failures.
+
+---
+
+[Section: Closing]
+
+That concludes Lab 1. You now understand how the ESP32-WROVER-E starts up, how the strapping pins determine the boot mode, 
+how to interface with the bootloader, and how to flash your first program.
+
+This sets the foundation for every subsystem in OpenAir Lab. In the next labs, we’ll build on this by exploring the communication buses, 
+interacting with the display, using the GPIO expander, and eventually linking the audio and RF paths together.
+
+Whenever something doesn’t work later in the project, you’ll come back to the skills from this lab: power, boot mode, UART, and 
+serial debugging.
+
+End of narration.
