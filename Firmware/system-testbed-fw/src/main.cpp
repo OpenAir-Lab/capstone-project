@@ -83,8 +83,8 @@ grf5604_config_t vhf_grf5604;
 */
 #define I2S0_PIN_BCLK  27 // shared bit clock
 #define I2S0_PIN_LRCLK 25 // shared left-right clock
-#define I2S0_PIN_DOUT  34 // data output to amplifier 
-#define I2S0_PIN_DIN   27 // data input from microphone
+#define I2S0_PIN_DOUT  33 // data output to amplifier 
+#define I2S0_PIN_DIN   36 // data input from microphone
 
 #define I2S0_SAMPLE_RATE    40000 // 40 kSps (40 kHz audio)
 #define I2S0_WORD_SIZE      32 // 32-bit data words
