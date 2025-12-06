@@ -20,6 +20,7 @@ typedef struct {
     int8_t pin_reset = -1; // can be floating
     uint16_t width = 170;
     uint16_t height = 320;
+    int8_t rotation = 3;
     uint32_t spi_speed = 40000000; // 40 MHz
 } st7789_config_t;
 

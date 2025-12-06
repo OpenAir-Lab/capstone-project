@@ -8,7 +8,9 @@
     
     Texas Instruments CC1200 Radio Transceiver.
 */
-
+#ifndef BIT
+#define BIT(nr) (1UL << (nr))
+#endif
 /** Number of bits in a long int. */
 #define BITS_PER_LONG	(__CHAR_BIT__ * __SIZEOF_LONG__)
 /**
@@ -23,6 +25,7 @@
 
 #define WRITE 0
 #define READ 1
+#define SINGLE 0
 #define BURST 1
 
 // 6.1 RX Channel Filter Bandwidth Configuration
@@ -56,60 +59,140 @@ typedef enum {
 #define NFM_DECFACT_UNDERSHOOT 34 // 12.25 kHz at FACTOR48
 #define WFM_DECFACT_OVERSHOOT 33  //  25.25 kHz at FACTOR24
 #define NFM_DECFACT_OVERSHOOT 28  //  14.88 kHz at FACTOR48
-typedef struct {
-    uint16_t IOCFG3 = 0x08;
-    uint16_t IOCFG2 = 0x09;
-    uint16_t IOCFG1 = 0xB0; 
-    uint16_t IOCFG0 = 0xB0;
-    uint16_t SYNC3; uint16_t SYNC2; uint16_t SYNC1; uint16_t SYNC0;
-    uint16_t SYNC_CFG1 = 0x0; uint16_t SYNC_CFG0;
-    uint16_t DEVIATION_M;
-    uint16_t MODCFG_DEV_E = 0x0;
-    uint16_t DCFILT_CFG = 0x1C;
-    uint16_t PREAMBLE_CFG1 = 0x14; uint16_t PREAMBLE_CFG0;
-    uint16_t IQIC = 0xC4;
-    uint16_t CHAN_BW = 0x28;
-    #define ADC_CIC_DECFACT GENMASK(7,6) // BW into first digital low-IF mixer
-    #define BB_CIC_DECFACT  GENMASK(5,0) // BW into second decimation filter
-    uint16_t MDMCFG1 = 0x06; uint16_t MDMCFG0 = 0x0A;
-    uint16_t SYMBOL_RATE2 = 0x43; uint16_t SYMBOL_RATE1 = 0xA9; uint16_t SYMBOL_RATE0 = 0x2A;
-    uint16_t AGC_REF = 0x20;
-    uint16_t AGC_CS_THR = 0x19;
-    uint16_t AGC_GAIN_ADJUST;
-    uint16_t AGC_CFG3; uint16_t AGC_CFG2;
-    uint16_t AGC_CFG1 = 0xAF; uint16_t AGC_CFG0 = 0xCF;
-    uint16_t FIFO_CFG = 0x00;
-    uint16_t DEV_ADDR;
-    uint16_t SETTLING_CFG;
-    uint16_t FS_CFG = 0x12;
-    uint16_t WOR_CFG1; uint16_t WOR_CFG0;
-    uint16_t WOR_EVENT0_MSB; uint16_t WOR_EVENT0_LSB;
-    uint16_t RXDCM_TIME;
-    uint16_t PKT_CFG2 = 0x05; uint16_t PKT_CFG1 = 0x00; uint16_t PKT_CFG0 = 0x20;
-    uint16_t RFEND_CFG1; uint16_t RFEND_CFG0;
-    uint16_t PA_CFG1 = 0x78; uint16_t PA_CFG0 = 0x7C;
-    uint16_t ASK_CFG;
-    uint16_t PKT_LEN;
-} cc1200_settings_t;
 
-// @brief configuration of CC1200 sub 1-GHz radio transceiver
+// Powers of Two Definitions
+#define MAX_03_BIT_VALUE (1U << 3) - 1     // used by frequency deviation
+#define MAX_04_BIT_VALUE (1U << 4) - 1     // used by symbol rate
+#define TWO_TO_THE_08    (1ULL << 8)       // used by frequency deviation
+#define MAX_08_BIT_VALUE TWO_TO_THE_08 - 1 // used by frequency deviation
+#define TWO_TO_THE_13    (1ULL << 13)      // used by frequency programming
+#define TWO_TO_THE_14    (1ULL << 14)      // used by frequency deviation
+#define MAX_14_BIT_VALUE TWO_TO_THE_14 - 1 // used by frequency programming
+#define TWO_TO_THE_16    (1ULL << 16)      // used by frequency programming
+#define TWO_TO_THE_17    (1ULL << 17)      // used by frequency programming
+#define MAX_17_BIT_VALUE TWO_TO_THE_17 - 1 // used by frequency programming
+#define TWO_TO_THE_18    (1ULL << 18)      // used by frequency programming
+#define MAX_18_BIT_VALUE TWO_TO_THE_18 - 1 // used by frequency programming
+#define TWO_TO_THE_19    (1ULL << 19)      // used by symbol rate
+#define TWO_TO_THE_20    (1ULL << 20)      // used by symbol rate
+#define MAX_20_BIT_VALUE TWO_TO_THE_20 - 1 // used by symbol rate
+#define TWO_TO_THE_21    (1ULL << 21)      // used by frequency deviation
+#define TWO_TO_THE_22    (1ULL << 22)      // used by frequency deviation
+#define TWO_TO_THE_24    (1ULL << 24)      // used by frequency programming
+#define MAX_24_BIT_VALUE TWO_TO_THE_24 - 1 // used by frequency programming
+#define TWO_TO_THE_28    (1ULL << 28)      // used by symbol rate
+#define TWO_TO_THE_38    (1ULL << 38)      // used by symbol rate
+#define TWO_TO_THE_39    (1ULL << 39)      // used by symbol rate
+#define CC1200_OSC_FREQ 40000000UL
+#define CC1200_OSC_FREQ_LOG2 25.253496f
+
 typedef struct {
-    bool initialized = false;
-    SPIClass *spi = NULL; // no default spi 
-    uint32_t spi_frequency = 7700000; // 7.7 MHz default despite 10 MHz configuration read
-    int8_t pin_nrst;
-    int8_t pin_sck = 5;
-    int8_t pin_mosi;
-    int8_t pin_miso;
-    int8_t pin_ss;
-    int8_t pin_gdio0;
-    int8_t pin_gdio2;
-    uint8_t partnumber = -1;
-    uint8_t partrevision = -1;
-    bool chip_nrdy;
-    uint8_t main_state;
-    cc1200_settings_t radio_settings;
-} cc1200_config_t;
+    uint8_t IOCFG3 = 0x08;
+    uint8_t IOCFG2 = 0x09;
+    uint8_t IOCFG1 = 0xB0; 
+    uint8_t IOCFG0 = 0xB0;
+    uint8_t SYNC3; uint8_t SYNC2; uint8_t SYNC1; uint8_t SYNC0;
+    uint8_t SYNC_CFG1 = 0x0; uint8_t SYNC_CFG0;
+    uint8_t DEVIATION_M;
+    uint8_t MODCFG_DEV_E = 0x0;
+    uint8_t DCFILT_CFG = 0x1C;
+    uint8_t PREAMBLE_CFG1 = 0x14; uint8_t PREAMBLE_CFG0;
+    uint8_t IQIC = 0xC4;
+    uint8_t CHAN_BW = 0x28;
+    uint8_t MDMCFG1 = 0x06; uint8_t MDMCFG0 = 0x0A;
+    uint8_t SYMBOL_RATE2 = 0x43; uint8_t SYMBOL_RATE1 = 0xA9; uint8_t SYMBOL_RATE0 = 0x2A;
+    uint8_t AGC_REF = 0x20;
+    uint8_t AGC_CS_THR = 0x19;
+    uint8_t AGC_GAIN_ADJUST;
+    uint8_t AGC_CFG3; uint8_t AGC_CFG2;
+    uint8_t AGC_CFG1 = 0xAF; uint8_t AGC_CFG0 = 0xCF;
+    uint8_t FIFO_CFG = 0x00;
+    uint8_t DEV_ADDR;
+    uint8_t SETTLING_CFG;
+    uint8_t FS_CFG = 0x12;
+    uint8_t WOR_CFG1; uint8_t WOR_CFG0;
+    uint8_t WOR_EVENT0_MSB; uint8_t WOR_EVENT0_LSB;
+    uint8_t RXDCM_TIME;
+    uint8_t PKT_CFG2 = 0x05; uint8_t PKT_CFG1 = 0x00; uint8_t PKT_CFG0 = 0x20;
+    uint8_t RFEND_CFG1; uint8_t RFEND_CFG0;
+    uint8_t PA_CFG1 = 0x78; uint8_t PA_CFG0 = 0x7C;
+    uint8_t ASK_CFG;
+    uint8_t PKT_LEN;
+    // uint8_t EXTENDED_ADDRESS;
+    uint8_t IF_MIX_CFG;
+    uint8_t FREQOFF_CFG;
+    uint8_t TOC_CFG;
+    uint8_t MARC_SPARE;
+    uint8_t ECG_CFG;
+    uint8_t MDMCFG2;
+    uint8_t EXT_CTRL;
+    uint8_t RCCAL_FINE;
+    uint8_t RCCAL_COARSE;
+    uint8_t RCCAL_OFFSET;
+    uint8_t FREQOFF1; uint8_t FREQOFF0;
+    uint8_t FREQ2; uint8_t FREQ1; uint8_t FREQ0;
+    uint8_t IF_ADC2; uint8_t IF_ADC1; uint8_t IF_ADC0;
+    uint8_t FS_DIG1; uint8_t FS_DIG0;
+    uint8_t FS_CAL3; uint8_t FS_CAL2; uint8_t FS_CAL1; uint8_t FS_CAL0;
+    uint8_t FS_CHP;
+    uint8_t FS_DIVTWO;
+    uint8_t FS_DSM1;
+    uint8_t FS_DSM0;
+    uint8_t FS_DVC1; uint8_t FS_DVC0;
+    uint8_t FS_LBI;
+    uint8_t FS_PFD;
+    uint8_t FS_PRE;
+    uint8_t FS_REG_DIV_CML;
+    uint8_t FS_SPARE;
+    uint8_t FS_VCO4; uint8_t FS_VCO3; uint8_t FS_VCO2; uint8_t FS_VCO1; uint8_t FS_VCO0;
+    uint8_t GBIAS6; uint8_t GBIAS5; uint8_t GBIAS4; uint8_t GBIAS3; uint8_t GBIAS2; uint8_t GBIAS1; uint8_t GBIAS0;
+    uint8_t IFAMP;
+    uint8_t LNA;
+    uint8_t RXMIX;
+    uint8_t XOSC5; uint8_t XOSC4; uint8_t XOSC3; uint8_t XOSC2; uint8_t XOSC1; uint8_t XOSC0;
+    uint8_t ANALOG_SPARE;
+    uint8_t PA_CFG3;
+    uint8_t WOR_TIME1; uint8_t WOR_TIME0;
+    uint8_t WOR_CAPTURE1; uint8_t WOR_CAPTURE0;
+    uint8_t BIST;
+    uint8_t DCFILTOFFSET_I1; uint8_t DCFILTOFFSET_I0;
+    uint8_t DCFILTOFFSET_Q1; uint8_t DCFILTOFFSET_Q0; 
+    uint8_t IQIE_I1; uint8_t IQIE_I0;
+    uint8_t IQIE_Q1; uint8_t IQIE_Q0; 
+    uint8_t RSSI1; uint8_t RSSI0;
+    uint8_t MARCSTATE;
+    uint8_t LQI_VAL;
+    uint8_t PQT_SYNC_ERR;
+    uint8_t DEM_STATUS;
+    uint8_t FREQOFF_EST1; uint8_t FREQOFF_EST0; 
+    uint8_t AGC_GAIN3; uint8_t AGC_GAIN2; uint8_t AGC_GAIN1; uint8_t AGC_GAIN0;
+    uint8_t CFM_RX_DATA_OUT;
+    uint8_t CFM_TX_DATA_IN;
+    uint8_t ASK_SOFT_RX_DATA;
+    uint8_t RNDGEN;
+    uint8_t MAGN2; uint8_t MAGN1; uint8_t MAGN0;
+    uint8_t ANG1; uint8_t ANG0;
+    uint8_t CHFILT_I2; uint8_t CHFILT_I1; uint8_t CHFILT_I0; uint8_t CHFILT_Q2; uint8_t CHFILT_Q1; uint8_t CHFILT_Q0;
+    uint8_t GPIO_STATUS;
+    uint8_t FSCAL_CTRL;
+    uint8_t PHASE_ADJUST;
+    uint8_t PARTNUMBER; // Part Number
+    uint8_t PARTVERSION; // Part Revision
+    uint8_t SERIAL_STATUS; 
+    uint8_t MODEM_STATUS1; uint8_t MODEM_STATUS0;
+    uint8_t MARC_STATUS1; uint8_t MARC_STATUS0;
+    uint8_t PA_IFAMP_TEST; uint8_t FSRF_TEST; uint8_t PRE_TEST;
+    uint8_t PRE_OVR;
+    uint8_t ADC_TEST; uint8_t  DVC_TEST;
+    uint8_t ATEST; uint8_t ATEST_LVDS; uint8_t ATEST_MODE;
+    uint8_t XOSC_TEST1; uint8_t XOSC_TEST0;
+    uint8_t AES; uint8_t MDM_TEST;
+    uint8_t RXFIRST; uint8_t TXFIRST; uint8_t RXLAST; uint8_t TXLAST;
+    uint8_t NUM_TXBYTES; uint8_t NUM_RXBYTES; uint8_t FIFO_NUM_TXBYTES; uint8_t FIFO_NUM_RXBYTES; uint8_t RXFIFO_PRE_BUF;
+
+} cc1200_registers_t;
+
+
 typedef enum {
     // idle state
     MARC_IDLE           = 0b000,
@@ -171,40 +254,84 @@ typedef enum {
 // GPIO Output Pin Mappings
 #define PKT_SYNC_RXTX   0x06 // Default GPIO3_CFG 
 #define PKT_CRC_OK      0x07 // Default GPIO2_CFG 
-#define CFM_TX_DATA_CLK 0x1E
+#define PA_PD           0x19 // Control External PA (active low)
+#define CLKEN_CFM       0x1D // Data clock for demodulator soft data
+#define CFM_TX_DATA_CLK 0x1E // Data clock for modulator soft data
 #define HIGHZ           0x30 // Default GPIO1_CFG 
 #define EXT_OSC_EN      0x3C // Default GPIO0_CFG 
 
 typedef enum {
     IOCFG3 = 0x00, IOCFG2, IOCFG1, IOCFG0,
-    #define GPIOx_ATRAN BIT7 // Analog transfer enable
-    #define GPIOx_INV   BIT6 // Invert output enable
-    #define GPIO3_CFG   GENMASK(5,0) // Default PKT_SYNC_RXTX Output
-    #define GPIO2_CFG   GENMASK(5,0) // Default PKT_CRC_OK Output
-    #define GPIO1_CFG   GENMASK(5,0) // Default HIGHZ as MISO Output 
-    #define GPIO0_CFG   GENMASK(5,0) // Default EXT_OSC_EN Output
+    #define GPIOx_ATRAN_SHIFT 7
+    #define GPIOx_ATRAN       BIT(7) // Analog transfer enable
+    #define GPIOx_INV_SHIFT   6
+    #define GPIOx_INV         BIT(6) // Invert output enable
+    #define GPIOx_CFG_SHIFT   0
+    #define GPIOx_CFG         GENMASK(5,0)
     SYNC3, SYNC2, SYNC1, SYNC0,
-    SYNC_CFG1, SYNC_CFG0,
+    SYNC_CFG1, 
+    #define SYNC_MODE_SHIFT 5
+    #define SYNC_MODE GENMASK(7,5)
+    #define SYNC_THR_SHIFT 0
+    #define SYNC_THR GENMASK(4,0)
+    SYNC_CFG0,
     DEVIATION_M,
+    #define DEV_M GENMASK(7,0) // reset 0x06
     MODCFG_DEV_E,
+    #define DEV_E GENMASK(2,0) // reset 0x03
     DCFILT_CFG,
     PREAMBLE_CFG1, PREAMBLE_CFG0,
     IQIC,
     CHAN_BW,
-    MDMCFG1, MDMCFG0,
-    SYMBOL_RATE2, SYMBOL_RATE1, SYMBOL_RATE0,
+    #define ADC_CIC_DECFACT_SHIFT 6
+    #define ADC_CIC_DECFACT       GENMASK(7,6) // BW into first digital low-IF mixer
+    #define BB_CIC_DECFACT_SHIFT  0  
+    #define BB_CIC_DECFACT        GENMASK(5,0) // BW into second decimation filter
+    MDMCFG1, 
+    #define FIFO_EN_SHIFT             6
+    #define FIFO_EN                   BIT(6)
+    MDMCFG0,
+    #define MDMCFG0_RESERVED7         BIT(7) // SmartRF Studio magic numbers 
+    #define TRANSPARENT_MODE_EN_SHIFT 6
+    #define TRANSPARENT_MODE_EN       BIT(6)
+    #define DATA_FILTER_EN_SHIFT      3
+    #define DATA_FILTER_EN            BIT(3)
+    #define VITERBI_SHIFT             2
+    #define VITERBI                   BIT(2)
+    #define MDMCFG0_RESERVED1_0       GENMASK(1,0) // SmartRF Studio magic numbers 
+    SYMBOL_RATE2,
+    #define SRATE_E_SHIFT        4
+    #define SRATE_E              GENMASK(7,4) // reset 0x04
+    #define SRATE_M_19_16_SHIFT  0
+    #define SRATE_M_19_16        GENMASK(3,0) // reset 0x03 
+    SYMBOL_RATE1, SYMBOL_RATE0,
+    #define SRATE_M_15_8         GENMASK(7,0) // reset 0xA9
+    #define SRATE_M_7_0          GENMASK(7,0) // reset 0x2A
     AGC_REF,
     AGC_CS_THR,
     AGC_GAIN_ADJUST,
     AGC_CFG3, AGC_CFG2, AGC_CFG1, AGC_CFG0,
     FIFO_CFG,
+    #define CRC_AUTOFLUSH_SHIFT 7
+    #define CRC_AUTOFLUSH BIT7
     DEV_ADDR,
     SETTLING_CFG,
+    #define FS_AUTOCAL_SHIFT     3
+    #define FS_AUTOCAL           GENMASK(4,3)
     FS_CFG,
+    #define FS_LOCK_EN_SHIFT 4
+    #define FS_LOCK_EN       BIT4
+    #define FSD_BANDSELECT_SHIFT 0
+    #define FSD_BANDSELECT       GENMASK(3, 0) // reset 0x02
     WOR_CFG1, WOR_CFG0,
     WOR_EVENT0_MSB, WOR_EVENT0_LSB,
     RXDCM_TIME,
-    PKT_CFG2, PKT_CFG1, PKT_CFG0,
+    PKT_CFG2, 
+    #define CCA_MODE_SHIFT 2
+    #define CCA_MODE GENMASK(4,2)
+    #define PKT_FORMAT_SHIFT 0
+    #define PKT_FORMAT GENMASK(1,0)
+    PKT_CFG1, PKT_CFG0,
     RFEND_CFG1, RFEND_CFG0,
     PA_CFG1, PA_CFG0,
     ASK_CFG,
@@ -213,22 +340,40 @@ typedef enum {
 } cc1200_configuration_register_space_t;
 
 typedef enum {
+        P01 = 0x00,
+        P02 = 0x01,
+        P04 = 0x02,
+        P08 = 0x03,
+        P16 = 0x04,
+        P32 = 0x05,
+        P64 = 0x06,
+    // NOTUSED = 0x07
+} tx_upsampling_factor_t;
+typedef enum {
     IF_MIX_CFG = 0x00,
     FREQOFF_CFG,
     TOC_CFG,
     MARC_SPARE,
     ECG_CFG,
-    MDMCFG2,
-    #define CFM_DATA_EN        BIT0
+    MDMCFG2, 
+    #define UPSAMPLER_P_SHIFT         1
+    #define UPSAMPLER_P               GENMASK(3,1) // reset 0x04, default P=16
+    #define CFM_DATA_EN_SHIFT         0
+    #define CFM_DATA_EN               BIT(0)
     EXT_CTRL,
-    #define PIN_CTRL_EN        BIT2
-    #define EXT_40K_CLOCK_EN   BIT1
-    #define BURST_ADDR_INCR_EN BIT0
+    #define PIN_CTRL_EN_SHIFT         2
+    #define PIN_CTRL_EN               BIT(2)
+    #define EXT_40K_CLOCK_EN_SHIFT    1
+    #define EXT_40K_CLOCK_EN          BIT(1)
+    #define BURST_ADDR_INCR_EN_SHIFT  0
+    #define BURST_ADDR_INCR_EN        BIT(0)
     RCCAL_FINE,
     RCCAL_COARSE,
     RCCAL_OFFSET,
     FREQOFF1, FREQOFF0,
+
     FREQ2, FREQ1, FREQ0,
+
     IF_ADC2, IF_ADC1, IF_ADC0,
     FS_DIG1, FS_DIG0,
     FS_CAL3, FS_CAL2, FS_CAL1, FS_CAL0,
@@ -247,7 +392,15 @@ typedef enum {
     IFAMP,
     LNA,
     RXMIX,
-    XOSC5, XOSC4, XOSC3, XOSC2, XOSC1, XOSC0,
+    XOSC5, XOSC4, XOSC3,
+    #define XOSC3_RESERVED7_0 GENMASK(7,0)
+    XOSC2,
+    XOSC1,
+    #define XOSC1_RESERVED2_SHIFT 2
+    #define XOSC1_RESERVED2 BIT(2)
+    #define XOSC_BUF_SEL_SHIFT 1
+    #define XOSC_BUF_SEL BIT(1) 
+    XOSC0,
     ANALOG_SPARE,
     PA_CFG3 = 0x39,
     // 0x3A - 0x3E Not Used
@@ -276,6 +429,7 @@ typedef enum {
     CHFILT_I2, CHFILT_I1, CHFILT_I0, CHFILT_Q2, CHFILT_Q1, CHFILT_Q0,
     GPIO_STATUS,
     FSCAL_CTRL,
+    #define LOCK BIT(0)
     PHASE_ADJUST,
     PARTNUMBER = 0x8F, // Part Number
     #define PARTNUM GENMASK(7, 0) 
@@ -296,11 +450,6 @@ typedef enum {
     // 0xDB - 0xDF Not Used
     NOTUSED = 0xDB
 } cc1200_extended_register_space_t;
-
-
-
-
-
 
 // ---------------------------
 // Descriptive Register Values
@@ -323,22 +472,81 @@ typedef enum {
 /*! \struct SPI Access Type cc1200_spi_access_t
     \brief Contains all data related to register access.
 */
+
+int update_status(uint8_t chip_status);
+
+uint8_t cc1200_register_access(bool readwrite_flag, bool burst_flag, cc1200_configuration_register_space_t configuration_address, uint8_t data);
+uint8_t cc1200_register_access(bool readwrite_flag, bool burst_flag, cc1200_extended_register_space_t extended_address, uint8_t data);
+
+/**
+
+ */
+typedef enum {
+    DIVIDE_BY_04 = 2,  // FS_CFG.FSD_BANDSELECT=0b0010, RF Band=820.0-960 MHz
+    DIVIDE_BY_08 = 4,  // FS_CFG.FSD_BANDSELECT=0b0100, RF Band=410.0-480 MHz
+    DIVIDE_BY_12 = 6,  // FS_CFG.FSD_BANDSELECT=0b0110, RF Band=273.3-320 MHz
+    DIVIDE_BY_16 = 8,  // FS_CFG.FSD_BANDSELECT=0b1000, RF Band=205.0-240 MHz
+    DIVIDE_BY_20 = 10, // FS_CFG.FSD_BANDSELECT=0b1010, RF Band=164.0-192 MHz
+    DIVIDE_BY_24 = 11, // FS_CFG.FSD_BANDSELECT=0b1011, RF Band=136.7-160 MHz
+} lo_divider_select_t;
+
+// Unless another FCC Part is noted, the following band selections
+// allow SSB, AM, FM, TV, CW, and Digital modulations up to 1.5kW PEP maximum.
+typedef enum {
+    BAND_33CM,   // Amateur 33cm band (902-928 MHz)
+    // Amateur UHF band. National Calling 446.000 MHz
+    // Not available north of line A, near the Canadian border.
+    BAND_70CM_US_ONLY,        // 420-430 MHz, see FCC Part 97.3(a) and 97.303(m)
+    BAND_70CM,                // 420-450 MHz  
+    BAND_300MHZ,           // Government (not U.S. Amateur)
+    // Amateur 1.25m band
+    BAND_12P5CM_DIGITAL_LINK, // 219-220 MHz
+    BAND_12P5CM,              // 222-225 MHz
+    BAND_170MHZ,           // VHF highband (not U.S Amateur)
+    // Amateur VHF band. National Calling 146.520 MHz
+    BAND_2M                   // 144-148 MHz
+} radio_frequency_bands_t;
+
+void cc1200_calculate_frequency_programming(double targetFrequency);
+void cc1200_calculate_frequency_deviation(double targetDeviation);
+void cc1200_calculate_symbol_rate(double targetSampleRate);
+
+double cc1200_demodulate_cfm_byte();
+double cc1200_modulate_cfm_byte();
+
+// @brief configuration of CC1200 sub 1-GHz radio transceiver
 typedef struct {
-    // header byte contents
-    uint8_t readwrite_flag = READ;
-    uint8_t burst_flag = false;
-    uint8_t header; 
-    cc1200_configuration_register_space_t configuration_address = EXTENDED_ADDRESS; // 6-bit address
-    // address byte contents
-    cc1200_extended_register_space_t extended_address = NOTUSED; // 8-bit address
-    // data byte contents 
-    uint8_t data = 0x00;
-} cc1200_spi_access_t;
+    bool initialized = false;
+    // serial interface configuration
+    SPIClass *spi = NULL; // no default spi 
+    uint32_t spi_frequency = 7700000; // 7.7 MHz default despite 10 MHz configuration read
+    int8_t pin_nrst;
+    int8_t pin_sck = 5;
+    int8_t pin_mosi;
+    int8_t pin_miso;
+    int8_t pin_ss;
+    int8_t pin_gdio0;
+    int8_t pin_gdio2;
+    uint8_t partnumber = -1;
+    uint8_t partrevision = -1;
+    volatile bool read_CFM_RX_DATA_OUT = false;
+    volatile bool write_CFM_TX_DATA_IN = false;
+    // frequency programming configuration
+    radio_frequency_bands_t band;
+    lo_divider_select_t lo_divider;
+    uint32_t frequency = 446000000;
+    double frequency_resolution;
+    double frequency_offset;      // 16 bit signed frequency offset  
+    double vco_frequency;
+    // 
+    double symbol_rate = 24000;
+    double frequency_deviation = 5000;
 
 
-int cc1200_single_register_access(cc1200_spi_access_t &register_access);
-
-int cc1200_burst_register_access(cc1200_spi_access_t register_access);
+    bool chip_nrdy;
+    uint8_t main_state;
+    cc1200_registers_t registers;
+} cc1200_config_t;
 
 int cc1200_init(cc1200_config_t &cc1200);
 /**
