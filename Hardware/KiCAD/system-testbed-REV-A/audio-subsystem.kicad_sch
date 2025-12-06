@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
-	(uuid "75beba4f-776f-40b2-93a7-559dfc4cec85")
+	(uuid "e16d8915-008c-42da-8bf4-f5060b59bd6f")
 	(paper "A4")
 	(lib_symbols
 		(symbol "Audio:MAX98357A"
@@ -4420,7 +4420,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0210")
 					(unit 1)
 				)
@@ -4502,7 +4502,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "MK2")
 					(unit 1)
 				)
@@ -4567,7 +4567,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0206")
 					(unit 1)
 				)
@@ -4633,7 +4633,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0161")
 					(unit 1)
 				)
@@ -4703,7 +4703,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "R28")
 					(unit 1)
 				)
@@ -4773,7 +4773,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "LS2")
 					(unit 1)
 				)
@@ -4838,7 +4838,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0198")
 					(unit 1)
 				)
@@ -4912,7 +4912,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "JP12")
 					(unit 1)
 				)
@@ -4978,7 +4978,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0204")
 					(unit 1)
 				)
@@ -5044,7 +5044,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0200")
 					(unit 1)
 				)
@@ -5113,7 +5113,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "C96")
 					(unit 1)
 				)
@@ -5181,7 +5181,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "R25")
 					(unit 1)
 				)
@@ -5251,7 +5251,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "C86")
 					(unit 1)
 				)
@@ -5317,7 +5317,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0205")
 					(unit 1)
 				)
@@ -5387,7 +5387,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "C94")
 					(unit 1)
 				)
@@ -5456,7 +5456,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "C95")
 					(unit 1)
 				)
@@ -5542,7 +5542,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "J10")
 					(unit 1)
 				)
@@ -5616,7 +5616,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "JP11")
 					(unit 1)
 				)
@@ -5681,7 +5681,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0195")
 					(unit 1)
 				)
@@ -5750,7 +5750,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "R23")
 					(unit 1)
 				)
@@ -5818,7 +5818,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "R26")
 					(unit 1)
 				)
@@ -5884,7 +5884,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0122")
 					(unit 1)
 				)
@@ -5951,7 +5951,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0203")
 					(unit 1)
 				)
@@ -6016,7 +6016,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0208")
 					(unit 1)
 				)
@@ -6085,7 +6085,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "JP15")
 					(unit 1)
 				)
@@ -6158,7 +6158,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "JP13")
 					(unit 1)
 				)
@@ -6227,7 +6227,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "JP14")
 					(unit 1)
 				)
@@ -6294,7 +6294,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "R22")
 					(unit 1)
 				)
@@ -6360,7 +6360,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0162")
 					(unit 1)
 				)
@@ -6429,7 +6429,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "R21")
 					(unit 1)
 				)
@@ -6498,7 +6498,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "R20")
 					(unit 1)
 				)
@@ -6568,7 +6568,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "C97")
 					(unit 1)
 				)
@@ -6637,7 +6637,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "JP16")
 					(unit 1)
 				)
@@ -6705,7 +6705,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "R24")
 					(unit 1)
 				)
@@ -6770,7 +6770,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0211")
 					(unit 1)
 				)
@@ -6836,7 +6836,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0123")
 					(unit 1)
 				)
@@ -6902,7 +6902,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0207")
 					(unit 1)
 				)
@@ -6970,7 +6970,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "TPBCLK1")
 					(unit 1)
 				)
@@ -7038,7 +7038,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "R27")
 					(unit 1)
 				)
@@ -7104,7 +7104,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0199")
 					(unit 1)
 				)
@@ -7170,7 +7170,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "#PWR0209")
 					(unit 1)
 				)
@@ -7238,7 +7238,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "TPLRCLK1")
 					(unit 1)
 				)
@@ -7306,7 +7306,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "TPAMP1")
 					(unit 1)
 				)
@@ -7421,7 +7421,7 @@
 		)
 		(instances
 			(project "system-testbed"
-				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
 					(reference "U7")
 					(unit 1)
 				)
