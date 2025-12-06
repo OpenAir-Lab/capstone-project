@@ -35,7 +35,7 @@ typedef enum {
     EXPO_DEMO                // Comprehensive system integration tests
 } demonstration_t;
 
-demonstration_t demo = RADIO_SWITCH;
+demonstration_t demo = RADIO_TRANSCEIVER;
 
 #define PIN_SDA 21
 #define PIN_SCL 22
@@ -65,13 +65,13 @@ cc1200_config_t cc1200;
 #define RFSW_BAND    9
 #define RFSW_TRX     10
 sky13330_config_t sky13330;
+#define UHF_SHUTDOWN 13
 #define UHF_ENABLE1  15
 #define UHF_ENABLE2  14 // bands share enables
-#define UHF_SHUTDOWN 13
 grf5604_config_t uhf_grf5604;
+#define VHF_SHUTDOWN 12
 #define VHF_ENABLE1  15
 #define VHF_ENABLE2  14 // bands share enables
-#define VHF_SHUTDOWN 12
 grf5604_config_t vhf_grf5604;
 
 // Human-Machine Interface Configuration
@@ -81,7 +81,7 @@ grf5604_config_t vhf_grf5604;
     I2S0 utilized by MAX98357A Audio Amplifier and ICS-43434 Microphone.
     Controller is put into full duplex mode, common serial data not used.
 */
-#define I2S0_PIN_BCLK  26 // shared bit clock
+#define I2S0_PIN_BCLK  27 // shared bit clock
 #define I2S0_PIN_LRCLK 25 // shared left-right clock
 #define I2S0_PIN_DOUT  34 // data output to amplifier 
 #define I2S0_PIN_DIN   27 // data input from microphone
@@ -131,13 +131,14 @@ int hmi_init() {
     pcf_hmi_config.i2c = &Wire;   // I2C0
     pcf_hmi_config.pin_interrupt = 35;
     pcf_hmi_config.subsystem_name = "HMI";
-    pcf_hmi_config.sensor_address = PCF8575_I2CADDR_DEFAULT;
+    pcf_hmi_config.sensor_address = PCF8575_I2CADDR_DEFAULT+2;
     // ST7789 TFT Display Driver onboard Adafruit 1.9" 170x320 TFT Module
     display_config.pin_ss = TFT_SS;
     display_config.pin_dc = TFT_DC;
     display_config.pin_mosi = TFT_MOSI;
     display_config.pin_sclk = TFT_SCLK;
     display_config.pin_reset = TFT_RST;
+    display_config.rotation = 3;
 
     while (!(pcf8575_init(pcf_hmi, pcf_hmi_config) == 0));
     while (!(display_init(display_config) == 0));
@@ -148,7 +149,7 @@ int radio_init() {
     pcf_radio_config.i2c = &Wire; // I2C0
     pcf_radio_config.pin_interrupt = 39;
     pcf_radio_config.subsystem_name = "Radio";
-    pcf_radio_config.sensor_address = PCF8575_I2CADDR_DEFAULT;
+    pcf_radio_config.sensor_address = PCF8575_I2CADDR_DEFAULT+1;
     // attachInterrupt(digitalPinToInterrupt(pcf_mcu_config.pin_interrupt), inputISR, CHANGE);
     // Skyworks SKY13330-397LF SPDT RF Switch
     sky13330.pin_enable = RFSW_ENABLE;
@@ -172,7 +173,7 @@ int radio_init() {
     cc1200.pin_gdio0 = CC1200_GDIO0; //
     cc1200.pin_gdio2 = CC1200_GDIO2; //
     cc1200.spi = new SPIClass(VSPI);
-    cc1200.spi_frequency = 100000;
+    // cc1200.spi_frequency = 100000;
 
     while (!(pcf8575_init(pcf_radio, pcf_radio_config) == 0));
     // Initialize RF Amplifiers in powered down state
