@@ -5,6 +5,9 @@
 	(uuid "7145163d-3ee4-477c-914f-10c36a80ca16")
 	(paper "A4")
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a4c0e0c (docs: update all system schematics for project uniformity)
 	(lib_symbols
 		(symbol "Connector:Conn_01x08_Socket"
 			(pin_names
@@ -6032,7 +6035,10 @@
 			)
 		)
 	)
+<<<<<<< HEAD
 =======
 	(lib_symbols)
 >>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
+=======
+>>>>>>> a4c0e0c (docs: update all system schematics for project uniformity)
 )
