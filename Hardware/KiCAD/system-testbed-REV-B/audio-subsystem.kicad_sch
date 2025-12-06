@@ -2,7 +2,11 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
+<<<<<<<< HEAD:Hardware/KiCAD/system-testbed-REV-B/audio-subsystem.kicad_sch
 	(uuid "e16d8915-008c-42da-8bf4-f5060b59bd6f")
+========
+	(uuid "75beba4f-776f-40b2-93a7-559dfc4cec85")
+>>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders):Hardware/KiCAD/audio-modulino-REV-A/audio-modulino-REV-A.kicad_sch
 	(paper "A4")
 	(lib_symbols
 		(symbol "Audio:MAX98357A"

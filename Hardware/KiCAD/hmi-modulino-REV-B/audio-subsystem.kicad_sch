@@ -2,7 +2,11 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
+<<<<<<< HEAD
 	(uuid "75beba4f-776f-40b2-93a7-559dfc4cec85")
+=======
+	(uuid "e16d8915-008c-42da-8bf4-f5060b59bd6f")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 	(paper "A4")
 	(lib_symbols
 		(symbol "Audio:MAX98357A"
@@ -2383,6 +2387,7 @@
 			)
 			(embedded_fonts no)
 		)
+<<<<<<< HEAD
 		(symbol "Mechanical:MountingHole_Pad"
 			(pin_numbers
 				(hide yes)
@@ -2490,6 +2495,8 @@
 			)
 			(embedded_fonts no)
 		)
+=======
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(symbol "Sensor_Audio:ICS-43434"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -3737,6 +3744,7 @@
 	)
 	(wire
 		(pts
+<<<<<<< HEAD
 			(xy 6.35 101.6) (xy 6.35 96.52)
 		)
 		(stroke
@@ -3747,6 +3755,8 @@
 	)
 	(wire
 		(pts
+=======
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(xy 250.19 95.25) (xy 250.19 97.79)
 		)
 		(stroke
@@ -3867,6 +3877,7 @@
 	)
 	(wire
 		(pts
+<<<<<<< HEAD
 			(xy -45.72 101.6) (xy -45.72 96.52)
 		)
 		(stroke
@@ -3877,6 +3888,8 @@
 	)
 	(wire
 		(pts
+=======
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(xy 63.5 38.1) (xy 55.88 38.1)
 		)
 		(stroke
@@ -4037,6 +4050,7 @@
 	)
 	(wire
 		(pts
+<<<<<<< HEAD
 			(xy -11.43 101.6) (xy -11.43 96.52)
 		)
 		(stroke
@@ -4047,6 +4061,8 @@
 	)
 	(wire
 		(pts
+=======
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(xy 219.71 74.93) (xy 219.71 85.09)
 		)
 		(stroke
@@ -4227,6 +4243,7 @@
 	)
 	(wire
 		(pts
+<<<<<<< HEAD
 			(xy -29.21 101.6) (xy -29.21 96.52)
 		)
 		(stroke
@@ -4237,6 +4254,8 @@
 	)
 	(wire
 		(pts
+=======
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(xy 250.19 85.09) (xy 261.62 85.09)
 		)
 		(stroke
@@ -4325,6 +4344,19 @@
 		)
 		(uuid "fb189d4f-c0b0-421a-9c90-dc5181c4d039")
 	)
+<<<<<<< HEAD
+=======
+	(label "~{SD_MODE}"
+		(at 261.62 85.09 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "44309a31-3e02-4505-b48d-6149637b6c43")
+	)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 	(label "GAIN_SLOT"
 		(at 223.52 46.99 0)
 		(effects
@@ -4333,7 +4365,11 @@
 			)
 			(justify left bottom)
 		)
+<<<<<<< HEAD
 		(uuid "1696eb20-2790-4f1c-a74b-49bd568a6afd")
+=======
+		(uuid "540d09a4-739f-4a03-b8f9-343331ad4ee0")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 	)
 	(label "~{SD_MODE}"
 		(at 177.8 44.45 0)
@@ -4343,7 +4379,11 @@
 			)
 			(justify left bottom)
 		)
+<<<<<<< HEAD
 		(uuid "7baabb2c-8eb9-4d14-8cdc-1327cf68e98d")
+=======
+		(uuid "d3ff8591-4bf2-4064-b181-55d28b85c098")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 	)
 	(label "GAIN_SLOT"
 		(at 246.38 140.97 180)
@@ -4353,6 +4393,7 @@
 			)
 			(justify right bottom)
 		)
+<<<<<<< HEAD
 		(uuid "ae3663ee-7bbd-4b28-a6cd-a169ca4687a3")
 	)
 	(label "~{SD_MODE}"
@@ -4474,6 +4515,9 @@
 			(justify left)
 		)
 		(uuid "b7607698-6ce3-4217-b99b-524f593e97cd")
+=======
+		(uuid "fddd9289-6dea-4014-838f-fa527664f660")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 	)
 	(hierarchical_label "LRCLK"
 		(shape input)
@@ -4484,7 +4528,55 @@
 			)
 			(justify right)
 		)
+<<<<<<< HEAD
 		(uuid "c85889b6-e59e-4631-9e3b-be87e0a9dd2a")
+=======
+		(uuid "1d1e5189-0cc0-492a-88c0-1f8240bfbd47")
+	)
+	(hierarchical_label "MIC_DOUT"
+		(shape output)
+		(at 73.66 38.1 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3ac9db70-b750-46a2-b7f5-871eb749c52c")
+	)
+	(hierarchical_label "BCLK"
+		(shape input)
+		(at 215.9 24.13 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3b9e1a47-362b-4a3f-acb0-31b8ec357b20")
+	)
+	(hierarchical_label "LR"
+		(shape input)
+		(at 90.17 139.7 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "99db3c38-6c68-4d2f-86a7-af673ef7e88e")
+	)
+	(hierarchical_label "BCLK"
+		(shape input)
+		(at 58.42 35.56 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a8ed1fb8-6c19-4b10-998e-0126e54657d7")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 	)
 	(hierarchical_label "AMP_DIN"
 		(shape input)
@@ -4495,7 +4587,55 @@
 			)
 			(justify left)
 		)
+<<<<<<< HEAD
 		(uuid "d5e8c884-6d06-4acd-96cc-1d1b6f29ff45")
+=======
+		(uuid "b41a057f-4571-4e20-821c-12a7738fc1fa")
+	)
+	(hierarchical_label "MIC_DOUT"
+		(shape output)
+		(at 88.9 137.16 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b44a141d-34e1-4f32-8e04-97938e4fe793")
+	)
+	(hierarchical_label "~{AMP_SD}"
+		(shape input)
+		(at 217.17 74.93 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b5541e1f-a3b9-47c5-b67d-7967f45613b4")
+	)
+	(hierarchical_label "AMP_DIN"
+		(shape input)
+		(at 214.63 19.05 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "cff4365b-fd91-4ab5-8ccb-827de1a2b718")
+	)
+	(hierarchical_label "~{AMP_SD}"
+		(shape input)
+		(at 87.63 121.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ddf3de73-e974-46b4-86df-72f7215fc380")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 	)
 	(hierarchical_label "BCLK"
 		(shape input)
@@ -4506,20 +4646,56 @@
 			)
 			(justify left)
 		)
+<<<<<<< HEAD
 		(uuid "fdb0c907-368b-4d66-95fe-614fe47de23a")
 	)
 	(symbol
 		(lib_id "power:GND")
 		(at 219.71 13.97 180)
+=======
+		(uuid "e1f87bcf-5ac9-4366-b718-8d296a9f0cf3")
+	)
+	(hierarchical_label "LRCLK"
+		(shape input)
+		(at 58.42 33.02 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e5e53510-2b8f-4b61-8ed2-8f05777a2bb3")
+	)
+	(hierarchical_label "LRCLK"
+		(shape input)
+		(at 88.9 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e700a403-283d-4538-9320-7574f032c9be")
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 248.92 59.69 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
+<<<<<<< HEAD
 		(uuid "00b17e05-852b-422d-bb18-37537e9e1fd8")
 		(property "Reference" "#PWR0207"
 			(at 219.71 7.62 0)
+=======
+		(uuid "08c330d2-2f9a-4b51-b60f-870c12bf8ac7")
+		(property "Reference" "#PWR0210"
+			(at 248.92 66.04 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4528,7 +4704,11 @@
 			)
 		)
 		(property "Value" "GND"
+<<<<<<< HEAD
 			(at 219.71 8.89 0)
+=======
+			(at 248.92 64.77 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4536,7 +4716,11 @@
 			)
 		)
 		(property "Footprint" ""
+<<<<<<< HEAD
 			(at 219.71 13.97 0)
+=======
+			(at 248.92 59.69 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4545,7 +4729,11 @@
 			)
 		)
 		(property "Datasheet" ""
+<<<<<<< HEAD
 			(at 219.71 13.97 0)
+=======
+			(at 248.92 59.69 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4554,7 +4742,11 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+<<<<<<< HEAD
 			(at 219.71 13.97 0)
+=======
+			(at 248.92 59.69 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4563,12 +4755,21 @@
 			)
 		)
 		(pin "1"
+<<<<<<< HEAD
 			(uuid "19b9e092-52bc-48e2-b392-f84761dfafe8")
 		)
 		(instances
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
 					(reference "#PWR0207")
+=======
+			(uuid "d035daf1-2895-4ceb-b572-0c288ec879fd")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0210")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(unit 1)
 				)
 			)
@@ -4583,7 +4784,11 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
+<<<<<<< HEAD
 		(uuid "019e64a6-e45c-4a0e-aaa8-0d173e23f6b0")
+=======
+		(uuid "14ba5281-f159-4366-abed-3ca3fc0a0c19")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(property "Reference" "MK2"
 			(at 45.3233 25.4 0)
 			(effects
@@ -4648,8 +4853,13 @@
 			(uuid "74442fd7-bcf0-44fd-883b-2f41fb009827")
 		)
 		(instances
+<<<<<<< HEAD
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "MK2")
 					(unit 1)
 				)
@@ -4658,15 +4868,25 @@
 	)
 	(symbol
 		(lib_id "power:GND")
+<<<<<<< HEAD
 		(at 43.18 50.8 0)
+=======
+		(at 217.17 34.29 180)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
+<<<<<<< HEAD
 		(uuid "03fa9fe2-b7b5-4d8f-a40b-0dd9fcbec26f")
 		(property "Reference" "#PWR0195"
 			(at 43.18 57.15 0)
+=======
+		(uuid "1cb52d08-a766-409b-be33-440781d24e24")
+		(property "Reference" "#PWR0206"
+			(at 217.17 27.94 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4675,7 +4895,11 @@
 			)
 		)
 		(property "Value" "GND"
+<<<<<<< HEAD
 			(at 43.18 55.88 0)
+=======
+			(at 216.916 30.734 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4683,7 +4907,11 @@
 			)
 		)
 		(property "Footprint" ""
+<<<<<<< HEAD
 			(at 43.18 50.8 0)
+=======
+			(at 217.17 34.29 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4692,7 +4920,11 @@
 			)
 		)
 		(property "Datasheet" ""
+<<<<<<< HEAD
 			(at 43.18 50.8 0)
+=======
+			(at 217.17 34.29 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4701,7 +4933,11 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+<<<<<<< HEAD
 			(at 43.18 50.8 0)
+=======
+			(at 217.17 34.29 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4710,6 +4946,7 @@
 			)
 		)
 		(pin "1"
+<<<<<<< HEAD
 			(uuid "483cc2bc-8f1c-437a-8563-51b754b9b89b")
 		)
 		(instances
@@ -4846,40 +5083,30 @@
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
 					(reference "#PWR0144")
+=======
+			(uuid "38fee8b3-93be-455c-be26-106036c0ef84")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0206")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "Device:R_US")
-		(at 200.66 38.1 0)
+		(lib_id "power:GND")
+		(at 55.88 50.8 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "29030cbb-c325-44cb-9763-eeaaec9eaf86")
-		(property "Reference" "R23"
-			(at 198.12 39.3701 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "2k"
-			(at 198.12 36.8301 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 201.676 38.354 90)
+		(fields_autoplaced yes)
+		(uuid "2a6ca18b-1d7c-4c72-a3a3-3c025eb0851f")
+		(property "Reference" "#PWR0161"
+			(at 55.88 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4887,8 +5114,16 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 200.66 38.1 0)
+		(property "Value" "GND"
+			(at 55.88 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 55.88 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4896,8 +5131,17 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
-			(at 200.66 38.1 0)
+		(property "Datasheet" ""
+			(at 55.88 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 55.88 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4906,6 +5150,109 @@
 			)
 		)
 		(pin "1"
+			(uuid "497cd25c-754b-4ebc-ae43-1568f3c34d8e")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0161")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+<<<<<<< HEAD
+		(at 200.66 38.1 0)
+=======
+		(at 250.19 101.6 180)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+<<<<<<< HEAD
+		(uuid "29030cbb-c325-44cb-9763-eeaaec9eaf86")
+		(property "Reference" "R23"
+			(at 198.12 39.3701 0)
+=======
+		(fields_autoplaced yes)
+		(uuid "31234b63-04b5-42e3-9d1f-b5241e9bf35f")
+		(property "Reference" "R28"
+			(at 247.65 100.3299 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+<<<<<<< HEAD
+				(justify right)
+			)
+		)
+		(property "Value" "2k"
+			(at 198.12 36.8301 0)
+=======
+				(justify left)
+			)
+		)
+		(property "Value" "100k"
+			(at 247.65 102.8699 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+<<<<<<< HEAD
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 201.676 38.354 90)
+=======
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 249.174 101.346 90)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+<<<<<<< HEAD
+			(at 200.66 38.1 0)
+=======
+			(at 250.19 101.6 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+<<<<<<< HEAD
+			(at 200.66 38.1 0)
+=======
+			(at 250.19 101.6 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+<<<<<<< HEAD
 			(uuid "e24c5d8a-21c2-4a5c-a9a6-ca09d6b53ddd")
 		)
 		(pin "2"
@@ -4915,19 +5262,36 @@
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
 					(reference "R23")
+=======
+			(uuid "ec7245f9-b22c-4aff-ba58-3cb4e890e145")
+		)
+		(pin "2"
+			(uuid "a53e400b-d642-4ce0-8372-7fdc53e163f6")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "R28")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
+<<<<<<< HEAD
 		(lib_id "power:GND")
 		(at 250.19 105.41 0)
+=======
+		(lib_id "Device:Speaker")
+		(at 269.24 34.29 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
+<<<<<<< HEAD
 		(uuid "35325b0f-4d4f-4cbe-aae8-caab4f5ebd91")
 		(property "Reference" "#PWR0211"
 			(at 250.19 111.76 0)
@@ -4997,6 +5361,12 @@
 		(uuid "386db6e3-bcf3-4a59-bb83-ec001cc24d49")
 		(property "Reference" "H1"
 			(at -26.67 91.4399 0)
+=======
+		(fields_autoplaced yes)
+		(uuid "35130d72-2b29-4ca6-85fd-f7e8c64ee4cc")
+		(property "Reference" "LS2"
+			(at 274.32 34.2899 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5004,8 +5374,13 @@
 				(justify left)
 			)
 		)
+<<<<<<< HEAD
 		(property "Value" "MountHole"
 			(at -26.67 93.9799 0)
+=======
+		(property "Value" "Speaker"
+			(at 274.32 36.8299 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5013,8 +5388,13 @@
 				(justify left)
 			)
 		)
+<<<<<<< HEAD
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO14580_Pad"
 			(at -29.21 93.98 0)
+=======
+		(property "Footprint" "Connector_JST:JST_EH_B2B-EH-A_1x02_P2.50mm_Vertical"
+			(at 269.24 39.37 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5023,7 +5403,11 @@
 			)
 		)
 		(property "Datasheet" "~"
+<<<<<<< HEAD
 			(at -29.21 93.98 0)
+=======
+			(at 268.986 35.56 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5031,8 +5415,13 @@
 				(hide yes)
 			)
 		)
+<<<<<<< HEAD
 		(property "Description" "Mounting Hole with connection"
 			(at -29.21 93.98 0)
+=======
+		(property "Description" "Speaker"
+			(at 269.24 34.29 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5041,12 +5430,432 @@
 			)
 		)
 		(pin "1"
+<<<<<<< HEAD
 			(uuid "950ee7da-0e06-4662-8f84-8a02e893d071")
 		)
 		(instances
 			(project "system-testbed"
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
 					(reference "H1")
+=======
+			(uuid "8d21cb5c-b28a-42a1-b74b-eead210c2ba8")
+		)
+		(pin "2"
+			(uuid "0f87fc0c-ece1-4a13-a1ee-0ba559fcb65f")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "LS2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 91.44 124.46 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board no)
+		(dnp no)
+		(uuid "399bb217-102a-46b3-87e7-d89acf28b72a")
+		(property "Reference" "#PWR0198"
+			(at 97.79 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 94.996 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 91.44 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 91.44 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9e28e99c-cc66-4de5-a136-eb911228da14")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0198")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Jumper:SolderJumper_3_Bridged12")
+		(at 193.04 31.75 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3e88771d-144c-4595-9557-fd50ad5c6187")
+		(property "Reference" "JP12"
+			(at 190.5 30.4799 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Driver"
+			(at 190.5 33.0199 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm_NumberLabels"
+			(at 193.04 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 193.04 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
+			(at 193.04 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "3"
+			(uuid "938c14e1-e304-42c2-9781-adc7560a8721")
+		)
+		(pin "1"
+			(uuid "f57fc4f9-669f-44f4-bf3d-7d2d1ccee29f")
+		)
+		(pin "2"
+			(uuid "d6bce6fe-c040-4fdd-9595-d9c9343453f3")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "JP12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 191.77 156.21 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "46b76109-d2f8-41d8-82ec-b922d5ffe616")
+		(property "Reference" "#PWR0204"
+			(at 191.77 162.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 191.77 161.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 191.77 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 191.77 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 191.77 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "561dada4-ecad-4c3c-8aac-1e5667558f8e")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0204")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 92.71 50.8 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "501bbbde-08cf-43be-9021-83844e61211a")
+		(property "Reference" "#PWR0200"
+			(at 92.71 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 92.71 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 92.71 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 92.71 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 92.71 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f0a7f0ed-cfc2-46c5-8a9d-9e47f6755da9")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0200")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 219.71 15.24 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "546824dd-f193-42c5-afc5-bd1372fcf5b3")
+		(property "Reference" "C96"
+			(at 215.9 16.5101 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "open"
+			(at 215.9 13.9701 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 218.7448 11.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 219.71 15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 219.71 15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c560f8e3-9328-4bbb-b355-b64c4364b5bb")
+		)
+		(pin "2"
+			(uuid "206b4333-6d22-446f-96a8-1070cff33ceb")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "C96")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 228.6 85.09 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "59663c2a-eb52-44c0-82b3-9ef0a7426f7e")
+		(property "Reference" "R25"
+			(at 228.6 78.74 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "634k"
+			(at 228.6 81.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 228.346 86.106 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 228.6 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 228.6 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7048cfa8-0edb-4cbf-9728-f402357ddb1b")
+		)
+		(pin "2"
+			(uuid "43367768-922c-4fbb-8bb2-28bd64c6ba22")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "R25")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(unit 1)
 				)
 			)
@@ -5061,7 +5870,11 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
+<<<<<<< HEAD
 		(uuid "39ef7b42-28d0-4968-bac1-1289a292596e")
+=======
+		(uuid "5f93f689-725d-43dd-8dde-2c206012dcf9")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(property "Reference" "C86"
 			(at 92.71 37.0839 0)
 			(effects
@@ -5114,8 +5927,13 @@
 			(uuid "4d057a9b-1077-456b-8094-a130d76185e8")
 		)
 		(instances
+<<<<<<< HEAD
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "C86")
 					(unit 1)
 				)
@@ -5124,16 +5942,26 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
+<<<<<<< HEAD
 		(at 92.71 25.4 0)
+=======
+		(at 193.04 24.13 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
+<<<<<<< HEAD
 		(uuid "3be1f9e2-4d07-4ffd-bbf9-a63fb2ba35b0")
 		(property "Reference" "#PWR0199"
 			(at 92.71 29.21 0)
+=======
+		(uuid "60e4a4ca-839c-40cd-82de-7d5597eefcf7")
+		(property "Reference" "#PWR0205"
+			(at 193.04 27.94 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5142,7 +5970,11 @@
 			)
 		)
 		(property "Value" "+3.3V"
+<<<<<<< HEAD
 			(at 92.71 20.32 0)
+=======
+			(at 193.04 19.05 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5150,7 +5982,11 @@
 			)
 		)
 		(property "Footprint" ""
+<<<<<<< HEAD
 			(at 92.71 25.4 0)
+=======
+			(at 193.04 24.13 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5159,7 +5995,11 @@
 			)
 		)
 		(property "Datasheet" ""
+<<<<<<< HEAD
 			(at 92.71 25.4 0)
+=======
+			(at 193.04 24.13 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5168,7 +6008,11 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+<<<<<<< HEAD
 			(at 92.71 25.4 0)
+=======
+			(at 193.04 24.13 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5177,41 +6021,70 @@
 			)
 		)
 		(pin "1"
+<<<<<<< HEAD
 			(uuid "547558e0-1603-452d-96d2-a1be010b7efb")
 		)
 		(instances
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
 					(reference "#PWR0199")
+=======
+			(uuid "be6afe99-9d52-4b24-9714-b2f79f183593")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0205")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
+<<<<<<< HEAD
 		(lib_id "Device:R_US")
 		(at 228.6 85.09 270)
+=======
+		(lib_id "Device:C_US")
+		(at 101.6 38.1 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
+<<<<<<< HEAD
 		(uuid "439c6b1c-2d2d-4f9c-8b96-12a76077229e")
 		(property "Reference" "R25"
 			(at 228.6 78.74 90)
+=======
+		(uuid "6944e1a6-58a9-49eb-9918-6c96b73874c8")
+		(property "Reference" "C94"
+			(at 105.41 37.0839 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+<<<<<<< HEAD
 			)
 		)
 		(property "Value" "634k"
 			(at 228.6 81.28 90)
+=======
+				(justify left)
+			)
+		)
+		(property "Value" "0.1uF"
+			(at 105.41 39.6239 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+<<<<<<< HEAD
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
@@ -5285,6 +6158,13 @@
 		)
 		(property "Footprint" ""
 			(at 55.88 50.8 0)
+=======
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 101.6 38.1 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5293,7 +6173,11 @@
 			)
 		)
 		(property "Datasheet" ""
+<<<<<<< HEAD
 			(at 55.88 50.8 0)
+=======
+			(at 101.6 38.1 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5301,8 +6185,13 @@
 				(hide yes)
 			)
 		)
+<<<<<<< HEAD
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
 			(at 55.88 50.8 0)
+=======
+		(property "Description" "capacitor, US symbol"
+			(at 101.6 38.1 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5311,6 +6200,7 @@
 			)
 		)
 		(pin "1"
+<<<<<<< HEAD
 			(uuid "497cd25c-754b-4ebc-ae43-1568f3c34d8e")
 		)
 		(instances
@@ -5453,6 +6343,17 @@
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
 					(reference "TPAMP1")
+=======
+			(uuid "78227400-e36a-4b1a-abfc-5ad2663176a1")
+		)
+		(pin "2"
+			(uuid "065bab21-fbeb-4c17-98c7-d2d6284b4b2e")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "C94")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(unit 1)
 				)
 			)
@@ -5466,7 +6367,11 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp yes)
+<<<<<<< HEAD
 		(uuid "509a9e67-445c-41eb-8953-f20a91c62265")
+=======
+		(uuid "6b0c1068-0bcf-4b45-82b9-b5c76e26b3e7")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(property "Reference" "C95"
 			(at 224.028 38.608 0)
 			(effects
@@ -5519,8 +6424,13 @@
 			(uuid "ead1b07f-d167-434c-b3bf-c1c201bc63e6")
 		)
 		(instances
+<<<<<<< HEAD
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "C95")
 					(unit 1)
 				)
@@ -5528,6 +6438,7 @@
 		)
 	)
 	(symbol
+<<<<<<< HEAD
 		(lib_id "power:+3.3V")
 		(at 193.04 24.13 0)
 		(unit 1)
@@ -5664,11 +6575,16 @@
 	(symbol
 		(lib_id "power:GND")
 		(at 91.44 124.46 90)
+=======
+		(lib_id "Connector:Conn_01x08_Pin")
+		(at 73.66 129.54 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board no)
 		(dnp no)
+<<<<<<< HEAD
 		(uuid "5781ab0c-6051-4f34-9741-4c82e8de8a8b")
 		(property "Reference" "#PWR0198"
 			(at 97.79 124.46 0)
@@ -5738,25 +6654,45 @@
 		(uuid "698f044f-e1d6-4a61-808c-dc1a7e316af1")
 		(property "Reference" "TPBCLK1"
 			(at 229.87 20.8279 0)
+=======
+		(fields_autoplaced yes)
+		(uuid "6df18eab-8ff3-4009-af3e-fe319a01e6e7")
+		(property "Reference" "J10"
+			(at 74.295 116.84 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+<<<<<<< HEAD
 				(justify left)
 			)
 		)
 		(property "Value" "~"
 			(at 229.87 22.0979 0)
+=======
+			)
+		)
+		(property "Value" "Conn_01x08_Pin"
+			(at 74.295 119.38 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+<<<<<<< HEAD
 				(justify left)
 				(hide yes)
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 232.41 24.13 0)
+=======
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x08_P1.00mm_Vertical"
+			(at 73.66 129.54 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5765,7 +6701,11 @@
 			)
 		)
 		(property "Datasheet" "~"
+<<<<<<< HEAD
 			(at 232.41 24.13 0)
+=======
+			(at 73.66 129.54 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5773,8 +6713,13 @@
 				(hide yes)
 			)
 		)
+<<<<<<< HEAD
 		(property "Description" "test point"
 			(at 227.33 24.13 0)
+=======
+		(property "Description" "Generic connector, single row, 01x08, script generated"
+			(at 73.66 129.54 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5782,6 +6727,7 @@
 				(hide yes)
 			)
 		)
+<<<<<<< HEAD
 		(pin "1"
 			(uuid "0089c5bd-c524-4eff-bfa1-cfcaebb45036")
 		)
@@ -6126,6 +7072,36 @@
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
 					(reference "R26")
+=======
+		(pin "5"
+			(uuid "4bfe0ede-358b-4e31-917c-c5deb9bab40e")
+		)
+		(pin "2"
+			(uuid "42315d77-fca8-4313-9fbf-733eace08050")
+		)
+		(pin "4"
+			(uuid "ca28cf64-3df7-4ab1-b651-3e65fbc2194b")
+		)
+		(pin "3"
+			(uuid "7a7ece03-905f-49c4-89e5-0cb0af3f039e")
+		)
+		(pin "1"
+			(uuid "066de308-f3c5-471b-8258-cb95919da893")
+		)
+		(pin "7"
+			(uuid "250a4a74-2957-4da8-9a35-cf497d9548b1")
+		)
+		(pin "6"
+			(uuid "e26e95cc-8522-49e3-b2df-028fcdc7c9fc")
+		)
+		(pin "8"
+			(uuid "824da9b3-9f55-488c-bdc0-edd825a48360")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "J10")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(unit 1)
 				)
 			)
@@ -6141,7 +7117,11 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
+<<<<<<< HEAD
 		(uuid "87654fd9-6acc-4e9f-98c9-376a46598012")
+=======
+		(uuid "721e366d-3c47-4b5e-94ca-447d31ec9831")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(property "Reference" "JP11"
 			(at 189.23 147.3199 90)
 			(effects
@@ -6197,8 +7177,13 @@
 			(uuid "4776a2d4-dbea-4449-b8a2-c41cf0e0749b")
 		)
 		(instances
+<<<<<<< HEAD
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "JP11")
 					(unit 1)
 				)
@@ -6206,13 +7191,19 @@
 		)
 	)
 	(symbol
+<<<<<<< HEAD
 		(lib_id "Connector:TestPoint")
 		(at 227.33 39.37 0)
+=======
+		(lib_id "power:GND")
+		(at 43.18 50.8 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
+<<<<<<< HEAD
 		(fields_autoplaced yes)
 		(uuid "8883e6f3-c84e-4c36-9ceb-75a6ee9509d8")
 		(property "Reference" "TPLRCLK1"
@@ -6236,6 +7227,11 @@
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 232.41 39.37 0)
+=======
+		(uuid "7b8cead7-3701-49c3-800c-071df7ce6b64")
+		(property "Reference" "#PWR0195"
+			(at 43.18 57.15 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6243,8 +7239,21 @@
 				(hide yes)
 			)
 		)
+<<<<<<< HEAD
 		(property "Datasheet" "~"
 			(at 232.41 39.37 0)
+=======
+		(property "Value" "GND"
+			(at 43.18 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 43.18 50.8 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6252,8 +7261,22 @@
 				(hide yes)
 			)
 		)
+<<<<<<< HEAD
 		(property "Description" "test point"
 			(at 227.33 39.37 0)
+=======
+		(property "Datasheet" ""
+			(at 43.18 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 43.18 50.8 0)
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6262,12 +7285,567 @@
 			)
 		)
 		(pin "1"
+<<<<<<< HEAD
 			(uuid "bd455142-aa09-408e-9b44-97a1cac44192")
 		)
 		(instances
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
 					(reference "TPLRCLK1")
+=======
+			(uuid "483cc2bc-8f1c-437a-8563-51b754b9b89b")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0195")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 200.66 38.1 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "8065f802-a717-4227-846b-c30a2ece6089")
+		(property "Reference" "R23"
+			(at 198.12 39.3701 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "2k"
+			(at 198.12 36.8301 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 201.676 38.354 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 200.66 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 200.66 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e24c5d8a-21c2-4a5c-a9a6-ca09d6b53ddd")
+		)
+		(pin "2"
+			(uuid "63ba636b-688f-4ba5-aadd-bbd16aa0c35f")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "R23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 228.6 95.25 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "897bc7c9-e077-45f2-9911-5a0117eb56d8")
+		(property "Reference" "R26"
+			(at 228.6 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "330k"
+			(at 228.6 91.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 228.854 94.234 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 228.6 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 228.6 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "20681568-4b0b-4686-97a5-d26a6b4a79a2")
+		)
+		(pin "2"
+			(uuid "7380df51-14fd-40cd-827b-80ac3948888a")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "R26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3.3V")
+		(at 43.18 25.4 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8a6aed8b-8da5-4274-9114-3b75ec220723")
+		(property "Reference" "#PWR0122"
+			(at 43.18 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 43.18 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 43.18 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 43.18 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 43.18 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "98c8c489-da0a-4c56-848a-8a4f5c1d6029")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0122")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3.3V")
+		(at 191.77 140.97 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8dbd857d-dff2-4a43-ad71-2d50e9af18f7")
+		(property "Reference" "#PWR0203"
+			(at 191.77 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 191.77 135.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 191.77 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 191.77 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 191.77 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "160b9199-7316-47c2-821f-ac29670950d7")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0203")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 220.98 30.48 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "8dd1fe2c-bc04-4ec4-bc55-c0b8a1c8ea8e")
+		(property "Reference" "#PWR0208"
+			(at 220.98 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 224.282 32.004 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 220.98 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 220.98 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 220.98 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a370a0cd-c341-4cb9-a2e5-24d725fc18a1")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0208")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Jumper:SolderJumper_2_Bridged")
+		(at 241.3 85.09 0)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9f3e58f0-fe6d-454e-a825-353c43337b50")
+		(property "Reference" "JP15"
+			(at 241.3 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "CH_MONO_MIX"
+			(at 241.3 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm"
+			(at 241.3 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 241.3 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Solder Jumper, 2-pole, closed/bridged"
+			(at 241.3 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "37e638ae-87c3-469a-a690-50677e6633f1")
+		)
+		(pin "2"
+			(uuid "3a8d372c-c83b-4d04-8aff-aec0579ae361")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "JP15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Jumper:SolderJumper_3_Open")
+		(at 210.82 140.97 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a4cff1df-494d-455a-a649-c1a3e4a84f1d")
+		(property "Reference" "JP13"
+			(at 208.28 139.6999 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GAIN_{R}"
+			(at 208.28 142.2399 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-3_P1.3mm_Open_RoundedPad1.0x1.5mm_NumberLabels"
+			(at 210.82 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 210.82 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Solder Jumper, 3-pole, open"
+			(at 210.82 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "3"
+			(uuid "59f45909-9ad3-4e02-9dcc-d4b928ae5809")
+		)
+		(pin "1"
+			(uuid "49985b71-195d-4744-bf67-144af7cfc4c3")
+		)
+		(pin "2"
+			(uuid "c1ad8e70-b225-4a9e-95d1-6ec40ba6e799")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "JP13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Jumper:SolderJumper_2_Open")
+		(at 241.3 74.93 0)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b00611b2-0c99-4129-af40-61a45b9d71a7")
+		(property "Reference" "JP14"
+			(at 241.3 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "CH_LEFT"
+			(at 241.3 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm"
+			(at 241.3 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 241.3 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Solder Jumper, 2-pole, open"
+			(at 241.3 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0633b0a1-6380-4dc3-856d-c77df8fde575")
+		)
+		(pin "2"
+			(uuid "4ed6bf20-5f33-44e8-a054-4be1ff20b2b0")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "JP14")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(unit 1)
 				)
 			)
@@ -6281,7 +7859,11 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
+<<<<<<< HEAD
 		(uuid "88eeddd8-0ecb-47f1-b4c5-19da7b4fcc4d")
+=======
+		(uuid "b21dbb70-6168-4f21-83d5-588ad001a989")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(property "Reference" "R22"
 			(at 67.31 44.45 90)
 			(effects
@@ -6332,6 +7914,7 @@
 			(uuid "7f2203b0-4b18-4941-b43d-5a229a9d70d9")
 		)
 		(instances
+<<<<<<< HEAD
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
 					(reference "R22")
@@ -6534,6 +8117,11 @@
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
 					(reference "#PWR0210")
+=======
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "R22")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(unit 1)
 				)
 			)
@@ -6547,7 +8135,11 @@
 		(in_bom yes)
 		(on_board no)
 		(dnp no)
+<<<<<<< HEAD
 		(uuid "93971ded-ab93-4b01-b8c8-23fa5b9c226c")
+=======
+		(uuid "bd7abe1f-45a2-48b2-a520-d2f162fa3ea3")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(property "Reference" "#PWR0162"
 			(at 83.82 127 0)
 			(effects
@@ -6597,8 +8189,13 @@
 			(uuid "a6cab6a6-9af2-40ef-9052-5b1fec3c4a2c")
 		)
 		(instances
+<<<<<<< HEAD
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0162")
 					(unit 1)
 				)
@@ -6606,6 +8203,955 @@
 		)
 	)
 	(symbol
+<<<<<<< HEAD
+=======
+		(lib_id "Device:R_US")
+		(at 55.88 44.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c2fd205b-5f04-44c0-8062-9d4ed87720e2")
+		(property "Reference" "R21"
+			(at 58.42 43.1799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "47k"
+			(at 58.42 45.7199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 56.896 44.704 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 55.88 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 55.88 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "be810663-030d-41dc-91f0-8222165dbaa5")
+		)
+		(pin "2"
+			(uuid "e0b516ed-c801-4de4-8dd1-851552d4a428")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "R21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 25.4 44.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c5e80d52-ae52-47be-85b2-b968a71e3c7b")
+		(property "Reference" "R20"
+			(at 27.94 43.1799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "47k"
+			(at 27.94 45.7199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 26.416 44.704 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 25.4 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 25.4 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "dbce389b-6dfc-4017-afe3-619ffd01485f")
+		)
+		(pin "2"
+			(uuid "964a2c53-0f0b-4142-a818-a4fd199745f4")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "R20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 220.98 27.94 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ca1d665d-a776-42b1-9b97-f43055368709")
+		(property "Reference" "C97"
+			(at 224.79 26.6699 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "22pF"
+			(at 224.79 29.2099 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 221.9452 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 220.98 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 220.98 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "84d5b630-d060-4b42-9c44-0ce721df37ff")
+		)
+		(pin "2"
+			(uuid "a2a0f2be-f408-4710-acc3-96250065d48b")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "C97")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Jumper:SolderJumper_2_Open")
+		(at 241.3 95.25 0)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "cbbe5294-16f8-4619-972e-bd5608479981")
+		(property "Reference" "JP16"
+			(at 241.3 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "CH_RIGHT"
+			(at 241.3 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm"
+			(at 241.3 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 241.3 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Solder Jumper, 2-pole, open"
+			(at 241.3 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9ceff807-a471-48fe-bab7-b4e8e0d7fa30")
+		)
+		(pin "2"
+			(uuid "c097a0b8-d1f3-45bf-8601-76ea3697b9c5")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "JP16")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 204.47 148.59 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "cf4ae951-3317-41c7-a342-21eef96e4ed0")
+		(property "Reference" "R24"
+			(at 204.47 152.4 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100k 5%"
+			(at 204.47 154.94 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 204.724 147.574 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 204.47 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 204.47 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "11d921c6-9d68-4190-a833-848553f841c2")
+		)
+		(pin "2"
+			(uuid "2dc75b9a-3b85-4046-a2d1-f401914fa5bf")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "R24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 250.19 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d2d3c490-ac64-4376-836e-deb1b9ef4423")
+		(property "Reference" "#PWR0211"
+			(at 250.19 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 250.19 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 250.19 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 250.19 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 250.19 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cf146951-2c3d-4870-b7a2-4cd1509803ef")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0211")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 25.4 50.8 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "dabe4290-ed32-4343-859e-7d026d2723d4")
+		(property "Reference" "#PWR0123"
+			(at 25.4 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 25.4 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 25.4 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 25.4 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 25.4 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2e00ce3e-74b1-4ca1-885b-895e58870e3d")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0123")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 219.71 13.97 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e6fc3776-7eb1-456d-b30b-e3292b85ff4d")
+		(property "Reference" "#PWR0207"
+			(at 219.71 7.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 219.71 8.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 219.71 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 219.71 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 219.71 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "19b9e092-52bc-48e2-b392-f84761dfafe8")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0207")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 227.33 24.13 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e870ad15-a56a-4cce-94c6-eb5d5098638e")
+		(property "Reference" "TPBCLK1"
+			(at 229.87 20.8279 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "~"
+			(at 229.87 22.0979 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 232.41 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 232.41 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 227.33 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0089c5bd-c524-4eff-bfa1-cfcaebb45036")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "TPBCLK1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 229.87 74.93 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ec6f5fbc-2ddc-466e-bca9-a5216503a43f")
+		(property "Reference" "R27"
+			(at 229.87 68.58 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "2k"
+			(at 229.87 71.12 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 229.616 75.946 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 229.87 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 229.87 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0f389d22-6340-42ca-80af-61888ef551a4")
+		)
+		(pin "2"
+			(uuid "b67875e7-91c3-4ce4-98a5-d90a23c96285")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "R27")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3.3V")
+		(at 92.71 25.4 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ed61e107-d5d5-47fc-901b-f14591654072")
+		(property "Reference" "#PWR0199"
+			(at 92.71 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 92.71 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 92.71 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 92.71 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 92.71 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "547558e0-1603-452d-96d2-a1be010b7efb")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0199")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3.3V")
+		(at 248.92 26.67 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ee3217a7-e628-4768-a64c-ba2d70eb4070")
+		(property "Reference" "#PWR0209"
+			(at 248.92 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 248.92 21.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 248.92 26.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 248.92 26.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 248.92 26.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0e427ca7-450b-4a1f-a4c9-c656ceda7165")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "#PWR0209")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 227.33 39.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "efb48b13-5fb2-416e-8e62-4fedb6db7c3a")
+		(property "Reference" "TPLRCLK1"
+			(at 229.87 36.0679 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "~"
+			(at 229.87 37.3379 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 232.41 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 232.41 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 227.33 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bd455142-aa09-408e-9b44-97a1cac44192")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "TPLRCLK1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 228.6 19.05 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f0398ffb-e8db-41b8-85ef-85ba4c51d185")
+		(property "Reference" "TPAMP1"
+			(at 231.14 15.7479 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "~"
+			(at 231.14 17.0179 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 233.68 19.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 233.68 19.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 228.6 19.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "32f6e0ba-4382-4ad6-a856-8ce5f0217c64")
+		)
+		(instances
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+					(reference "TPAMP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(lib_id "Audio:MAX98357A")
 		(at 248.92 41.91 0)
 		(unit 1)
@@ -6614,7 +9160,11 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
+<<<<<<< HEAD
 		(uuid "99cdfabd-40b9-4d19-9f0b-c2b1276712d9")
+=======
+		(uuid "f13defd2-90f4-4f03-aad7-c92db509509b")
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 		(property "Reference" "U7"
 			(at 251.1141 26.67 0)
 			(effects
@@ -6712,14 +9262,20 @@
 			(uuid "53445982-b8f1-4014-8e9b-f59343a93276")
 		)
 		(instances
+<<<<<<< HEAD
 			(project ""
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+			(project "system-testbed"
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "U7")
 					(unit 1)
 				)
 			)
 		)
 	)
+<<<<<<< HEAD
 	(symbol
 		(lib_id "power:GND")
 		(at 217.17 34.29 180)
@@ -8103,4 +10659,6 @@
 			)
 		)
 	)
+=======
+>>>>>>> 1358599 (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 )
