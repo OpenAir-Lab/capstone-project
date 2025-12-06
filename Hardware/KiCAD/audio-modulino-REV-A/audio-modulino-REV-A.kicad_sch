@@ -4420,7 +4420,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0210")
 					(unit 1)
 				)
@@ -4502,7 +4506,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "MK2")
 					(unit 1)
 				)
@@ -4567,7 +4575,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0206")
 					(unit 1)
 				)
@@ -4633,7 +4645,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0161")
 					(unit 1)
 				)
@@ -4703,7 +4719,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "R28")
 					(unit 1)
 				)
@@ -4773,7 +4793,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "LS2")
 					(unit 1)
 				)
@@ -4838,7 +4862,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0198")
 					(unit 1)
 				)
@@ -4912,7 +4940,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "JP12")
 					(unit 1)
 				)
@@ -4978,7 +5010,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0204")
 					(unit 1)
 				)
@@ -5044,7 +5080,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0200")
 					(unit 1)
 				)
@@ -5113,7 +5153,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "C96")
 					(unit 1)
 				)
@@ -5181,7 +5225,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "R25")
 					(unit 1)
 				)
@@ -5251,7 +5299,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "C86")
 					(unit 1)
 				)
@@ -5317,7 +5369,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0205")
 					(unit 1)
 				)
@@ -5387,7 +5443,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "C94")
 					(unit 1)
 				)
@@ -5456,7 +5516,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "C95")
 					(unit 1)
 				)
@@ -5542,7 +5606,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "J10")
 					(unit 1)
 				)
@@ -5616,7 +5684,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "JP11")
 					(unit 1)
 				)
@@ -5681,7 +5753,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0195")
 					(unit 1)
 				)
@@ -5750,7 +5826,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "R23")
 					(unit 1)
 				)
@@ -5818,7 +5898,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "R26")
 					(unit 1)
 				)
@@ -5884,7 +5968,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0122")
 					(unit 1)
 				)
@@ -5951,7 +6039,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0203")
 					(unit 1)
 				)
@@ -6016,7 +6108,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0208")
 					(unit 1)
 				)
@@ -6085,7 +6181,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "JP15")
 					(unit 1)
 				)
@@ -6158,7 +6258,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "JP13")
 					(unit 1)
 				)
@@ -6227,7 +6331,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "JP14")
 					(unit 1)
 				)
@@ -6294,7 +6402,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "R22")
 					(unit 1)
 				)
@@ -6360,7 +6472,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0162")
 					(unit 1)
 				)
@@ -6429,7 +6545,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "R21")
 					(unit 1)
 				)
@@ -6498,7 +6618,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "R20")
 					(unit 1)
 				)
@@ -6568,7 +6692,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "C97")
 					(unit 1)
 				)
@@ -6637,7 +6765,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "JP16")
 					(unit 1)
 				)
@@ -6705,7 +6837,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "R24")
 					(unit 1)
 				)
@@ -6770,7 +6906,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0211")
 					(unit 1)
 				)
@@ -6836,7 +6976,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0123")
 					(unit 1)
 				)
@@ -6902,7 +7046,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0207")
 					(unit 1)
 				)
@@ -6970,7 +7118,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "TPBCLK1")
 					(unit 1)
 				)
@@ -7038,7 +7190,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "R27")
 					(unit 1)
 				)
@@ -7104,7 +7260,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0199")
 					(unit 1)
 				)
@@ -7170,7 +7330,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "#PWR0209")
 					(unit 1)
 				)
@@ -7238,7 +7402,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "TPLRCLK1")
 					(unit 1)
 				)
@@ -7306,7 +7474,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "TPAMP1")
 					(unit 1)
 				)
@@ -7421,7 +7593,11 @@
 		)
 		(instances
 			(project "system-testbed"
+<<<<<<< HEAD
 				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/3f9dd58c-c14a-4f6f-9433-d90185628d6c/5d94299b-300c-487f-9d0d-1862046fc483"
+=======
+				(path "/72756aea-0ff9-4757-9699-8d0f18588f6f/7cc50a27-35c0-4cbe-b4ac-769dd474476f"
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 					(reference "U7")
 					(unit 1)
 				)

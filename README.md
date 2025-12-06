@@ -1,6 +1,11 @@
 <h1 align="center">
+<<<<<<< HEAD
   <a href="https://github.com/OpenAir-Lab/capstone-project">
     <img src="Documentation/gary.png" alt="Logo" width="100" height="100">
+=======
+  <a href="https://github.com/GITHUB_USERNAME/REPO_SLUG">
+    <img src="docs/images/logo.svg" alt="Logo" width="100" height="100">
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
   </a>
 </h1>
 
@@ -9,21 +14,37 @@
   <br />
   <a href="#about"><strong>Explore the project »</strong></a>
   <br /><br />
+<<<<<<< HEAD
   <a href="https://github.com/OpenAir-Lab/capstone-project/issues/new?labels=bug&template=01_BUG_REPORT.md&title=bug%3A+">Report a Bug</a>
   ·
   <a href="https://github.com/OpenAir-Lab/capstone-project/issues/new?labels=enhancement&template=02_FEATURE_REQUEST.md&title=feat%3A+">Request a Feature</a>
   ·
   <a href="https://github.com/OpenAir-Lab/capstone-project/issues/new?labels=question&template=04_SUPPORT_QUESTION.md&title=support%3A+">Ask a Question</a>
+=======
+  <a href="https://github.com/GITHUB_USERNAME/REPO_SLUG/issues/new?labels=bug&template=01_BUG_REPORT.md&title=bug%3A+">Report a Bug</a>
+  ·
+  <a href="https://github.com/GITHUB_USERNAME/REPO_SLUG/issues/new?labels=enhancement&template=02_FEATURE_REQUEST.md&title=feat%3A+">Request a Feature</a>
+  ·
+  <a href="https://github.com/GITHUB_USERNAME/REPO_SLUG/issues/new?labels=question&template=04_SUPPORT_QUESTION.md&title=support%3A+">Ask a Question</a>
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 </div>
 
 <div align="center">
 
+<<<<<<< HEAD
 [![Project license](https://img.shields.io/github/license/OpenAir-Lab/capstone-project.svg?style=flat-square)](LICENSE)
 
 
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=flat-square)](https://github.com/OpenAir-Lab/capstone-project/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 
 [![code with love by OpenAir-Lab](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-OpenAir_Lab-ff1414.svg?style=flat-square)](https://github.com/OpenAir-Lab)
+=======
+[![Project license](https://img.shields.io/github/license/GITHUB_USERNAME/REPO_SLUG.svg?style=flat-square)](LICENSE)
+
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=flat-square)](https://github.com/GITHUB_USERNAME/REPO_SLUG/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
+
+[![code with love by GITHUB_USERNAME](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-GITHUB_USERNAME-ff1414.svg?style=flat-square)](https://github.com/GITHUB_USERNAME)
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 
 </div>
 
@@ -33,6 +54,7 @@
 
 OpenAir Lab is an **open-source, modular handheld ham-radio development kit** designed to expose and teach all fundamental subsystems of a portable transceiver. Unlike commercial “black-box” radios, this platform separates RF, MCU, audio, power, and HMI into independent **Modulinos** connected through standardized EYESPI and I²C interfaces.
 
+<<<<<<< HEAD
 The system’s core is an **ESP32-WROVER-E** MCU hosting RF control, audio streaming, display driving, and power-management logic. 
 <img src="Documentation/mcu-front.png" alt="Alt text" width="300" height="200">
 
@@ -56,6 +78,16 @@ Subsystems include:
 
 
 
+=======
+The system’s core is an **ESP32-WROVER-E** MCU hosting RF control, audio streaming, display driving, and power-management logic. Subsystems include:
+
+- **RF modulino:** TI CC1200 sub-GHz transceiver  
+- **HMI modulino:** 1.9" ST7789 TFT via EYESPI, keypad, user buttons, rotary encoder  
+- **Audio modulino:** ICS-43434 digital MEMS microphone + MAX98357A I²S amplifier  
+- **Power modulino:** STUSB4500 USB-PD, BQ25620 charger, fuel gauge  
+- **Control plane:** I²C expander for low-rate signals (LEDs, keypad, resets, alerts)
+
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 Purpose:  
 • Provide a hands-on educational platform for embedded, RF, and systems engineering  
 • Enable modular experimentation and rapid firmware iteration  
@@ -113,7 +145,11 @@ Firmware operates through **interrupt-driven inputs**, **FreeRTOS tasks**, and *
 ## **Roadmap**
 
 See open issues:  
+<<<<<<< HEAD
 https://github.com/OpenAir-Lab/capstone-project/issues
+=======
+https://github.com/GITHUB_USERNAME/REPO_SLUG/issues
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 
 Current priorities:
 
@@ -130,7 +166,11 @@ Current priorities:
 Contact the maintainers via:
 
 - GitHub issues (for questions):  
+<<<<<<< HEAD
   https://github.com/OpenAir-Lab/capstone-project/issues/new?labels=question  
+=======
+  https://github.com/GITHUB_USERNAME/REPO_SLUG/issues/new?labels=question  
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 - Maintainer contact info on GitHub profile  
 
 ---
@@ -148,7 +188,11 @@ If you want to support the project:
 ## **Contributing**
 
 Contributions are welcome!  
+<<<<<<< HEAD
 Please review `Documentation/Contributing.md` before submitting a pull request.
+=======
+Please review `docs/CONTRIBUTING.md` before submitting a pull request.
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 
 ---
 
@@ -156,7 +200,11 @@ Please review `Documentation/Contributing.md` before submitting a pull request.
 
 Project created and maintained by the OpenAir Lab MCU & Systems Integration Team.  
 Full contributor list:  
+<<<<<<< HEAD
 https://github.com/OpenAir-Lab/capstone-project/contributors
+=======
+https://github.com/GITHUB_USERNAME/REPO_SLUG/contributors
+>>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
 
 ---
 
