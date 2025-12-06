@@ -25,6 +25,7 @@
 
 #define WRITE 0
 #define READ 1
+#define SINGLE 0
 #define BURST 1
 
 // 6.1 RX Channel Filter Bandwidth Configuration
@@ -84,10 +85,6 @@ typedef enum {
 #define TWO_TO_THE_39    (1ULL << 39)      // used by symbol rate
 #define CC1200_OSC_FREQ 40000000UL
 #define CC1200_OSC_FREQ_LOG2 25.253496f
-
-
-
-
 
 typedef struct {
     uint8_t IOCFG3 = 0x08;
@@ -395,7 +392,15 @@ typedef enum {
     IFAMP,
     LNA,
     RXMIX,
-    XOSC5, XOSC4, XOSC3, XOSC2, XOSC1, XOSC0,
+    XOSC5, XOSC4, XOSC3,
+    #define XOSC3_RESERVED7_0 GENMASK(7,0)
+    XOSC2,
+    XOSC1,
+    #define XOSC1_RESERVED2_SHIFT 2
+    #define XOSC1_RESERVED2 BIT(2)
+    #define XOSC_BUF_SEL_SHIFT 1
+    #define XOSC_BUF_SEL BIT(1) 
+    XOSC0,
     ANALOG_SPARE,
     PA_CFG3 = 0x39,
     // 0x3A - 0x3E Not Used
@@ -446,11 +451,6 @@ typedef enum {
     NOTUSED = 0xDB
 } cc1200_extended_register_space_t;
 
-
-
-
-
-
 // ---------------------------
 // Descriptive Register Values
 // ---------------------------
@@ -472,25 +472,11 @@ typedef enum {
 /*! \struct SPI Access Type cc1200_spi_access_t
     \brief Contains all data related to register access.
 */
-typedef struct {
-    // header byte contents
-    uint8_t readwrite_flag = READ;
-    uint8_t burst_flag = false;
-    uint8_t header; 
-    // cc1200_configuration_register_space_t configuration_address = EXTENDED_ADDRESS; // 6-bit address
-    // // address byte contents
-    // cc1200_extended_register_space_t extended_address = NOTUSED; // 8-bit address
-    // data byte contents 
-    uint8_t data = 0x00;
-} cc1200_spi_access_t;
 
 int update_status(uint8_t chip_status);
 
-int cc1200_single_register_access(cc1200_configuration_register_space_t configuration_address, cc1200_spi_access_t &register_access);
-int cc1200_single_register_access(cc1200_extended_register_space_t extended_address, cc1200_spi_access_t &register_access);
-
-int cc1200_burst_register_access(cc1200_configuration_register_space_t configuration_address, cc1200_spi_access_t &register_access);
-int cc1200_burst_register_access(cc1200_extended_register_space_t extended_address, cc1200_spi_access_t &register_access);
+uint8_t cc1200_register_access(bool readwrite_flag, bool burst_flag, cc1200_configuration_register_space_t configuration_address, uint8_t data);
+uint8_t cc1200_register_access(bool readwrite_flag, bool burst_flag, cc1200_extended_register_space_t extended_address, uint8_t data);
 
 /**
 
@@ -525,6 +511,9 @@ void cc1200_calculate_frequency_programming(double targetFrequency);
 void cc1200_calculate_frequency_deviation(double targetDeviation);
 void cc1200_calculate_symbol_rate(double targetSampleRate);
 
+double cc1200_demodulate_cfm_byte();
+double cc1200_modulate_cfm_byte();
+
 // @brief configuration of CC1200 sub 1-GHz radio transceiver
 typedef struct {
     bool initialized = false;
@@ -540,6 +529,8 @@ typedef struct {
     int8_t pin_gdio2;
     uint8_t partnumber = -1;
     uint8_t partrevision = -1;
+    volatile bool read_CFM_RX_DATA_OUT = false;
+    volatile bool write_CFM_TX_DATA_IN = false;
     // frequency programming configuration
     radio_frequency_bands_t band;
     lo_divider_select_t lo_divider;
@@ -550,6 +541,8 @@ typedef struct {
     // 
     double symbol_rate = 24000;
     double frequency_deviation = 5000;
+
+
     bool chip_nrdy;
     uint8_t main_state;
     cc1200_registers_t registers;

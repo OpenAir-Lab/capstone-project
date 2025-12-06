@@ -75,39 +75,89 @@ const char* command_strobes[14] = {
 };
 
 // Table 3: SPI Access Types
-int cc1200_single_register_access(cc1200_configuration_register_space_t configuration_address, cc1200_spi_access_t &register_access) {
+uint8_t cc1200_register_access(bool readwrite_flag, bool burst_flag, cc1200_configuration_register_space_t configuration_address, uint8_t data) {
     digitalWrite(cc1200.pin_ss, LOW);
     while (digitalRead(cc1200.pin_miso)); // Wait for MISO to go low
     bool isCommandStrobe = (
            (uint8_t)configuration_address >= 0x30 
         && (uint8_t)configuration_address <= 0x3D
     );
-    uint8_t address = (register_access.readwrite_flag ? COMMAND_RW_FLAG : !COMMAND_RW_FLAG);
+    uint8_t address = (readwrite_flag ? COMMAND_RW_FLAG : !COMMAND_RW_FLAG);
     address |= configuration_address;
     update_status(cc1200.spi->transfer(address));
-    if (register_access.readwrite_flag == READ) {
-        register_access.data = cc1200.spi->transfer(0x00);
+    if (readwrite_flag == READ) {
+        data = cc1200.spi->transfer(0x00);
     } else {
-        update_status(cc1200.spi->transfer(register_access.data));
+        update_status(cc1200.spi->transfer(data));
     }
+    switch (configuration_address) {
+        case(IOCFG3): cc1200.registers.IOCFG3 = data; break;
+        case(IOCFG2): cc1200.registers.IOCFG2 = data; break;
+        case(IOCFG1): cc1200.registers.IOCFG1 = data; break;
+        case(IOCFG0): cc1200.registers.IOCFG0 = data; break;
+        case(SYNC3): cc1200.registers.SYNC3 = data; break;
+        case(SYNC2): cc1200.registers.SYNC2 = data; break;
+        case(SYNC1): cc1200.registers.SYNC1 = data; break;
+        case(SYNC0): cc1200.registers.SYNC0 = data; break;
+        case(SYNC_CFG1): cc1200.registers.SYNC_CFG1 = data; break; 
+        case(SYNC_CFG0): cc1200.registers.SYNC_CFG0 = data; break;
+        case(DEVIATION_M): cc1200.registers.DEVIATION_M = data; break;
+        case(MODCFG_DEV_E): cc1200.registers.MODCFG_DEV_E = data; break;
+        case(DCFILT_CFG): cc1200.registers.DCFILT_CFG = data; break;
+        case(PREAMBLE_CFG1): cc1200.registers.PREAMBLE_CFG1 = data; break;
+        case(PREAMBLE_CFG0): cc1200.registers.PREAMBLE_CFG0 = data; break;
+        case(IQIC): cc1200.registers.IQIC = data; break;
+        case(CHAN_BW): cc1200.registers.CHAN_BW = data; break;
+        case(MDMCFG1): cc1200.registers.MDMCFG1 = data; break; 
+        case(MDMCFG0): cc1200.registers.MDMCFG0 = data; break;
+        case(SYMBOL_RATE2): cc1200.registers.SYMBOL_RATE2 = data; break;
+        case(SYMBOL_RATE1): cc1200.registers.SYMBOL_RATE1 = data; break;
+        case(SYMBOL_RATE0): cc1200.registers.SYMBOL_RATE0 = data; break;
+        case(AGC_REF): cc1200.registers.AGC_REF = data; break;
+        case(AGC_CS_THR): cc1200.registers.AGC_CS_THR = data; break;
+        case(AGC_GAIN_ADJUST): cc1200.registers.AGC_GAIN_ADJUST = data; break;
+        case(AGC_CFG3): cc1200.registers.AGC_CFG3 = data; break;
+        case(AGC_CFG2): cc1200.registers.AGC_CFG2 = data; break;
+        case(AGC_CFG1): cc1200.registers.AGC_CFG1 = data; break;
+        case(AGC_CFG0): cc1200.registers.AGC_CFG0 = data; break;
+        case(FIFO_CFG): cc1200.registers.FIFO_CFG = data; break;
+        case(DEV_ADDR): cc1200.registers.DEV_ADDR = data; break;
+        case(SETTLING_CFG): cc1200.registers.SETTLING_CFG = data; break;
+        case(FS_CFG): cc1200.registers.FS_CFG = data; break;
+        case(WOR_CFG1): cc1200.registers.WOR_CFG1 = data; break;
+        case(WOR_CFG0): cc1200.registers.WOR_CFG0 = data; break;
+        case(WOR_EVENT0_MSB): cc1200.registers.WOR_EVENT0_MSB = data; break;
+        case(WOR_EVENT0_LSB): cc1200.registers.WOR_EVENT0_LSB = data; break;
+        case(RXDCM_TIME): cc1200.registers.RXDCM_TIME = data; break;
+        case(PKT_CFG2): cc1200.registers.PKT_CFG2 = data; break; 
+        case(PKT_CFG1): cc1200.registers.PKT_CFG1 = data; break;
+        case(PKT_CFG0): cc1200.registers.PKT_CFG0 = data; break;
+        case(RFEND_CFG1): cc1200.registers.RFEND_CFG1 = data; break;
+        case(RFEND_CFG0): cc1200.registers.RFEND_CFG0 = data; break;
+        case(PA_CFG1): cc1200.registers.PA_CFG1 = data; break;
+        case(PA_CFG0): cc1200.registers.PA_CFG0 = data; break;
+        case(ASK_CFG): cc1200.registers.ASK_CFG = data; break;
+        case(PKT_LEN): cc1200.registers.PKT_LEN = data; break;
+    }
+
     #ifdef CC1200_DEBUG
     isCommandStrobe ? 
         CC1200_DEBUG.printf("(VSPI) %s data 0x%2.2X [%s]"
         " after accessing strobe %s\n",
-        register_access.readwrite_flag ? "Read in" : "Wrote in", 
-        register_access.data, main_states[cc1200.main_state], command_strobes[configuration_address-0x30]) :
+        readwrite_flag ? "Read in" : "Wrote in", 
+        data, main_states[cc1200.main_state], command_strobes[configuration_address-0x30]) :
         CC1200_DEBUG.printf("(VSPI) %s data 0x%2.2X [%s]"
         " after accessing address 0x%2.2X\n", 
-        register_access.readwrite_flag ? "Read in" : "Wrote in", 
-        register_access.data, main_states[cc1200.main_state], address);
+        readwrite_flag ? "Read in" : "Wrote in", 
+        data, main_states[cc1200.main_state], address);
     #endif
     digitalWrite(cc1200.pin_ss, HIGH);
-    return cc1200.main_state;
+    return data;
 }
-int cc1200_single_register_access(cc1200_extended_register_space_t extended_address, cc1200_spi_access_t &register_access) {
+uint8_t cc1200_register_access(bool readwrite_flag, bool burst_flag, cc1200_extended_register_space_t extended_address, uint8_t data) {
     digitalWrite(cc1200.pin_ss, LOW);
     while (digitalRead(cc1200.pin_miso)); // Wait for MISO to go low
-    uint8_t address = (register_access.readwrite_flag ? COMMAND_RW_FLAG : !COMMAND_RW_FLAG);
+    uint8_t address = (readwrite_flag ? COMMAND_RW_FLAG : !COMMAND_RW_FLAG);
     // extended access requires two byte transfers
     // first transfer as command (0x2F)
     address |= cc1200_configuration_register_space_t::EXTENDED_ADDRESS;
@@ -117,44 +167,165 @@ int cc1200_single_register_access(cc1200_extended_register_space_t extended_addr
     address = extended_address;
     // one byte transfer as configuration address
     update_status(cc1200.spi->transfer(address));
-    if (register_access.readwrite_flag == READ) {
-        register_access.data = cc1200.spi->transfer(0x00);
+    if (readwrite_flag == READ) {
+        data = cc1200.spi->transfer(0x00);
     } else {
-        update_status(cc1200.spi->transfer(register_access.data));
+        update_status(cc1200.spi->transfer(data));
     }
-
+    // TODO: minimize boilerplate for access enum->struct associations
+    switch(extended_address) {
+        case (IF_MIX_CFG): cc1200.registers.IF_MIX_CFG = data; break;
+        case (FREQOFF_CFG): cc1200.registers.FREQOFF_CFG = data; break;
+        case (TOC_CFG): cc1200.registers.TOC_CFG = data; break;
+        case (MARC_SPARE): cc1200.registers.MARC_SPARE = data; break;
+        case (ECG_CFG): cc1200.registers.ECG_CFG = data; break;
+        case (MDMCFG2): cc1200.registers.MDMCFG2 = data; break; 
+        case (EXT_CTRL): cc1200.registers.EXT_CTRL = data; break;
+        case (RCCAL_FINE): cc1200.registers.RCCAL_FINE = data; break;
+        case (RCCAL_COARSE): cc1200.registers.RCCAL_COARSE = data; break;
+        case (RCCAL_OFFSET): cc1200.registers.RCCAL_OFFSET = data; break;
+        case (FREQOFF1): cc1200.registers.FREQOFF1 = data; break;
+        case (FREQOFF0): cc1200.registers.FREQOFF0 = data; break;
+        case (FREQ2): cc1200.registers.FREQ2 = data; break;
+        case (FREQ1): cc1200.registers.FREQ1 = data; break;
+        case (FREQ0): cc1200.registers.FREQ0 = data; break;
+        case (IF_ADC2): cc1200.registers.IF_ADC2 = data; break;
+        case (IF_ADC1): cc1200.registers.IF_ADC1 = data; break;
+        case (IF_ADC0): cc1200.registers.IF_ADC0 = data; break;
+        case (FS_DIG1): cc1200.registers.FS_DIG1 = data; break;
+        case (FS_DIG0): cc1200.registers.FS_DIG0 = data; break;
+        case (FS_CAL3): cc1200.registers.FS_CAL3 = data; break;
+        case (FS_CAL2): cc1200.registers.FS_CAL2 = data; break;
+        case (FS_CAL1): cc1200.registers.FS_CAL1 = data; break;
+        case (FS_CAL0): cc1200.registers.FS_CAL0 = data; break;
+        case (FS_CHP): cc1200.registers.FS_CHP = data; break;
+        case (FS_DIVTWO): cc1200.registers.FS_DIVTWO = data; break;
+        case (FS_DSM1): cc1200.registers.FS_DSM1 = data; break;
+        case (FS_DSM0): cc1200.registers.FS_DSM0 = data; break;
+        case (FS_DVC1): cc1200.registers.FS_DVC1 = data; break;
+        case (FS_DVC0): cc1200.registers.FS_DVC0 = data; break;
+        case (FS_LBI): cc1200.registers.FS_LBI = data; break;
+        case (FS_PFD): cc1200.registers.FS_PFD = data; break;
+        case (FS_PRE): cc1200.registers.FS_PRE = data; break;
+        case (FS_REG_DIV_CML): cc1200.registers.FS_REG_DIV_CML = data; break;
+        case (FS_SPARE): cc1200.registers.FS_SPARE = data; break;
+        case (FS_VCO4): cc1200.registers.FS_VCO4 = data; break;
+        case (FS_VCO3): cc1200.registers.FS_VCO3 = data; break;
+        case (FS_VCO2): cc1200.registers.FS_VCO2 = data; break;
+        case (FS_VCO1): cc1200.registers.FS_VCO1 = data; break;
+        case (FS_VCO0): cc1200.registers.FS_VCO0 = data; break;
+        case (GBIAS6): cc1200.registers.GBIAS6 = data; break;
+        case (GBIAS5): cc1200.registers.GBIAS5 = data; break;
+        case (GBIAS4): cc1200.registers.GBIAS4 = data; break;
+        case (GBIAS3): cc1200.registers.GBIAS3 = data; break;
+        case (GBIAS2): cc1200.registers.GBIAS2 = data; break;
+        case (GBIAS1): cc1200.registers.GBIAS1 = data; break;
+        case (GBIAS0): cc1200.registers.GBIAS0 = data; break;
+        case (IFAMP): cc1200.registers.IFAMP = data; break;
+        case (LNA): cc1200.registers.LNA = data; break;
+        case (RXMIX): cc1200.registers.RXMIX = data; break;
+        case (XOSC5): cc1200.registers.XOSC5 = data; break;
+        case (XOSC4): cc1200.registers.XOSC4 = data; break;
+        case (XOSC3): cc1200.registers.XOSC3 = data; break;
+        case (XOSC2): cc1200.registers.XOSC2 = data; break;
+        case (XOSC1): cc1200.registers.XOSC1 = data; break;
+        case (XOSC0): cc1200.registers.XOSC0 = data; break;
+        case (ANALOG_SPARE): cc1200.registers.ANALOG_SPARE = data; break;
+        case (PA_CFG3): cc1200.registers.PA_CFG3 = data; break;
+        case (WOR_TIME1): cc1200.registers.WOR_TIME1 = data; break;
+        case (WOR_TIME0): cc1200.registers.WOR_TIME0 = data; break;
+        case (WOR_CAPTURE1): cc1200.registers.WOR_CAPTURE1 = data; break;
+        case (WOR_CAPTURE0): cc1200.registers.WOR_CAPTURE0 = data; break;
+        case (BIST): cc1200.registers.BIST = data; break;
+        case (DCFILTOFFSET_I1): cc1200.registers.DCFILTOFFSET_I1 = data; break;
+        case (DCFILTOFFSET_I0): cc1200.registers.DCFILTOFFSET_I0 = data; break;
+        case (DCFILTOFFSET_Q1): cc1200.registers.DCFILTOFFSET_Q1 = data; break;
+        case (DCFILTOFFSET_Q0): cc1200.registers.DCFILTOFFSET_Q0 = data; break; 
+        case (IQIE_I1): cc1200.registers.IQIE_I1 = data; break;
+        case (IQIE_I0): cc1200.registers.IQIE_I0 = data; break;
+        case (IQIE_Q1): cc1200.registers.IQIE_Q1 = data; break;
+        case (IQIE_Q0): cc1200.registers.IQIE_Q0 = data; break; 
+        case (RSSI1): cc1200.registers.RSSI1 = data; break;
+        case (RSSI0): cc1200.registers.RSSI0 = data; break;
+        case (MARCSTATE): cc1200.registers.MARCSTATE = data; break;
+        case (LQI_VAL): cc1200.registers.LQI_VAL = data; break;
+        case (PQT_SYNC_ERR): cc1200.registers.PQT_SYNC_ERR = data; break;
+        case (DEM_STATUS): cc1200.registers.DEM_STATUS = data; break;
+        case (FREQOFF_EST1): cc1200.registers.FREQOFF_EST1 = data; break;
+        case (FREQOFF_EST0): cc1200.registers.FREQOFF_EST0 = data; break; 
+        case (AGC_GAIN3): cc1200.registers.AGC_GAIN3 = data; break;
+        case (AGC_GAIN2): cc1200.registers.AGC_GAIN2 = data; break;
+        case (AGC_GAIN1): cc1200.registers.AGC_GAIN1 = data; break;
+        case (AGC_GAIN0): cc1200.registers.AGC_GAIN0 = data; break;
+        case (CFM_RX_DATA_OUT): cc1200.registers.CFM_RX_DATA_OUT = data; break;
+        case (CFM_TX_DATA_IN): cc1200.registers.CFM_TX_DATA_IN = data; break;
+        case (ASK_SOFT_RX_DATA): cc1200.registers.ASK_SOFT_RX_DATA = data; break;
+        case (RNDGEN): cc1200.registers.RNDGEN = data; break;
+        case (MAGN2): cc1200.registers.MAGN2 = data; break;
+        case (MAGN1): cc1200.registers.MAGN1 = data; break;
+        case (MAGN0): cc1200.registers.MAGN0 = data; break;
+        case (ANG1): cc1200.registers.ANG1 = data; break;
+        case (ANG0): cc1200.registers.ANG0 = data; break;
+        case (CHFILT_I2): cc1200.registers.CHFILT_I2 = data; break;
+        case (CHFILT_I1): cc1200.registers.CHFILT_I1 = data; break;
+        case (CHFILT_I0): cc1200.registers.CHFILT_I0 = data; break;
+        case (CHFILT_Q2): cc1200.registers.CHFILT_Q2 = data; break;
+        case (CHFILT_Q1): cc1200.registers.CHFILT_Q1 = data; break;
+        case (CHFILT_Q0): cc1200.registers.CHFILT_Q0 = data; break;
+        case (GPIO_STATUS): cc1200.registers.GPIO_STATUS = data; break;
+        case (FSCAL_CTRL): cc1200.registers.FSCAL_CTRL = data; break;
+        case (PHASE_ADJUST): cc1200.registers.PHASE_ADJUST = data; break;
+        case (PARTNUMBER): cc1200.registers.PARTNUMBER = data; break;
+        case (PARTVERSION): cc1200.registers.PARTVERSION = data; break;
+        case (SERIAL_STATUS): cc1200.registers.SERIAL_STATUS = data; break; 
+        case (MODEM_STATUS1): cc1200.registers.MODEM_STATUS1 = data; break;
+        case (MODEM_STATUS0): cc1200.registers.MODEM_STATUS0 = data; break;
+        case (MARC_STATUS1): cc1200.registers.MARC_STATUS1 = data; break;
+        case (MARC_STATUS0): cc1200.registers.MARC_STATUS0 = data; break;
+        case (PA_IFAMP_TEST): cc1200.registers.PA_IFAMP_TEST = data; break;
+        case (FSRF_TEST): cc1200.registers.FSRF_TEST = data; break;
+        case (PRE_TEST): cc1200.registers.PRE_TEST = data; break;
+        case (PRE_OVR): cc1200.registers.PRE_OVR = data; break;
+        case (ADC_TEST): cc1200.registers.ADC_TEST = data; break;
+        case (DVC_TEST): cc1200.registers.DVC_TEST = data; break;
+        case (ATEST): cc1200.registers.ATEST = data; break;
+        case (ATEST_LVDS): cc1200.registers.ATEST_LVDS = data; break;
+        case (ATEST_MODE): cc1200.registers.ATEST_MODE = data; break;
+        case (XOSC_TEST1): cc1200.registers.XOSC_TEST1 = data; break;
+        case (XOSC_TEST0): cc1200.registers.XOSC_TEST0 = data; break;
+        case (AES): cc1200.registers.AES = data; break;
+        case (MDM_TEST): cc1200.registers.MDM_TEST = data; break;
+        case (RXFIRST): cc1200.registers.RXFIRST = data; break;
+        case (TXFIRST): cc1200.registers.TXFIRST = data; break;
+        case (RXLAST): cc1200.registers.RXLAST = data; break;
+        case (TXLAST): cc1200.registers.TXLAST = data; break; 
+        case (NUM_TXBYTES): cc1200.registers.NUM_TXBYTES = data; break;
+        case (NUM_RXBYTES): cc1200.registers.NUM_RXBYTES = data; break;
+        case (FIFO_NUM_TXBYTES): cc1200.registers.FIFO_NUM_TXBYTES = data; break;
+        case (FIFO_NUM_RXBYTES): cc1200.registers.FIFO_NUM_RXBYTES = data; break;
+        case (RXFIFO_PRE_BUF): cc1200.registers.RXFIFO_PRE_BUF = data; break;
+    }
+    
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.printf("(VSPI) %s data 0x%2.2X [%s]"
         " after accessing register 0x%2.2X%2.2X\n", 
-        register_access.readwrite_flag ? "Read in" : "Wrote in", 
-        register_access.data, main_states[cc1200.main_state],
+        readwrite_flag ? "Read in" : "Wrote in", 
+        data, main_states[cc1200.main_state],
         command, address
     );
     #endif
     digitalWrite(cc1200.pin_ss, HIGH);
-    return cc1200.main_state;
+    return data;
 }
 
 // 100 ns delay between consecutive data bytes must be added
 // during burst write access to the configuration registers.
-int cc1200_burst_register_access(cc1200_configuration_register_space_t configuration_address, cc1200_spi_access_t &register_access) {
-    register_access.burst_flag = BURST;
-    cc1200_single_register_access(configuration_address, register_access);
-    return 0;
-}
-int cc1200_burst_register_access(cc1200_extended_register_space_t extended_address, cc1200_spi_access_t &register_access) {
-    register_access.burst_flag = BURST;
-    cc1200_single_register_access(extended_address, register_access);
-    return 0;
-}
 
 int cc1200_command_strobe_access(cc1200_command_strobe_t command_strobe) {
     // header read write flag ignored, burst access not possible.
-    cc1200_spi_access_t strobe_access;
     // the chip status byte is returned on the MISO line 
     // when a command strobe is sent on the MOSI line.
-    update_status(cc1200_single_register_access((cc1200_configuration_register_space_t)command_strobe, strobe_access));
-    return cc1200.main_state;
+    return cc1200_register_access(READ, SINGLE, (cc1200_configuration_register_space_t)command_strobe, 0x00);;
 }
 
 // -------------------------------------------------------------
@@ -248,12 +419,8 @@ void cc1200_calculate_frequency_programming(double targetFrequency) {
 
     // Frequency Offset Estimate as utilized Offset Programming
     cc1200_command_strobe_access(SAFC); // any compensation is independent of the selected RF band.
-    cc1200_spi_access_t config_access;
-    config_access.readwrite_flag = READ;
-    update_status(cc1200_single_register_access(FREQOFF_EST1, config_access));
-    cc1200.registers.FREQOFF_EST1 = config_access.data;
-    update_status(cc1200_single_register_access(FREQOFF_EST0, config_access));
-    cc1200.registers.FREQOFF_EST0 = config_access.data;
+    cc1200.registers.FREQOFF_EST1 = cc1200_register_access(READ, SINGLE, FREQOFF_EST1, 0x00);
+    cc1200.registers.FREQOFF_EST0 = cc1200_register_access(READ, SINGLE, FREQOFF_EST0, 0x00);
 
     uint16_t U_FREQOFF_EST = (cc1200.registers.FREQOFF_EST1 << 8) | cc1200.registers.FREQOFF_EST0;
     U_FREQOFF_EST &= MAX_14_BIT_VALUE; // mask
@@ -288,13 +455,9 @@ void cc1200_calculate_frequency_programming(double targetFrequency) {
     // enable Frequency Synthesizer Out of Lock detector on FSCAL_CTRL.LOCK
     cc1200.registers.FS_CFG &= ~FS_LOCK_EN;
     cc1200.registers.FS_CFG |= (0b1 << FS_LOCK_EN_SHIFT) & FS_LOCK_EN;
-    config_access.readwrite_flag = WRITE;
-    config_access.data = cc1200.registers.FS_CFG;
-    update_status(cc1200_single_register_access(FS_CFG, config_access));
+    cc1200_register_access(WRITE, SINGLE, FS_CFG, cc1200.registers.FS_CFG);
 
-    config_access.readwrite_flag = READ;
-    update_status(cc1200_single_register_access(FSCAL_CTRL, config_access));
-    cc1200.registers.FSCAL_CTRL = config_access.data;
+    cc1200_register_access(READ, SINGLE, FSCAL_CTRL, 0x00);
     (cc1200.registers.FSCAL_CTRL & LOCK) ? "FS is in lock" : "FS is Out of Lock";
     
     #ifdef CC1200_DEBUG
@@ -415,72 +578,76 @@ void cc1200_calculate_symbol_rate(double targetSampleRate) {
 }
 
 void cc1200_TER_SmartRF_export(void) {
-    cc1200_spi_access_t config_access;
-    config_access.readwrite_flag = WRITE;
     // these are superseded by cc1200_init() and cc1200_enter_custom_frequency_modulation()
-    cc1200.registers.IOCFG3           = 0x08; // SERIAL_CLK
-    cc1200.registers.IOCFG2           = 0x09; // SERIAL_RX
-    cc1200.registers.IOCFG1           = 0xB0; // HighZ
-    cc1200.registers.IOCFG0           = 0xB0; // HighZ
+    // cc1200_register_access(WRITE, SINGLE, IOCFG3, 0x08); // SERIAL_CLK
+    // cc1200_register_access(WRITE, SINGLE, IOCFG2, 0x09); // SERIAL_RX
+    // cc1200_register_access(WRITE, SINGLE, IOCFG1, 0xB0); // HighZ
+    // cc1200_register_access(WRITE, SINGLE, IOCFG0, 0xB0); // HighZ
     
-    cc1200.registers.SYNC_CFG1        = 0x08; // SYNC_MODE=000 No sync word, 01010 Sync word threshold = 8 (strict)  
+    cc1200_register_access(WRITE, SINGLE, SYNC_CFG1, 0x08); // SYNC_MODE=000 No sync word, 01010 Sync word threshold = 8 (strict)  
 
     // cc1200.registers.MODCFG_DEV_E     = 0x03; // default exponent (reset)
-    cc1200.registers.DCFILT_CFG       = 0x1C; // filtering enabled, 64 samples, default bandwidth
-    cc1200.registers.PREAMBLE_CFG1    = 0x14; // Preamble word = 0xAA, minimum preamble size = 3 bits
-    cc1200.registers.IQIC             = 0xC4; // image compensation enabled, coefficient enabled, 8 samples, THR > 256
-    cc1200.registers.CHAN_BW          = 0x28; // ADC_CIC_DECFACT=0b00=48 (reset), BB_CIC_DECFACT=0b101000=40 (reset = 20) 
-    cc1200.registers.MDMCFG1          = 0x06; // DVGA = reserved (reset), both channels (I/Q) (reset), bypass fifo 
-
-    cc1200.registers.MDMCFG0          = 0x0A; // VITERBI detection disabled, should reflect reserved value change.
+    cc1200_register_access(WRITE, SINGLE, DCFILT_CFG, 0x1C); // filtering enabled, 64 samples, default bandwidth
+    cc1200_register_access(WRITE, SINGLE, PREAMBLE_CFG1, 0x14); // Preamble word = 0xAA, minimum preamble size = 3 bits
+    cc1200_register_access(WRITE, SINGLE, IQIC, 0xC4); // image compensation enabled, coefficient enabled, 8 samples, THR > 256
+    // cc1200.registers.CHAN_BW          = 0x28; // ADC_CIC_DECFACT=0b00=48 (reset), BB_CIC_DECFACT=0b101000=40 (reset = 20) 
+    // cc1200.registers.MDMCFG1          = 0x06; // DVGA = reserved (reset), both channels (I/Q) (reset), bypass fifo 
+    // cc1200.registers.MDMCFG0          = 0x0A; // VITERBI detection disabled, should reflect reserved value change.
 
     // these are superseded by cc1200_calculate_symbol_rate()
     // cc1200.registers.SYMBOL_RATE2     = 0x43; // SRATE_E=0b0100 (reset), SRATE_M_19_16=0b0011 (reset) 
     // cc1200.registers.SYMBOL_RATE1     = 0xA9; // SRATE_M_15_8=0xA9 (reset)
     // cc1200.registers.SYMBOL_RATE0     = 0x2A; // SRATE_M_7_0=0x2A (reset)
     // 
-    cc1200.registers.AGC_REF          = 0x20; // AGC_REFERENCE=0x20=10log10(RX_FILTER_BW)-92-(RSSI Offset)
-    cc1200.registers.AGC_CS_THR       = 0x19; // AGC_CS_TH=25 dB (1dB resolution in two's comp)
-    cc1200.registers.AGC_CFG1         = 0xAF; // AGC_CFG1_NOT_USED=1 RSSI_STEP_THR=0=3 dB sync search, 10 dB packet reception, AGC_WIN_SIZE=0b101=256 samples, AGC_SETTLE_WAIT=0b111=127 samples
-    cc1200.registers.AGC_CFG0         = 0xCF; // 11 00 RSSI_VALID_CNT=11=update after 9 input samples, 11
+    cc1200_register_access(WRITE, SINGLE, AGC_REF, 0x20); // AGC_REFERENCE=0x20=10log10(RX_FILTER_BW)-92-(RSSI Offset)
+    cc1200_register_access(WRITE, SINGLE, AGC_CS_THR, 0x19); // AGC_CS_TH=25 dB (1dB resolution in two's comp)
+    cc1200_register_access(WRITE, SINGLE, AGC_CFG1, 0xAF); // AGC_CFG1_NOT_USED=1 RSSI_STEP_THR=0=3 dB sync search, 10 dB packet reception, AGC_WIN_SIZE=0b101=256 samples, AGC_SETTLE_WAIT=0b111=127 samples
+    cc1200_register_access(WRITE, SINGLE, AGC_CFG0, 0xCF); // 11 00 RSSI_VALID_CNT=11=update after 9 input samples, 11
     // these are superseded by cc1200_enter_custom_frequency_modulation()
-    cc1200.registers.FIFO_CFG         = 0x00; // CRC_AUTOFLUSH=false
+    // cc1200.registers.FIFO_CFG         = 0x00; // CRC_AUTOFLUSH=false
     // these are superseded by cc1200_calculate_frequency_programming()
-    cc1200.registers.FS_CFG           = 0x12; // 000 FS_LOCK_EN=0b1=Out of lock detector enabled, FSD_BANDSELECT=0b0010=(LO divider = 4)
+    // cc1200.registers.FS_CFG           = 0x12; // 000 FS_LOCK_EN=0b1=Out of lock detector enabled, FSD_BANDSELECT=0b0010=(LO divider = 4)
 
     // these are superseded by cc1200_enter_custom_frequency_modulation()
-    cc1200.registers.PKT_CFG2         = 0x05; // 0 0 0 001 PKT_FORMAT=01 Synchronous serial mode
-    cc1200.registers.PKT_CFG1         = 0x00; // 0 0 0 00 CRC_CFG=00=disabled for TX and RX, APPEND_STATUS=0 status byte not appended 
-    cc1200.registers.PKT_CFG0         = 0x20; // 0 LENGTH_CONFIG=01=Variable packet length mode, 000 0 0
+    // cc1200.registers.PKT_CFG2         = 0x05; // 0 0 0 001 PKT_FORMAT=01 Synchronous serial mode
+    // cc1200.registers.PKT_CFG1         = 0x00; // 0 0 0 00 CRC_CFG=00=disabled for TX and RX, APPEND_STATUS=0 status byte not appended 
+    // cc1200.registers.PKT_CFG0         = 0x20; // 0 LENGTH_CONFIG=01=Variable packet length mode, 000 0 0
 
-    cc1200.registers.PA_CFG1          = 0x78; // 0 1 PA_POWER_RAMP=111000=(56+1)/2 - 18 = 10.5 dBm
-    cc1200.registers.PA_CFG0          = 0x7C; // FIRST_IPL=111=7/16 SECOND_IPL=111=15/16 RAMP_SHAPE=00 3/8 symbol ramp time and 1/32 symbol ASK/OOK shape length (legal UPSAMPLER_P values: 100b, 101b, and 110b)
-    cc1200.registers.IF_MIX_CFG       = 0x04; // 000 CMIX_CFG=001 f_{if} = -f_{xosc}/(CHAN_BW.ADC_CIC_DECFACT*4) [kHz] 00
-    cc1200.registers.FREQOFF_CFG      = 0x22; // 00 1 00 0 FOC_KI_FACTOR=MDMCFG0.TRANSPARENT_MODE_EN|10 = 1/64
+    cc1200_register_access(WRITE, SINGLE, PA_CFG1, 0x78); // 0 1 PA_POWER_RAMP=111000=(56+1)/2 - 18 = 10.5 dBm
+    cc1200_register_access(WRITE, SINGLE, PA_CFG0, 0x7C); // FIRST_IPL=111=7/16 SECOND_IPL=111=15/16 RAMP_SHAPE=00 3/8 symbol ramp time and 1/32 symbol ASK/OOK shape length (legal UPSAMPLER_P values: 100b, 101b, and 110b)
+    cc1200_register_access(WRITE, SINGLE, IF_MIX_CFG, 0x04); // 000 CMIX_CFG=001 f_{if} = -f_{xosc}/(CHAN_BW.ADC_CIC_DECFACT*4) [kHz] 00
+    cc1200_register_access(WRITE, SINGLE, FREQOFF_CFG, 0x22); // 00 1 00 0 FOC_KI_FACTOR=MDMCFG0.TRANSPARENT_MODE_EN|10 = 1/64
     
     // these are superseded by cc1200_calculate_frequency_programming()
     // cc1200.registers.FREQ2            = 0xD8; // FREQ_23_16=0xD8 
     // cc1200.registers.FREQ1            = 0x80; // FREQ_15_8=0x80
 
-    cc1200.registers.IF_ADC0          = 0x04; // 00 IF_ADC0_RESERVED5_0=000100
-    cc1200.registers.FS_DIG0          = 0x5F; // FS_DIG0_RESERVED7_4=0101, RX_LPF_BW=11 500 kHz, TX_LPF_BW=11 500 kHz
+    cc1200_register_access(WRITE, SINGLE, IF_ADC0, 0x04); // 00 IF_ADC0_RESERVED5_0=000100
+
+    cc1200_register_access(WRITE, SINGLE, FS_DIG0, 0x5F); // FS_DIG0_RESERVED7_4=0101, RX_LPF_BW=11 500 kHz, TX_LPF_BW=11 500 kHz
     // cc1200.registers.FS_CAL2          = 0x20; // reset
-    cc1200.registers.FS_CAL0          = 0x0F; // 0000 LOCK_CFG=11 infinite average, FS_CAL0_RESERVED1_0=11
-    cc1200.registers.FS_CHP           = 0x16; // 00 FS_CHP_RESERVED5_0=010110
+    cc1200_register_access(WRITE, SINGLE, FS_CAL0, 0x0F); // 0000 LOCK_CFG=11 infinite average, FS_CAL0_RESERVED1_0=11
+    cc1200_register_access(WRITE, SINGLE, FS_CHP, 0x16); // 00 FS_CHP_RESERVED5_0=010110
     // cc1200.registers.FS_DIVTWO        = 0x01; // reset
-    cc1200.registers.FS_DSM1          = 0x0B; // FS_DSM1_NOT_USED=00001 FS_DSM1_RESERVED2_0=011
-    cc1200.registers.FS_DSM0          = 0x30; // FS_DSM0_RESERVED7_0=0x30 
+    cc1200_register_access(WRITE, SINGLE, FS_DSM1, 0x0B); // FS_DSM1_NOT_USED=00001 FS_DSM1_RESERVED2_0=011
+    cc1200_register_access(WRITE, SINGLE, FS_DSM0, 0x30); // FS_DSM0_RESERVED7_0=0x30 
     // cc1200.registers.FS_DVC1          = 0xFF; // reset
     // cc1200.registers.FS_DVC0          = 0x1F; // reset
     // cc1200.registers.FS_PFD           = 0x51; // reset
-    cc1200.registers.FS_PRE           = 0x1F; // 0 FS_PRE_RESERVED6_0=0011111
-    cc1200.registers.FS_REG_DIV_CML   = 0x1D; // 000 FS_REG_DIV_CML_RESERVED4_0=11101
+    cc1200_register_access(WRITE, SINGLE, FS_PRE, 0x1F); // 0 FS_PRE_RESERVED6_0=0011111
+    cc1200_register_access(WRITE, SINGLE, FS_REG_DIV_CML, 0x1D); // 000 FS_REG_DIV_CML_RESERVED4_0=11101
     // cc1200.registers.FS_VCO0          = 0x81; // reset
+    cc1200_register_access(WRITE, SINGLE, XOSC3, 0xC7); // XOSC3_RESERVED7_0=0xC7;
+    // XOSC1_NOT_USED=0b00001, XOSC1_RESERVED2=0b1,
+    // XOSC_BUF_SEL=0b1 Low phase noise differential buffer (low power buffer still used for digital clock)
+    // XOSC_STABLE=0b1 XOSC is stable (has finished settling)
+    cc1200.registers.XOSC1 &= ~(XOSC1_RESERVED2 | XOSC_BUF_SEL);
+    cc1200.registers.XOSC1 |= ((0b1 << XOSC1_RESERVED2_SHIFT) & XOSC1_RESERVED2); 
+    cc1200.registers.XOSC1 |= ((0b1 << XOSC_BUF_SEL_SHIFT) & XOSC_BUF_SEL); 
+    cc1200_register_access(WRITE, SINGLE, XOSC1, cc1200.registers.XOSC1);
 
-    cc1200.registers.XOSC3            = 0xC7; // XOSC3_RESERVED7_0=0xC7
-    cc1200.registers.XOSC1            = 0x0F; // XOSC1_NOT_USED=0b00001, XOSC1_RESERVED2=0b1, XOSC_BUF_SEL=0b1 Low phase noise differential buffer (low power buffer still used for digital clock), XOSC_STABLE=0b1 XOSC is stable (has finished settling)
-    
-    cc1200.registers.RSSI1            = 0x80; // read-only RSSI_11_4=0x80 
+    // cc1200.registers.XOSC1            = 0x0F; 
+    // cc1200.registers.RSSI1            = 0x80; // read-only RSSI_11_4=0x80 
 
     // cc1200.registers.MARCSTATE        = 0x41; // 0 10 00001 (read-only)
     // cc1200.registers.PQT_SYNC_ERR     = 0xFF; // reset
@@ -497,9 +664,7 @@ void cc1200_TER_SmartRF_export(void) {
     // cc1200.registers.MODEM_STATUS1    = 0x10; // read-only 
     // cc1200.registers.DVC_TEST         = 0x0B; // reset
     // cc1200.registers.FIFO_NUM_TXBYTES = 0x0F; // reset
-    cc1200.registers.XOSC_TEST1       = 0x0C; // XOSC_TEST1_RESERVED7_0=0x0C
-    config_access.data = cc1200.registers.XOSC_TEST1;
-    update_status(cc1200_single_register_access(XOSC_TEST1, config_access));
+    cc1200_register_access(WRITE, SINGLE, XOSC_TEST1, 0x0C); // XOSC_TEST1_RESERVED7_0=0x0C
 }
 
 
@@ -518,8 +683,8 @@ int setup_interface() {
     cc1200.spi_frequency = 7700000; // // keep at 7.7 MHz per Martin B of TI E2E forums over 12 years ago 
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.printf("(VSPI) Beginning use of VSPI Interface... "
-        "[%d MHz, SS=%d,SCK=%d, MISO=%d, MOSI=%d]\n",
-        cc1200.spi_frequency, cc1200.pin_ss, cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi
+        "[%3.3f MHz, SS=%d,SCK=%d, MISO=%d, MOSI=%d]\n",
+        (double)cc1200.spi_frequency/1000000.0, cc1200.pin_ss, cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi
     );
     CC1200_DEBUG.printf("(VSPI ----------) Beginning use of CC1200... "
         "[GDIO0=%d, GDIO1=MISO, GDIO2=%d, GPIO3=-1]\n", 
@@ -556,19 +721,13 @@ int cc1200_init(cc1200_config_t &cc1200) {
     cc1200_reset(true);
     // once reset is completed, chip will be in the IDLE state.
     // To verify initialization, the read the part number to confirm CC1200.
-    cc1200_spi_access_t config_access;
-    config_access.readwrite_flag = READ;
-    update_status(cc1200_single_register_access(PARTNUMBER, config_access));
-    cc1200.partnumber = (cc1200_partnumber_t)config_access.data;
-    update_status(cc1200_single_register_access(PARTVERSION, config_access));
-    cc1200.partrevision = config_access.data;    
-    config_access.readwrite_flag = WRITE;
+    cc1200.partnumber = (cc1200_partnumber_t)cc1200_register_access(READ, SINGLE, PARTNUMBER, 0x00);
+    cc1200.partrevision = cc1200_register_access(READ, SINGLE, PARTVERSION, 0x00);    
 
     // SFSTXON strobe enables and calibrates FS if SETTLING_CFG.FS_AUTOCAL=1
     cc1200.registers.SETTLING_CFG &= ~FS_AUTOCAL;
     cc1200.registers.SETTLING_CFG |= ((0b1 << FS_AUTOCAL_SHIFT) & FS_AUTOCAL); 
-    config_access.data = cc1200.registers.SETTLING_CFG;
-    update_status(cc1200_single_register_access(SETTLING_CFG, config_access));
+    cc1200_register_access(WRITE, SINGLE, SETTLING_CFG, cc1200.registers.SETTLING_CFG);
 
     update_status(cc1200_command_strobe_access(SCAL));
     // ---------------------------------------------------------
@@ -579,8 +738,7 @@ int cc1200_init(cc1200_config_t &cc1200) {
     // GDO3 as this signal will be hardwired to 1(0) in the SLEEP state.
     cc1200.registers.IOCFG3 &= ~GPIOx_CFG;
     cc1200.registers.IOCFG3 |= ((PA_PD << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO3 asserts PA_PD GPIO signal 
-    config_access.data = cc1200.registers.IOCFG3;
-    update_status(cc1200_single_register_access(IOCFG3, config_access));
+    cc1200_register_access(WRITE, SINGLE, IOCFG3, cc1200.registers.IOCFG3);
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized Radio Transceiver!\n"
         "* CC1200 Initialization Results: [Part Number=0x%2.2X, %s] [Part Revision=0x%2.2X, %s]\n"
@@ -601,31 +759,23 @@ int cc1200_init(cc1200_config_t &cc1200) {
 // ---------------------------------------------------------
 
 void cc1200_enter_custom_frequency_modulation() {
-    cc1200_spi_access_t config_access;
-    config_access.readwrite_flag = WRITE;
-
     // ---------------------------------------------------------
     // SWRU346B Frequency Deviation Configuration
     // ---------------------------------------------------------
     cc1200_calculate_frequency_deviation(cc1200.frequency_deviation);
     // Frequency Deviation Configuration
-    config_access.data = cc1200.registers.DEVIATION_M;
-    update_status(cc1200_single_register_access(DEVIATION_M, config_access));
+    cc1200_register_access(WRITE, SINGLE, DEVIATION_M, cc1200.registers.DEVIATION_M);
     // Modulation Format and Frequency Deviation Configuration
-    config_access.data = cc1200.registers.MODCFG_DEV_E;
-    update_status(cc1200_single_register_access(MODCFG_DEV_E, config_access));
+    cc1200_register_access(WRITE, SINGLE, MODCFG_DEV_E, cc1200.registers.MODCFG_DEV_E);
     // ---------------------------------------------------------
     //             SWRU346B 5.4 Symbol Rate Programming
     // ---------------------------------------------------------
     // The modulator writes values to the PLL at 16x the 
     // programmed symbol rate using the soft data clock.
     cc1200_calculate_symbol_rate(cc1200.symbol_rate);
-    config_access.data = cc1200.registers.SYMBOL_RATE2;
-    update_status(cc1200_single_register_access(SYMBOL_RATE2, config_access));
-    config_access.data = cc1200.registers.SYMBOL_RATE1;
-    update_status(cc1200_single_register_access(SYMBOL_RATE1, config_access));
-    config_access.data = cc1200.registers.SYMBOL_RATE0;
-    update_status(cc1200_single_register_access(SYMBOL_RATE0, config_access));
+    cc1200_register_access(WRITE, SINGLE, SYMBOL_RATE2, cc1200.registers.SYMBOL_RATE2);
+    cc1200_register_access(WRITE, SINGLE, SYMBOL_RATE1, cc1200.registers.SYMBOL_RATE1);
+    cc1200_register_access(WRITE, SINGLE, SYMBOL_RATE0, cc1200.registers.SYMBOL_RATE0);
     // ---------------------------------------------------------
     //             SWRU346B 6 Receive Configuration
     // ---------------------------------------------------------
@@ -636,13 +786,11 @@ void cc1200_enter_custom_frequency_modulation() {
     cc1200.registers.CHAN_BW |= ((widefm ? FACTOR24 : FACTOR48) << ADC_CIC_DECFACT_SHIFT & ADC_CIC_DECFACT);
     // set CHAN_BW.BB_CIC_DECFACT second decimation filter factor
     cc1200.registers.CHAN_BW |= ((widefm ? WFM_DECFACT_OVERSHOOT : NFM_DECFACT_OVERSHOOT) & BB_CIC_DECFACT);
-    config_access.data = cc1200.registers.CHAN_BW;
-    update_status(cc1200_single_register_access(CHAN_BW, config_access));
+    cc1200_register_access(WRITE, SINGLE, CHAN_BW, cc1200.registers.CHAN_BW);
 
     cc1200.registers.FIFO_CFG &= ~CRC_AUTOFLUSH;
     cc1200.registers.FIFO_CFG |= (0b0 << CRC_AUTOFLUSH_SHIFT) & CRC_AUTOFLUSH;
-    config_access.data = cc1200.registers.FIFO_CFG; 
-    update_status(cc1200_single_register_access(FIFO_CFG, config_access));
+    cc1200_register_access(WRITE, SINGLE, FIFO_CFG, cc1200.registers.FIFO_CFG);
 
     // ---------------------------------------------------------
     //         General Modem Parameter Configuration
@@ -651,14 +799,12 @@ void cc1200_enter_custom_frequency_modulation() {
     cc1200.registers.MDMCFG2 &= ~(CFM_DATA_EN | UPSAMPLER_P); 
     cc1200.registers.MDMCFG2 |= ((0b1 << CFM_DATA_EN_SHIFT) & CFM_DATA_EN);
     cc1200.registers.MDMCFG2 |= ((P16 << UPSAMPLER_P_SHIFT) & UPSAMPLER_P);
-    config_access.data = cc1200.registers.MDMCFG2; 
-    update_status(cc1200_single_register_access(MDMCFG2, config_access));
+    cc1200_register_access(WRITE, SINGLE, MDMCFG2, cc1200.registers.MDMCFG2);
     // MDMCFG1: disable Normal/FIFO Mode packet format configuration.
     // NOTE: this means modem data goes directly to/from the serial pin(s)
     cc1200.registers.MDMCFG1 &= ~FIFO_EN;
-    cc1200.registers.MDMCFG1 |= ((0b0 << FIFO_EN_SHIFT) & FIFO_EN); 
-    config_access.data = cc1200.registers.MDMCFG1; 
-    update_status(cc1200_single_register_access(MDMCFG1, config_access));
+    cc1200.registers.MDMCFG1 |= ((0b0 << FIFO_EN_SHIFT) & FIFO_EN);  
+    cc1200_register_access(WRITE, SINGLE, MDMCFG1, cc1200.registers.MDMCFG1);
     // MDMCFG0: disable Transparent & Extended data filters and Viterbi detection.
     // NOTE: having the data filters enabled may improve sensitivity.
     cc1200.registers.MDMCFG0 &= ~TRANSPARENT_MODE_EN;
@@ -671,14 +817,12 @@ void cc1200_enter_custom_frequency_modulation() {
     // NOTE: having Viterbi detection also improves sensitivity.
     cc1200.registers.MDMCFG0 &= ~VITERBI;
     cc1200.registers.MDMCFG0 |= ((0b0 << VITERBI_SHIFT) & VITERBI); // Viterbi detection disabled
-    cc1200.registers.MDMCFG0 |= ((0b10) & MDMCFG0_RESERVED1_0); // use values from SmartRF Studio (reset = 0x01)
-    config_access.data = cc1200.registers.MDMCFG0; 
-    update_status(cc1200_single_register_access(MDMCFG0, config_access));
+    cc1200.registers.MDMCFG0 |= ((0b10) & MDMCFG0_RESERVED1_0); // use values from SmartRF Studio (reset = 0x01) 
+    cc1200_register_access(WRITE, SINGLE, MDMCFG0, cc1200.registers.MDMCFG0);
     // SYNC_CFG1: disable sync word
     cc1200.registers.SYNC_CFG1 &= ~(SYNC_MODE_SHIFT);
     cc1200.registers.SYNC_CFG1 |= ((0b000 << SYNC_MODE_SHIFT) & SYNC_MODE);
-    config_access.data = cc1200.registers.SYNC_CFG1; 
-    update_status(cc1200_single_register_access(SYNC_CFG1, config_access));
+    cc1200_register_access(WRITE, SINGLE, SYNC_CFG1, cc1200.registers.SYNC_CFG1);
 
     // select Synchronous serial mode packet format configuration
     // NOTE: synchronous serial mode makes use of the WaveMatch detector, which 
@@ -686,8 +830,7 @@ void cc1200_enter_custom_frequency_modulation() {
     cc1200.registers.PKT_CFG2 &= ~(CCA_MODE | PKT_FORMAT);
     cc1200.registers.PKT_CFG2 |= ((0b1 << CCA_MODE_SHIFT) & CCA_MODE); // indicate clear channel when RSSI is below threshold
     cc1200.registers.PKT_CFG2 |= ((0b01 << PKT_FORMAT_SHIFT) & PKT_FORMAT); // select Synchronous serial mode
-    config_access.data = cc1200.registers.PKT_CFG2;
-    update_status(cc1200_single_register_access(PKT_CFG2, config_access));
+    cc1200_register_access(WRITE, SINGLE, PKT_CFG2, cc1200.registers.PKT_CFG2);
 
     /** SWRU346B Equation 3 f_{offset}
      * f_{offset} = f_{dev}*CFM_TX_DATA_IN/64 [Hz]
@@ -701,8 +844,7 @@ void cc1200_enter_custom_frequency_modulation() {
     // the same register address without any SPI address overhead.
     cc1200.registers.EXT_CTRL &= ~BURST_ADDR_INCR_EN;
     cc1200.registers.EXT_CTRL |= ((0b0 << BURST_ADDR_INCR_EN_SHIFT) & BURST_ADDR_INCR_EN);
-    config_access.data = cc1200.registers.EXT_CTRL;
-    update_status(cc1200_single_register_access(EXT_CTRL, config_access));
+    cc1200_register_access(WRITE, SINGLE, EXT_CTRL, cc1200.registers.EXT_CTRL);
 
     // ---------------------------------------------------------
     //  SWRU346B 3.4 General Purpose Input/Output Control Pins 
@@ -712,37 +854,31 @@ void cc1200_enter_custom_frequency_modulation() {
     // this GPIO signal runs at the same rate as the programmed symbol rate.
     cc1200.registers.IOCFG2 &= ~GPIOx_CFG; // clear previous GPIO config
     cc1200.registers.IOCFG2 |= ((CLKEN_CFM << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO2 asserts CLKEN_CFM GPIO signal 
-    config_access.data = cc1200.registers.IOCFG2;
-    update_status(cc1200_single_register_access(IOCFG2, config_access));
+    cc1200_register_access(WRITE, SINGLE, IOCFG2, cc1200.registers.IOCFG2);
     // set IOCFGx.GPIOx_CFG=30=0x1E to use GPIO signal CFM_TX_DATA_CLK data clock
     // interrupt to the MCU to synchronize the SPI data to the internal modulation rate.
     // this GPIO signal runs at 16x the programmed symbol rate.
     cc1200.registers.IOCFG0 &= ~GPIOx_CFG; // clear previous GPIO config
     cc1200.registers.IOCFG0 |= ((CFM_TX_DATA_CLK << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO0 asserts CFM_TX_DATA_CLK GPIO signal 
-    config_access.data = cc1200.registers.IOCFG0;
-    update_status(cc1200_single_register_access(IOCFG0, config_access));
+    cc1200_register_access(WRITE, SINGLE, IOCFG0, cc1200.registers.IOCFG0);
     // -- end of one-time Custom FM configuration changes --
 }
 
 void IRAM_ATTR CLKEN_CFM_ISR() {
-
+    cc1200.read_CFM_RX_DATA_OUT = true;
 }
 
 void IRAM_ATTR CFM_TX_DATA_CLK_ISR() {
-
+    cc1200.write_CFM_TX_DATA_IN = true;
 }
 
 void cc1200_exit_custom_frequency_modulation() {
     // Note that in TX mode, 3 dummy symbols should be written to the 
     // CFM_TX_DATA_IN register before strobing SIDLE 
     // in order for all symbols to be sent on the air before TX mode is ended.
-    cc1200_spi_access_t config_access;
-    config_access.readwrite_flag = WRITE;
-    cc1200.registers.CFM_TX_DATA_IN = 0x00;
-    config_access.data = cc1200.registers.CFM_TX_DATA_IN;
-    update_status(cc1200_single_register_access(CFM_TX_DATA_IN, config_access));
-    update_status(cc1200_single_register_access(CFM_TX_DATA_IN, config_access));
-    update_status(cc1200_single_register_access(CFM_TX_DATA_IN, config_access));
+    cc1200_register_access(WRITE, SINGLE, CFM_TX_DATA_IN, 0x00);
+    cc1200_register_access(WRITE, SINGLE, CFM_TX_DATA_IN, 0x00);
+    cc1200_register_access(WRITE, SINGLE, CFM_TX_DATA_IN, 0x00);
     cc1200_command_strobe_access(SIDLE);
 }
 
@@ -778,20 +914,12 @@ int cc1200_receive_mode(double targetFrequency) {
     if (currentFrequency != targetFrequency ) {
         cc1200_idle_mode();
         // update_status(cc1200_command_strobe_access(SFSTXON));
-        cc1200_spi_access_t config_access;
-        config_access.readwrite_flag = WRITE;
-        // 
         cc1200_calculate_frequency_programming(targetFrequency); // 446.000 MHz
-        config_access.data = cc1200.registers.FREQOFF1;
-        update_status(cc1200_single_register_access(FREQOFF1, config_access));
-        config_access.data = cc1200.registers.FREQOFF0;
-        update_status(cc1200_single_register_access(FREQOFF0, config_access));
-        config_access.data = cc1200.registers.FREQ2;
-        update_status(cc1200_single_register_access(FREQ2, config_access));
-        config_access.data = cc1200.registers.FREQ1;
-        update_status(cc1200_single_register_access(FREQ1, config_access));
-        config_access.data = cc1200.registers.FREQ0;
-        update_status(cc1200_single_register_access(FREQ0, config_access));
+        cc1200_register_access(WRITE, SINGLE, FREQOFF1, cc1200.registers.FREQOFF1);
+        cc1200_register_access(WRITE, SINGLE, FREQOFF0, cc1200.registers.FREQOFF0);
+        cc1200_register_access(WRITE, SINGLE, FREQ2, cc1200.registers.FREQ2);
+        cc1200_register_access(WRITE, SINGLE, FREQ1, cc1200.registers.FREQ1);
+        cc1200_register_access(WRITE, SINGLE, FREQ0, cc1200.registers.FREQ0);
         //
         if (currentBand != cc1200.band) {
             rfsw_switchTo(((cc1200.band == BAND_70CM) ? UHF : VHF), LOW);
@@ -820,20 +948,13 @@ int cc1200_transmit_mode(double targetFrequency) {
     #endif
     if (currentFrequency != targetFrequency ) {
         cc1200_idle_mode();
-        // update_status(cc1200_command_strobe_access(SFSTXON));
-        cc1200_spi_access_t config_access;
-        config_access.readwrite_flag = WRITE;
+        // cc1200_command_strobe_access(SFSTXON);
         cc1200_calculate_frequency_programming(targetFrequency); // 446.000 MHz
-        config_access.data = cc1200.registers.FREQOFF1;
-        update_status(cc1200_single_register_access(FREQOFF1, config_access));
-        config_access.data = cc1200.registers.FREQOFF0;
-        update_status(cc1200_single_register_access(FREQOFF0, config_access));
-        config_access.data = cc1200.registers.FREQ2;
-        update_status(cc1200_single_register_access(FREQ2, config_access));
-        config_access.data = cc1200.registers.FREQ1;
-        update_status(cc1200_single_register_access(FREQ1, config_access));
-        config_access.data = cc1200.registers.FREQ0;
-        update_status(cc1200_single_register_access(FREQ0, config_access));
+        cc1200_register_access(WRITE, SINGLE, FREQOFF1, cc1200.registers.FREQOFF1);
+        cc1200_register_access(WRITE, SINGLE, FREQOFF0, cc1200.registers.FREQOFF0);
+        cc1200_register_access(WRITE, SINGLE, FREQ2, cc1200.registers.FREQ2);
+        cc1200_register_access(WRITE, SINGLE, FREQ1, cc1200.registers.FREQ1);
+        cc1200_register_access(WRITE, SINGLE, FREQ0, cc1200.registers.FREQ0);
         if (currentBand != cc1200.band) {
             rfsw_switchTo(((cc1200.band == BAND_70CM) ? UHF : VHF), HIGH);
             currentBand = cc1200.band;
@@ -906,12 +1027,7 @@ void demonstrate_radio_transceiver() {
     CC1200_DEBUG.printf("Entering Radio Transceiver Demonstration!\n");
     #endif
     // Display register-level transceiver configuration for SmartRF interplay
-    tft.fillScreen(ST77XX_BLACK);
-    tft.setRotation(1);
-    tft.setTextWrap(false);
-    tft.setTextColor(0xFFFF);
-    tft.setFont();
-    tft.setCursor(0, 0);
+    display_init(display_config);
     tft.printf("MARC State: %s\n"
         "Current Transceiver Configuration:\nPart Number/Revision = 0x%2.2X/0x%2.2X\n", 
         main_states[cc1200.main_state],
@@ -919,10 +1035,10 @@ void demonstrate_radio_transceiver() {
     );
 
     uint8_t* cfm_data_buffer;
-    attachInterrupt(digitalPinToInterrupt(cc1200.pin_gdio0), CFM_TX_DATA_CLK_ISR, RISING);
-    attachInterrupt(digitalPinToInterrupt(cc1200.pin_gdio2), CLKEN_CFM_ISR, RISING);
+    attachInterrupt(digitalPinToInterrupt(cc1200.pin_gdio0), CFM_TX_DATA_CLK_ISR, FALLING);
+    attachInterrupt(digitalPinToInterrupt(cc1200.pin_gdio2), CLKEN_CFM_ISR, FALLING);
 
-    // cc1200.symbol_rate = 40000; // curiouselectron demo targets 40kHz sample rate. Default is 24kHz.
+    cc1200.symbol_rate = 8000; // curiouselectron demo targets 40kHz sample rate. Default is 8kHz.
     
     cc1200_enter_custom_frequency_modulation();
     // // update RF switch port to reflect current RF band and tentative active state  
@@ -935,10 +1051,9 @@ void demonstrate_radio_transceiver() {
     vTaskDelay(10000/portTICK_PERIOD_MS);
     cc1200_exit_custom_frequency_modulation();
 
-
     // cc1200_command_strobe_access(STX);
     
-
+    tft.setFont();
     // display radio settings
     tft.printf("IO Pin GPIO3/2/1/0=0x%2.2X %2.2X %2.2X %2.2X\n"
         "Sync Word [31:24] [23:16] [15:8] [7:0] SYNCHH_LL=0x00 00 00 00\n"
