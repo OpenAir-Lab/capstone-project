@@ -34,10 +34,14 @@
 OpenAir Lab is an **open-source, modular handheld ham-radio development kit** designed to expose and teach all fundamental subsystems of a portable transceiver. Unlike commercial “black-box” radios, this platform separates RF, MCU, audio, power, and HMI into independent **Modulinos** connected through standardized EYESPI and I²C interfaces.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> b6e07c8 (docs: update README)
 The system’s core is an **ESP32-WROVER-E** MCU hosting RF control, audio streaming, display driving, and power-management logic. 
 <img src="Documentation/mcu-front.png" alt="Alt text" width="300" height="200">
 
 Subsystems include:
+<<<<<<< HEAD
 
 - **RF modulino:** TI CC1200 sub-GHz transceiver  
 <img src="Documentation/rf-trx-front.png" alt="Alt text" width="300" height="200">
@@ -59,14 +63,31 @@ Subsystems include:
 
 =======
 The system’s core is an **ESP32-WROVER-E** MCU hosting RF control, audio streaming, display driving, and power-management logic. Subsystems include:
+=======
+>>>>>>> b6e07c8 (docs: update README)
 
 - **RF modulino:** TI CC1200 sub-GHz transceiver  
+<img src="Documentation/rf-trx-front.png" alt="Alt text" width="300" height="200">
+<img src="Documentation/rf-PA-front.png" alt="Alt text" width="300" height="200">
+<img src="Documentation/rf-sw-front.png" alt="Alt text" width="300" height="200">
+
 - **HMI modulino:** 1.9" ST7789 TFT via EYESPI, keypad, user buttons, rotary encoder  
-- **Audio modulino:** ICS-43434 digital MEMS microphone + MAX98357A I²S amplifier  
+<img src="Documentation/hmi-front.png" alt="Alt text" width="300" height="200">
+
+- **Audio modulino:** ICS-43434 digital MEMS microphone + MAX98357A I²S amplifier 
+
 - **Power modulino:** STUSB4500 USB-PD, BQ25622 charger, fuel gauge  
+<img src="Documentation/power-front.png" alt="Alt text" width="300" height="200">
+
 - **Control plane:** I²C expander for low-rate signals (LEDs, keypad, resets, alerts)
 
+<<<<<<< HEAD
 >>>>>>> e82c24f (docs: organized REV A and REV B pcb and schematic files and put them into their relavent folders)
+=======
+
+
+
+>>>>>>> b6e07c8 (docs: update README)
 Purpose:  
 • Provide a hands-on educational platform for embedded, RF, and systems engineering  
 • Enable modular experimentation and rapid firmware iteration  
