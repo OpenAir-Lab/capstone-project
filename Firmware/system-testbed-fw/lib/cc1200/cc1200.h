@@ -547,6 +547,15 @@ typedef struct {
     uint8_t main_state;
     cc1200_registers_t registers;
 } cc1200_config_t;
+/**
+ * CC1200 User Guide omits whether performing the CC112X manual calibration at 
+ * start-up and writing the resulting FS_CHP, FS_VCO4, and FS_VCO2 register
+ * values in MCU (MARC) memory is also necessary. The recommended settings 
+ * change with frequency. This means that one should always use SmartRF Studio 
+ * to get the correct settings for a specific frequency before doing a 
+ * calibration, regardless of which calibration method is being used.
+ */
+void cc1200_manual_calibration();
 
 int cc1200_init(cc1200_config_t &cc1200);
 /**

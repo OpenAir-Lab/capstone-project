@@ -705,6 +705,55 @@ int setup_interface() {
     return 0;
 }
 
+void cc1200_manual_calibration() {
+    uint8_t FS_VCO_HIGH;
+    uint8_t FS_VCO4_HIGH;
+    uint8_t FS_CHP_HIGH;
+    uint8_t FS_VCO_MID;
+    uint8_t FS_VCO4_MID;
+    uint8_t FS_CHP_MID;
+    // 1) Set VCO cap-array to 0 (FS_VCO2 = 0x00)
+    cc1200_register_access(WRITE, SINGLE, FS_VCO2, 0x00);
+    // 2) Start with high VCDAC (original VCDAC_START + 2):
+    cc1200.registers.FS_CAL2 = cc1200_register_access(READ, SINGLE, FS_CAL2, 0x00);
+    cc1200_register_access(WRITE, SINGLE, FS_VCO2, cc1200.registers.FS_CAL2 + 2);
+    // 3) Calibrate and wait for calibration to be done (radio back in IDLE state)
+    cc1200_command_strobe_access(SCAL);
+    do {
+        cc1200_command_strobe_access(SNOP);
+    }
+    while (cc1200.main_state != MARC_IDLE);
+    // 4) Read FS_VCO2, FS_VCO4 and FS_CHP register obtained with high VCDAC_START value
+    FS_VCO_HIGH = cc1200_register_access(READ, SINGLE, FS_VCO2, 0x00);
+    FS_VCO4_HIGH = cc1200_register_access(READ, SINGLE, FS_VCO4, 0x00);
+    FS_CHP_HIGH = cc1200_register_access(READ, SINGLE, FS_CHP, 0x00);
+    // 5) Set VCO cap-array to 0 (FS_VCO2 = 0x00)
+    cc1200_register_access(WRITE, SINGLE, FS_VCO2, 0x00);
+    // 6) Continue with mid VCDAC (original VCDAC_START):
+    FS_VCO_MID = cc1200_register_access(READ, SINGLE, FS_CAL2, cc1200.registers.FS_CAL2);
+    // 7) Calibrate and wait for calibration to be done (radio back in IDLE state)
+    cc1200_command_strobe_access(SCAL);
+    do {
+        cc1200_command_strobe_access(SNOP);
+    }
+    while (cc1200.main_state != MARC_IDLE);
+    // 8) Read FS_VCO2, FS_VCO4 and FS_CHP register obtained with mid VCDAC_START value
+    FS_VCO_MID = cc1200_register_access(READ, SINGLE, FS_VCO2, 0x00);
+    FS_VCO4_MID = cc1200_register_access(READ, SINGLE, FS_VCO4, 0x00);
+    FS_CHP_MID = cc1200_register_access(READ, SINGLE, FS_CHP, 0x00);
+    // 9) Write back highest FS_VCO2 and corresponding FS_VCO and FS_CHP result
+    bool useHighestVDAC = FS_VCO_HIGH > FS_VCO_MID;
+    cc1200.registers.FS_VCO2 = cc1200_register_access(READ, SINGLE, FS_VCO2,
+        useHighestVDAC ? FS_VCO_HIGH : FS_VCO_MID
+    );
+    cc1200.registers.FS_VCO4 = cc1200_register_access(READ, SINGLE, FS_VCO4,
+        useHighestVDAC ? FS_VCO4_HIGH : FS_VCO4_MID
+    );
+    cc1200.registers.FS_CHP = cc1200_register_access(READ, SINGLE, FS_CHP,
+        useHighestVDAC ? FS_CHP_HIGH : FS_CHP_MID
+    );
+}
+
 int cc1200_init(cc1200_config_t &cc1200) {
     if (cc1200.initialized) {
       return 0;
