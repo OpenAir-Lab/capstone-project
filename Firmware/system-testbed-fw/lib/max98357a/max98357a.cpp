@@ -20,4 +20,5 @@ extern int16_t max98357a_data_buffer[BUFFER_SAMPLES];
 int max98357a_playback(int16_t *max98357a_data_buffer) {
     I2S.setBufferSize(sizeof(max98357a_data_buffer));
     I2S.write(max98357a_data_buffer, sizeof(max98357a_data_buffer));
+    return 0;
 }

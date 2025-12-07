@@ -11806,7 +11806,7 @@
 					(page "#")
 				)
 			)
-			(project "rf-modulino"
+			(project "rf-transceiver-modulino-frontend"
 				(path "/53335cfc-ec3d-4a8d-a8a2-7182529079d3/7980ef48-bac3-4735-b991-4ec5b2579405"
 					(page "4")
 				)
@@ -11927,7 +11927,7 @@
 					(page "#")
 				)
 			)
-			(project "rf-modulino"
+			(project "rf-transceiver-modulino-frontend"
 				(path "/53335cfc-ec3d-4a8d-a8a2-7182529079d3/7980ef48-bac3-4735-b991-4ec5b2579405"
 					(page "3")
 				)
