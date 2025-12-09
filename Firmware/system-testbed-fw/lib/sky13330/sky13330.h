@@ -22,4 +22,4 @@ void rfsw_switchTo(rfsw_port_selections_t port_select);
 
 int sky13330_init(sky13330_config_t &sky13330);
 
-void demonstrate_radio_switch();
+void demonstrate_radio_switch(void *parameter);

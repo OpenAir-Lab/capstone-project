@@ -156,7 +156,7 @@ void grf5604_drawPorts(grf5604_config_t &grf5604) {
     tft.setCursor(207, 112); tft.printf("P4");
 }
 
-void demonstrate_radio_amplifier() {
+void demonstrate_radio_amplifier(void *parameter) {
     #ifdef RFAMP_DEBUG
     RFAMP_DEBUG.printf("Entering Radio Amplifier Demonstration!\n");
     #endif

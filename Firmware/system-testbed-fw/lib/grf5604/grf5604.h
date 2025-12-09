@@ -23,4 +23,4 @@ void grf5604_drawPorts(grf5604_config_t &grf5604);
 
 int grf5604_init(grf5604_config_t &grf5604);
 
-void demonstrate_radio_amplifier();
+void demonstrate_radio_amplifier(void *parameter);
