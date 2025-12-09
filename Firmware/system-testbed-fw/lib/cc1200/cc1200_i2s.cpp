@@ -21,7 +21,7 @@ const size_t BUF_BYTES = FRAMES_PER_BUF * BYTES_PER_FRAME;
 double cc1200_demodulate_cfm_byte() {
     // CFM_RX_DATA_OUT is used to read the instantaneous frequency offset.
     if (cc1200.read_CFM_RX_DATA_OUT) {
-        cc1200.registers.CFM_RX_DATA_OUT =  cc1200_register_access(READ, BURST, CFM_RX_DATA_OUT, 0x00);
+        cc1200.registers.CFM_RX_DATA_OUT = cc1200_register_access(READ, BURST, CFM_RX_DATA_OUT, 0x00);
     }
     // f_{offset} = \frac{f_{dev}*CFM_RX_DATA_OUT.CFM_RX_DATA}{64}  
     double offset = cc1200.frequency_deviation*cc1200.registers.CFM_RX_DATA_OUT/64; 

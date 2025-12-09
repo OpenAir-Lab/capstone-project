@@ -1,5 +1,7 @@
 #include <SPI.h>
-
+#include <freertos/FreeRTOS.h>
+#include <freertos/timers.h>
+#include <freertos/task.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -65,6 +67,9 @@ typedef enum {
 #define MAX_04_BIT_VALUE (1U << 4) - 1     // used by symbol rate
 #define TWO_TO_THE_08    (1ULL << 8)       // used by frequency deviation
 #define MAX_08_BIT_VALUE TWO_TO_THE_08 - 1 // used by frequency deviation
+#define TWO_TO_THE_11    (1ULL << 11)      // used by RSSI calculation
+#define TWO_TO_THE_12    (1ULL << 12)      // used by RSSI calculation
+#define MAX_12_BIT_VALUE TWO_TO_THE_12 - 1 // used by RSSI calculation
 #define TWO_TO_THE_13    (1ULL << 13)      // used by frequency programming
 #define TWO_TO_THE_14    (1ULL << 14)      // used by frequency deviation
 #define MAX_14_BIT_VALUE TWO_TO_THE_14 - 1 // used by frequency programming
@@ -280,7 +285,10 @@ typedef enum {
     MODCFG_DEV_E,
     #define DEV_E GENMASK(2,0) // reset 0x03
     DCFILT_CFG,
-    PREAMBLE_CFG1, PREAMBLE_CFG0,
+    PREAMBLE_CFG1,
+    #define NUM_PREAMBLE_SHIFT 2
+    #define NUM_PREAMBLE GENMASK(5,2)
+    PREAMBLE_CFG0,
     IQIC,
     CHAN_BW,
     #define ADC_CIC_DECFACT_SHIFT 6
@@ -310,6 +318,8 @@ typedef enum {
     AGC_REF,
     AGC_CS_THR,
     AGC_GAIN_ADJUST,
+    #define GAIN_ADJUSTMENT_OFFSET 0
+    #define GAIN_ADJUSTMENT GENMASK(7,0)
     AGC_CFG3, AGC_CFG2, AGC_CFG1, AGC_CFG0,
     FIFO_CFG,
     #define CRC_AUTOFLUSH_SHIFT 7
@@ -413,7 +423,15 @@ typedef enum {
     DCFILTOFFSET_Q1, DCFILTOFFSET_Q0, 
     IQIE_I1, IQIE_I0,
     IQIE_Q1, IQIE_Q0, 
-    RSSI1, RSSI0,
+    RSSI1,
+    #define RSSI_11_04_SHIFT 0
+    #define RSSI_11_04 GENMASK(7,0)
+    RSSI0,
+    #define RSSI_03_00_SHIFT 3
+    #define RSSI_03_00 GENMASK(6,3)
+    #define CARRIER_SENSE BIT(2)
+    #define CARRIER_SENSE_VALID BIT(1)
+    #define RSSI_VALID BIT(0)
     MARCSTATE,
     LQI_VAL,
     PQT_SYNC_ERR,
@@ -542,11 +560,29 @@ typedef struct {
     double symbol_rate = 24000;
     double frequency_deviation = 5000;
 
+    int8_t rssi_offset = 80; // in dB two's comp
+    float rssi = -120; // in dBm
 
     bool chip_nrdy;
     uint8_t main_state;
     cc1200_registers_t registers;
 } cc1200_config_t;
+/**
+ * CC1200 User Guide omits whether performing the CC112X manual calibration at 
+ * start-up and writing the resulting FS_CHP, FS_VCO4, and FS_VCO2 register
+ * values in MCU (MARC) memory is also necessary. The recommended settings 
+ * change with frequency. This means that one should always use SmartRF Studio 
+ * to get the correct settings for a specific frequency before doing a 
+ * calibration, regardless of which calibration method is being used.
+ */
+void cc1200_manual_calibration();
+
+float cc1200_calculate_rssi(bool high_resolution);
+void IRAM_ATTR rssiCallback(TimerHandle_t rssiTimer);
+void IRAM_ATTR cfmCallback(TimerHandle_t cfmTimer);
+int cc1200_receive_mode(double targetFrequency);
+int cc1200_transmit_mode(double targetFrequency);
+int cc1200_sleep_mode();
 
 int cc1200_init(cc1200_config_t &cc1200);
 /**
@@ -555,4 +591,4 @@ int cc1200_init(cc1200_config_t &cc1200);
  * [ ] Can the transceiver be asked to go to sleep and then be woken up?
  * [ ] How about entering SPI transparent transaction mode? Can the GPIO pins be set up for Custom Frequency Modulation?
  */
-void demonstrate_radio_transceiver();
+void demonstrate_radio_transceiver(void *parameter);

@@ -17,6 +17,7 @@
 #include <max98357a.h>
 #include <ics43434.h>
 
+#define STACK_SIZE 2048
 // use doxygen formatting in block comments
 // for auto-generated firmware documentation!
 
@@ -126,6 +127,24 @@ static const unsigned char PROGMEM image_battery_100_bits[] = {0x00,0x00,0x00,0x
     Scanning is acheived using domino logic.
 */
 
+TaskHandle_t vDisplayRSSITaskHandle = NULL;
+void vDisplayRSSITask(void *pv) {
+    for (;;) {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // wait for timer
+        // blocking calls here allowed
+        bool high_resolution = false;
+        cc1200_calculate_rssi(high_resolution);
+        bool valid_RSSI = (cc1200.registers.RSSI0 & RSSI_VALID);
+        if (valid_RSSI) {
+            tft.fillRect(71, 45, 89, 16, ST77XX_BLACK);
+            tft.fillRect(147, 30, 89, 16, ST77XX_BLACK);
+            tft.setFont(&FreeMono9pt7b);
+            tft.setCursor(148, 42); tft.printf("%d dBm", cc1200.rssi_offset);
+            tft.setCursor(76, 58); tft.printf(high_resolution ? "%3.4f dBm" : "%3.0f dBm", cc1200.rssi);
+        }
+    }
+}
+
 int hmi_init() {
     // PCF8575 HMI Port Expander
     pcf_hmi_config.i2c = &Wire;   // I2C0
@@ -183,10 +202,11 @@ int radio_init() {
     while (!(sky13330_init(sky13330) == 0));
     // Initialize RF Transceiver in UHF receive Analog FM mode
     while (!(cc1200_init(cc1200) == 0));
+    xTaskCreate(vDisplayRSSITask, "displayRSSI", STACK_SIZE, NULL, 2, &vDisplayRSSITaskHandle);
     return 0;   
 }
 
-void demonstrate_mcu() {
+void demonstrate_mcu(void *parameter) {
     // Texas Instruments PCF8575 16-bit Port Expander
     pcf_mcu_config.i2c = &Wire;   // I2C0
     pcf_mcu_config.pin_interrupt = 12;
@@ -195,32 +215,22 @@ void demonstrate_mcu() {
     while (!(pcf8575_init(pcf_mcu, pcf_mcu_config) == 0));
 }
 
-void demonstrate_usb_power_delivery() {
+void demonstrate_usb_power_delivery(void *parameter) {
     // Requires having run the one time advertisement programming routine.
 }
 
-void demonstrate_battery_power_supply() {
+void demonstrate_battery_power_supply(void *parameter) {
 
 }
 
-void demonstrate_human_machine_interface() {
-    // Initialize HMI
-    while (!(hmi_init() == 0));
-}
-
-void demonstrate_digital_audio_interface() {
+void demonstrate_human_machine_interface(void *parameter) {
 
 }
 
-void demonstrate_expo() {
-    demonstrate_usb_power_delivery();
-    demonstrate_battery_power_supply();
-    demonstrate_human_machine_interface();
-    demonstrate_digital_audio_interface();
-    demonstrate_radio_transceiver();
-    demonstrate_radio_amplifier();
-    demonstrate_radio_switch();
+void demonstrate_digital_audio_interface(void *parameter) {
+
 }
+
 
 void setup(void) {
     // ESP32 Serial Monitor over USB->UART
@@ -255,8 +265,6 @@ void setup(void) {
     I2S.begin(I2S_PHILIPS_MODE, I2S0_SAMPLE_RATE, I2S0_WORD_SIZE);
     I2S.setAllPins(I2S0_PIN_BCLK, I2S0_PIN_LRCLK, I2S_PIN_NO_CHANGE, max98357a.pin_data_in, ics43434.pin_data_out);
     
-    // measure time to demo completion
-    uint16_t time_to_completion = millis();
     switch(demo) {
         case (USB_POWER_DELIVERY):      // Advertise modern power delivery profiles
             #ifdef DEBUG
@@ -265,7 +273,7 @@ void setup(void) {
                 "[X] USB PD Modulino must first have PD profiles loaded onto STUSB4500.\n"
             );
             #endif
-            demonstrate_usb_power_delivery();
+            xTaskCreate(demonstrate_usb_power_delivery,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
         case (BATTERY_POWER_SUPPLY):    // Charge and customize battery power
             #ifdef DEBUG
@@ -274,7 +282,7 @@ void setup(void) {
                 "[X] Battery Modulino requires Li-Ion Battery Pack to be plugged in.\n"
             );
             #endif
-            demonstrate_battery_power_supply();
+            xTaskCreate(demonstrate_battery_power_supply,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
         case (HUMAN_MACHINE_INTERFACE): // Navigate menus and accept user input
             #ifdef DEBUG
@@ -282,7 +290,9 @@ void setup(void) {
                 "[X] HMI Modulino requires Adafruit 1.9\" 170x320 TFT Module to be plugged in.\n"
             );
             #endif
-            demonstrate_human_machine_interface();
+            // Initialize HMI
+            while (!(hmi_init() == 0));
+            xTaskCreate(demonstrate_human_machine_interface,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
         case (DIGITAL_AUDIO_INTERFACE): // Source and sink digital audio
             #ifdef DEBUG
@@ -291,7 +301,7 @@ void setup(void) {
                 "[X] Audio Modulino requires Mono Speaker to be plugged in.\n"
             );
             #endif
-            demonstrate_digital_audio_interface();
+            xTaskCreate(demonstrate_digital_audio_interface,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
         case (RADIO_TRANSCEIVER):       // Traverse radio control states
             #ifdef DEBUG
@@ -304,7 +314,7 @@ void setup(void) {
             while (!(radio_init() == 0));
             // Initialize HMI Devices
             while (!(hmi_init() == 0));
-            demonstrate_radio_transceiver();
+            xTaskCreate(demonstrate_radio_transceiver,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
         case (RADIO_AMPLIFIER):         // Amplify UHF or VHF radio signals
             #ifdef DEBUG
@@ -318,7 +328,7 @@ void setup(void) {
             while (!(radio_init() == 0));
             // Initialize HMI Devices
             while (!(hmi_init() == 0));
-            demonstrate_radio_amplifier();
+            xTaskCreate(demonstrate_radio_amplifier,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
         case (RADIO_SWITCH):            // Scatter parameterize multiport Switch
             #ifdef DEBUG
@@ -331,16 +341,9 @@ void setup(void) {
             while (!(radio_init() == 0));
             // Initialize HMI Devices
             while (!(hmi_init() == 0));
-            demonstrate_radio_switch();
-            break;
-        case (EXPO_DEMO):
-            demonstrate_expo();
+            xTaskCreate(demonstrate_radio_switch,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
     }
-    time_to_completion = millis() - time_to_completion;
-    #ifdef DEBUG
-    DEBUG.printf("[X] Time to demonstration completion: %d ms\n", time_to_completion, DEC);
-    #endif
 }
 
 void loop() {

@@ -118,7 +118,7 @@ void rfsw_update_screen(rfsw_port_selections_t port_select) {
     );
 }
 
-void demonstrate_radio_switch() {
+void demonstrate_radio_switch(void *parameter) {
     #ifdef RFSW_DEBUG
     RFSW_DEBUG.printf("Entering Radio Switch Demonstration!\n");
     #endif
