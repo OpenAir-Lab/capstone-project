@@ -26,6 +26,11 @@ extern grf5604_config_t uhf_grf5604;
 extern grf5604_config_t vhf_grf5604;
 extern sky13330_config_t sky13330;
 
+
+TimerHandle_t cfmTimer;
+TimerHandle_t rssiTimer;
+extern TaskHandle_t vDisplayRSSITaskHandle;
+
 // Section 3.1.1 4-Wire Serial Configuration and Data Interface
 /*
 https://docs.arduino.cc/learn/communication/spi/#serial-peripheral-interface-spi
@@ -452,23 +457,22 @@ void cc1200_calculate_frequency_programming(double targetFrequency) {
     // 
     cc1200.registers.FS_CFG &= ~FSD_BANDSELECT;
     cc1200.registers.FS_CFG |= (uint8_t)((cc1200.lo_divider << FSD_BANDSELECT_SHIFT ) & FSD_BANDSELECT);
-    // enable Frequency Synthesizer Out of Lock detector on FSCAL_CTRL.LOCK
-    cc1200.registers.FS_CFG &= ~FS_LOCK_EN;
-    cc1200.registers.FS_CFG |= (0b1 << FS_LOCK_EN_SHIFT) & FS_LOCK_EN;
     cc1200_register_access(WRITE, SINGLE, FS_CFG, cc1200.registers.FS_CFG);
-
-    cc1200_register_access(READ, SINGLE, FSCAL_CTRL, 0x00);
-    (cc1200.registers.FSCAL_CTRL & LOCK) ? "FS is in lock" : "FS is Out of Lock";
-    
+    while((cc1200.registers.FSCAL_CTRL & LOCK)) {
+        cc1200.registers.FSCAL_CTRL = cc1200_register_access(READ, SINGLE, FSCAL_CTRL, 0x00);
+        #ifdef CC1200_DEBUG
+        CC1200_DEBUG.printf("(VSPI) Failed to program FS because FS is out of lock...\n");
+        #endif
+    }
     #ifdef CC1200_DEBUG
-        CC1200_DEBUG.printf("(VSPI) Programming %s band... [FSD_BANDSELECT=0x%1.1X]\n"
-            "Target FREQ=%3.3f MHz, VCO=%3.3f MHz [FREQ=0x%3.3X]\n" // FREQ is 24-bit 
-            "Estimated Frequency Offset = %3.3f MHz, [FREQOFF_EST=%3.3f MHz, FREQOFF=%3.3f MHz]\n" // FREQOFF is 16-bit
-            "Calculated FREQ = %3.3f MHz\n",
-            (cc1200.band == BAND_70CM) ? "UHF" : "VHF", cc1200.lo_divider,
-            targetFrequency/1000000.0, cc1200.vco_frequency/1000000.0, FREQ,
-            cc1200.frequency_offset/1000000.0, (double)FREQOFF_EST/1000000.0, (double)FREQOFF/1000000.0,
-            cc1200.frequency/1000000.0
+    CC1200_DEBUG.printf("(VSPI) Programming %s band knowing FS is in lock... [FSD_BANDSELECT=0x%1.1X]\n"
+        "Target FREQ=%3.3f MHz, VCO=%3.3f MHz [FREQ=0x%3.3X]\n" // FREQ is 24-bit 
+        "Estimated Frequency Offset = %3.3f MHz, [FREQOFF_EST=%3.3f MHz, FREQOFF=%3.3f MHz]\n" // FREQOFF is 16-bit
+        "Calculated FREQ = %3.3f MHz\n",
+        (cc1200.band == BAND_70CM) ? "UHF" : "VHF", cc1200.lo_divider,
+        targetFrequency/1000000.0, cc1200.vco_frequency/1000000.0, FREQ,
+        cc1200.frequency_offset/1000000.0, (double)FREQOFF_EST/1000000.0, (double)FREQOFF/1000000.0,
+        cc1200.frequency/1000000.0
     );
     #endif
 }
@@ -641,10 +645,10 @@ void cc1200_TER_SmartRF_export(void) {
     // XOSC1_NOT_USED=0b00001, XOSC1_RESERVED2=0b1,
     // XOSC_BUF_SEL=0b1 Low phase noise differential buffer (low power buffer still used for digital clock)
     // XOSC_STABLE=0b1 XOSC is stable (has finished settling)
-    cc1200.registers.XOSC1 &= ~(XOSC1_RESERVED2 | XOSC_BUF_SEL);
-    cc1200.registers.XOSC1 |= ((0b1 << XOSC1_RESERVED2_SHIFT) & XOSC1_RESERVED2); 
-    cc1200.registers.XOSC1 |= ((0b1 << XOSC_BUF_SEL_SHIFT) & XOSC_BUF_SEL); 
-    cc1200_register_access(WRITE, SINGLE, XOSC1, cc1200.registers.XOSC1);
+    // cc1200.registers.XOSC1 &= ~(XOSC1_RESERVED2 | XOSC_BUF_SEL);
+    // cc1200.registers.XOSC1 |= ((0b1 << XOSC1_RESERVED2_SHIFT) & XOSC1_RESERVED2); 
+    // cc1200.registers.XOSC1 |= ((0b1 << XOSC_BUF_SEL_SHIFT) & XOSC_BUF_SEL); 
+    // cc1200_register_access(WRITE, SINGLE, XOSC1, cc1200.registers.XOSC1);
 
     // cc1200.registers.XOSC1            = 0x0F; 
     // cc1200.registers.RSSI1            = 0x80; // read-only RSSI_11_4=0x80 
@@ -773,10 +777,41 @@ int cc1200_init(cc1200_config_t &cc1200) {
     cc1200.partnumber = (cc1200_partnumber_t)cc1200_register_access(READ, SINGLE, PARTNUMBER, 0x00);
     cc1200.partrevision = cc1200_register_access(READ, SINGLE, PARTVERSION, 0x00);    
 
+    cc1200_register_access(WRITE, SINGLE, DCFILT_CFG, 0x1C); // filtering enabled, 64 samples, default bandwidth
+    cc1200.registers.PREAMBLE_CFG1 &= ~(NUM_PREAMBLE);
+    cc1200.registers.PREAMBLE_CFG1 = (0b0000 << NUM_PREAMBLE_SHIFT) & NUM_PREAMBLE;
+    cc1200_register_access(WRITE, SINGLE, PREAMBLE_CFG1, cc1200.registers.PREAMBLE_CFG1); // Preamble word = 0xAA, minimum preamble size = 0 bits (No preamble)
+    cc1200_register_access(WRITE, SINGLE, IQIC, 0xC4); // image compensation enabled, coefficient enabled, 8 samples, THR > 256
+
+    cc1200_register_access(WRITE, SINGLE, PA_CFG1, 0x78); // 0 1 PA_POWER_RAMP=111000=(56+1)/2 - 18 = 10.5 dBm
+    cc1200_register_access(WRITE, SINGLE, PA_CFG0, 0x7C); // FIRST_IPL=111=7/16 SECOND_IPL=111=15/16 RAMP_SHAPE=00 3/8 symbol ramp time and 1/32 symbol ASK/OOK shape length (legal UPSAMPLER_P values: 100b, 101b, and 110b)
+    cc1200_register_access(WRITE, SINGLE, FREQOFF_CFG, 0x22); // 00 1 00 0 FOC_KI_FACTOR=MDMCFG0.TRANSPARENT_MODE_EN|10 = 1/64
+    // -------------------------------------------
+    //  SmartRF Magic Numbers for Reserved fields
+    // -------------------------------------------
+    cc1200_register_access(WRITE, SINGLE, IF_ADC0, 0x04); // 00 IF_ADC0_RESERVED5_0=000100
+    cc1200_register_access(WRITE, SINGLE, FS_DIG0, 0x5F); // FS_DIG0_RESERVED7_4=0101, RX_LPF_BW=11 500 kHz, TX_LPF_BW=11 500 kHz
+    cc1200_register_access(WRITE, SINGLE, FS_CAL0, 0x0F); // 0000 LOCK_CFG=11 infinite average, FS_CAL0_RESERVED1_0=11
+    cc1200_register_access(WRITE, SINGLE, FS_CHP, 0x16); // 00 FS_CHP_RESERVED5_0=010110
+    cc1200_register_access(WRITE, SINGLE, FS_DSM1, 0x0B); // FS_DSM1_NOT_USED=00001 FS_DSM1_RESERVED2_0=011
+    cc1200_register_access(WRITE, SINGLE, FS_DSM0, 0x30); // FS_DSM0_RESERVED7_0=0x30 
+    cc1200_register_access(WRITE, SINGLE, FS_PRE, 0x1F); // 0 FS_PRE_RESERVED6_0=0011111
+    cc1200_register_access(WRITE, SINGLE, FS_REG_DIV_CML, 0x1D); // 000 FS_REG_DIV_CML_RESERVED4_0=11101
+    cc1200_register_access(WRITE, SINGLE, XOSC3, 0xC7); // XOSC3_RESERVED7_0=0xC7;
+    cc1200.registers.XOSC1 &= ~(XOSC1_RESERVED2 | XOSC_BUF_SEL);
+    cc1200.registers.XOSC1 |= ((0b1 << XOSC1_RESERVED2_SHIFT) & XOSC1_RESERVED2); 
+    cc1200.registers.XOSC1 |= ((0b1 << XOSC_BUF_SEL_SHIFT) & XOSC_BUF_SEL); 
+    cc1200_register_access(WRITE, SINGLE, XOSC1, cc1200.registers.XOSC1);
+    cc1200_register_access(WRITE, SINGLE, XOSC_TEST1, 0x0C); // XOSC_TEST1_RESERVED7_0=0x0C
+
     // SFSTXON strobe enables and calibrates FS if SETTLING_CFG.FS_AUTOCAL=1
     cc1200.registers.SETTLING_CFG &= ~FS_AUTOCAL;
     cc1200.registers.SETTLING_CFG |= ((0b1 << FS_AUTOCAL_SHIFT) & FS_AUTOCAL); 
     cc1200_register_access(WRITE, SINGLE, SETTLING_CFG, cc1200.registers.SETTLING_CFG);
+    // enable Frequency Synthesizer Out of Lock detector on FSCAL_CTRL.LOCK
+    cc1200.registers.FS_CFG &= ~FS_LOCK_EN;
+    cc1200.registers.FS_CFG |= (0b1 << FS_LOCK_EN_SHIFT) & FS_LOCK_EN;
+    cc1200_register_access(WRITE, SINGLE, FS_CFG, cc1200.registers.FS_CFG);
 
     update_status(cc1200_command_strobe_access(SCAL));
     // ---------------------------------------------------------
@@ -841,6 +876,16 @@ void cc1200_enter_custom_frequency_modulation() {
     cc1200.registers.FIFO_CFG |= (0b0 << CRC_AUTOFLUSH_SHIFT) & CRC_AUTOFLUSH;
     cc1200_register_access(WRITE, SINGLE, FIFO_CFG, cc1200.registers.FIFO_CFG);
 
+    cc1200.registers.AGC_GAIN_ADJUST &= ~(GAIN_ADJUSTMENT);
+    cc1200.registers.AGC_GAIN_ADJUST |= ((cc1200.rssi_offset) & GAIN_ADJUSTMENT);
+    cc1200_register_access(WRITE, SINGLE, AGC_GAIN_ADJUST, cc1200.registers.AGC_GAIN_ADJUST);
+    cc1200.registers.AGC_GAIN_ADJUST = cc1200_register_access(READ, SINGLE, AGC_GAIN_ADJUST, 0x00);
+
+    cc1200_register_access(WRITE, SINGLE, AGC_REF, 0x20); // AGC_REFERENCE=0x20=10log10(25250)-92-(RSSI Offset)
+    cc1200_register_access(WRITE, SINGLE, AGC_CS_THR, 0x19); // AGC_CS_TH=25 dB (1dB resolution in two's comp)
+    cc1200_register_access(WRITE, SINGLE, AGC_CFG1, 0xAF); // AGC_CFG1_NOT_USED=1 RSSI_STEP_THR=0=3 dB sync search, 10 dB packet reception, AGC_WIN_SIZE=0b101=256 samples, AGC_SETTLE_WAIT=0b111=127 samples
+    cc1200_register_access(WRITE, SINGLE, AGC_CFG0, 0xCF); // 11 00 RSSI_VALID_CNT=11=update after 9 input samples, 11
+    cc1200_register_access(WRITE, SINGLE, IF_MIX_CFG, 0x04); // 000 CMIX_CFG=001 f_{if} = -f_{xosc}/(CHAN_BW.ADC_CIC_DECFACT*4) [kHz] 00
     // ---------------------------------------------------------
     //         General Modem Parameter Configuration
     // ---------------------------------------------------------
@@ -911,6 +956,9 @@ void cc1200_enter_custom_frequency_modulation() {
     cc1200.registers.IOCFG0 |= ((CFM_TX_DATA_CLK << GPIOx_CFG_SHIFT) & GPIOx_CFG); // GPIO0 asserts CFM_TX_DATA_CLK GPIO signal 
     cc1200_register_access(WRITE, SINGLE, IOCFG0, cc1200.registers.IOCFG0);
     // -- end of one-time Custom FM configuration changes --
+    #ifdef CC1200_DEBUG
+    CC1200_DEBUG.printf("(VSPI) End of one-time Custom FM configuration changes... [%s]\n", main_states[cc1200.main_state]);
+    #endif
 }
 
 void IRAM_ATTR CLKEN_CFM_ISR() {
@@ -958,9 +1006,59 @@ int cc1200_idle_mode() {
 // SRX     or TXOFF_MODE=11 from STX
 double currentFrequency;
 radio_frequency_bands_t currentBand;
+// --------------------------------------------
+// 6.9 RSSI Received Signal Strength Indication
+// --------------------------------------------
+
+// The RSSI is a 12 bits two's complement number with 0.0625 dB 
+// resolution hence ranging from –128 to 127 dBm.
+
+float cc1200_calculate_rssi(bool high_resolution) {
+    int16_t rssi_word; // 12-bit RSSI word 
+    cc1200.registers.RSSI0 = cc1200_register_access(READ, SINGLE, RSSI0, 0x00); // 4 LSB of RSSI
+    bool valid_RSSI = (cc1200.registers.RSSI0 & RSSI_VALID);
+    bool valid_CS = (cc1200.registers.RSSI0 & CARRIER_SENSE_VALID);
+    if (valid_RSSI) {
+        cc1200.registers.RSSI1 = cc1200_register_access(READ, SINGLE, RSSI1, 0x00); // 8 MSB of RSSI
+        cc1200.registers.RSSI0 = cc1200_register_access(READ, SINGLE, RSSI0, 0x00); // 4 LSB of RSSI
+        rssi_word = ((int16_t)(int8_t)(cc1200.registers.RSSI1) << 4)
+            | ((uint8_t)(cc1200.registers.RSSI0) >> RSSI_03_00_SHIFT);
+        // rssi_word &= MAX_12_BIT_VALUE; // mask
+        if (high_resolution) {
+            cc1200.rssi = (float)(rssi_word) * 0.0625f; // dB conversion factor resulting in dBm for full RSSI[11:0] 
+        } else {
+            cc1200.rssi = (float)((int16_t)(int8_t)cc1200.registers.RSSI1) * 1.0f; // dB conversion factor resulting in dBm for when only MSB is included
+        }
+        if (cc1200.registers.AGC_GAIN_ADJUST == 0x00) {
+            cc1200.rssi -= (float)cc1200.rssi_offset; // calibrated RSSI offset should be a negative number in dB
+        } else {
+            int8_t stored_gain_adjustment = (int8_t)cc1200.registers.AGC_GAIN_ADJUST;
+        }
+        #ifdef CC1200_DEBUG
+        CC1200_DEBUG.printf("(VSPI) Read RSSI of -%3.4f dBm with %s offset of %d dB [MSB=0x%2.2X, s=%d, LSB=0x%2.2X, s=%d]... [%s]\n", 
+            cc1200.rssi, (cc1200.registers.AGC_GAIN_ADJUST == 0x00) ? "software" : "hardware", cc1200.rssi_offset, 
+            cc1200.registers.RSSI1, cc1200.registers.RSSI1, cc1200.registers.RSSI0, cc1200.registers.RSSI0, main_states[cc1200.main_state]
+        );
+        #endif
+    } else {
+        #ifdef CC1200_DEBUG
+        CC1200_DEBUG.printf("(VSPI) Invalid RSSI reading... [%s]\n", main_states[cc1200.main_state]);
+        #endif
+    }
+    return cc1200.rssi;
+}
+
+void IRAM_ATTR rssiCallback(TimerHandle_t rssiTimer) {
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    xTaskNotifyFromISR(vDisplayRSSITaskHandle, 0, eNoAction, &xHigherPriorityTaskWoken);
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
 
 int cc1200_receive_mode(double targetFrequency) {
     if (currentFrequency != targetFrequency ) {
+        #ifdef CC1200_DEBUG
+            CC1200_DEBUG.printf("(VSPI) Entering Receive Mode! [%s]\n", main_states[cc1200.main_state]);
+        #endif
         cc1200_idle_mode();
         // update_status(cc1200_command_strobe_access(SFSTXON));
         cc1200_calculate_frequency_programming(targetFrequency); // 446.000 MHz
@@ -975,13 +1073,31 @@ int cc1200_receive_mode(double targetFrequency) {
             currentBand = cc1200.band;
         }
         currentFrequency = targetFrequency;
+        cc1200_manual_calibration();
+        cc1200_command_strobe_access(SNOP);
+        #ifdef CC1200_DEBUG
+        CC1200_DEBUG.printf("(VSPI) Entering Manual Calibration... [%s]\n", main_states[cc1200.main_state]);
+        #endif
+        bool lock_detected;
+        while(cc1200.main_state == MARC_BIAS_SETTLE) {
+            // Wait for PLL settling period.
+            cc1200_command_strobe_access(SNOP);
+            // FS Out of Lock Detection
+            cc1200.registers.FSCAL_CTRL = cc1200_register_access(READ, SINGLE, FS_CFG, 0x00);
+            lock_detected = cc1200.registers.FSCAL_CTRL & LOCK;
+            if (lock_detected) {
+                // real MARC state is MARC_FS_LOCK
+                #ifdef CC1200_DEBUG
+                CC1200_DEBUG.printf("(VSPI) Real MARC State not %s, is reporting FS Out of Lock... [MARC_FS_LOCK]\n", main_states[cc1200.main_state]);
+                #endif
+            } else {
+                #ifdef CC1200_DEBUG
+                CC1200_DEBUG.printf("(VSPI) FS PLL is in Lock... [%s]\n", main_states[cc1200.main_state]);
+                #endif
+            }
+        }
     }
     update_status(cc1200_command_strobe_access(SRX));
-
-    // update_status(cc1200_command_strobe_access(SNOP));
-    #ifdef CC1200_DEBUG
-        CC1200_DEBUG.printf("(VSPI) Entering Receive Mode! [%s]\n", main_states[cc1200.main_state]);
-    #endif
     return 0;
 }
 // Left on 
@@ -1029,41 +1145,29 @@ int cc1200_sleep_mode() {
     return 0;
 }
 // Left on CSn=0
-//
-// Read and write buffered data (RX FIFO and TX FIFO)
-//
-int cc1200_standard_FIFO_access() {
-    return 0;
-}
 
-int cc1200_receive_FIFO_byte() {
-    // See Section 3.2.3
-    return 0;
-}
+marc_state_t active_state = MARC_RX; 
 
-int cc1200_transmit_FIFO_byte() {
-    return 0;
-}
-// SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG
-// Configures which memory to access when using direct memory access
-int cc1200_direct_FIFO_access() {
-    // SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG = 0
-    return 0;
-}
-
-// FEC Workspace or AES Command Workspace (128 bytes free area).
-// (PKT_CFG1.FEC_EN = 1) (free space otherwise)
-int cc1200_direct_FEC_access() {
-    // SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG = 1
-    // (Address < 0x80)
-    return 0;
-}
-
-int cc1200_direct_AES_access() {
-    // SERIAL_STATUS.SPI_DIRECT_ACCESS_CFG = 1
-    
-    // (0x80 < Address < 0xFF)
-    return 0;
+void IRAM_ATTR cfmCallback(TimerHandle_t cfmTimer) {
+    double current_offset = 0.0;
+    // TODO: make Continuous Receive exitable
+    if (active_state == MARC_RX) { // RX
+        cc1200_receive_mode(446000000); // frequency programming is adjusted on change.
+        double offset = cc1200_demodulate_cfm_byte();
+        if (current_offset != offset) {
+            #ifdef CC1200_DEBUG
+            CC1200_DEBUG.printf("(VSPI) New frequency offset is %3.3f... [%s]\n", offset, main_states[cc1200.main_state]);
+            #endif
+            current_offset = offset;
+        }
+    } else if (active_state == MARC_TX) { // TX
+        // ------------------------------------
+        //    10.4 Continuous Transmissions
+        // ------------------------------------
+        // As the modulation is done with a closed loop PLL,
+        // there is no limitation in the length of a transmission
+        cc1200_transmit_mode(446000000);
+    }
 }
 
 // TER de TI E2E Forums: 
@@ -1071,56 +1175,83 @@ int cc1200_direct_AES_access() {
 // Naїve upsampling: Can also try repeating a sample 3 times for 8kHz signal  
 // TODO: Try sample rate of 24?
 // Avoid using a edge based demodulation due to jitter/ spikes.
-void demonstrate_radio_transceiver() {
+void demonstrate_radio_transceiver(void *parameter) {
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.printf("Entering Radio Transceiver Demonstration!\n");
     #endif
     // Display register-level transceiver configuration for SmartRF interplay
-    display_init(display_config);
-    tft.printf("MARC State: %s\n"
-        "Current Transceiver Configuration:\nPart Number/Revision = 0x%2.2X/0x%2.2X\n", 
-        main_states[cc1200.main_state],
-        cc1200.partnumber, cc1200.partrevision
-    );
+    tft.setFont();
+    // tft.printf("MARC State: %s\n"
+    //     "Current Transceiver Configuration:\nPart Number/Revision = 0x%2.2X/0x%2.2X\n", 
+    //     main_states[cc1200.main_state],
+    //     cc1200.partnumber, cc1200.partrevision
+    // );
 
     uint8_t* cfm_data_buffer;
     attachInterrupt(digitalPinToInterrupt(cc1200.pin_gdio0), CFM_TX_DATA_CLK_ISR, FALLING);
     attachInterrupt(digitalPinToInterrupt(cc1200.pin_gdio2), CLKEN_CFM_ISR, FALLING);
-
+    
     cc1200.symbol_rate = 8000; // curiouselectron demo targets 40kHz sample rate. Default is 8kHz.
     
     cc1200_enter_custom_frequency_modulation();
-    // // update RF switch port to reflect current RF band and tentative active state  
-    marc_state_t active_state = MARC_RX; 
-    if (active_state == MARC_RX) { // RX
-        cc1200_receive_mode(446000000); // frequency programming is adjusted on change.
-    } else if (active_state == MARC_TX) { // TX
-        cc1200_transmit_mode(446000000);
-    }
-    vTaskDelay(10000/portTICK_PERIOD_MS);
-    cc1200_exit_custom_frequency_modulation();
+    cc1200_receive_mode(446000000); // frequency programming is adjusted on change.
 
+    tft.setFont(&FreeMonoBold9pt7b);
+    tft.setCursor(16, 26); tft.print("MARC State: ");
+    tft.setCursor(15, 42); tft.print("RSSI Offset:");
+    tft.setCursor(15, 58); tft.print("RSSI:");
+    tft.setFont(&FreeMono9pt7b);
+    tft.setCursor(140, 26); tft.print(main_states[cc1200.main_state]);
+    tft.setFont(&FreeMonoBold9pt7b);
+    tft.setCursor(16, 102); tft.printf("RX:");
+    tft.setCursor(16, 118); tft.printf("TX:");
+    tft.setFont(&FreeMono9pt7b);
+    tft.setCursor(55, 102); tft.printf("%3.3f MHz", cc1200.frequency/1000000.0);
+    tft.setCursor(55, 118); tft.printf("%3.3f MHz", cc1200.frequency/1000000.0);
+
+    // cfmTimer = xTimerCreate("cfmTimer", pdMS_TO_TICKS(100), pdTRUE, NULL, cfmCallback);
+    // if (cfmTimer != NULL) {
+    //     xTimerStart(cfmTimer, 0);  
+    // } else {
+    //     #ifdef CC1200_DEBUG
+    //     CC1200_DEBUG.println("Failed to create CFM timer.");
+    //     #endif
+    // }
+    rssiTimer = xTimerCreate("rssiTimer", pdMS_TO_TICKS(1000), pdTRUE, NULL, rssiCallback);
+    if (rssiTimer != NULL) {
+        xTimerStart(rssiTimer, 0);  
+    } else {
+        #ifdef CC1200_DEBUG
+        CC1200_DEBUG.println("Failed to create RSSI timer.");
+        #endif
+    }
+    
+    while(active_state == MARC_RX) {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // wait for timer
+    };
+    // cc1200_exit_custom_frequency_modulation();
+    
     // cc1200_command_strobe_access(STX);
     
-    tft.setFont();
+    
     // display radio settings
-    tft.printf("IO Pin GPIO3/2/1/0=0x%2.2X %2.2X %2.2X %2.2X\n"
-        "Sync Word [31:24] [23:16] [15:8] [7:0] SYNCHH_LL=0x00 00 00 00\n"
-        "SYNC_CFG1=0x%2.2X\n"
-        "Modulation Format and Frequency Deviation MODCFG_DEV_E=0x%2.2X\n"
-        "Digital DC Removal DCFILT_CFG=0x%2.2X\n"
-        "Preamble PREAMBLE_CFG1=0x%2.2X\n"
-        "Digital Image Channel Compensation IQIC=0x%2.2X\n"
-        "Channel Filter CHAN_BW=0x%2.2X\n"
-        "General Modem Parameter MDMCFG1=0x%2.2X MDMCFG0=0x%2.2X\n"
-        "Symbol Rate Exponent and Mantissa [19:16] [15:8] [7:0]\n"
-        "DRATE2=0x%2.2X DRATE1=0x%2.2X DRATE0=0x%2.2X\n"
-        "Automatic Gain Control Settings\n"
-        "AGC_REF=0x%2.2X AGC_CS_THR=0x%2.2X AGC_CFG1=0x%2.2X AGC_CFG0=0x%2.2X\n"
-        "FIFO FIFO_CFG=0x%2.2X\n"
-        "Frequency Synthesizer FS_CFG=0x%2.2X\n"
-        "Packet PKT_CFG2=0x%2.2X PKT_CFG1=0x%2.2X PKT_CFG0=0x%2.2X\n"
-        "Power Amplifier PA_CFG2=0x%2.2X PA_CFG0=0x%2.2X\n",
-        0x08,0x09,0xB0,0xB0,0x08,0x03,0x1C,0x14,0xC4,0x28,0x06,0x0A,0x43,0xA9,0x2A,0x20,0x19,0xAF,0xCF,0x00,0x12,0x05,0x00,0x20,0x78,0x7C    
-    );
+    // tft.printf("IO Pin GPIO3/2/1/0=0x%2.2X %2.2X %2.2X %2.2X\n"
+    //     "Sync Word [31:24] [23:16] [15:8] [7:0] SYNCHH_LL=0x00 00 00 00\n"
+    //     "SYNC_CFG1=0x%2.2X\n"
+    //     "Modulation Format and Frequency Deviation MODCFG_DEV_E=0x%2.2X\n"
+    //     "Digital DC Removal DCFILT_CFG=0x%2.2X\n"
+    //     "Preamble PREAMBLE_CFG1=0x%2.2X\n"
+    //     "Digital Image Channel Compensation IQIC=0x%2.2X\n"
+    //     "Channel Filter CHAN_BW=0x%2.2X\n"
+    //     "General Modem Parameter MDMCFG1=0x%2.2X MDMCFG0=0x%2.2X\n"
+    //     "Symbol Rate Exponent and Mantissa [19:16] [15:8] [7:0]\n"
+    //     "DRATE2=0x%2.2X DRATE1=0x%2.2X DRATE0=0x%2.2X\n"
+    //     "Automatic Gain Control Settings\n"
+    //     "AGC_REF=0x%2.2X AGC_CS_THR=0x%2.2X AGC_CFG1=0x%2.2X AGC_CFG0=0x%2.2X\n"
+    //     "FIFO FIFO_CFG=0x%2.2X\n"
+    //     "Frequency Synthesizer FS_CFG=0x%2.2X\n"
+    //     "Packet PKT_CFG2=0x%2.2X PKT_CFG1=0x%2.2X PKT_CFG0=0x%2.2X\n"
+    //     "Power Amplifier PA_CFG2=0x%2.2X PA_CFG0=0x%2.2X\n",
+    //     0x08,0x09,0xB0,0xB0,0x08,0x03,0x1C,0x14,0xC4,0x28,0x06,0x0A,0x43,0xA9,0x2A,0x20,0x19,0xAF,0xCF,0x00,0x12,0x05,0x00,0x20,0x78,0x7C    
+    // );
 }
