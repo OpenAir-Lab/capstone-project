@@ -6,6 +6,13 @@
 #include "Wire.h"
 #include <Adafruit_PCF8575.h>
 
+#define ROTARY_ENCODER_A_PIN 6
+#define ROTARY_ENCODER_B_PIN 7
+#define ROTARY_ENCODER_BUTTON_PIN 5
+
+#define ROTARY_ENCODER_VCC_PIN -1 
+#define ROTARY_ENCODER_STEPS 4
+
 typedef struct {
   bool initialized = false;
   TwoWire *i2c;

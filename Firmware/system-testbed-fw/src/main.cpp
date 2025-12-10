@@ -1,3 +1,4 @@
+//#include "Arduino.h"  //for encoder
 #include <stdio.h>
 #include <inttypes.h>
 #include "sdkconfig.h"
@@ -7,11 +8,9 @@
 #include "esp_flash.h"
 #include "esp_system.h"
 #include "AiEsp32RotaryEncoder.h" //encoder
-#include "Arduino.h"  //for encoder
+#include <pcf8575.h>        // used in MCU, HMI, and RF Modulinos
 
-#include <pcf8575.h>         // used in MCU, HMI, and RF Modulinos
-
-#include <st7789.h>          // used in HMI Modulino
+#include <st7789.h>        // used in HMI Modulino
 #include <max98357a.h>
 #include <ics43434.h>
 
