@@ -38,7 +38,7 @@ int pcf8575_init(Adafruit_PCF8575 &pcf, pcf8575_config_t &configuration) {
         }
     }
     #ifdef DEBUG_PCF8575
-    if (!configuration.initialized) DEBUG_PCF8575.printf("(I2C0 -----) %s Port Expander was not found on address 0x%2.2X when scanned.", configuration.subsystem_name, configuration.sensor_address);
+    if (!configuration.initialized) DEBUG_PCF8575.printf("(I2C0 -----) %s Port Expander was not found on address 0x%2.2X when scanned.\n", subsystem_name, configuration.sensor_address);
     #endif
     return 0;
 }

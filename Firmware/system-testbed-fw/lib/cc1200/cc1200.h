@@ -1,5 +1,7 @@
 #include <SPI.h>
-
+#include <freertos/FreeRTOS.h>
+#include <freertos/timers.h>
+#include <freertos/task.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -25,6 +27,7 @@
 
 #define WRITE 0
 #define READ 1
+#define SINGLE 0
 #define BURST 1
 
 // 6.1 RX Channel Filter Bandwidth Configuration
@@ -64,17 +67,30 @@ typedef enum {
 #define MAX_04_BIT_VALUE (1U << 4) - 1     // used by symbol rate
 #define TWO_TO_THE_08    (1ULL << 8)       // used by frequency deviation
 #define MAX_08_BIT_VALUE TWO_TO_THE_08 - 1 // used by frequency deviation
+#define TWO_TO_THE_11    (1ULL << 11)      // used by RSSI calculation
+#define TWO_TO_THE_12    (1ULL << 12)      // used by RSSI calculation
+#define MAX_12_BIT_VALUE TWO_TO_THE_12 - 1 // used by RSSI calculation
+#define TWO_TO_THE_13    (1ULL << 13)      // used by frequency programming
 #define TWO_TO_THE_14    (1ULL << 14)      // used by frequency deviation
+#define MAX_14_BIT_VALUE TWO_TO_THE_14 - 1 // used by frequency programming
+#define TWO_TO_THE_16    (1ULL << 16)      // used by frequency programming
+#define TWO_TO_THE_17    (1ULL << 17)      // used by frequency programming
+#define MAX_17_BIT_VALUE TWO_TO_THE_17 - 1 // used by frequency programming
+#define TWO_TO_THE_18    (1ULL << 18)      // used by frequency programming
+#define MAX_18_BIT_VALUE TWO_TO_THE_18 - 1 // used by frequency programming
 #define TWO_TO_THE_19    (1ULL << 19)      // used by symbol rate
 #define TWO_TO_THE_20    (1ULL << 20)      // used by symbol rate
 #define MAX_20_BIT_VALUE TWO_TO_THE_20 - 1 // used by symbol rate
 #define TWO_TO_THE_21    (1ULL << 21)      // used by frequency deviation
 #define TWO_TO_THE_22    (1ULL << 22)      // used by frequency deviation
+#define TWO_TO_THE_24    (1ULL << 24)      // used by frequency programming
+#define MAX_24_BIT_VALUE TWO_TO_THE_24 - 1 // used by frequency programming
 #define TWO_TO_THE_28    (1ULL << 28)      // used by symbol rate
 #define TWO_TO_THE_38    (1ULL << 38)      // used by symbol rate
 #define TWO_TO_THE_39    (1ULL << 39)      // used by symbol rate
 #define CC1200_OSC_FREQ 40000000UL
 #define CC1200_OSC_FREQ_LOG2 25.253496f
+
 typedef struct {
     uint8_t IOCFG3 = 0x08;
     uint8_t IOCFG2 = 0x09;
@@ -181,26 +197,7 @@ typedef struct {
 
 } cc1200_registers_t;
 
-// @brief configuration of CC1200 sub 1-GHz radio transceiver
-typedef struct {
-    bool initialized = false;
-    SPIClass *spi = NULL; // no default spi 
-    uint32_t spi_frequency = 7700000; // 7.7 MHz default despite 10 MHz configuration read
-    int8_t pin_nrst;
-    int8_t pin_sck = 5;
-    int8_t pin_mosi;
-    int8_t pin_miso;
-    int8_t pin_ss;
-    int8_t pin_gdio0;
-    int8_t pin_gdio2;
-    uint8_t partnumber = -1;
-    uint8_t partrevision = -1;
-    double symbol_rate;
-    double frequency_deviation;
-    bool chip_nrdy;
-    uint8_t main_state;
-    cc1200_registers_t registers;
-} cc1200_config_t;
+
 typedef enum {
     // idle state
     MARC_IDLE           = 0b000,
@@ -277,13 +274,21 @@ typedef enum {
     #define GPIOx_CFG_SHIFT   0
     #define GPIOx_CFG         GENMASK(5,0)
     SYNC3, SYNC2, SYNC1, SYNC0,
-    SYNC_CFG1, SYNC_CFG0,
+    SYNC_CFG1, 
+    #define SYNC_MODE_SHIFT 5
+    #define SYNC_MODE GENMASK(7,5)
+    #define SYNC_THR_SHIFT 0
+    #define SYNC_THR GENMASK(4,0)
+    SYNC_CFG0,
     DEVIATION_M,
     #define DEV_M GENMASK(7,0) // reset 0x06
     MODCFG_DEV_E,
     #define DEV_E GENMASK(2,0) // reset 0x03
     DCFILT_CFG,
-    PREAMBLE_CFG1, PREAMBLE_CFG0,
+    PREAMBLE_CFG1,
+    #define NUM_PREAMBLE_SHIFT 2
+    #define NUM_PREAMBLE GENMASK(5,2)
+    PREAMBLE_CFG0,
     IQIC,
     CHAN_BW,
     #define ADC_CIC_DECFACT_SHIFT 6
@@ -294,8 +299,14 @@ typedef enum {
     #define FIFO_EN_SHIFT             6
     #define FIFO_EN                   BIT(6)
     MDMCFG0,
+    #define MDMCFG0_RESERVED7         BIT(7) // SmartRF Studio magic numbers 
     #define TRANSPARENT_MODE_EN_SHIFT 6
     #define TRANSPARENT_MODE_EN       BIT(6)
+    #define DATA_FILTER_EN_SHIFT      3
+    #define DATA_FILTER_EN            BIT(3)
+    #define VITERBI_SHIFT             2
+    #define VITERBI                   BIT(2)
+    #define MDMCFG0_RESERVED1_0       GENMASK(1,0) // SmartRF Studio magic numbers 
     SYMBOL_RATE2,
     #define SRATE_E_SHIFT        4
     #define SRATE_E              GENMASK(7,4) // reset 0x04
@@ -307,11 +318,21 @@ typedef enum {
     AGC_REF,
     AGC_CS_THR,
     AGC_GAIN_ADJUST,
+    #define GAIN_ADJUSTMENT_OFFSET 0
+    #define GAIN_ADJUSTMENT GENMASK(7,0)
     AGC_CFG3, AGC_CFG2, AGC_CFG1, AGC_CFG0,
     FIFO_CFG,
+    #define CRC_AUTOFLUSH_SHIFT 7
+    #define CRC_AUTOFLUSH BIT7
     DEV_ADDR,
     SETTLING_CFG,
+    #define FS_AUTOCAL_SHIFT     3
+    #define FS_AUTOCAL           GENMASK(4,3)
     FS_CFG,
+    #define FS_LOCK_EN_SHIFT 4
+    #define FS_LOCK_EN       BIT4
+    #define FSD_BANDSELECT_SHIFT 0
+    #define FSD_BANDSELECT       GENMASK(3, 0) // reset 0x02
     WOR_CFG1, WOR_CFG0,
     WOR_EVENT0_MSB, WOR_EVENT0_LSB,
     RXDCM_TIME,
@@ -328,6 +349,16 @@ typedef enum {
     EXTENDED_ADDRESS
 } cc1200_configuration_register_space_t;
 
+typedef enum {
+        P01 = 0x00,
+        P02 = 0x01,
+        P04 = 0x02,
+        P08 = 0x03,
+        P16 = 0x04,
+        P32 = 0x05,
+        P64 = 0x06,
+    // NOTUSED = 0x07
+} tx_upsampling_factor_t;
 typedef enum {
     IF_MIX_CFG = 0x00,
     FREQOFF_CFG,
@@ -350,7 +381,9 @@ typedef enum {
     RCCAL_COARSE,
     RCCAL_OFFSET,
     FREQOFF1, FREQOFF0,
+
     FREQ2, FREQ1, FREQ0,
+
     IF_ADC2, IF_ADC1, IF_ADC0,
     FS_DIG1, FS_DIG0,
     FS_CAL3, FS_CAL2, FS_CAL1, FS_CAL0,
@@ -369,7 +402,15 @@ typedef enum {
     IFAMP,
     LNA,
     RXMIX,
-    XOSC5, XOSC4, XOSC3, XOSC2, XOSC1, XOSC0,
+    XOSC5, XOSC4, XOSC3,
+    #define XOSC3_RESERVED7_0 GENMASK(7,0)
+    XOSC2,
+    XOSC1,
+    #define XOSC1_RESERVED2_SHIFT 2
+    #define XOSC1_RESERVED2 BIT(2)
+    #define XOSC_BUF_SEL_SHIFT 1
+    #define XOSC_BUF_SEL BIT(1) 
+    XOSC0,
     ANALOG_SPARE,
     PA_CFG3 = 0x39,
     // 0x3A - 0x3E Not Used
@@ -382,7 +423,15 @@ typedef enum {
     DCFILTOFFSET_Q1, DCFILTOFFSET_Q0, 
     IQIE_I1, IQIE_I0,
     IQIE_Q1, IQIE_Q0, 
-    RSSI1, RSSI0,
+    RSSI1,
+    #define RSSI_11_04_SHIFT 0
+    #define RSSI_11_04 GENMASK(7,0)
+    RSSI0,
+    #define RSSI_03_00_SHIFT 3
+    #define RSSI_03_00 GENMASK(6,3)
+    #define CARRIER_SENSE BIT(2)
+    #define CARRIER_SENSE_VALID BIT(1)
+    #define RSSI_VALID BIT(0)
     MARCSTATE,
     LQI_VAL,
     PQT_SYNC_ERR,
@@ -398,6 +447,7 @@ typedef enum {
     CHFILT_I2, CHFILT_I1, CHFILT_I0, CHFILT_Q2, CHFILT_Q1, CHFILT_Q0,
     GPIO_STATUS,
     FSCAL_CTRL,
+    #define LOCK BIT(0)
     PHASE_ADJUST,
     PARTNUMBER = 0x8F, // Part Number
     #define PARTNUM GENMASK(7, 0) 
@@ -418,11 +468,6 @@ typedef enum {
     // 0xDB - 0xDF Not Used
     NOTUSED = 0xDB
 } cc1200_extended_register_space_t;
-
-
-
-
-
 
 // ---------------------------
 // Descriptive Register Values
@@ -445,25 +490,99 @@ typedef enum {
 /*! \struct SPI Access Type cc1200_spi_access_t
     \brief Contains all data related to register access.
 */
-typedef struct {
-    // header byte contents
-    uint8_t readwrite_flag = READ;
-    uint8_t burst_flag = false;
-    uint8_t header; 
-    // cc1200_configuration_register_space_t configuration_address = EXTENDED_ADDRESS; // 6-bit address
-    // // address byte contents
-    // cc1200_extended_register_space_t extended_address = NOTUSED; // 8-bit address
-    // data byte contents 
-    uint8_t data = 0x00;
-} cc1200_spi_access_t;
 
 int update_status(uint8_t chip_status);
 
-int cc1200_single_register_access(cc1200_configuration_register_space_t configuration_address, cc1200_spi_access_t &register_access);
-int cc1200_single_register_access(cc1200_extended_register_space_t extended_address, cc1200_spi_access_t &register_access);
+uint8_t cc1200_register_access(bool readwrite_flag, bool burst_flag, cc1200_configuration_register_space_t configuration_address, uint8_t data);
+uint8_t cc1200_register_access(bool readwrite_flag, bool burst_flag, cc1200_extended_register_space_t extended_address, uint8_t data);
 
-int cc1200_burst_register_access(cc1200_configuration_register_space_t configuration_address, cc1200_spi_access_t &register_access);
-int cc1200_burst_register_access(cc1200_extended_register_space_t extended_address, cc1200_spi_access_t &register_access);
+/**
+
+ */
+typedef enum {
+    DIVIDE_BY_04 = 2,  // FS_CFG.FSD_BANDSELECT=0b0010, RF Band=820.0-960 MHz
+    DIVIDE_BY_08 = 4,  // FS_CFG.FSD_BANDSELECT=0b0100, RF Band=410.0-480 MHz
+    DIVIDE_BY_12 = 6,  // FS_CFG.FSD_BANDSELECT=0b0110, RF Band=273.3-320 MHz
+    DIVIDE_BY_16 = 8,  // FS_CFG.FSD_BANDSELECT=0b1000, RF Band=205.0-240 MHz
+    DIVIDE_BY_20 = 10, // FS_CFG.FSD_BANDSELECT=0b1010, RF Band=164.0-192 MHz
+    DIVIDE_BY_24 = 11, // FS_CFG.FSD_BANDSELECT=0b1011, RF Band=136.7-160 MHz
+} lo_divider_select_t;
+
+// Unless another FCC Part is noted, the following band selections
+// allow SSB, AM, FM, TV, CW, and Digital modulations up to 1.5kW PEP maximum.
+typedef enum {
+    BAND_33CM,   // Amateur 33cm band (902-928 MHz)
+    // Amateur UHF band. National Calling 446.000 MHz
+    // Not available north of line A, near the Canadian border.
+    BAND_70CM_US_ONLY,        // 420-430 MHz, see FCC Part 97.3(a) and 97.303(m)
+    BAND_70CM,                // 420-450 MHz  
+    BAND_300MHZ,           // Government (not U.S. Amateur)
+    // Amateur 1.25m band
+    BAND_12P5CM_DIGITAL_LINK, // 219-220 MHz
+    BAND_12P5CM,              // 222-225 MHz
+    BAND_170MHZ,           // VHF highband (not U.S Amateur)
+    // Amateur VHF band. National Calling 146.520 MHz
+    BAND_2M                   // 144-148 MHz
+} radio_frequency_bands_t;
+
+void cc1200_calculate_frequency_programming(double targetFrequency);
+void cc1200_calculate_frequency_deviation(double targetDeviation);
+void cc1200_calculate_symbol_rate(double targetSampleRate);
+
+double cc1200_demodulate_cfm_byte();
+double cc1200_modulate_cfm_byte();
+
+// @brief configuration of CC1200 sub 1-GHz radio transceiver
+typedef struct {
+    bool initialized = false;
+    // serial interface configuration
+    SPIClass *spi = NULL; // no default spi 
+    uint32_t spi_frequency = 7700000; // 7.7 MHz default despite 10 MHz configuration read
+    int8_t pin_nrst;
+    int8_t pin_sck = 5;
+    int8_t pin_mosi;
+    int8_t pin_miso;
+    int8_t pin_ss;
+    int8_t pin_gdio0;
+    int8_t pin_gdio2;
+    uint8_t partnumber = -1;
+    uint8_t partrevision = -1;
+    volatile bool read_CFM_RX_DATA_OUT = false;
+    volatile bool write_CFM_TX_DATA_IN = false;
+    // frequency programming configuration
+    radio_frequency_bands_t band;
+    lo_divider_select_t lo_divider;
+    uint32_t frequency = 446000000;
+    double frequency_resolution;
+    double frequency_offset;      // 16 bit signed frequency offset  
+    double vco_frequency;
+    // 
+    double symbol_rate = 24000;
+    double frequency_deviation = 5000;
+
+    int8_t rssi_offset = 80; // in dB two's comp
+    float rssi = -120; // in dBm
+
+    bool chip_nrdy;
+    uint8_t main_state;
+    cc1200_registers_t registers;
+} cc1200_config_t;
+/**
+ * CC1200 User Guide omits whether performing the CC112X manual calibration at 
+ * start-up and writing the resulting FS_CHP, FS_VCO4, and FS_VCO2 register
+ * values in MCU (MARC) memory is also necessary. The recommended settings 
+ * change with frequency. This means that one should always use SmartRF Studio 
+ * to get the correct settings for a specific frequency before doing a 
+ * calibration, regardless of which calibration method is being used.
+ */
+void cc1200_manual_calibration();
+
+float cc1200_calculate_rssi(bool high_resolution);
+void IRAM_ATTR rssiCallback(TimerHandle_t rssiTimer);
+void IRAM_ATTR cfmCallback(TimerHandle_t cfmTimer);
+int cc1200_receive_mode(double targetFrequency);
+int cc1200_transmit_mode(double targetFrequency);
+int cc1200_sleep_mode();
 
 int cc1200_init(cc1200_config_t &cc1200);
 /**
@@ -472,4 +591,4 @@ int cc1200_init(cc1200_config_t &cc1200);
  * [ ] Can the transceiver be asked to go to sleep and then be woken up?
  * [ ] How about entering SPI transparent transaction mode? Can the GPIO pins be set up for Custom Frequency Modulation?
  */
-void demonstrate_radio_transceiver();
+void demonstrate_radio_transceiver(void *parameter);

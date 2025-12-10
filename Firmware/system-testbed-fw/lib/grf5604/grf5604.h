@@ -13,6 +13,14 @@ typedef struct {
     bool band = UHF;
 } grf5604_config_t;
 
+int grf5604_powerup(grf5604_config_t &grf5604);
+
+int grf5604_powerdown(grf5604_config_t &grf5604);
+
+void grf5604_drawPowerup(grf5604_config_t &grf5604);
+void grf5604_drawPowerdown(grf5604_config_t &grf5604);
+void grf5604_drawPorts(grf5604_config_t &grf5604);
+
 int grf5604_init(grf5604_config_t &grf5604);
 
-void demonstrate_radio_amplifier();
+void demonstrate_radio_amplifier(void *parameter);

@@ -11,8 +11,8 @@ int display_init(st7789_config_t &display_config) {
     }
     #ifdef ST7789_DEBUG
     ST7789_DEBUG.printf("(HSPI) Beginning use of HSPI Interface... "
-        "[%d MHz, SS=%d, SCK=%d, MISO =-1, MOSI=%d]\n",
-        display_config.spi_speed, display_config.pin_ss, display_config.pin_sclk, display_config.pin_mosi
+        "[%3.3f MHz, SS=%d, SCK=%d, MISO =-1, MOSI=%d]\n",
+        (double)display_config.spi_speed/1000000.0, display_config.pin_ss, display_config.pin_sclk, display_config.pin_mosi
     );
     #endif
     tft.init(display_config.width, display_config.height); // Initialize the ST7789 onboard module
@@ -23,7 +23,7 @@ int display_init(st7789_config_t &display_config) {
     );
     #endif
     tft.fillScreen(ST77XX_BLACK);
-    tft.setRotation(1);
+    tft.setRotation(display_config.rotation);
     #ifdef ST7789_DEBUG
         ST7789_DEBUG.print("(HSPI) Initialized ST7789 Driven TFT Module with blanked screen!\n");
     #endif
