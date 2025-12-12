@@ -580,6 +580,7 @@ void cc1200_manual_calibration();
 float cc1200_calculate_rssi(bool high_resolution);
 void IRAM_ATTR rssiCallback(TimerHandle_t rssiTimer);
 void IRAM_ATTR cfmCallback(TimerHandle_t cfmTimer);
+void vDisplayRSSITask(void *parameter);
 int cc1200_receive_mode(double targetFrequency);
 int cc1200_transmit_mode(double targetFrequency);
 int cc1200_sleep_mode();

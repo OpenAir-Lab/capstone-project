@@ -18,6 +18,9 @@
 extern Adafruit_ST7789 tft;
 extern st7789_config_t display_config; 
 
+extern Adafruit_PCF8575 pcf_mcu;
+extern pcf8575_config_t pcf_mcu_config;
+
 extern Adafruit_PCF8575 pcf_radio;
 extern pcf8575_config_t pcf_radio_config;
 
@@ -340,9 +343,9 @@ int cc1200_command_strobe_access(cc1200_command_strobe_t command_strobe) {
 // to their default values and the radio will enter IDLE state.
 int cc1200_reset(bool hard_reset) {
     if (hard_reset) {
-        pcf8575_writePort(pcf_radio, cc1200.pin_nrst, LOW); // active low reset signal
+        pcf8575_writePort(pcf_mcu, cc1200.pin_nrst, LOW); // active low reset signal
         delay(10);
-        pcf8575_writePort(pcf_radio, cc1200.pin_nrst, HIGH); // active low reset signal
+        pcf8575_writePort(pcf_mcu, cc1200.pin_nrst, HIGH); // active low reset signal
         // delay(1000);
     } else {
         update_status(cc1200_command_strobe_access(SRES));
@@ -682,7 +685,7 @@ int setup_interface() {
     digitalWrite(cc1200.pin_ss, HIGH);
     pinMode(cc1200.pin_miso, INPUT_PULLUP); // used in Power-On
     pinMode(cc1200.pin_mosi, OUTPUT); // used in Power-On
-    pcf8575_portMode(pcf_radio, cc1200.pin_nrst, OUTPUT); // used in Power-On
+    pcf8575_portMode(pcf_mcu, cc1200.pin_nrst, OUTPUT); // used in Power-On
     // Configure SPIClass from Espressif HAL Arduino Core compat
     cc1200.spi_frequency = 7700000; // // keep at 7.7 MHz per Martin B of TI E2E forums over 12 years ago 
     #ifdef CC1200_DEBUG
@@ -695,7 +698,7 @@ int setup_interface() {
         cc1200.pin_gdio0, cc1200.pin_gdio2
     );
     CC1200_DEBUG.printf("(---- I2C0 @0x%2.2X) Beginning use of CC1200... [RESET=%d on %s IOMUX]\n", 
-        pcf_radio_config.sensor_address, cc1200.pin_nrst, pcf_radio_config.subsystem_name.c_str()
+        pcf_mcu_config.sensor_address, cc1200.pin_nrst, pcf_mcu_config.subsystem_name.c_str()
     );
     #endif
     digitalWrite(cc1200.pin_ss, HIGH); // use of SS is bitbanged?
@@ -704,7 +707,7 @@ int setup_interface() {
         SPISettings(cc1200.spi_frequency, MSBFIRST, CC1200_SPI_MODE)
     );
     #ifdef CC1200_DEBUG
-            CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized CC1200 Interfaces!\n", pcf_radio_config.sensor_address);
+            CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized CC1200 Interfaces!\n", pcf_mcu_config.sensor_address);
     #endif
     return 0;
 }
@@ -826,7 +829,7 @@ int cc1200_init(cc1200_config_t &cc1200) {
     #ifdef CC1200_DEBUG
     CC1200_DEBUG.printf("(VSPI+I2C0 @0x%2.2X) Initialized Radio Transceiver!\n"
         "* CC1200 Initialization Results: [Part Number=0x%2.2X, %s] [Part Revision=0x%2.2X, %s]\n"
-        "* MAin Radio Control 'MARC' Unit is %s: [State=0x%1.1X, %s]\n", pcf_radio_config.sensor_address,
+        "* MAin Radio Control 'MARC' Unit is %s: [State=0x%1.1X, %s]\n", pcf_mcu_config.sensor_address,
         cc1200.partnumber, cc1200.partnumber == 0x20 ? "PASS" : "FAIL", 
         cc1200.partrevision, cc1200.partrevision == 0x11 ? "PASS" : "FAIL",
         main_states[cc1200.main_state], cc1200.main_state, main_states[cc1200.main_state] == "IDLE" ? "PASS" : "FAIL"
@@ -1046,6 +1049,24 @@ float cc1200_calculate_rssi(bool high_resolution) {
         #endif
     }
     return cc1200.rssi;
+}
+
+TaskHandle_t vDisplayRSSITaskHandle = NULL;
+void vDisplayRSSITask(void *parameter) {
+    for (;;) {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // wait for timer
+        // blocking calls here allowed
+        bool high_resolution = false;
+        cc1200_calculate_rssi(high_resolution);
+        bool valid_RSSI = (cc1200.registers.RSSI0 & RSSI_VALID);
+        if (valid_RSSI) {
+            tft.fillRect(71, 45, 89, 16, ST77XX_BLACK);
+            tft.fillRect(147, 30, 89, 16, ST77XX_BLACK);
+            tft.setFont(&FreeMono9pt7b);
+            tft.setCursor(148, 42); tft.printf("%d dBm", cc1200.rssi_offset);
+            tft.setCursor(76, 58); tft.printf(high_resolution ? "%3.4f dBm" : "%3.0f dBm", cc1200.rssi);
+        }
+    }
 }
 
 void IRAM_ATTR rssiCallback(TimerHandle_t rssiTimer) {
