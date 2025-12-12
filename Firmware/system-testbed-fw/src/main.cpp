@@ -7,6 +7,9 @@
 #include "esp_flash.h"
 #include "esp_system.h"
 
+#include <bq25622.h>
+#include <BQ27427.h>
+
 #include <cc1200.h>          // used in Transceiver Modulino 
 #include <sky13330.h>        // used in RF Switch Modulino
 #include <grf5604.h>         // used in Amplifier Modulino
@@ -36,7 +39,7 @@ typedef enum {
     EXPO_DEMO                // Comprehensive system integration tests
 } demonstration_t;
 
-demonstration_t demo = RADIO_TRANSCEIVER;
+demonstration_t demo = HUMAN_MACHINE_INTERFACE;
 
 #define PIN_SDA 21
 #define PIN_SCL 22
@@ -53,14 +56,13 @@ pcf8575_config_t pcf_radio_config; // on 0x20+2
 // Texas Instruments CC1200 Configuration
 // VSPI normally attached to pins 5, 18, 19, and 23,
 // but can be matrixed to any pins as shown below.
-#define CC1200_NRST  3    // Reset is not correct pin yet. 
+#define CC1200_NRST  4    // Reset is not correct pin yet. 
 #define CC1200_SCLK  18    //  SCK=05 -> 18
 #define CC1200_MISO  19    // MISO=18 -> 19
 #define CC1200_MOSI  23    // MOSI=19 -> 23
 #define CC1200_SS    5     //   SS=23 -> 5
 #define CC1200_GDIO0 32
 #define CC1200_GDIO2 33
-// cc1200.pin_sck, cc1200.pin_miso, cc1200.pin_mosi, cc1200.pin_ss
 cc1200_config_t cc1200;
 #define RFSW_ENABLE  8
 #define RFSW_BAND    9
@@ -92,65 +94,30 @@ grf5604_config_t vhf_grf5604;
 max98357a_config_t max98357a;
 ics43434_config_t ics43434;
 
-
-/*! \def TFT Module Pin Matrix
-    \brief used with an instance of Adafruit_ST7789 class.
-*/
-// For the breakout board, matrix to any 2 or 3 pins.
-// HSPI normally attached to pins 12, 13, 14, and 15, 
-// but can be matrixed to any pins as shown below.
-// HSPI MISO not utilized, default 12
-#define TFT_SS    4 // 15 -> 4
-#define TFT_DC   26 // Display Command pin
-#define TFT_MOSI 13 // ESP32 IOMUX Default
-#define TFT_SCLK 14 // ESP32 IOMUX Default
-#define TFT_RST  -1 // Not connected
+extern Adafruit_ST7789 tft;
 st7789_config_t display_config;
 
-Adafruit_ST7789 tft = Adafruit_ST7789(TFT_SS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
+extern const unsigned char PROGMEM image_guy_bits[];
+extern const unsigned char PROGMEM image_battery_0_bits[];
+extern const unsigned char PROGMEM image_battery_100_bits[];
 
-/*! ICONAGRAPHY BITMAPS 
-    \brief is loaded into PROGMEM used by TFT display buffers.
-    
-    Recommended: use https://lopaka.app/sandbox to import bitmaps.
-*/ 
-// Gary
-static const unsigned char PROGMEM image_guy_bits[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x08,0x00,0x00,0x00,0x00,0x00,0x08,0x40,0x00,0x00,0x00,0x00,0x04,0x40,0x00,0x00,0x00,0x00,0x04,0x40,0x00,0x00,0x00,0x00,0x06,0x40,0x00,0x00,0x00,0x00,0x02,0xc0,0x0f,0xc0,0x00,0x00,0x03,0xc1,0xfc,0x60,0x00,0x00,0x01,0xff,0x00,0xf0,0x00,0x00,0x07,0xc0,0x00,0xf8,0x00,0x00,0x3e,0x01,0xf0,0xfc,0x00,0x00,0xe0,0x2b,0x08,0xfe,0x00,0x01,0x9c,0xa2,0x45,0xff,0x00,0x01,0x62,0x04,0x65,0xff,0x80,0x03,0xc3,0x04,0xf5,0xff,0x00,0x02,0x99,0x05,0xe5,0xff,0x00,0x02,0x9d,0x05,0xeb,0xff,0x00,0x03,0x3d,0x05,0xcb,0xfe,0x00,0x05,0x3a,0x04,0x13,0xfe,0x00,0x05,0x32,0x02,0x23,0xfe,0x00,0x04,0x84,0x3d,0xff,0xfe,0x00,0x04,0xfb,0xd4,0x2f,0xfe,0x00,0x05,0x81,0x5c,0x3f,0xfe,0x00,0x06,0xc3,0xf0,0x17,0xfc,0x00,0x07,0xc0,0x3f,0xff,0xfc,0x00,0x04,0x3f,0xff,0xff,0xfc,0x00,0x07,0xff,0xff,0xff,0xfc,0x00,0x03,0xfe,0x7f,0x9f,0xfc,0x00,0x00,0x0e,0x7f,0x9f,0xfc,0x00,0x00,0x04,0xc1,0x90,0x00,0x00,0x00,0x04,0x80,0x90,0x00,0x00,0x00,0x04,0xc0,0x98,0x00,0x00,0x00,0x02,0x40,0x4c,0x00,0x00,0x00,0x37,0xe0,0x7e,0x00,0x00,0x00,0x7d,0xe0,0xdf,0x00,0x00,0x00,0xdf,0xf3,0xdf,0x00,0x00,0x00,0xff,0xf6,0xff,0x80,0x00,0x00,0xff,0xf7,0xfe,0x80,0x00,0x00,0xff,0xf7,0xf9,0x00,0x00,0x00,0x88,0x17,0xe6,0x00,0x00,0x00,0x38,0x04,0x18,0x00,0x00,0x00,0x00,0x03,0xc0,0x00,0x00};
-// Battery Indicators
-static const unsigned char PROGMEM image_battery_0_bits[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x7f,0xff,0xf0,0x80,0x00,0x08,0x82,0x02,0x08,0x81,0x04,0x0e,0x80,0x88,0x01,0x80,0x50,0x01,0x80,0x20,0x01,0x80,0x50,0x01,0x80,0x88,0x01,0x81,0x04,0x0e,0x82,0x02,0x08,0x80,0x00,0x08,0x7f,0xff,0xf0,0x00,0x00,0x00};
-static const unsigned char PROGMEM image_battery_100_bits[] = {0x00,0x00,0x00,0x00,0x00,0x00,0x7f,0xff,0xf0,0x80,0x00,0x08,0xaa,0xaa,0xa8,0xaa,0xaa,0xae,0xaa,0xaa,0xa1,0xaa,0xaa,0xa1,0xaa,0xaa,0xa1,0xaa,0xaa,0xa1,0xaa,0xaa,0xa1,0xaa,0xaa,0xae,0xaa,0xaa,0xa8,0x80,0x00,0x08,0x7f,0xff,0xf0,0x00,0x00,0x00};
-
-/*! \def Keypad Pin Matrix
-    \brief used with an instance of Adafruit_PCF8575 class.
-
-    Keypad is on the first port of the port expander on HMI.
-    Scanning is acheived using domino logic.
-*/
-
-TaskHandle_t vDisplayRSSITaskHandle = NULL;
-void vDisplayRSSITask(void *pv) {
-    for (;;) {
-        ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // wait for timer
-        // blocking calls here allowed
-        bool high_resolution = false;
-        cc1200_calculate_rssi(high_resolution);
-        bool valid_RSSI = (cc1200.registers.RSSI0 & RSSI_VALID);
-        if (valid_RSSI) {
-            tft.fillRect(71, 45, 89, 16, ST77XX_BLACK);
-            tft.fillRect(147, 30, 89, 16, ST77XX_BLACK);
-            tft.setFont(&FreeMono9pt7b);
-            tft.setCursor(148, 42); tft.printf("%d dBm", cc1200.rssi_offset);
-            tft.setCursor(76, 58); tft.printf(high_resolution ? "%3.4f dBm" : "%3.0f dBm", cc1200.rssi);
-        }
-    }
-}
+extern keypad_t keypad;                       // State of the keypad.
+extern encoder_t encoder;
+extern EventGroupHandle_t keypad_event_group; // Event group handle for keypad events.
+extern QueueHandle_t keypad_queue;            // Queue handle for keypad input.
+extern QueueHandle_t encoder_queue;
 
 int hmi_init() {
+    // Texas Instruments PCF8575 16-bit Port Expander
+    pcf_mcu_config.i2c = &Wire;   // I2C0
+    pcf_mcu_config.pin_interrupt = 12;
+    pcf_mcu_config.subsystem_name = "MCU";
+    pcf_mcu_config.sensor_address = PCF8575_I2CADDR_DEFAULT+0;
     // PCF8575 HMI Port Expander
     pcf_hmi_config.i2c = &Wire;   // I2C0
     pcf_hmi_config.pin_interrupt = 35;
     pcf_hmi_config.subsystem_name = "HMI";
-    pcf_hmi_config.sensor_address = PCF8575_I2CADDR_DEFAULT+2;
+    pcf_hmi_config.sensor_address = PCF8575_I2CADDR_DEFAULT+2;             
     // ST7789 TFT Display Driver onboard Adafruit 1.9" 170x320 TFT Module
     display_config.pin_ss = TFT_SS;
     display_config.pin_dc = TFT_DC;
@@ -159,11 +126,22 @@ int hmi_init() {
     display_config.pin_reset = TFT_RST;
     display_config.rotation = 3;
 
-    while (!(pcf8575_init(pcf_hmi, pcf_hmi_config) == 0));
+    while (!(pcf8575_init(pcf_hmi, pcf_hmi_config) == 0)) {
+        vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+    }
+    pcf8575_writePort(pcf_hmi, 2, HIGH); // doubled up reset
+    while (!(pcf8575_init(pcf_mcu, pcf_mcu_config) == 0)) {
+        vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+    }
+    pcf8575_writePort(pcf_mcu, 4, HIGH); // doubled up reset
+    while (!(pcf8575_scan_init(pcf_hmi, pcf_hmi_config) == 0)) {
+        vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+    }
     while (!(display_init(display_config) == 0));
     return 0;
 }
 
+extern TaskHandle_t vDisplayRSSITaskHandle;
 int radio_init() {
     pcf_radio_config.i2c = &Wire; // I2C0
     pcf_radio_config.pin_interrupt = 39;
@@ -213,24 +191,109 @@ void demonstrate_mcu(void *parameter) {
     pcf_mcu_config.subsystem_name = "MCU";
     pcf_mcu_config.sensor_address = PCF8575_I2CADDR_DEFAULT+0;
     while (!(pcf8575_init(pcf_mcu, pcf_mcu_config) == 0));
+    for(;;) {
+        // Yield the CPU to other tasks
+        vTaskDelay(KEYPAD_TASK_DELAY_TIME);
+    }
 }
 
 void demonstrate_usb_power_delivery(void *parameter) {
     // Requires having run the one time advertisement programming routine.
 }
+// create instance of the PMIC driver
+BQ25622 pmic;
+const unsigned int BATTERY_CAPACITY = 2500; // e.g. 850mAh battery
 
 void demonstrate_battery_power_supply(void *parameter) {
-
+    #ifdef DEBUG
+    DEBUG.println("(I2C0 -----) Scanning for bq27427 Fuel Gauge on address 0x55...\n");
+    #endif
+    lipo.begin();
+    lipo.setCapacity(BATTERY_CAPACITY);
+    #ifdef DEBUG
+    DEBUG.printf("(I2C0 @0x55) Fuel Gauge Information:\n"
+        "State-Of-Charge: %d%\n"
+        "Battery Voltage: %d mV\n"
+        "Average Current: %d mA\n"
+        "Battery Capacity: %d / %d mAh\n"
+        "Average Power Draw: %d mW\n"
+        "State-Of-Health: %d%\n",
+        lipo.soc(),
+        lipo.voltage(),
+        lipo.current(AVG),
+        lipo.capacity(REMAIN),
+        lipo.capacity(FULL),
+        lipo.power(),
+        lipo.soh()
+    );
+    #endif
+    for (;;) {
+        // Yield the CPU to other tasks
+        vTaskDelay(KEYPAD_TASK_DELAY_TIME);
+    }
 }
 
 void demonstrate_human_machine_interface(void *parameter) {
+    const EventBits_t waitMask = KEY_EVENT_BITMASK; // listen for any keypad bits
+    uint32_t keyMask;
 
+    tft.printf("Selected Demo is of the Human-Machine Interface Modulino!\n"
+        "[X] HMI Modulino requires Adafruit 1.9\" 170x320 TFT Module to be plugged in.\n"
+    );
+    // enc_event_t ev;
+    for(;;) {
+        EventBits_t bits = xEventGroupWaitBits(keypad_event_group, waitMask, pdTRUE, pdFALSE, portMAX_DELAY);
+        if (bits != 0) {
+            #ifdef DEBUG
+            DEBUG.printf("(I2C0 @0x%2.2X) Key Mask Changed... \n", pcf_hmi_config.sensor_address);
+            #endif
+            if (xQueueReceive(keypad_queue, &keyMask, KEYPAD_TASK_DELAY_TIME) == pdTRUE) {
+                #ifdef DEBUG
+                DEBUG.printf("(I2C0 @0x%2.2X) Key Mask = 0x%4.4X\n", pcf_hmi_config.sensor_address, keyMask);
+                #endif
+                switch(keyMask) {
+                    case(KEY_1): DEBUG.printf("KEY_1\n"); break;
+                    case(KEY_2): DEBUG.printf("KEY_2\n"); break;
+                    case(KEY_3): DEBUG.printf("KEY_3\n"); break;
+                    case(KEY_4): DEBUG.printf("KEY_4\n"); break;
+                    case(KEY_5): DEBUG.printf("KEY_5\n"); break;
+                    case(KEY_6): DEBUG.printf("KEY_6\n"); break;
+                    case(KEY_7): DEBUG.printf("KEY_7\n"); break;
+                    case(KEY_8): DEBUG.printf("KEY_8\n"); break;
+                    case(KEY_9): DEBUG.printf("KEY_9\n"); break;
+                    case(KEY_STAR): DEBUG.printf("KEY_STAR\n"); break;
+                    case(KEY_0): DEBUG.printf("KEY_0\n"); break;
+                    case(KEY_POUND): DEBUG.printf("KEY_POUND\n"); break;
+                    case(KEY_RIGHT): DEBUG.printf("KEY_RIGHT\n"); break;
+                    case(KEY_UP): DEBUG.printf("KEY_UP\n"); break;
+                    case(KEY_DOWN): DEBUG.printf("KEY_DOWN\n"); break;
+                    case(KEY_LEFT): DEBUG.printf("KEY_LEFT\n"); break;
+                    default: 
+                        // multiple keys pressed
+                        break;
+                }
+            }
+        }   
+        
+        // if (xQueueReceive(encoder_queue, &ev, portMAX_DELAY)) {
+
+        //     if (ev.type == ENC_EVT_ROTATE) {
+        //         DEBUG.printf("ENC delta: %d\n", ev.value);
+        //     }
+
+        //     if (ev.type == ENC_EVT_BUTTON) {
+        //         if (ev.value == 1) DEBUG.println("ENC SW pressed");
+        //         else DEBUG.println("ENC SW released");
+        //     }
+        // }
+        // Yield the CPU to other tasks
+        vTaskDelay(KEYPAD_TASK_DELAY_TIME);
+    }
 }
 
 void demonstrate_digital_audio_interface(void *parameter) {
 
 }
-
 
 void setup(void) {
     // ESP32 Serial Monitor over USB->UART
