@@ -9,19 +9,25 @@
 #include <Fonts/FreeMonoBoldOblique9pt7b.h>
 #include <Fonts/FreeSerifBoldItalic12pt7b.h>
 
+#define TFT_SS    4 // 15 -> 4
+#define TFT_DC   26 // Display Command pin
+#define TFT_MOSI 13 // ESP32 IOMUX Default
+#define TFT_SCLK 14 // ESP32 IOMUX Default
+#define TFT_RST  -1  // Not connected
 typedef struct {
     bool initialized = false;
     // HSPI 
-    int8_t pin_ss = 15; 
-    int8_t pin_mosi = 26;
-    int8_t pin_miso = 13;
-    int8_t pin_sclk = 14;
-    int8_t pin_dc = -1;  // must be set
-    int8_t pin_reset = -1; // can be floating
+    int8_t pin_ss = TFT_SS; 
+    int8_t pin_mosi = TFT_MOSI;
+    int8_t pin_miso = -1;
+    int8_t pin_sclk = TFT_SCLK;
+    int8_t pin_dc = TFT_DC;  // must be set
+    int8_t pin_reset = TFT_RST; // can be floating
     uint16_t width = 170;
     uint16_t height = 320;
     int8_t rotation = 3;
     uint32_t spi_speed = 40000000; // 40 MHz
 } st7789_config_t;
+
 
 int display_init(st7789_config_t &display_config);
