@@ -144,17 +144,19 @@ void demonstrate_radio_switch(void *parameter) {
     tft.setCursor(232, 128); tft.print("VHF RX");
     tft.setCursor(232, 55);  tft.print("UHF RX");
     // demonstration logic
-    rfsw_switchTo(RX_UHF);
-    rfsw_update_screen(RX_UHF);
-    delay(15000); // wait 15 seconds
-    rfsw_switchTo(TX_UHF);
-    rfsw_update_screen(TX_UHF);
-    delay(15000); // wait 15 seconds
-    rfsw_switchTo(RX_VHF);
-    rfsw_update_screen(RX_VHF);
-    delay(15000); // wait 15 seconds
-    rfsw_switchTo(TX_VHF);
-    rfsw_update_screen(TX_VHF);
-    delay(15000); // wait 15 seconds
-    pcf8575_writePort(pcf_radio, sky13330.pin_enable, LOW);
+    for (;;) {
+        rfsw_switchTo(RX_UHF);
+        rfsw_update_screen(RX_UHF);
+        delay(15000/portTICK_PERIOD_MS); // wait 15 seconds
+        rfsw_switchTo(TX_UHF);
+        rfsw_update_screen(TX_UHF);
+        delay(15000/portTICK_PERIOD_MS); // wait 15 seconds
+        rfsw_switchTo(RX_VHF);
+        rfsw_update_screen(RX_VHF);
+        delay(15000/portTICK_PERIOD_MS); // wait 15 seconds
+        rfsw_switchTo(TX_VHF);
+        rfsw_update_screen(TX_VHF);
+        vTaskDelay(15000/portTICK_PERIOD_MS); // wait 15 seconds
+        pcf8575_writePort(pcf_radio, sky13330.pin_enable, LOW);
+    }
 }
