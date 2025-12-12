@@ -17,6 +17,8 @@
 #include <pcf8575.h>         // used in MCU, HMI, and RF Modulinos
 
 #include <st7789.h>          // used in HMI Modulino
+#include <adafruit_display_demo.h>
+
 #include <max98357a.h>
 #include <ics43434.h>
 
@@ -137,7 +139,9 @@ int hmi_init() {
     while (!(pcf8575_scan_init(pcf_hmi, pcf_hmi_config) == 0)) {
         vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
     }
-    while (!(display_init(display_config) == 0));
+    while (!(display_init(display_config) == 0)) {
+        vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+    };
     return 0;
 }
 
@@ -355,6 +359,10 @@ void setup(void) {
             #endif
             // Initialize HMI
             while (!(hmi_init() == 0));
+            #ifdef DEBUG
+            DEBUG.printf("Starting Demo of the Human-Machine Interface Modulino!\n");
+            #endif
+            demoAdafruitDriver();
             xTaskCreate(demonstrate_human_machine_interface,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
         case (DIGITAL_AUDIO_INTERFACE): // Source and sink digital audio

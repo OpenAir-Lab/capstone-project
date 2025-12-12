@@ -237,44 +237,44 @@ void demoAdafruitDriver() {
     tft.fillScreen(ST77XX_BLACK);
     char* sample_text = (char*)"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ";
     testdrawtext(sample_text, ST77XX_WHITE);
-    delay(1000);
+    vTaskDelay(1000/portTICK_PERIOD_MS);
 
     // tft print function!
     tftPrintTest();
-    delay(4000);
+    vTaskDelay(4000/portTICK_PERIOD_MS);
 
     // a single pixel
     tft.drawPixel(tft.width()/2, tft.height()/2, ST77XX_GREEN);
-    delay(500);
+    vTaskDelay(500/portTICK_PERIOD_MS);
 
     // line draw test
     testlines(ST77XX_YELLOW);
-    delay(500);
+    vTaskDelay(500/portTICK_PERIOD_MS);
 
     // optimized lines
     testfastlines(ST77XX_RED, ST77XX_BLUE);
-    delay(500);
+    vTaskDelay(500/portTICK_PERIOD_MS);
 
     testdrawrects(ST77XX_GREEN);
-    delay(500);
+    vTaskDelay(500/portTICK_PERIOD_MS);
 
     testfillrects(ST77XX_YELLOW, ST77XX_MAGENTA);
-    delay(500);
+    vTaskDelay(500/portTICK_PERIOD_MS);
 
     tft.fillScreen(ST77XX_BLACK);
     testfillcircles(10, ST77XX_BLUE);
     testdrawcircles(10, ST77XX_WHITE);
-    delay(500);
+    vTaskDelay(500/portTICK_PERIOD_MS);
 
     testroundrects();
-    delay(500);
+    vTaskDelay(500/portTICK_PERIOD_MS);
 
     testtriangles();
-    delay(500);
+    vTaskDelay(500/portTICK_PERIOD_MS);
 
     // mediabuttons();
     // delay(500);
 
     Serial.println("done");
-    delay(1000);
+    vTaskDelay(1000/portTICK_PERIOD_MS);
 }
