@@ -9,8 +9,8 @@
 #include <Fonts/FreeMonoBoldOblique9pt7b.h>
 #include <Fonts/FreeSerifBoldItalic12pt7b.h>
 
-#define TFT_SS    4 // 15 -> 4
-#define TFT_DC   26 // Display Command pin
+#define TFT_SS   15 // 15 -> 4
+#define TFT_DC   4 // Display Command pin
 #define TFT_MOSI 13 // ESP32 IOMUX Default
 #define TFT_SCLK 14 // ESP32 IOMUX Default
 #define TFT_RST  -1  // Not connected
