@@ -64,13 +64,6 @@ int grf5604_powerdown(grf5604_config_t &grf5604) {
         pcf_radio_config.sensor_address, grf5604.band ? "VHF" : "UHF"
     );
     #endif
-    tft.fillRect(6, 7, 307, 17, ST77XX_BLACK); // 'blanks out' message selection
-    tft.setFont(&FreeMonoBold9pt7b);
-    tft.setCursor(6, 19); tft.printf("Turning Off %s Amplifier...\n", 
-        (grf5604.band == VHF) ? "VHF" : "UHF"
-    );
-    tft.fillRect(9,   (grf5604.band == UHF) ? 56 : 102, 75, 11, ST77XX_BLACK); 
-    tft.fillRect(238, (grf5604.band == UHF) ? 56 : 102, 75, 11, ST77XX_BLACK);
     // TODO: stop transmitting, is there a lock?
     pcf8575_writePort(pcf_radio, grf5604.pin_enable1, HIGH);
     pcf8575_writePort(pcf_radio, grf5604.pin_enable2, HIGH);
@@ -93,7 +86,7 @@ int grf5604_init(grf5604_config_t &grf5604) {
         grf5604.pin_shutdown, grf5604.pin_enable1, grf5604.pin_enable2, pcf_radio_config.subsystem_name.c_str()
     );
     #endif
-    if (digitalPinCanOutput(grf5604.pin_shutdown) && digitalPinCanOutput(grf5604.pin_enable1) && digitalPinCanOutput(grf5604.pin_enable2)) {
+    // if (digitalPinCanOutput(grf5604.pin_shutdown) && digitalPinCanOutput(grf5604.pin_enable1) && digitalPinCanOutput(grf5604.pin_enable2)) {
         pcf8575_portMode(pcf_radio, grf5604.pin_shutdown, OUTPUT);
         pcf8575_portMode(pcf_radio, grf5604.pin_enable1, OUTPUT);
         pcf8575_portMode(pcf_radio, grf5604.pin_enable2, OUTPUT);
@@ -102,12 +95,12 @@ int grf5604_init(grf5604_config_t &grf5604) {
         #ifdef RFAMP_DEBUG
         RFAMP_DEBUG.printf("(I2C0 @0x%2.2X) Initialized %s Radio Amplifier!\n", pcf_radio_config.sensor_address, grf5604.band ? "VHF" : "UHF");
         #endif
-    } else {
-        #ifdef RFAMP_DEBUG
-        RFAMP_DEBUG.printf("(I2C0 @0x%2.2X) %s Radio Amplifier may not yet be initialized...\n", pcf_radio_config.sensor_address, grf5604.band ? "VHF" : "UHF");
-        #endif
-        grf5604.initialized == false;
-    }
+    // } else {
+        // #ifdef RFAMP_DEBUG
+        // RFAMP_DEBUG.printf("(I2C0 @0x%2.2X) %s Radio Amplifier may not yet be initialized...\n", pcf_radio_config.sensor_address, grf5604.band ? "VHF" : "UHF");
+        // #endif
+        // grf5604.initialized == false;
+    // }
     return grf5604.initialized;
 }
 
