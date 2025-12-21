@@ -176,15 +176,28 @@ int radio_init() {
     cc1200.spi = new SPIClass(VSPI);
     // cc1200.spi_frequency = 100000;
 
-    while (!(pcf8575_init(pcf_radio, pcf_radio_config) == 0));
+    while (!(pcf8575_init(pcf_radio, pcf_radio_config) == 0)) {
+        vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+    }
     // Initialize RF Amplifiers in powered down state
-    while (!(grf5604_init(uhf_grf5604) == 0));
-    while (!(grf5604_init(vhf_grf5604) == 0));
+    while (!(grf5604_init(uhf_grf5604) == 0)) {
+        vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+    }
+    while (!(grf5604_init(vhf_grf5604) == 0)) {
+        vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+    }
+    #ifdef DEBUG
+    DEBUG.println("ENTER SWITCH INITIALIZER\n");
+    #endif
     // Initialize SP4T Switch for UHF receive on Port 2
-    while (!(sky13330_init(sky13330) == 0));
+    while (!(sky13330_init(sky13330) == 0)) {
+        vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+    }
     // Initialize RF Transceiver in UHF receive Analog FM mode
-    while (!(cc1200_init(cc1200) == 0));
-    xTaskCreate(vDisplayRSSITask, "displayRSSI", STACK_SIZE, NULL, 2, &vDisplayRSSITaskHandle);
+    // while (!(cc1200_init(cc1200) == 0)) {
+    //     vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+    // }
+    // xTaskCreate(vDisplayRSSITask, "displayRSSI", STACK_SIZE, NULL, 2, &vDisplayRSSITaskHandle);
     return 0;   
 }
 
@@ -215,6 +228,7 @@ void demonstrate_battery_power_supply(void *parameter) {
     lipo.begin();
     lipo.setCapacity(BATTERY_CAPACITY);
     #ifdef DEBUG
+    // tft.fillScreen(ST77XX_BLACK);
     DEBUG.printf("(I2C0 @0x55) Fuel Gauge Information:\n"
         "State-Of-Charge: %d%\n"
         "Battery Voltage: %d mV\n"
@@ -233,6 +247,13 @@ void demonstrate_battery_power_supply(void *parameter) {
     #endif
     for (;;) {
         // Yield the CPU to other tasks
+        vTaskDelay(KEYPAD_TASK_DELAY_TIME);
+    }
+}
+
+void demo_display(void *parameter) {
+    for (;;) {
+        demoAdafruitDriver();
         vTaskDelay(KEYPAD_TASK_DELAY_TIME);
     }
 }
@@ -278,7 +299,6 @@ void demonstrate_human_machine_interface(void *parameter) {
                 }
             }
         }   
-        
         // if (xQueueReceive(encoder_queue, &ev, portMAX_DELAY)) {
 
         //     if (ev.type == ENC_EVT_ROTATE) {
@@ -349,6 +369,12 @@ void setup(void) {
                 "[X] Battery Modulino requires Li-Ion Battery Pack to be plugged in.\n"
             );
             #endif
+            while (!(hmi_init() == 0)) {
+                vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+            };
+            while (!(bq25662_init() == 0)) {
+                vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+            };
             xTaskCreate(demonstrate_battery_power_supply,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
         case (HUMAN_MACHINE_INTERFACE): // Navigate menus and accept user input
@@ -358,12 +384,11 @@ void setup(void) {
             );
             #endif
             // Initialize HMI
-            while (!(hmi_init() == 0));
-            #ifdef DEBUG
-            DEBUG.printf("Starting Demo of the Human-Machine Interface Modulino!\n");
-            #endif
-            demoAdafruitDriver();
-            xTaskCreate(demonstrate_human_machine_interface,"MainTask",STACK_SIZE,NULL,1,NULL);
+            while (!(hmi_init() == 0)) {
+                vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+            };
+            // xTaskCreate(demo_display,"adafruitTask",STACK_SIZE,NULL,1,NULL);
+            xTaskCreate(demonstrate_human_machine_interface,"MainTask",STACK_SIZE,NULL,(tskIDLE_PRIORITY + 3),NULL);
             break;
         case (DIGITAL_AUDIO_INTERFACE): // Source and sink digital audio
             #ifdef DEBUG
@@ -381,10 +406,14 @@ void setup(void) {
                 "[X] Transceiver Modulino expects Switch Modulino to be plugged in.\n"
             );
             #endif
-            // Initialize Radio Devices
-            while (!(radio_init() == 0));
             // Initialize HMI Devices
-            while (!(hmi_init() == 0));
+            while (!(hmi_init() == 0)) {
+                vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+            };
+            // Initialize Radio Devices
+            while (!(radio_init() == 0)) {
+                vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+            }
             xTaskCreate(demonstrate_radio_transceiver,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
         case (RADIO_AMPLIFIER):         // Amplify UHF or VHF radio signals
@@ -395,10 +424,14 @@ void setup(void) {
                 "[X] Amplifier Modulino requires Dual-Band Antenna to be plugged in.\n"
             );
             #endif
-            // Initialize Radio Devices
-            while (!(radio_init() == 0));
             // Initialize HMI Devices
-            while (!(hmi_init() == 0));
+            while (!(hmi_init() == 0)) {
+                vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+            }
+            // Initialize Radio Devices
+            while (!(radio_init() == 0)) {
+                vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+            }
             xTaskCreate(demonstrate_radio_amplifier,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
         case (RADIO_SWITCH):            // Scatter parameterize multiport Switch
@@ -408,10 +441,14 @@ void setup(void) {
                 "[X] Switch Modulino requires Dual-Band Antenna to be plugged in.\n"
             );
             #endif
-            // Initialize Radio Devices
-            while (!(radio_init() == 0));
             // Initialize HMI Devices
-            while (!(hmi_init() == 0));
+            while (!(hmi_init() == 0)) {
+                vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+            }
+            // Initialize Radio Devices
+            while (!(radio_init() == 0)) {
+                vTaskDelay(50/portTICK_PERIOD_MS); // must block keypad tasks
+            }
             xTaskCreate(demonstrate_radio_switch,"MainTask",STACK_SIZE,NULL,1,NULL);
             break;
     }
