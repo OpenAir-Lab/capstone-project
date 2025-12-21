@@ -38,50 +38,50 @@ float p = 3.1415926;
 
 // void loop() {
 //   tft.invertDisplay(true);
-//   delay(500);
+//   vTaskDelay(500);
 //   tft.invertDisplay(false);
-//   delay(500);
+//   vTaskDelay(500);
 // }
 
 void testlines(uint16_t color) {
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=0; x < tft.width(); x+=6) {
     tft.drawLine(0, 0, x, tft.height()-1, color);
-    delay(0);
+    vTaskDelay(0);
   }
   for (int16_t y=0; y < tft.height(); y+=6) {
     tft.drawLine(0, 0, tft.width()-1, y, color);
-    delay(0);
+    vTaskDelay(0);
   }
 
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=0; x < tft.width(); x+=6) {
     tft.drawLine(tft.width()-1, 0, x, tft.height()-1, color);
-    delay(0);
+    vTaskDelay(0);
   }
   for (int16_t y=0; y < tft.height(); y+=6) {
     tft.drawLine(tft.width()-1, 0, 0, y, color);
-    delay(0);
+    vTaskDelay(0);
   }
 
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=0; x < tft.width(); x+=6) {
     tft.drawLine(0, tft.height()-1, x, 0, color);
-    delay(0);
+    vTaskDelay(0);
   }
   for (int16_t y=0; y < tft.height(); y+=6) {
     tft.drawLine(0, tft.height()-1, tft.width()-1, y, color);
-    delay(0);
+    vTaskDelay(0);
   }
 
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=0; x < tft.width(); x+=6) {
     tft.drawLine(tft.width()-1, tft.height()-1, x, 0, color);
-    delay(0);
+    vTaskDelay(0);
   }
   for (int16_t y=0; y < tft.height(); y+=6) {
     tft.drawLine(tft.width()-1, tft.height()-1, 0, y, color);
-    delay(0);
+    vTaskDelay(0);
   }
 }
 
@@ -188,7 +188,7 @@ void tftPrintTest() {
   tft.setTextColor(ST77XX_BLUE);
   tft.setTextSize(4);
   tft.print(1234.567);
-  delay(1500);
+  vTaskDelay(1500/portTICK_PERIOD_MS);
   tft.setCursor(0, 0);
   tft.fillScreen(ST77XX_BLACK);
   tft.setTextColor(ST77XX_WHITE);
@@ -216,15 +216,15 @@ void mediabuttons() {
   tft.fillScreen(ST77XX_BLACK);
   tft.fillRoundRect(25, 10, 78, 60, 8, ST77XX_WHITE);
   tft.fillTriangle(42, 20, 42, 60, 90, 40, ST77XX_RED);
-  delay(500);
+  vTaskDelay(500/portTICK_PERIOD_MS);
   // pause
   tft.fillRoundRect(25, 90, 78, 60, 8, ST77XX_WHITE);
   tft.fillRoundRect(39, 98, 20, 45, 5, ST77XX_GREEN);
   tft.fillRoundRect(69, 98, 20, 45, 5, ST77XX_GREEN);
-  delay(500);
+  vTaskDelay(500/portTICK_PERIOD_MS);
   // play color
   tft.fillTriangle(42, 20, 42, 60, 90, 40, ST77XX_BLUE);
-  delay(50);
+  vTaskDelay(50/portTICK_PERIOD_MS);
   // pause color
   tft.fillRoundRect(39, 98, 20, 45, 5, ST77XX_RED);
   tft.fillRoundRect(69, 98, 20, 45, 5, ST77XX_RED);
@@ -273,7 +273,7 @@ void demoAdafruitDriver() {
     vTaskDelay(500/portTICK_PERIOD_MS);
 
     // mediabuttons();
-    // delay(500);
+    // vTaskDelay(500);
 
     Serial.println("done");
     vTaskDelay(1000/portTICK_PERIOD_MS);
