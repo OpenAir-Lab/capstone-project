@@ -891,44 +891,46 @@ void vBMSTask(void *parameter) {
     //print Fault Status register info
     bool fltStat0 = true;
     // ====== Charge Status 1 Register ======
+    for (;;) {
+        // ====== See if Battery is charging ======
+        uint8_t chgStat = pmic.getCHG_STAT();
 
-    // ====== See if Battery is charging ======
-    uint8_t chgStat = pmic.getCHG_STAT();
+        #ifdef DEBUG_BQ25662
+        DEBUG_BQ25662.printf("Charge Status: %s", charge_statuses[chgStat]);
+        #endif
+        // ====== Charge Status 0 Register ======
+        if(contrl0) {
+            // Watchdog Timer Status
+            DEBUG_BQ25662.printf("WD Status: %s\n"
+                "Safety timer stat %s\n"
+                "VINDPM stat: %s\n"
+                "IINDPM stat: %s\n"
+                "VSYS stat: %s\n"
+                "TREG stat: %s\n", 
+                pmic.getWD_STAT() ? "WD expired" : "Normal",
+                pmic.getSAFETY_TMR_STAT() ? "Timer Expired" : "Normal",
+                pmic.getVINDPM_STAT() ? "In VINDPM regulation" : "Normal",
+                pmic.getIINDPM_STAT() ? "In IINDPM regulation" : "Normal",
+                pmic.getVSYS_STAT() ? "In VSYSMIN regulation (BAT<VSYSMIN)" : "Not in VSYSMIN regulation (BAT>VSYSMIN)",
+                pmic.getTREG_STAT() ? "Device in thermal regulation" : "Normal"
+            );
+        }
 
-    #ifdef DEBUG_BQ25662
-    DEBUG_BQ25662.printf("Charge Status: %s", charge_statuses[chgStat]);
-    #endif
-    // ====== Charge Status 0 Register ======
-    if(contrl0) {
-        // Watchdog Timer Status
-        DEBUG_BQ25662.printf("WD Status: %s\n"
-            "Safety timer stat %s\n"
-            "VINDPM stat: %s\n"
-            "IINDPM stat: %s\n"
-            "VSYS stat: %s\n"
-            "TREG stat: %s\n", 
-            pmic.getWD_STAT() ? "WD expired" : "Normal",
-            pmic.getSAFETY_TMR_STAT() ? "Timer Expired" : "Normal",
-            pmic.getVINDPM_STAT() ? "In VINDPM regulation" : "Normal",
-            pmic.getIINDPM_STAT() ? "In IINDPM regulation" : "Normal",
-            pmic.getVSYS_STAT() ? "In VSYSMIN regulation (BAT<VSYSMIN)" : "Not in VSYSMIN regulation (BAT>VSYSMIN)",
-            pmic.getTREG_STAT() ? "Device in thermal regulation" : "Normal"
-        );
-    }
-
-    // ====== Fault Status 0 Register ======
-    if(fltStat0) {
-        // The TS temperature zone.
-        //insert
-        DEBUG_BQ25662.printf("IC temp shutdown status: %s\n"
-            "VSYS stat: %s\n"
-            "Batt fault stat: %s\n"
-            "VBUS fault stat: %s\n",
-            pmic.getTSHUT_FAULT() ? "Device in thermal shutdown protection" : "Normal",
-            pmic.getSYS_FAULT() ? "SYS in SYS short circuit or over voltage" : "Normal",
-            pmic.getBAT_FAULT() ? "Device in battery over current protection or battery overvoltage protection" : "Normal",
-            pmic.getVBUS_FAULT() ? "Device not switching due to over voltage protection or sleep comparator" : "Normal"
-        );
+        // ====== Fault Status 0 Register ======
+        if(fltStat0) {
+            // The TS temperature zone.
+            //insert
+            DEBUG_BQ25662.printf("IC temp shutdown status: %s\n"
+                "VSYS stat: %s\n"
+                "Batt fault stat: %s\n"
+                "VBUS fault stat: %s\n",
+                pmic.getTSHUT_FAULT() ? "Device in thermal shutdown protection" : "Normal",
+                pmic.getSYS_FAULT() ? "SYS in SYS short circuit or over voltage" : "Normal",
+                pmic.getBAT_FAULT() ? "Device in battery over current protection or battery overvoltage protection" : "Normal",
+                pmic.getVBUS_FAULT() ? "Device not switching due to over voltage protection or sleep comparator" : "Normal"
+            );
+        }
+        vTaskDelay(10000/portTICK_PERIOD_MS); // must block keypad tasks
     }
 }
 
@@ -944,12 +946,12 @@ int bq25662_init() {
             #ifdef DEBUG_BQ25662
             DEBUG_BQ25662.printf("(I2C0 @0x6B) Initialized BMS!\n");
             #endif
-            if(!pmic.isConnected()) {
-                #ifdef DEBUG_BQ25662
-                DEBUG_BQ25662.println("(I2C0 -----) Found bq27427 BMS on address 0x6B!\n");
-                #endif
-                initialized = true;
-            }
+            initialized = true;
+            // if(!pmic.isConnected()) {
+            //     #ifdef DEBUG_BQ25662
+            //     DEBUG_BQ25662.println("(I2C0 -----) Found bq27427 BMS on address 0x6B!\n");
+            //     #endif
+            // }
         }
     }
     
@@ -1008,6 +1010,6 @@ int bq25662_init() {
 
     // ==== ADC Function Disable ====
         // left all default (all enabled)
-    xTaskCreate(vBMSTask, "BMSTask", BMS_STACK_SIZE, NULL, (tskIDLE_PRIORITY + 3), NULL);
+    xTaskCreate(vBMSTask, "BMSTask", BMS_STACK_SIZE*2, NULL, (tskIDLE_PRIORITY + 3), NULL);
     return 0;
 }
